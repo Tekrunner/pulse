@@ -1,0 +1,15 @@
+[
+  {"claim":"Observable default-branch activity cliff and maintainer concentration","class":"ecosystem","pub_date":"2026-08-18"},
+  {"claim":"Evidence main-branch activity cliff and maintainer concentration","class":"ecosystem","pub_date":"2026-08-18"},
+  {"claim":"Observable Framework latest package is 1.13.4","class":"version","pub_date":"2026-03-02"},
+  {"claim":"Evidence Core latest package is 40.1.8","class":"version","pub_date":"2026-02-06"},
+  {"claim":"Evidence next is an unreleased one-commit non-default reset branch","class":"ecosystem","pub_date":"2026-08-17"},
+  {"claim":"Notebook Kit overlaps Framework roles without a formal replacement statement","class":"ecosystem","pub_date":"2026-08-18"},
+  {"claim":"Observable components can be ordinary DOM-returning JavaScript modules","class":"compatibility","pub_date":"2026-08-18"},
+  {"claim":"Observable supports browser DuckDB-WASM SQL over Parquet","class":"compatibility","pub_date":"2026-08-18"},
+  {"claim":"Evidence custom visuals use a Svelte compiler boundary","class":"compatibility","pub_date":"2026-08-18"},
+  {"claim":"Evidence Core 40.1.8 base-path preprocessor defect affects expression href/src","class":"compatibility","pub_date":"2026-05-05"},
+  {"claim":"Evidence large-Parquet initial-load issue defines a performance test risk","class":"performance","pub_date":"2026-04-23"},
+  {"claim":"Observable module portability depends on avoiding Framework globals/protocols","class":"compatibility","pub_date":"2026-08-18"},
+  {"claim":"Evidence CLI couples authoring to source commands and generated manifests","class":"compatibility","pub_date":"2026-08-18"}
+]
