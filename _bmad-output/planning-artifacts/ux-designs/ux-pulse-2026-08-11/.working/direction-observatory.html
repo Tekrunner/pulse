@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulse visual direction — Observatory</title>
+  <style>
+    /*
+      Observatory palette (all text/background pairings target WCAG 2.2 AA):
+      night #071217; deep panel #0B1C23; raised panel #102830; line #33515A;
+      primary text #F2FAFC; secondary text #B8CED4; cyan #78D7E8;
+      healthy #8BE3B0; warning #FFD37A; danger #FF9A8B; focus #FFF1A8.
+    */
+    :root {
+      color-scheme: dark;
+      --night: #071217;
+      --panel: #0B1C23;
+      --raised: #102830;
+      --line: #33515A;
+      --text: #F2FAFC;
+      --muted: #B8CED4;
+      --cyan: #78D7E8;
+      --healthy: #8BE3B0;
+      --warning: #FFD37A;
+      --danger: #FF9A8B;
+      --focus: #FFF1A8;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--night); }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 5%, rgba(120, 215, 232, .08), transparent 25rem),
+        var(--night);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+    button, summary, a { font: inherit; }
+    button:focus-visible, summary:focus-visible, a:focus-visible {
+      outline: 3px solid var(--focus);
+      outline-offset: 3px;
+    }
+    .skip {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 10;
+      padding: .7rem 1rem;
+      color: var(--night);
+      background: var(--focus);
+      border-radius: .4rem;
+    }
+    .skip:focus { top: 1rem; }
+    .page { width: min(1480px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+    .direction-note {
+      display: grid;
+      grid-template-columns: 12rem 1fr;
+      gap: 1.4rem;
+      align-items: start;
+      margin: 0 auto 20px;
+      max-width: 1180px;
+      color: var(--muted);
+    }
+    .direction-note h1 {
+      margin: 0;
+      color: var(--cyan);
+      font-size: .78rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .direction-note p { margin: 0; max-width: 76ch; }
+    .stage { position: relative; width: min(1280px, 100%); margin: 0 auto; padding-right: 96px; }
+    .browser {
+      overflow: hidden;
+      min-height: 760px;
+      border: 1px solid #41616A;
+      border-radius: 18px;
+      background: var(--panel);
+      box-shadow: 0 34px 90px rgba(0, 0, 0, .42);
+    }
+    .browser-chrome {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 16px;
+      color: var(--muted);
+      background: #09171C;
+      border-bottom: 1px solid #29434B;
+      font-size: .72rem;
+    }
+    .chrome-dot { width: 9px; height: 9px; border: 1px solid #72919A; border-radius: 50%; }
+    .address {
+      margin-left: 8px;
+      width: min(480px, 55%);
+      padding: 5px 12px;
+      border: 1px solid #29434B;
+      border-radius: 999px;
+      text-align: center;
+    }
+    .app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 70px;
+      padding: 0 34px;
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; font-weight: 680; letter-spacing: .02em; }
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: 50%;
+      color: var(--cyan);
+      font-size: .72rem;
+    }
+    .generated { color: var(--muted); font-size: .76rem; }
+    .home { padding: 38px 34px 50px; }
+    .intro { display: flex; justify-content: space-between; gap: 28px; margin-bottom: 30px; }
+    .eyebrow { color: var(--cyan); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+    .intro h2 { margin: .45rem 0 .6rem; font-size: clamp(2.1rem, 4vw, 4.2rem); font-weight: 560; letter-spacing: -.045em; line-height: .98; }
+    .intro p { max-width: 52ch; margin: 0; color: var(--muted); font-size: .93rem; }
+    .health-orbit {
+      flex: 0 0 168px;
+      align-self: start;
+      padding: 15px;
+      border: 1px solid #3B5C65;
+      border-radius: 14px;
+      background: rgba(16, 40, 48, .65);
+    }
+    .health-orbit strong { display: block; font-size: 1.5rem; font-weight: 560; }
+    .health-orbit span { display: block; margin-top: 2px; color: var(--warning); font-size: .76rem; }
+    .content-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(330px, .85fr); gap: 20px; }
+    .surface { border-top: 1px solid var(--line); padding-top: 16px; }
+    .surface-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 12px; }
+    .surface h3 { margin: 0; font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; }
+    .sort { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: .7rem; }
+    .sort button {
+      padding: 5px 8px;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 999px;
+    }
+    .sort button[aria-pressed="true"] { color: var(--text); border-color: #55757E; background: var(--raised); }
+    .report-list { display: grid; gap: 9px; }
+    .report {
+      min-height: 96px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 20px;
+      align-items: center;
+      padding: 18px 20px;
+      color: inherit;
+      text-decoration: none;
+      border: 1px solid #294851;
+      border-radius: 12px;
+      background: linear-gradient(110deg, rgba(16, 40, 48, .9), rgba(11, 28, 35, .75));
+    }
+    .report strong { display: block; font-size: 1.04rem; }
+    .report small { display: block; margin-top: 5px; color: var(--muted); }
+    .arrow { color: var(--cyan); font-size: 1.25rem; }
+    .representative { font-size: .67rem; color: var(--muted); }
+    .pipeline-list { display: grid; gap: 7px; }
+    details.pipeline {
+      border: 1px solid #294851;
+      border-radius: 10px;
+      background: rgba(16, 40, 48, .56);
+    }
+    details.pipeline[open] { border-color: #8B6843; background: #17272B; }
+    .pipeline summary {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 14px;
+      cursor: pointer;
+      list-style: none;
+    }
+    .pipeline summary::-webkit-details-marker { display: none; }
+    .pipeline-name strong { display: block; font-size: .82rem; }
+    .pipeline-name small { color: var(--muted); font-size: .67rem; }
+    .status { white-space: nowrap; font-size: .72rem; font-weight: 720; }
+    .status.ok { color: var(--healthy); }
+    .status.warn { color: var(--warning); }
+    .status.none { color: #CCD8DB; }
+    .diagnostic { margin: 0 12px 12px; padding: 14px; border-left: 3px solid var(--warning); background: #0B191D; }
+    .diagnostic h4 { margin: 0 0 10px; color: var(--warning); font-size: .86rem; }
+    .diagnostic dl { display: grid; grid-template-columns: 7rem 1fr; gap: 7px 12px; margin: 0; font-size: .72rem; }
+    .diagnostic dt { color: var(--muted); }
+    .diagnostic dd { margin: 0; }
+    .action {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 7px 10px;
+      color: var(--night);
+      background: var(--warning);
+      border: 0;
+      border-radius: 6px;
+      font-size: .72rem;
+      font-weight: 750;
+    }
+    .phone {
+      position: absolute;
+      right: 0;
+      bottom: 35px;
+      width: 360px;
+      height: 184px;
+      overflow: hidden;
+      border: 7px solid #132126;
+      border-radius: 26px;
+      background: #08161B;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, .5);
+    }
+    .phone::before { content: ""; position: absolute; right: 7px; top: 69px; width: 4px; height: 36px; border-radius: 3px; background: #49616A; }
+    .phone-screen { height: 100%; display: grid; grid-template-columns: 118px 1fr; gap: 12px; padding: 17px 20px; }
+    .phone-copy { display: flex; flex-direction: column; justify-content: center; }
+    .phone-label { color: var(--cyan); font-size: .5rem; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; }
+    .phone-copy strong { margin-top: 5px; font-size: .88rem; line-height: 1.12; }
+    .phone-copy small { margin-top: 8px; color: var(--muted); font-size: .55rem; }
+    .phone-chart { align-self: center; width: 100%; height: 105px; }
+    .phone-caption { position: absolute; right: 20px; bottom: -1.6rem; color: var(--muted); font-size: .66rem; }
+    @media (max-width: 1000px) {
+      .stage { padding-right: 0; }
+      .phone { position: relative; right: auto; bottom: auto; margin: 18px 0 0 auto; }
+      .content-grid { grid-template-columns: 1fr; }
+      .browser { min-height: auto; }
+    }
+    @media (max-width: 620px) {
+      .page { width: min(100% - 18px, 1480px); }
+      .direction-note { grid-template-columns: 1fr; }
+      .home, .app-header { padding-left: 18px; padding-right: 18px; }
+      .intro { display: block; }
+      .health-orbit { margin-top: 18px; }
+      .phone { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#homepage">Skip to Homepage</a>
+  <main class="page">
+    <section class="direction-note" aria-labelledby="direction-title">
+      <h1 id="direction-title">Direction 01 · Observatory</h1>
+      <p>A calm scientific observatory: medium density, light-to-medium typography, and a measured research register. Reports feel like windows onto long-running questions, while health remains a compact instrument panel that expands only when evidence needs attention.</p>
+    </section>
+    <div class="stage">
+      <section class="browser" aria-label="Desktop browser mockup of the Pulse Homepage">
+        <div class="browser-chrome" aria-hidden="true"><span class="chrome-dot"></span><span class="chrome-dot"></span><span class="chrome-dot"></span><span class="address">pulse / home</span></div>
+        <header class="app-header">
+          <div class="brand"><span class="brand-mark" aria-hidden="true">◉</span><span>pulse</span></div>
+          <div class="generated">Homepage generated <strong>17 Aug 2026</strong> · representative</div>
+        </header>
+        <div class="home" id="homepage">
+          <div class="intro">
+            <div>
+              <div class="eyebrow">Standing questions, kept familiar</div>
+              <h2>Your reports</h2>
+              <p>Purpose-built views of the indicators you return to. Open a report for the current picture, its trajectory, and the context behind it.</p>
+            </div>
+            <aside class="health-orbit" aria-label="Pipeline overview">
+              <strong>2 healthy</strong>
+              <span>! 1 needs attention</span>
+            </aside>
+          </div>
+          <div class="content-grid">
+            <section class="surface" aria-labelledby="reports-title-observatory">
+              <div class="surface-head">
+                <h3 id="reports-title-observatory">Report directory</h3>
+                <div class="sort" aria-label="Representative sort affordance"><span>Sort</span><button type="button" aria-pressed="false">A–Z</button><button type="button" aria-pressed="true">Last update ↓</button></div>
+              </div>
+              <div class="report-list">
+                <a class="report" href="#report-preview-observatory">
+                  <span><strong>French macroeconomics</strong><small>Last substantive update · 15 Aug 2026 <span class="representative">(representative date)</span></small></span><span class="arrow" aria-hidden="true">→</span>
+                </a>
+                <a class="report" href="#report-preview-observatory">
+                  <span><strong>Climate &amp; emissions <span class="representative">· representative report</span></strong><small>Last substantive update · 01 Aug 2026 <span class="representative">(representative date)</span></small></span><span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </section>
+            <section class="surface" aria-labelledby="pipelines-title-observatory">
+              <div class="surface-head"><h3 id="pipelines-title-observatory">All pipelines</h3><span class="representative">Representative names, dates &amp; states</span></div>
+              <div class="pipeline-list">
+                <details class="pipeline">
+                  <summary><span class="pipeline-name"><strong>Climate indicators · representative</strong><small>Executed 17 Aug 2026, 06:08 UTC</small></span><span class="status ok">✓ Healthy</span></summary>
+                </details>
+                <details class="pipeline" open>
+                  <summary><span class="pipeline-name"><strong>French macroeconomics · representative</strong><small>Executed 17 Aug 2026, 06:13 UTC</small></span><span class="status warn">! Suspect</span></summary>
+                  <div class="diagnostic">
+                    <h4>Latest period did not advance when expected</h4>
+                    <dl>
+                      <dt>Condition</dt><dd>Suspect data published with a warning</dd>
+                      <dt>Stage</dt><dd>Dataset assertions</dd>
+                      <dt>Evidence</dt><dd>Publication schedule expected a newer period; the latest period was unchanged.</dd>
+                      <dt>Impact</dt><dd>Report impact not claimed—lineage has not been confirmed.</dd>
+                      <dt>Next step</dt><dd>Inspect execution evidence and the source publication schedule.</dd>
+                    </dl>
+                    <button class="action" type="button">Representative action · inspect evidence</button>
+                  </div>
+                </details>
+                <details class="pipeline">
+                  <summary><span class="pipeline-name"><strong>Emissions archive · representative</strong><small>Executed 01 Aug 2026, 05:52 UTC</small></span><span class="status ok">✓ Healthy</span></summary>
+                </details>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+      <aside class="phone" id="report-preview-observatory" aria-label="Landscape phone inset showing a readable representative report visual">
+        <div class="phone-screen">
+          <div class="phone-copy"><span class="phone-label">French macroeconomics</span><strong>Inflation trajectory</strong><small>Representative visual · not live data</small></div>
+          <svg class="phone-chart" viewBox="0 0 190 105" role="img" aria-labelledby="phone-chart-title-observatory phone-chart-desc-observatory">
+            <title id="phone-chart-title-observatory">Representative inflation trajectory comparison</title>
+            <desc id="phone-chart-desc-observatory">A solid line labelled France and a dashed line labelled comparable countries remain legible in landscape phone orientation. Values are intentionally omitted because product data is not settled.</desc>
+            <path d="M8 88H182M8 58H182M8 28H182" stroke="#33515A" stroke-width="1"/>
+            <path d="M10 73 C42 70 55 42 83 46 S126 74 178 32" fill="none" stroke="#78D7E8" stroke-width="3"/>
+            <path d="M10 82 C42 62 70 67 98 55 S142 52 178 47" fill="none" stroke="#FFD37A" stroke-width="2" stroke-dasharray="6 4"/>
+            <text x="142" y="25" fill="#F2FAFC" font-size="8">France —</text>
+            <text x="96" y="93" fill="#F2FAFC" font-size="7">Comparables – –</text>
+          </svg>
+        </div>
+        <span class="phone-caption">Landscape-phone readability inset</span>
+      </aside>
+    </div>
+  </main>
+</body>
+</html>

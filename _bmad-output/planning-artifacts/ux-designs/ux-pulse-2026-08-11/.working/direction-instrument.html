@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pulse visual direction — Instrument</title>
+  <style>
+    /*
+      Instrument palette (WCAG 2.2 AA-oriented): black #060807; panel #0C110F;
+      raised #131A17; grid #304139; primary #F2F7F3; secondary #B7C8BE;
+      signal green #89F0AE; amber #FFD166; red #FF8C86; blue #88C9FF; focus #FFFFFF.
+    */
+    :root {
+      color-scheme: dark;
+      --black: #060807;
+      --panel: #0C110F;
+      --raised: #131A17;
+      --grid: #304139;
+      --text: #F2F7F3;
+      --muted: #B7C8BE;
+      --green: #89F0AE;
+      --amber: #FFD166;
+      --red: #FF8C86;
+      --blue: #88C9FF;
+      --focus: #FFFFFF;
+      --mono: ui-monospace, "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      color: var(--text);
+      background: var(--black);
+      font-family: var(--mono);
+      line-height: 1.35;
+    }
+    button, summary, a { font: inherit; }
+    button:focus-visible, summary:focus-visible, a:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+    .skip { position: absolute; left: 1rem; top: -5rem; z-index: 20; padding: .7rem 1rem; color: #000; background: #fff; }
+    .skip:focus { top: 1rem; }
+    .page { width: min(1500px, calc(100% - 28px)); margin: 0 auto; padding: 22px 0 44px; }
+    .direction-note {
+      max-width: 1260px;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+      gap: 24px;
+      margin: 0 auto 14px;
+      padding: 11px 14px;
+      color: var(--muted);
+      border-left: 4px solid var(--green);
+      background: #0A0E0C;
+      font-family: var(--sans);
+      font-size: .84rem;
+    }
+    .direction-note h1 { margin: 0; color: var(--green); font: 800 .74rem/1.5 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .direction-note p { margin: 0; max-width: 92ch; }
+    .stage { position: relative; width: min(1360px, 100%); margin: 0 auto; padding-bottom: 54px; }
+    .browser { min-height: 760px; overflow: hidden; border: 1px solid #52645B; border-radius: 7px; background: var(--panel); box-shadow: 0 28px 70px rgba(0,0,0,.55); }
+    .browser-chrome { height: 34px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 0 12px; color: #9EB2A7; border-bottom: 1px solid var(--grid); background: #080B09; font-size: .64rem; }
+    .dots { letter-spacing: .28em; }
+    .url { max-width: 520px; padding: 3px 10px; border: 1px solid #29352F; text-align: center; }
+    .appbar { height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 22px; border-bottom: 1px solid var(--grid); }
+    .brand { color: var(--green); font-weight: 900; letter-spacing: .13em; }
+    .brand em { color: var(--text); font-style: normal; }
+    .app-meta { display: flex; gap: 22px; color: var(--muted); font-size: .67rem; }
+    .app-meta b { color: var(--text); }
+    .workspace { display: grid; grid-template-columns: minmax(360px, .85fr) minmax(520px, 1.35fr); min-height: 668px; }
+    .reports, .pipelines { padding: 24px 22px 30px; }
+    .reports { border-right: 1px solid var(--grid); }
+    .kicker { margin-bottom: 10px; color: var(--blue); font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; }
+    h2 { margin: 0 0 22px; font-family: var(--sans); font-size: clamp(2rem, 4vw, 3.7rem); font-weight: 850; line-height: .92; letter-spacing: -.05em; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid #708078; }
+    .section-head h3 { margin: 0; font-size: .72rem; letter-spacing: .1em; }
+    .section-head small { color: var(--muted); font-size: .58rem; }
+    .sort { display: flex; align-items: center; gap: 4px; margin: 10px 0 5px; font-size: .63rem; }
+    .sort button { padding: 5px 7px; color: var(--muted); border: 1px solid var(--grid); background: transparent; }
+    .sort button[aria-pressed="true"] { color: #081009; background: var(--green); border-color: var(--green); font-weight: 900; }
+    .report-row { display: grid; grid-template-columns: 26px 1fr auto; gap: 10px; align-items: center; padding: 15px 4px; color: inherit; text-decoration: none; border-bottom: 1px solid var(--grid); }
+    .report-row .index { color: var(--blue); font-size: .66rem; }
+    .report-row strong { display: block; font-family: var(--sans); font-size: .9rem; }
+    .report-row small { display: block; margin-top: 4px; color: var(--muted); font-size: .62rem; }
+    .report-row .go { color: var(--green); font-size: .82rem; }
+    .source-note { margin-top: 16px; color: var(--muted); font-size: .59rem; }
+    .pipeline-table { margin-top: 10px; border: 1px solid var(--grid); }
+    .table-labels, .pipeline summary { display: grid; grid-template-columns: minmax(180px, 1.15fr) 104px 166px 22px; gap: 10px; align-items: center; }
+    .table-labels { padding: 7px 11px; color: var(--muted); background: #101612; border-bottom: 1px solid var(--grid); font-size: .58rem; text-transform: uppercase; }
+    details.pipeline { border-bottom: 1px solid var(--grid); }
+    details.pipeline:last-child { border-bottom: 0; }
+    details.pipeline[open] { background: #151912; box-shadow: inset 4px 0 0 var(--amber); }
+    .pipeline summary { padding: 11px; cursor: pointer; list-style: none; font-size: .66rem; }
+    .pipeline summary::-webkit-details-marker { display:none; }
+    .pipeline-name { color: var(--text); font-weight: 800; }
+    .pipeline-name span { display: block; margin-top: 3px; color: var(--muted); font-weight: 400; font-size: .55rem; }
+    .status { font-weight: 900; }
+    .status.pass { color: var(--green); }
+    .status.suspect { color: var(--amber); }
+    .status.never { color: #D5DEDA; }
+    .chev { color: var(--muted); }
+    .trace { margin: 0 10px 12px; border: 1px solid #75653A; background: #0A0D0A; }
+    .trace-head { display: flex; justify-content: space-between; gap: 10px; padding: 8px 10px; color: var(--amber); border-bottom: 1px solid #75653A; font-size: .66rem; font-weight: 900; }
+    .trace-grid { display: grid; grid-template-columns: 140px 1fr; font-size: .63rem; }
+    .trace-grid dt, .trace-grid dd { margin: 0; padding: 7px 9px; border-bottom: 1px solid #273029; }
+    .trace-grid dt { color: var(--muted); border-right: 1px solid #273029; }
+    .trace-grid dd { color: var(--text); }
+    .trace-grid dt:last-of-type, .trace-grid dd:last-of-type { border-bottom: 0; }
+    .trace-action { display: flex; gap: 7px; padding: 10px; border-top: 1px solid #273029; }
+    .trace-action button { padding: 6px 9px; color: #070A08; background: var(--amber); border: 1px solid var(--amber); font-size: .61rem; font-weight: 900; }
+    .trace-action span { align-self: center; color: var(--muted); font-size: .56rem; }
+    .phone { position: absolute; left: 42px; bottom: 0; width: 374px; height: 178px; overflow: hidden; border: 6px solid #2D3832; border-radius: 18px; background: #090D0B; box-shadow: 0 20px 40px rgba(0,0,0,.55); }
+    .phone-screen { height: 100%; display: grid; grid-template-columns: 116px 1fr; gap: 12px; padding: 13px 16px; }
+    .phone-copy { display: flex; flex-direction: column; justify-content: center; }
+    .phone-copy b { color: var(--green); font-size: .54rem; letter-spacing: .08em; }
+    .phone-copy strong { margin-top: 5px; font: 800 .78rem/1.12 var(--sans); }
+    .phone-copy small { margin-top: 7px; color: var(--muted); font-size: .52rem; }
+    .phone-chart { align-self: center; width: 100%; height: 100px; }
+    .phone-caption { position: absolute; left: 430px; bottom: 14px; color: var(--muted); font-size: .6rem; }
+    @media (max-width: 1020px) {
+      .workspace { grid-template-columns: 1fr; }
+      .reports { border-right: 0; border-bottom: 1px solid var(--grid); }
+      .phone { position: relative; left: auto; bottom: auto; margin: 16px 0 0; }
+      .phone-caption { position: static; display: block; margin: 6px 0; }
+    }
+    @media (max-width: 650px) {
+      .direction-note { grid-template-columns: 1fr; }
+      .app-meta { display: none; }
+      .reports, .pipelines { padding-left: 12px; padding-right: 12px; }
+      .table-labels, .pipeline summary { grid-template-columns: 1fr 82px; }
+      .table-labels > :nth-child(3), .table-labels > :nth-child(4), .pipeline summary > :nth-child(3) { display: none; }
+      .trace-grid { grid-template-columns: 104px 1fr; }
+      .phone { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#instrument-home">Skip to Homepage</a>
+  <main class="page">
+    <section class="direction-note" aria-labelledby="instrument-direction-title">
+      <h1 id="instrument-direction-title">Direction 02 // Instrument</h1>
+      <p>A precise operational instrument: high density, heavy labels, and a developer-adjacent register. It treats browsing and pipeline verification as two equally crisp data surfaces while keeping diagnostic evidence structured, explicit, and fast to scan.</p>
+    </section>
+    <div class="stage">
+      <section class="browser" aria-label="Desktop browser mockup of the Pulse Homepage in Instrument direction">
+        <div class="browser-chrome" aria-hidden="true"><span class="dots">○ ○ ○</span><span class="url">localhost / pulse / home</span><span>STATIC OUTPUT</span></div>
+        <header class="appbar"><div class="brand">PULSE<em>//HOME</em></div><div class="app-meta"><span>GENERATED <b>2026-08-17</b> · REP.</span><span>PIPELINES <b>03</b></span><span>ATTENTION <b>01</b></span></div></header>
+        <div class="workspace" id="instrument-home">
+          <section class="reports" aria-labelledby="instrument-reports-title">
+            <div class="kicker">Standing questions / report access</div>
+            <h2 id="instrument-reports-title">Reports<br>at hand.</h2>
+            <div class="section-head"><h3>REPORT_DIRECTORY</h3><small>2 ENTRIES · REPRESENTATIVE</small></div>
+            <div class="sort" aria-label="Representative sort affordance"><span>SORT:</span><button type="button" aria-pressed="false">NAME_A–Z</button><button type="button" aria-pressed="true">LAST_UPDATE_DESC</button></div>
+            <a class="report-row" href="#instrument-phone"><span class="index">01</span><span><strong>French macroeconomics</strong><small>LAST SUBSTANTIVE UPDATE · 2026-08-15 · REPRESENTATIVE DATE</small></span><span class="go" aria-hidden="true">OPEN↗</span></a>
+            <a class="report-row" href="#instrument-phone"><span class="index">02</span><span><strong>Climate &amp; emissions · representative report</strong><small>LAST SUBSTANTIVE UPDATE · 2026-08-01 · REPRESENTATIVE DATE</small></span><span class="go" aria-hidden="true">OPEN↗</span></a>
+            <p class="source-note">Exact observation periods and provenance belong with each Visual. Routine regeneration does not change a Report's last substantive update.</p>
+          </section>
+          <section class="pipelines" aria-labelledby="instrument-pipelines-title">
+            <div class="kicker">Every independently executable pipeline</div>
+            <div class="section-head"><h3 id="instrument-pipelines-title">PIPELINE_STATUS</h3><small>NAMES / DATES / STATES ARE REPRESENTATIVE</small></div>
+            <div class="pipeline-table" role="group" aria-label="Representative pipeline states">
+              <div class="table-labels" aria-hidden="true"><span>PIPELINE</span><span>STATUS</span><span>EXECUTION DATE</span><span>+</span></div>
+              <details class="pipeline"><summary><span class="pipeline-name">CLIMATE_INDICATORS<span>Representative pipeline</span></span><span class="status pass">✓ PASS</span><time datetime="2026-08-17T06:08:00Z">17 AUG 2026 · 06:08Z</time><span class="chev">+</span></summary></details>
+              <details class="pipeline" open>
+                <summary><span class="pipeline-name">FRENCH_MACROECONOMICS<span>Representative pipeline</span></span><span class="status suspect">! SUSPECT</span><time datetime="2026-08-17T06:13:00Z">17 AUG 2026 · 06:13Z</time><span class="chev">−</span></summary>
+                <div class="trace">
+                  <div class="trace-head"><span>ASSERTION_FAILURE / LATEST_PERIOD_NOT_ADVANCED</span><span>DATA PUBLISHED + MARKED</span></div>
+                  <dl class="trace-grid">
+                    <dt>STAGE</dt><dd>Dataset assertions</dd>
+                    <dt>EVIDENCE</dt><dd>Publication schedule expected a newer period; the latest received period was unchanged.</dd>
+                    <dt>PIPELINE RESULT</dt><dd>Completed with suspect data. Other pipelines and Reports remain available.</dd>
+                    <dt>AFFECTED OUTPUT</dt><dd>Not claimed here—impact traceability has not been confirmed.</dd>
+                    <dt>NEXT ACTION</dt><dd>Inspect execution evidence, then check the source publication schedule.</dd>
+                  </dl>
+                  <div class="trace-action"><button type="button">INSPECT_EVIDENCE [REPRESENTATIVE]</button><span>No product action is committed by this visual direction.</span></div>
+                </div>
+              </details>
+              <details class="pipeline"><summary><span class="pipeline-name">EMISSIONS_ARCHIVE<span>Representative pipeline</span></span><span class="status pass">✓ PASS</span><time datetime="2026-08-01T05:52:00Z">01 AUG 2026 · 05:52Z</time><span class="chev">+</span></summary></details>
+            </div>
+          </section>
+        </div>
+      </section>
+      <aside class="phone" id="instrument-phone" aria-label="Landscape phone inset showing readable representative report data">
+        <div class="phone-screen">
+          <div class="phone-copy"><b>FRENCH MACRO</b><strong>Inflation trajectory</strong><small>Representative visual<br>Not live data</small></div>
+          <svg class="phone-chart" viewBox="0 0 205 100" role="img" aria-labelledby="instrument-chart-title instrument-chart-desc">
+            <title id="instrument-chart-title">Representative inflation trajectory</title>
+            <desc id="instrument-chart-desc">A solid line labelled France and a dotted comparison line show that a purpose-built visual remains readable in landscape phone orientation. No values are asserted.</desc>
+            <path d="M8 84H198M8 58H198M8 32H198" stroke="#304139"/>
+            <path d="M10 71 L35 69 L58 46 L84 50 L111 67 L140 56 L170 61 L196 28" fill="none" stroke="#89F0AE" stroke-width="3"/>
+            <path d="M10 78 L42 60 L74 64 L106 55 L138 51 L169 53 L196 44" fill="none" stroke="#FFD166" stroke-width="2" stroke-dasharray="2 5"/>
+            <text x="153" y="23" fill="#F2F7F3" font-size="8">FRANCE —</text>
+            <text x="90" y="94" fill="#F2F7F3" font-size="7">COMPARISON ···</text>
+          </svg>
+        </div>
+      </aside>
+      <span class="phone-caption">LANDSCAPE_PHONE / QUICK_LOOKUP / READABLE_VISUAL</span>
+    </div>
+  </main>
+</body>
+</html>
