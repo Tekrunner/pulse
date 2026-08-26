@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: invalid
+    columns:
+      - name: required_value
+        data_tests:
+          - not_null

@@ -1,0 +1,10 @@
+name: dbt_external_smoke
+version: "1.0"
+config-version: 2
+profile: dbt_external_smoke
+model-paths: [models]
+test-paths: [tests]
+
+models:
+  dbt_external_smoke:
+    +materialized: table

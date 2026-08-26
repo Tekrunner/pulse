@@ -1,0 +1,13 @@
+version: 2
+
+models:
+  - name: published_external
+    columns:
+      - name: required_value
+        data_tests:
+          - not_null
+  - name: downstream
+    columns:
+      - name: required_value
+        data_tests:
+          - not_null

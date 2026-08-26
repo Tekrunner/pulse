@@ -1,0 +1,7 @@
+dbt_external_smoke:
+  target: smoke
+  outputs:
+    smoke:
+      type: duckdb
+      path: "{{ env_var('PULSE_DBT_DATABASE') }}"
+      threads: 1

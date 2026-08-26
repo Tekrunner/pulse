@@ -98,7 +98,7 @@ ipython_config.py
 #   Similar to Pipfile.lock, it is generally recommended to include uv.lock in version control.
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
 #   commonly ignored for libraries.
-# uv.lock
+## uv.lock is committed for frozen, reproducible installs.
 
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
@@ -164,9 +164,6 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
-# mkdocs documentation
-/site
-
 # mypy
 .mypy_cache/
 .dmypy.json
@@ -218,6 +215,13 @@ __marimo__/
 .streamlit/secrets.toml
 .bmad-loop/runs/
 .bmad-loop/cache/
+
+# Pulse disposable local state. Locks, fixtures, and source files remain tracked.
+build/landing/
+private/inbox/
+node_modules/
+site/.observablehq/
+site/dist/
 .bmad-loop/policy.toml
 .codex/hooks.json
 _bmad/render/
