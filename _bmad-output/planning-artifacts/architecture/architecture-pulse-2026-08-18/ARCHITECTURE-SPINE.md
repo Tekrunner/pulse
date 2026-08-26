@@ -7,7 +7,7 @@ paradigm: pipes-and-filters with static artifact boundaries
 scope: ingestion, archive, transformation, publication, report delivery, privacy, and pipeline visibility
 status: final
 created: '2026-08-18'
-updated: '2026-08-18'
+updated: '2026-08-21'
 binds: [FR-1..FR-26, NFR-1..NFR-6]
 sources:
   - ../../prds/prd-pulse-2026-08-07/prd.md
@@ -100,7 +100,7 @@ flowchart TD
 
 - **Binds:** FR-2–FR-6, FR-18, FR-22–FR-24, NFR-1–NFR-2; local runs, agents, and GitHub Actions.
 - **Prevents:** pipeline logic diverging across YAML/scripts and concurrent workflows corrupting default-branch history.
-- **Rule:** One repository-local Pulse CLI is the high-level API for one-source and whole-pipeline runs, snapshot replay, profile selection, verification, site build, and one-command local serving; local execution, agents, and thin reusable Actions workflows invoke it identically. Repository-owned instructions cover add source, add indicator, add visual, add report, and change dataset schema; each points to the complete first vertical slice, the shared visual-language contract, and repeated source logic moves into shared runtime. Source computation may run concurrently, but every default-branch mutation—including a source's current-status projection—passes through one shared-concurrency repository-writer job that starts from current default branch and atomically commits one source-scoped change set. Site builds do not mutate the default branch and use a separate latest-wins concurrency group.
+- **Rule:** One repository-local Pulse CLI is the high-level API for one-source and whole-pipeline runs, snapshot replay, profile selection, verification, site build, and one-command local serving; local execution, agents, and thin reusable Actions workflows invoke it identically. Repository-owned instructions cover add source, add indicator, add visual, add report, and change dataset schema; each starts from neutral templates, consumes the shared visual-language contract where applicable, and is validated by fixtures plus at least one complete working implementation. Working implementations are conformance evidence, never scaffolds to copy. Repeated source logic moves into shared runtime. Source computation may run concurrently, but every default-branch mutation—including a source's current-status projection—passes through one shared-concurrency repository-writer job that starts from current default branch and atomically commits one source-scoped change set. Site builds do not mutate the default branch and use a separate latest-wins concurrency group.
 
 ### AD-9 — Conformance before source-specific verification [ADOPTED]
 
@@ -167,7 +167,7 @@ publish/<profile>/status/source/<source-id>.json # replaceable source projection
 private/inbox/<source-id>/                        # ignored manual private-source input
 runtime/contracts/                                # sole owner of versioned JSON schemas
 runtime/                                           # Pulse CLI and conformance suite
-workflows/                                         # five agent-facing extension/change workflows + exemplar links
+workflows/                                         # five neutral extension/change templates + conformance evidence
 site/
   catalog/                                         # compiled browser-data/report/pipeline contracts
   design/                                          # shared tokens and minimal visual-language contract
