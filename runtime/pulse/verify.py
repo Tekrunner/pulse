@@ -15,7 +15,7 @@ class VerificationError(RuntimeError):
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SUBPROCESS_TIMEOUT_SECONDS = 60
+SUBPROCESS_TIMEOUT_SECONDS = 180
 
 
 def _run(name: str, command: list[str]) -> None:

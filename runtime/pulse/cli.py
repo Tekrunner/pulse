@@ -6,12 +6,17 @@ import argparse
 import sys
 
 from pulse.verify import VerificationError, verify_workspace
+from pulse.site import run_site
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pulse", description="Pulse workspace automation")
     subcommands = parser.add_subparsers(dest="command", required=True)
     subcommands.add_parser("verify", help="run all reproducible workspace smoke checks")
+    site = subcommands.add_parser("site", help="build or locally serve the report site")
+    site_subcommands = site.add_subparsers(dest="site_command", required=True)
+    site_subcommands.add_parser("build", help="build the static site artifact")
+    site_subcommands.add_parser("serve", help="serve the Observable site locally")
     return parser
 
 
@@ -24,6 +29,13 @@ def main(argv: list[str] | None = None) -> int:
             print(f"pulse verify failed: {error}", file=sys.stderr)
             return 1
         print("pulse verify passed")
+        return 0
+    if args.command == "site":
+        try:
+            run_site(args.site_command)
+        except VerificationError as error:
+            print(f"pulse site {args.site_command} failed: {error}", file=sys.stderr)
+            return 1
         return 0
     return 2
 

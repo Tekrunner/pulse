@@ -222,6 +222,7 @@ private/inbox/
 node_modules/
 site/.observablehq/
 site/dist/
+test-results/
 .bmad-loop/policy.toml
 .codex/hooks.json
 _bmad/render/

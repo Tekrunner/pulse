@@ -207,7 +207,7 @@ flowchart TB
 
 ## Deferred
 
-- Set the numeric cold-load and time-to-first-readable budget from the Observable pilot measurements; revisit before accepting the pilot.
+- Story 1.2 pilot budget (2026-08-27): cold page load <= 5 seconds and time to first readable visual <= 3 seconds under clean locked install, cold-cache build, and direct nested-route load. Three runs each in Chromium and Firefox after `npm ci` observed cross-browser maxima of 116 ms and 2,343 ms respectively; re-measure against real data in Story 1.9.
 - Choose cross-filtering and per-report versus per-visual query topology only when a report requires shared interactive state.
 - Choose each unusual-format parsing library inside its source package; promote it to shared runtime only after a second source needs it.
 - Tune Parquet partitioning, compression, and row groups against real dataset sizes; target the PRD's roughly 5–50 MB browser-facing files first.

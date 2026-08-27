@@ -90,6 +90,15 @@ def test_cli_reports_verification_failure_with_exit_code_one(monkeypatch: pytest
     assert "pulse verify failed: stage 'node smoke' timed out" in capsys.readouterr().err
 
 
+@pytest.mark.parametrize("action", ("build", "serve"))
+def test_cli_routes_site_commands_through_one_api(monkeypatch: pytest.MonkeyPatch, action: str) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(cli, "run_site", calls.append)
+
+    assert cli.main(["site", action]) == 0
+    assert calls == [action]
+
+
 def test_incompatible_python_is_rejected_before_running_stage(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(verify.sys, "version_info", (3, 12))
     monkeypatch.setattr(verify, "_run", lambda *_args: pytest.fail("stage must not run"))

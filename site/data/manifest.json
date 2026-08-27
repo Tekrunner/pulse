@@ -1,0 +1,14 @@
+{
+  "version": "1.0.0",
+  "extensions": {
+    "parquet": "parquet.duckdb_extension.wasm"
+  },
+  "datasets": {
+    "fixture/macro": {
+      "table": "fixture_macro",
+      "parquet": "../fixtures/macro.parquet",
+      "representedPeriod": "2024-Q4",
+      "source": "Representative offline fixture"
+    }
+  }
+}

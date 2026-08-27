@@ -2,6 +2,7 @@
   "name": "pulse",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "packageManager": "npm@11.17.0",
   "description": "Reproducible browser workspace for Pulse",
   "engines": {
@@ -9,10 +10,20 @@
     "npm": ">=11 <12"
   },
   "scripts": {
-    "verify": "node tests/node/dependency-policy.test.mjs && node tests/node/verify-baseline.mjs"
+    "build": "node scripts/build-site.mjs",
+    "serve": "npm run build && node scripts/serve-site.mjs",
+    "artifact:scan": "node tests/browser/artifact-scan.mjs",
+    "browser:test": "playwright test --config tests/browser/playwright.config.js",
+    "portability:build": "vite build --config tests/portability/vite.config.js",
+    "portability:serve": "vite preview --config tests/portability/vite.config.js --host 127.0.0.1 --port 4173",
+    "verify": "node tests/node/dependency-policy.test.mjs && node tests/node/verify-baseline.mjs && node tests/node/pilot-contract.test.mjs && npm run build && npm run portability:build && npm run browser:test && npm run artifact:scan"
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "1.31.0",
     "@observablehq/framework": "1.13.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "vite": "8.2.2"
   }
 }
