@@ -1,0 +1,33 @@
+[workflow]
+
+activation_steps_append = [
+  """
+Quota guard for review: store complete diffs in a temporary file and inspect changed files selectively. Do not print generated lockfile contents into model context; validate lockfiles through frozen installs and inspect only dependency-manifest changes.
+"""
+]
+
+[[workflow.review_layers]]
+id = "blind-hunter"
+name = "Integrated Harness Review"
+instruction = """
+Review the current change directly in this primary session. Do not spawn subagents.
+
+Inspect the approved spec and changed source, configuration, and tests. Report only actionable correctness, security, specification, regression, or meaningful verification findings. Do not manufacture a minimum number of findings; omit style-only and speculative suggestions.
+
+Use these findings as the review layer result for normal BMAD classification and remediation.
+"""
+
+[[workflow.review_layers]]
+id = "edge-case-hunter"
+name = "Edge Case Hunter"
+instruction = ""
+
+[[workflow.review_layers]]
+id = "verification-gap"
+name = "Verification Gap Reviewer"
+instruction = ""
+
+[[workflow.review_layers]]
+id = "acceptance-auditor"
+name = "Acceptance Auditor"
+instruction = ""
