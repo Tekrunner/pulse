@@ -218,6 +218,7 @@ __marimo__/
 
 # Pulse disposable local state. Locks, fixtures, and source files remain tracked.
 build/landing/
+snapshots/private/
 private/inbox/
 node_modules/
 site/.observablehq/

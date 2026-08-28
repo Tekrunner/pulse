@@ -1,0 +1,2 @@
+# Public immutable raw API snapshots are deliberately stored through Git LFS.
+snapshots/public/*/*/raw.parquet filter=lfs diff=lfs merge=lfs -text
