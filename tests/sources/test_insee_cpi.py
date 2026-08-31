@@ -2,45 +2,57 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from urllib.error import HTTPError
 
+import duckdb
 import pytest
 
 from pulse.archive import AcquisitionIntegrityError, archive_rows, reject_lfs_pointer
 from pulse.cli import main
 from pulse.contracts.snapshot import ContractError, validate_snapshot_manifest
-from pulse.sources import SourceDeclarationError, discover_sources, load_source_adapter, load_source_declaration
+from pulse.sources import (
+    SourceDeclarationError,
+    acquire_from_adapter,
+    discover_sources,
+    load_source_adapter,
+    load_source_declaration,
+)
 
 
-FIXTURE = Path(__file__).parents[1] / "fixtures" / "insee-cpi" / "response.json"
+FIXTURE = Path(__file__).parents[1] / "fixtures" / "insee-cpi" / "response.xml"
 
 
-def _rows() -> tuple[list[dict], str | None]:
-    adapter = load_source_adapter(discover_sources()["insee-cpi"])
-    return adapter.decode_response(json.loads(FIXTURE.read_text(encoding="utf-8")))
+def _acquired():
+    declaration = discover_sources()["insee-cpi"]
+    return acquire_from_adapter(declaration, fixture=FIXTURE, live=False)
 
 
 def _archive(root: Path, acquisition_id: str, rows: list[dict] | None = None):
-    decoded, source_date = _rows()
+    acquired = _acquired()
     return archive_rows(
-        root=root, source_id="insee-cpi", acquisition_id=acquisition_id,
-        acquired_at="2026-08-28T10:00:00Z", source_data_date=source_date,
-        source_urls=[
-            "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814056?format=sdmx-json",
-            "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814058?format=sdmx-json",
-            "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814057?format=sdmx-json",
-        ],
-        rows=rows or decoded, decoder_version=load_source_adapter(discover_sources()["insee-cpi"]).DECODER_VERSION,
-        licence="Licence Ouverte / Open Licence 2.0", attribution="Source: INSEE.",
+        root=root,
+        source_id="insee-cpi",
+        acquisition_id=acquisition_id,
+        acquired_at="2026-08-31T10:00:00Z",
+        source_data_date=acquired.source_data_date,
+        source_urls=acquired.source_urls,
+        rows=rows or acquired.rows,
+        decoder_version=acquired.decoder_version,
+        licence="Licence Ouverte / Open Licence 2.0",
+        attribution="Source: INSEE.",
     )
 
 
-def test_discovery_is_registry_free_and_complete() -> None:
+def test_discovery_keeps_provider_configuration_opaque() -> None:
     source = discover_sources()["insee-cpi"]
     assert source.visibility == "public"
-    assert {(series["id"], series["measure"]) for series in source.selected_series} == {
-        ("011814056", "cpi-level"), ("011814058", "cpi-year-on-year"), ("011814057", "cpi-month-on-month")
-    }
-    assert source.acquisition["method"] == "BDM/SDMX JSON series responses"
+    assert source.configuration["method"] == "INSEE BDM StructureSpecific SDMX-ML 2.1"
+    assert [item["id"] for item in source.configuration["series"]] == [
+        "011814056",
+        "011814057",
+        "011814058",
+    ]
+    assert "measure" not in str(source.configuration)
 
 
 def test_invalid_declaration_is_actionable(tmp_path: Path) -> None:
@@ -50,45 +62,122 @@ def test_invalid_declaration_is_actionable(tmp_path: Path) -> None:
         load_source_declaration(declaration)
 
 
-def test_shared_declaration_validation_is_not_insee_specific(tmp_path: Path) -> None:
+def test_shared_declaration_validation_does_not_impose_provider_shape(tmp_path: Path) -> None:
     declaration = tmp_path / "source.yaml"
     declaration.write_text(
         """id: another-source
 name: Another public source
 visibility: public
 acquisition:
-  method: JSON API
-  urls: [https://example.test/data]
+  provider_specific_key: anything
 fetch_cadence: weekly
 expected_publication_advance: weekly
 licence: Open licence
 attribution: "Source: Example."
-selected_series:
-  - id: example-series
-    name: Example series
 """,
         encoding="utf-8",
     )
-    assert load_source_declaration(declaration).source_id == "another-source"
+    loaded = load_source_declaration(declaration)
+    assert loaded.configuration == {"provider_specific_key": "anything"}
 
 
-def test_fixture_faithfully_covers_each_selected_measure() -> None:
-    source = discover_sources()["insee-cpi"]
-    adapter = load_source_adapter(source)
-    rows, _ = _rows()
-    adapter.ensure_selected_series(rows, source.selected_series)
-    assert {row["SERIES"] for row in rows} == {"011814056", "011814057", "011814058"}
+def test_fixture_preserves_provider_attributes_as_strings() -> None:
+    acquired = _acquired()
+    assert acquired.source_data_date == "2026-07-01"
+    assert {row["IDBANK"] for row in acquired.rows} == {
+        "011814056",
+        "011814057",
+        "011814058",
+    }
+    assert acquired.rows[0]["OBS_VALUE"] == "102.67"
+    assert acquired.rows[0]["DATE_JO"] == "2026-08-15"
+    assert all(isinstance(value, str) for row in acquired.rows for value in row.values())
 
 
-def test_incomplete_series_response_is_rejected() -> None:
-    source = discover_sources()["insee-cpi"]
-    adapter = load_source_adapter(source)
-    rows, _ = _rows()
-    with pytest.raises(adapter.InseeResponseError, match="missing selected series 011814057"):
-        adapter.ensure_selected_series([row for row in rows if row["SERIES"] != "011814057"], source.selected_series)
+def test_fixture_path_never_calls_network(monkeypatch: pytest.MonkeyPatch) -> None:
+    declaration = discover_sources()["insee-cpi"]
+    adapter = load_source_adapter(declaration)
+    monkeypatch.setattr(adapter, "urlopen", lambda *args, **kwargs: pytest.fail("network called"))
+    result = adapter.acquire(declaration.configuration, fixture=FIXTURE, live=False)
+    assert result.rows
 
 
-def test_archive_is_deterministic_and_idempotent(tmp_path: Path) -> None:
+def test_http_failure_is_distinguishable_and_sanitized(monkeypatch: pytest.MonkeyPatch) -> None:
+    declaration = discover_sources()["insee-cpi"]
+    adapter = load_source_adapter(declaration)
+
+    def fail(*args, **kwargs):
+        raise HTTPError("https://example.invalid/private", 503, "unsafe upstream text", {}, None)
+
+    monkeypatch.setattr(adapter, "urlopen", fail)
+    with pytest.raises(adapter.InseeResponseError, match="HTTP request failed with status 503") as raised:
+        adapter.acquire(declaration.configuration, fixture=None, live=True)
+    assert "unsafe upstream text" not in str(raised.value)
+
+
+def test_compatible_attribute_addition_is_preserved_and_changes_schema_hash(tmp_path: Path) -> None:
+    baseline, _ = _archive(tmp_path / "baseline", "acq-baseline")
+    payload = FIXTURE.read_text(encoding="utf-8").replace(
+        'DECIMALS="2"', 'DECIMALS="2" PROVIDER_ADDITION="kept"', 1
+    )
+    evolved_fixture = tmp_path / "evolved.xml"
+    evolved_fixture.write_text(payload, encoding="utf-8")
+    declaration = discover_sources()["insee-cpi"]
+    evolved = acquire_from_adapter(declaration, fixture=evolved_fixture, live=False)
+    assert evolved.rows[0]["PROVIDER_ADDITION"] == "kept"
+    evolved_snapshot = archive_rows(
+        root=tmp_path / "evolved",
+        source_id=declaration.source_id,
+        acquisition_id="acq-evolved",
+        acquired_at="2026-08-31T10:00:00Z",
+        source_data_date=evolved.source_data_date,
+        source_urls=evolved.source_urls,
+        rows=evolved.rows,
+        decoder_version=evolved.decoder_version,
+        licence=declaration.licence,
+        attribution=declaration.attribution,
+    )[0]
+    baseline_manifest = json.loads((baseline / "snapshot.json").read_text())
+    evolved_manifest = json.loads((evolved_snapshot / "snapshot.json").read_text())
+    assert baseline_manifest["observed_schema_sha256"] != evolved_manifest["observed_schema_sha256"]
+
+
+@pytest.mark.parametrize(
+    ("old", "new", "message"),
+    [
+        (' IDBANK="011814057"', ' IDBANK="999999999"', "missing declared series 011814057"),
+        (' TIME_PERIOD="2026-07"', ' PERIOD="2026-07"', "missing required TIME_PERIOD"),
+        (' OBS_VALUE="102.67"', "", "missing required OBS_VALUE"),
+    ],
+)
+def test_contract_failures_accept_no_rows(tmp_path: Path, old: str, new: str, message: str) -> None:
+    broken = tmp_path / "broken.xml"
+    broken.write_text(FIXTURE.read_text(encoding="utf-8").replace(old, new, 1), encoding="utf-8")
+    declaration = discover_sources()["insee-cpi"]
+    with pytest.raises(ValueError, match=message):
+        acquire_from_adapter(declaration, fixture=broken, live=False)
+
+
+def test_malformed_xml_is_rejected(tmp_path: Path) -> None:
+    broken = tmp_path / "broken.xml"
+    broken.write_text("<not-closed>", encoding="utf-8")
+    with pytest.raises(ValueError, match="malformed SDMX-ML"):
+        acquire_from_adapter(discover_sources()["insee-cpi"], fixture=broken, live=False)
+
+
+def test_invalid_non_latest_period_is_rejected(tmp_path: Path) -> None:
+    broken = tmp_path / "broken-period.xml"
+    broken.write_text(
+        FIXTURE.read_text(encoding="utf-8").replace(
+            'TIME_PERIOD="2026-06"', 'TIME_PERIOD="0000-00"', 1
+        ),
+        encoding="utf-8",
+    )
+    with pytest.raises(ValueError, match="monthly YYYY-MM"):
+        acquire_from_adapter(discover_sources()["insee-cpi"], fixture=broken, live=False)
+
+
+def test_archive_is_string_typed_deterministic_and_idempotent(tmp_path: Path) -> None:
     snapshot, no_op = _archive(tmp_path, "acq-fixture-one")
     manifest_bytes = (snapshot / "snapshot.json").read_bytes()
     raw_bytes = (snapshot / "raw.parquet").read_bytes()
@@ -99,16 +188,18 @@ def test_archive_is_deterministic_and_idempotent(tmp_path: Path) -> None:
     assert (snapshot / "snapshot.json").read_bytes() == manifest_bytes
     assert (snapshot / "raw.parquet").read_bytes() == raw_bytes
     manifest = json.loads(manifest_bytes)
-    assert manifest["schema_id"] == "pulse.snapshot"
-    assert manifest["source_data_date"] == "2026-06-01"
-    assert manifest["artifacts"][0]["path"] == "raw.parquet"
+    assert manifest["source_data_date"] == "2026-07-01"
+    schema = duckdb.connect().execute(
+        "DESCRIBE SELECT * FROM read_parquet(?)", [str(snapshot / "raw.parquet")]
+    ).fetchall()
+    assert {row[1] for row in schema} == {"VARCHAR"}
 
 
 def test_conflict_does_not_replace_snapshot(tmp_path: Path) -> None:
     snapshot, _ = _archive(tmp_path, "acq-fixture-one")
     original = (snapshot / "raw.parquet").read_bytes()
-    rows, _ = _rows()
-    rows[0]["OBS_VALUE"] = 9.9
+    rows = _acquired().rows
+    rows[0]["OBS_VALUE"] = "9.9"
     with pytest.raises(AcquisitionIntegrityError, match="acquisition-integrity conflict"):
         _archive(tmp_path, "acq-fixture-one", rows)
     assert (snapshot / "raw.parquet").read_bytes() == original
@@ -118,7 +209,9 @@ def test_later_duplicate_content_is_a_new_observation(tmp_path: Path) -> None:
     first, _ = _archive(tmp_path, "acq-fixture-one")
     later, _ = _archive(tmp_path, "acq-fixture-two")
     assert first != later
-    assert json.loads((first / "snapshot.json").read_text())["artifacts"] == json.loads((later / "snapshot.json").read_text())["artifacts"]
+    assert json.loads((first / "snapshot.json").read_text())["artifacts"] == json.loads(
+        (later / "snapshot.json").read_text()
+    )["artifacts"]
 
 
 def test_lfs_pointer_is_rejected(tmp_path: Path) -> None:
@@ -137,16 +230,157 @@ def test_manifest_rejects_unsupported_major_version(tmp_path: Path) -> None:
 
 
 def test_cli_fixture_is_offline_and_retryable(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    arguments = ["source", "acquire", "insee-cpi", "--fixture", str(FIXTURE), "--archive-root", str(tmp_path), "--acquisition-id", "acq-cli"]
+    arguments = [
+        "source",
+        "acquire",
+        "insee-cpi",
+        "--fixture",
+        str(FIXTURE),
+        "--archive-root",
+        str(tmp_path),
+        "--acquisition-id",
+        "acq-cli",
+    ]
     assert main(arguments) == 0
     assert main(arguments) == 0
     assert "no-op" in capsys.readouterr().out
 
 
-def test_malformed_fixture_accepts_no_partial_snapshot(tmp_path: Path, capsys: pytest.CaptureFixture[str]) -> None:
-    malformed = tmp_path / "malformed.json"
-    malformed.write_text('{"data": "not rows"}', encoding="utf-8")
+def test_cli_rejects_fixture_and_live_together() -> None:
+    with pytest.raises(SystemExit) as raised:
+        main(
+            [
+                "source",
+                "acquire",
+                "insee-cpi",
+                "--fixture",
+                str(FIXTURE),
+                "--live",
+            ]
+        )
+    assert raised.value.code == 2
+
+
+def test_cli_dispatches_an_arbitrary_conforming_adapter(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    package = tmp_path / "another-source"
+    package.mkdir()
+    declaration_path = package / "source.yaml"
+    declaration_path.write_text(
+        """id: another-source
+name: Another source
+visibility: public
+acquisition: {native: value}
+fetch_cadence: daily
+expected_publication_advance: daily
+licence: Open
+attribution: Example
+""",
+        encoding="utf-8",
+    )
+    (package / "acquire.py").write_text(
+        """from pulse.sources import AdapterAcquisition
+def acquire(configuration, *, fixture, live):
+    return AdapterAcquisition(rows=[{"native": str(configuration["native"])}], source_data_date=None, source_urls=["https://example.test/data"], decoder_version="example-v1")
+""",
+        encoding="utf-8",
+    )
+    declaration = load_source_declaration(declaration_path)
+    monkeypatch.setattr("pulse.cli.discover_sources", lambda: {declaration.source_id: declaration})
     archive_root = tmp_path / "archive"
-    assert main(["source", "acquire", "insee-cpi", "--fixture", str(malformed), "--archive-root", str(archive_root)]) == 1
+    assert main(
+        ["source", "acquire", declaration.source_id, "--fixture", str(FIXTURE), "--archive-root", str(archive_root)]
+    ) == 0
+    assert next((archive_root / declaration.source_id).glob("*/snapshot.json")).is_file()
+
+
+@pytest.mark.parametrize(
+    ("rows_expression", "date_expression", "message"),
+    [
+        ('[{"native": "value"}]', '"2026-02-30"', "ISO calendar date"),
+        ('[{"": "value"}]', "None", "field names must be non-empty strings"),
+        ('[{1: "value"}]', "None", "field names must be non-empty strings"),
+    ],
+)
+def test_cli_rejects_incompatible_adapter_output_before_archive_mutation(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    rows_expression: str,
+    date_expression: str,
+    message: str,
+) -> None:
+    package = tmp_path / "invalid-adapter"
+    package.mkdir()
+    declaration_path = package / "source.yaml"
+    declaration_path.write_text(
+        """id: invalid-adapter
+name: Invalid adapter
+visibility: public
+acquisition: {provider_native: value}
+fetch_cadence: daily
+expected_publication_advance: daily
+licence: Open
+attribution: Example
+""",
+        encoding="utf-8",
+    )
+    (package / "acquire.py").write_text(
+        "from pulse.sources import AdapterAcquisition\n"
+        "def acquire(configuration, *, fixture, live):\n"
+        f"    return AdapterAcquisition(rows={rows_expression}, "
+        f"source_data_date={date_expression}, "
+        'source_urls=["https://example.test/data"], decoder_version="example-v1")\n',
+        encoding="utf-8",
+    )
+    declaration = load_source_declaration(declaration_path)
+    monkeypatch.setattr("pulse.cli.discover_sources", lambda: {declaration.source_id: declaration})
+    archive_root = tmp_path / "archive"
+    assert main(
+        [
+            "source",
+            "acquire",
+            declaration.source_id,
+            "--fixture",
+            str(FIXTURE),
+            "--archive-root",
+            str(archive_root),
+        ]
+    ) == 1
+    assert message in capsys.readouterr().err
     assert not archive_root.exists()
-    assert "non-empty object 'data' array" in capsys.readouterr().err
+
+
+def test_incompatible_adapter_fails_before_archive_mutation(tmp_path: Path) -> None:
+    package = tmp_path / "broken-source"
+    package.mkdir()
+    declaration_path = package / "source.yaml"
+    declaration_path.write_text(
+        """id: broken-source
+name: Broken source
+visibility: public
+acquisition: {native: value}
+fetch_cadence: daily
+expected_publication_advance: daily
+licence: Open
+attribution: Example
+""",
+        encoding="utf-8",
+    )
+    (package / "acquire.py").write_text("VALUE = 1\n", encoding="utf-8")
+    with pytest.raises(SourceDeclarationError, match="must define callable acquire"):
+        load_source_adapter(load_source_declaration(declaration_path))
+
+
+def test_malformed_fixture_accepts_no_partial_snapshot(
+    tmp_path: Path, capsys: pytest.CaptureFixture[str]
+) -> None:
+    malformed = tmp_path / "malformed.xml"
+    malformed.write_text("<broken>", encoding="utf-8")
+    archive_root = tmp_path / "archive"
+    assert main(
+        ["source", "acquire", "insee-cpi", "--fixture", str(malformed), "--archive-root", str(archive_root)]
+    ) == 1
+    assert not archive_root.exists()
+    assert "malformed SDMX-ML" in capsys.readouterr().err

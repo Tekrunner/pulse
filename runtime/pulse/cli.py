@@ -7,7 +7,7 @@ import sys
 from pathlib import Path
 
 from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows, issue_acquisition_id, utc_now
-from pulse.sources import SourceDeclarationError, discover_sources, load_source_adapter
+from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
 
@@ -24,8 +24,13 @@ def build_parser() -> argparse.ArgumentParser:
     source_subcommands = source.add_subparsers(dest="source_command", required=True)
     acquire = source_subcommands.add_parser("acquire", help="archive a faithful raw source snapshot")
     acquire.add_argument("source_id", help="declared source ID")
-    acquire.add_argument("--fixture", type=Path, help="recorded response; never contacts the provider")
-    acquire.add_argument("--live", action="store_true", help="explicitly contact the declared provider URL")
+    acquisition_mode = acquire.add_mutually_exclusive_group()
+    acquisition_mode.add_argument(
+        "--fixture", type=Path, help="recorded response; never contacts the provider"
+    )
+    acquisition_mode.add_argument(
+        "--live", action="store_true", help="explicitly contact the declared provider URL"
+    )
     acquire.add_argument("--acquisition-id", help="reuse an opaque ID on a logical retry")
     acquire.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
     return parser
@@ -49,27 +54,17 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         return 0
     if args.command == "source":
-        if args.source_command != "acquire" or args.source_id != "insee-cpi":
-            print("pulse source acquire failed: only declared source 'insee-cpi' is supported", file=sys.stderr)
-            return 1
         try:
             declaration = discover_sources().get(args.source_id)
             if declaration is None:
-                raise SourceDeclarationError("declared source 'insee-cpi' was not found")
-            adapter = load_source_adapter(declaration)
-            payload = adapter.load_responses(
-                fixture=args.fixture, urls=declaration.acquisition["urls"], live=args.live
-            )
-            rows, source_data_date = adapter.decode_response(payload)
-            adapter.ensure_selected_series(rows, declaration.selected_series)
-            rows = list(adapter.insee_cpi_rows(rows))
+                raise SourceDeclarationError(f"declared source '{args.source_id}' was not found")
+            acquired = acquire_from_adapter(declaration, fixture=args.fixture, live=args.live)
             snapshot, no_op = archive_rows(
                 root=args.archive_root, source_id=declaration.source_id,
                 acquisition_id=args.acquisition_id or issue_acquisition_id(), acquired_at=utc_now(),
-                # The recorded fixture is only a transport substitute; lineage retains the
-                # declared public origin URL rather than a machine-local fixture URI.
-                source_data_date=source_data_date, source_urls=declaration.acquisition["urls"], rows=rows,
-                decoder_version=adapter.DECODER_VERSION, licence=declaration.licence, attribution=declaration.attribution,
+                source_data_date=acquired.source_data_date, source_urls=acquired.source_urls,
+                rows=acquired.rows, decoder_version=acquired.decoder_version,
+                licence=declaration.licence, attribution=declaration.attribution,
             )
         except (SourceDeclarationError, ArchiveError, AcquisitionIntegrityError, ValueError) as error:
             print(f"pulse source acquire failed: {error}", file=sys.stderr)

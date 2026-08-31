@@ -33,12 +33,18 @@ npm run verify
 
 The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 
-## First public source: INSEE CPI
+## Public source acquisition
 
-The first report uses the public Base-2025 INSEE CPI slice for France, excluding
-tobacco: the CPI level, year-on-year inflation, and month-on-month movement. Its
-scope, attribution, reuse terms, cadence, and access decision are recorded in
-[`sources/insee-cpi/selection.md`](sources/insee-cpi/selection.md).
+Every `sources/<source-id>/` package declares provider-native acquisition scope and
+implements the same source-neutral runtime adapter contract. The adapter owns access
+and faithful decoding through dlt; shared runtime owns discovery, acquisition IDs,
+immutable archive rules, manifests, and generic CLI dispatch. Consumer semantics and
+analytical typing do not belong in acquisition packages.
+
+The first conforming slice records public Base-2025 INSEE CPI series. Its exact SDMX
+XML fidelity, provider scope, source-data date rule, cadence, rights, attribution,
+and downstream boundary are documented in
+[`sources/insee-cpi/source-contract.md`](sources/insee-cpi/source-contract.md).
 
 Install [Git LFS](https://git-lfs.com/) before cloning or rebuilding public raw
 snapshots, then materialize tracked objects with `git lfs pull`. Raw API snapshots
@@ -48,13 +54,18 @@ Ordinary acquisition verification is offline and deterministic:
 
 ```sh
 uv run pytest tests/sources tests/runtime -q
-uv run pulse source acquire insee-cpi --fixture tests/fixtures/insee-cpi/response.json
+uv run pulse source acquire insee-cpi --fixture tests/fixtures/insee-cpi/response.xml
 ```
 
 The second command writes an immutable local snapshot. Reuse the printed/generated
-acquisition ID with `--acquisition-id` to perform an idempotent logical retry. Live
-INSEE access is deliberately opt-in and is never needed in CI:
+acquisition ID with `--acquisition-id` to perform an idempotent logical retry. The
+faithful recorded SDMX-ML fixture covers ordinary CI without network access. Live
+verification is separately marked, explicitly enabled, and archives only to pytest's
+temporary directory:
 
 ```sh
-uv run pulse source acquire insee-cpi --live
+PULSE_LIVE_INSEE=1 uv run pytest -m live tests/sources/test_insee_cpi_live.py -q
 ```
+
+Story 1.8 will schedule this same proven live adapter path; scheduling and repository
+publication remain outside the source package and outside ordinary verification.

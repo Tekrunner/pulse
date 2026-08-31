@@ -31,4 +31,7 @@ required-version = "==0.12.1"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra"
+addopts = "-ra -m 'not live'"
+markers = [
+  "live: explicit network integration checks excluded from ordinary verification",
+]

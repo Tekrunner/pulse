@@ -1,86 +1,172 @@
-"""INSEE BDM/SDMX access and faithful response decoding for this source only."""
+"""INSEE BDM StructureSpecific SDMX-ML access and faithful decoding."""
 
 from __future__ import annotations
 
 from datetime import date
-import json
 from pathlib import Path
+import re
+from typing import Any
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
+import xml.etree.ElementTree as ET
 
 import dlt
 
+from pulse.sources import AdapterAcquisition, SourceDeclarationError
 
-DECODER_VERSION = "insee-cpi-json-v1"
+
+DECODER_VERSION = "insee-bdm-structurespecific-sdmxml-v1"
+MEDIA_TYPE = "application/vnd.sdmx.structurespecificdata+xml;version=2.1"
+_MONTH = re.compile(r"^(\d{4})-(0[1-9]|1[0-2])$")
 
 
 class InseeResponseError(ValueError):
     """The provider response cannot be faithfully decoded."""
 
 
-def load_response(*, fixture: Path | None, url: str, live: bool) -> tuple[dict, str]:
+def _provider_scope(configuration: dict[str, Any]) -> tuple[str, dict[str, str]]:
+    endpoint = configuration.get("url")
+    series = configuration.get("series")
+    if not isinstance(endpoint, str) or not endpoint.startswith("https://"):
+        raise SourceDeclarationError("INSEE acquisition requires one HTTPS combined-series url")
+    if not isinstance(series, list) or not series:
+        raise SourceDeclarationError("INSEE acquisition requires provider series")
+    expected: dict[str, str] = {}
+    for item in series:
+        if (
+            not isinstance(item, dict)
+            or not isinstance(item.get("id"), str)
+            or not item["id"]
+            or not isinstance(item.get("name"), str)
+            or not item["name"]
+        ):
+            raise SourceDeclarationError("INSEE provider series require native id and name")
+        expected[item["id"]] = item["name"]
+    if len(expected) != len(series):
+        raise SourceDeclarationError("INSEE provider series IDs must be unique")
+    return endpoint, expected
+
+
+def load_response(*, fixture: Path | None, url: str, live: bool) -> bytes:
     if fixture is not None:
         try:
-            return json.loads(fixture.read_text(encoding="utf-8")), fixture.resolve().as_uri()
-        except (OSError, json.JSONDecodeError) as error:
-            raise InseeResponseError("recorded INSEE fixture is not valid JSON") from error
+            return fixture.read_bytes()
+        except OSError as error:
+            raise InseeResponseError("recorded INSEE fixture could not be read") from error
     if not live:
         raise InseeResponseError("live acquisition is opt-in; pass --live or a recorded --fixture")
     try:
-        with urlopen(Request(url, headers={"Accept": "application/json"}), timeout=30) as response:  # nosec B310: declared public URL
-            return json.loads(response.read()), url
-    except Exception as error:
-        raise InseeResponseError("INSEE request failed; retry later or use a recorded fixture") from error
+        request = Request(url, headers={"Accept": MEDIA_TYPE})
+        with urlopen(request, timeout=30) as response:  # nosec B310: declared public HTTPS URL
+            return response.read()
+    except HTTPError as error:
+        raise InseeResponseError(f"INSEE HTTP request failed with status {error.code}") from error
+    except (URLError, TimeoutError, OSError) as error:
+        raise InseeResponseError("INSEE transport failed; retry later") from error
 
 
-def load_responses(*, fixture: Path | None, urls: list[str], live: bool) -> dict:
-    """Load one recorded multi-series response or every selected live BDM series."""
-    if fixture is not None:
-        payload, _ = load_response(fixture=fixture, url=urls[0], live=live)
-        return payload
-    combined: list[dict] = []
-    source_dates: set[str | None] = set()
-    for url in urls:
-        payload, _ = load_response(fixture=None, url=url, live=live)
-        rows, source_data_date = decode_response(payload)
-        combined.extend(rows)
-        source_dates.add(source_data_date)
-    if len(source_dates) > 1:
-        raise InseeResponseError("INSEE selected series have inconsistent source-data dates")
-    return {"source_data_date": source_dates.pop() if source_dates else None, "data": combined}
+def _local_name(tag: str) -> str:
+    return tag.rsplit("}", 1)[-1]
 
 
-def decode_response(payload: dict) -> tuple[list[dict], str | None]:
-    rows = payload.get("data")
-    if not isinstance(rows, list) or not rows or not all(isinstance(row, dict) for row in rows):
-        raise InseeResponseError("INSEE response must contain a non-empty object 'data' array")
-    source_data_date = payload.get("source_data_date")
-    if source_data_date is not None:
-        try:
-            date.fromisoformat(source_data_date)
-        except ValueError as error:
-            raise InseeResponseError("INSEE source_data_date must be an ISO date") from error
-    return rows, source_data_date
+def _source_date(periods: list[str]) -> str:
+    for period in periods:
+        if _MONTH.fullmatch(period) is None:
+            raise InseeResponseError("INSEE TIME_PERIOD must be a monthly YYYY-MM provider value")
+    latest = max(periods)
+    value = f"{latest}-01"
+    date.fromisoformat(value)
+    return value
 
 
-def ensure_selected_series(rows: list[dict], selected_series: list[dict[str, str]]) -> None:
-    """Enforce this source's approved three-measure CPI slice without reshaping rows."""
-    expected = {series["id"] for series in selected_series}
-    required_measures = {"cpi-level", "cpi-year-on-year", "cpi-month-on-month"}
-    if {series.get("measure") for series in selected_series} != required_measures:
-        raise InseeResponseError("INSEE declaration must select level, year-on-year, and month-on-month CPI")
-    observed = {row.get("SERIES") for row in rows}
-    if observed != expected:
-        missing = expected - observed
-        unexpected = observed - expected
+def decode_response(payload: bytes, expected_series: dict[str, str]) -> tuple[list[dict[str, str]], str]:
+    """Flatten Series and Obs attributes without renaming, typing, or dropping additions."""
+    try:
+        root = ET.fromstring(payload)
+    except ET.ParseError as error:
+        raise InseeResponseError("INSEE response is malformed SDMX-ML") from error
+    if _local_name(root.tag) != "StructureSpecificData":
+        raise InseeResponseError("INSEE response is not StructureSpecificData SDMX-ML")
+
+    rows: list[dict[str, str]] = []
+    observed_series: dict[str, str] = {}
+    periods: list[str] = []
+    for series_element in (element for element in root.iter() if _local_name(element.tag) == "Series"):
+        series_attributes = dict(series_element.attrib)
+        series_id = series_attributes.get("IDBANK")
+        if not series_id:
+            raise InseeResponseError("INSEE Series is missing required IDBANK")
+        title = series_attributes.get("TITLE_FR")
+        if not title:
+            raise InseeResponseError(f"INSEE series {series_id} is missing required TITLE_FR")
+        observed_series[series_id] = title
+        observations = [child for child in series_element if _local_name(child.tag) == "Obs"]
+        if not observations:
+            raise InseeResponseError(f"INSEE series {series_id} contains no observations")
+        for observation in observations:
+            observation_attributes = dict(observation.attrib)
+            for required in ("TIME_PERIOD", "OBS_VALUE"):
+                if not observation_attributes.get(required):
+                    raise InseeResponseError(
+                        f"INSEE series {series_id} observation is missing required {required}"
+                    )
+            collisions = set(series_attributes) & set(observation_attributes)
+            if collisions:
+                raise InseeResponseError("INSEE Series and Obs attributes collide and cannot be flattened faithfully")
+            rows.append({**series_attributes, **observation_attributes})
+            periods.append(observation_attributes["TIME_PERIOD"])
+
+    missing = set(expected_series) - set(observed_series)
+    unexpected = set(observed_series) - set(expected_series)
+    if missing or unexpected:
         details = []
         if missing:
-            details.append("missing selected series " + ", ".join(sorted(missing)))
+            details.append("missing declared series " + ", ".join(sorted(missing)))
         if unexpected:
-            details.append("unexpected series " + ", ".join(sorted(str(value) for value in unexpected)))
-        raise InseeResponseError("INSEE response does not faithfully cover the declared slice: " + "; ".join(details))
+            details.append("unexpected series " + ", ".join(sorted(unexpected)))
+        raise InseeResponseError("INSEE response does not match the declared provider scope: " + "; ".join(details))
+    mismatched_names = [
+        series_id
+        for series_id, expected_name in expected_series.items()
+        if observed_series[series_id] != expected_name
+    ]
+    if mismatched_names:
+        raise InseeResponseError(
+            "INSEE provider series name changed for " + ", ".join(sorted(mismatched_names))
+        )
+    return rows, _source_date(periods)
 
 
-@dlt.resource(name="insee_cpi", write_disposition="replace")
-def insee_cpi_rows(rows: list[dict]):
-    """Yield provider rows unchanged; dlt owns source-format decoding."""
-    yield from rows
+@dlt.resource(name="observations", write_disposition="replace")
+def observation_rows(
+    configuration: dict[str, Any], *, fixture: Path | None, live: bool
+):
+    """Own provider scope, access, SDMX-ML decoding, and faithful row emission."""
+    endpoint, expected_series = _provider_scope(configuration)
+    payload = load_response(fixture=fixture, url=endpoint, live=live)
+    decoded_rows, _ = decode_response(payload, expected_series)
+    yield from decoded_rows
+
+
+def acquire(
+    configuration: dict[str, Any], *, fixture: Path | None, live: bool
+) -> AdapterAcquisition:
+    # Iterating the dlt resource executes the entire provider-specific path. This
+    # wrapper only projects generic archive metadata from the faithful rows/config.
+    try:
+        decoded_rows = list(observation_rows(configuration, fixture=fixture, live=live))
+    except Exception as error:
+        # dlt wraps generator failures in ResourceExtractionError. Restore only
+        # our already-sanitized source diagnostics at this adapter boundary.
+        cause: BaseException | None = error
+        while cause is not None:
+            if isinstance(cause, (InseeResponseError, SourceDeclarationError)):
+                raise cause from error
+            cause = cause.__cause__
+        raise
+    return AdapterAcquisition(
+        rows=decoded_rows,
+        source_data_date=_source_date([row["TIME_PERIOD"] for row in decoded_rows]),
+        source_urls=[configuration["url"]],
+        decoder_version=DECODER_VERSION,
+    )

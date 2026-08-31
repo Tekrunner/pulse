@@ -59,17 +59,37 @@ def _schema_hash(rows: list[dict[str, Any]]) -> str:
 
 
 def _write_parquet(rows: list[dict[str, Any]], destination: Path) -> None:
-    # Source-local dlt adapters own extraction/faithful decoding; DuckDB writes the durable boundary.
-    resource_rows = rows
-    with tempfile.TemporaryDirectory(prefix="pulse-archive-") as temporary:
-        json_path = Path(temporary) / "response.json"
-        json_path.write_text(json.dumps(resource_rows, ensure_ascii=False), encoding="utf-8")
-        connection = duckdb.connect()
-        try:
-            connection.execute("CREATE TABLE source_rows AS SELECT * FROM read_json_auto(?)", [str(json_path)])
-            connection.execute("COPY source_rows TO ? (FORMAT PARQUET)", [str(destination)])
-        finally:
-            connection.close()
+    # Build from adapter-provided Python types. JSON auto-detection would silently
+    # reinterpret provider strings such as ISO-looking attributes as dates.
+    columns = sorted({key for row in rows for key in row})
+    if not columns:
+        raise ArchiveError("cannot archive provider rows without fields")
+
+    def sql_type(column: str) -> str:
+        types = {type(row[column]) for row in rows if row.get(column) is not None}
+        if not types or types == {str}:
+            return "VARCHAR"
+        if types <= {bool}:
+            return "BOOLEAN"
+        if types <= {int}:
+            return "BIGINT"
+        if types <= {int, float}:
+            return "DOUBLE"
+        raise ArchiveError(f"provider field '{column}' has incompatible row types")
+
+    def quoted(identifier: str) -> str:
+        return '"' + identifier.replace('"', '""') + '"'
+
+    definitions = ", ".join(f"{quoted(column)} {sql_type(column)}" for column in columns)
+    placeholders = ", ".join("?" for _ in columns)
+    values = [[row.get(column) for column in columns] for row in rows]
+    connection = duckdb.connect()
+    try:
+        connection.execute(f"CREATE TABLE source_rows ({definitions})")
+        connection.executemany(f"INSERT INTO source_rows VALUES ({placeholders})", values)
+        connection.execute("COPY source_rows TO ? (FORMAT PARQUET)", [str(destination)])
+    finally:
+        connection.close()
 
 
 def archive_rows(*, root: Path, source_id: str, acquisition_id: str, acquired_at: str, source_data_date: str | None, source_urls: list[str], rows: list[dict[str, Any]], decoder_version: str, licence: str, attribution: str) -> tuple[Path, bool]:
