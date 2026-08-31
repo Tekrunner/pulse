@@ -1,9 +1,13 @@
 # INSEE CPI source contract
 
 This public source acquires one combined, credential-free INSEE BDM SDMX 2.1
-`StructureSpecificData` response for provider series `011814056`, `011814057`,
-and `011814058`. The declaration retains their provider IDs and French catalogue
-names.
+`StructureSpecificData` response for these provider series:
+
+- `011814056` — *Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Ensemble hors Tabac*
+- `011814057` — *Indice des prix à la consommation - Base 2025 - Variation mensuelle - Ensemble des ménages - France - Ensemble hors Tabac*
+- `011814058` — *Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Ensemble hors Tabac*
+
+These are INSEE's French catalogue names, retained without renaming.
 
 The adapter preserves every `Series` and `Obs` attribute as a string-valued Parquet
 column. It repeats series attributes on each observation without renaming, typing,
