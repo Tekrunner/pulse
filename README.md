@@ -22,7 +22,7 @@ uv run pulse site build
 uv run pulse site serve
 ```
 
-Open `http://127.0.0.1:3000/pulse/` or the direct nested route at `http://127.0.0.1:3000/pulse/reports/report`. The pilot uses offline fixture rows, a local single-threaded DuckDB-WASM EH bundle, and framework-neutral DOM/SVG modules. Reproducible measurements and budgets are recorded in `docs/report-pilot-performance.md`.
+Open `http://127.0.0.1:3000/pulse/` or the direct nested route at `http://127.0.0.1:3000/pulse/reports/report`. The pilot uses the committed public INSEE CPI publication, a local single-threaded DuckDB-WASM EH bundle, and framework-neutral DOM/SVG modules. Reproducible measurements and budgets are recorded in `docs/report-pilot-performance.md`.
 
 The verification command is the repository-local automation API used by both local development and CI. It reports the failing stage and its command output. The underlying suites can also be run directly while developing:
 
@@ -84,3 +84,21 @@ one monthly `period` plus `cpi_index`, `monthly_change_pct`, and `annual_change_
 The linked `dataset.json` records semantics, lineage, licence, attribution, SHA-256,
 and assertion status. The initial Parquet is roughly 12 KB, below the provisional
 5–50 MB delivery target, so no tuning is warranted.
+
+## Visual Contract and browser catalog
+
+Visual Contract v1 is documented in [`docs/visual-contract-v1.md`](docs/visual-contract-v1.md).
+It keeps reports responsible for parameter-bound queries and provenance while visuals
+receive validated plain rows plus display inputs. Breaking contract majors require an
+atomic migration or an application-owned compatibility adapter.
+
+The site build runs `pulse catalog build` to compile `browser-data.json` from complete
+public `dataset.json` contracts. The generated catalog and copied Parquet are disposable
+site inputs: its manifest-relative URL is resolved from the catalog, never the report
+route. Verify this whole offline path with:
+
+```sh
+uv run pytest tests/runtime tests/sources -q
+npm run verify
+uv run pulse verify
+```

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { extname, join } from "node:path";
 
-const required = ["dist/index.html", "dist/reports/report.html", "dist/_import/data/duckdb-browser-eh.worker.js", "dist/_import/data/duckdb-eh.wasm", "dist/_import/data/parquet.duckdb_extension.wasm", "dist/_import/data/manifest.json", "dist/_import/fixtures/macro.parquet"];
+const required = ["dist/index.html", "dist/reports/report.html", "dist/_import/data/duckdb-browser-eh.worker.js", "dist/_import/data/duckdb-eh.wasm", "dist/_import/data/parquet.duckdb_extension.wasm", "dist/_import/data/browser-data.json", "dist/_import/data/datasets/insee-cpi/monthly/dataset.parquet"];
 for (const file of required) assert((await stat(file)).isFile(), `missing public artifact: ${file}`);
 const textExtensions = new Set([".html", ".js", ".css", ".json", ".txt", ".xml"]);
 const privatePath = /(?:\/home\/|\/Users\/)[a-z0-9._-]+(?:\/|\\)|[A-Z]:\\Users\\[a-z0-9._-]+\\/i;

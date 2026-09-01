@@ -1,8 +1,13 @@
 import { DataClientError } from "../data/client.js";
 import { getPageDataClient } from "../data/browser-shell.js";
 import { renderLineVisual } from "../visuals/line.js";
+import { LINE_VISUAL_CONTRACT, validateLineConsumerRows } from "../visuals/line.contract.js";
 
-export const REPORT_SQL = "SELECT period, value FROM fixture_macro ORDER BY period";
+export const REPORT_DATASET_ID = "insee-cpi/monthly";
+// The report selects the complete represented CPI history. The lower bound remains
+// parameter-bound and comes from the compiled dataset contract, never from SQL text.
+export const REPORT_SQL = "SELECT CAST(period AS VARCHAR) AS period, CAST(cpi_index AS DOUBLE) AS value FROM insee_cpi_monthly WHERE period >= CAST(? AS DATE) ORDER BY period";
+export const reportParams = (dataset) => Object.freeze([dataset.representedPeriod.start]);
 
 export function reportLink(path = "./report") {
   const link = document.createElement("a");
@@ -30,23 +35,18 @@ function messageState(slot, state, text, retry) {
 }
 
 function validateRows(rows) {
-  if (!Array.isArray(rows)) throw new DataClientError("schema", "The report data has an incompatible shape.");
-  return rows.map((row) => {
-    const value = Number(row.value);
-    if (typeof row.period !== "string" || !Number.isFinite(value)) {
-      throw new DataClientError("schema", "The report data has incompatible period or value fields.");
-    }
-    return { period: row.period, value };
-  });
+  try { return validateLineConsumerRows(rows); }
+  catch (error) { throw new DataClientError("schema", "The report data has incompatible period or value fields.", error); }
 }
 
 function scenarioClient(client, scenario) {
   if (!scenario) return client;
-  if (scenario === "loading") return { query: () => new Promise(() => {}) };
-  if (scenario === "empty") return { query: async () => [] };
-  if (scenario === "startup") return { query: async () => { throw new DataClientError("wasm-startup", "Browser data access could not start."); } };
-  if (scenario === "query") return { query: async () => { throw new DataClientError("query", "The report data could not be queried."); } };
-  if (scenario === "schema") return { query: async () => [{ period: null, value: "invalid" }] };
+  const dataset = { representedPeriod: { start: "1996-01-01", end: "2026-07-01" }, semanticMetadata: { indicators: [{ attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025." }] } };
+  if (scenario === "loading") return { query: () => new Promise(() => {}), getDataset: async () => dataset };
+  if (scenario === "empty") return { query: async () => [], getDataset: async () => dataset };
+  if (scenario === "startup") return { query: async () => { throw new DataClientError("wasm-startup", "Browser data access could not start."); }, getDataset: async () => dataset };
+  if (scenario === "query") return { query: async () => { throw new DataClientError("query", "The report data could not be queried."); }, getDataset: async () => dataset };
+  if (scenario === "schema") return { query: async () => [{ period: null, value: "invalid" }], getDataset: async () => dataset };
   return client;
 }
 
@@ -55,20 +55,26 @@ export function renderReport({ client = getPageDataClient(), scenario } = {}) {
   const heading = document.createElement("header");
   const eyebrow = document.createElement("p"); eyebrow.className = "eyebrow"; eyebrow.textContent = "Portable report pilot";
   const title = document.createElement("h1"); title.textContent = "French macroeconomic index";
-  const provenance = document.createElement("p"); provenance.className = "provenance"; provenance.textContent = "Representative fixture · 2024-Q4 · same-origin data";
+  const provenance = document.createElement("p"); provenance.className = "provenance"; provenance.textContent = "Loading dataset provenance…";
   heading.append(eyebrow, title, provenance); fragment.append(heading);
   const slot = document.createElement("div"); fragment.append(slot);
   const activeClient = scenarioClient(client, scenario);
 
   const load = () => {
     messageState(slot, "loading", "Loading observations…");
-    Promise.resolve().then(() => activeClient.query("fixture/macro", REPORT_SQL)).then((result) => {
+    Promise.resolve().then(async () => {
+      const dataset = await activeClient.getDataset(REPORT_DATASET_ID);
+      const result = await activeClient.query(REPORT_DATASET_ID, REPORT_SQL, { params: reportParams(dataset) });
+      return [result, dataset];
+    }).then(([result, dataset]) => {
       const rows = validateRows(result);
       if (!rows.length) { messageState(slot, "empty", "No observations are available for this report."); return; }
       try {
         if (scenario === "render") throw new Error("render fixture");
+        const indicator = dataset.semanticMetadata.indicators.find((item) => item.column === "cpi_index") || {};
+        provenance.textContent = `INSEE CPI · ${dataset.representedPeriod.start} to ${dataset.representedPeriod.end} · ${indicator.attribution || "Published public dataset"}`;
         slot.className = "visual-slot state-ready"; slot.dataset.state = "ready"; slot.removeAttribute("role"); slot.removeAttribute("aria-live");
-        slot.replaceChildren(renderLineVisual(rows, { label: "Household activity index", unit: "index points" }));
+        slot.replaceChildren(renderLineVisual(rows, { label: "Consumer price index", unit: "index points" }));
         performance.mark("pulse:first-readable-visual");
       } catch {
         messageState(slot, "render-error", "The visual could not be rendered.", load);
@@ -81,3 +87,5 @@ export function renderReport({ client = getPageDataClient(), scenario } = {}) {
   load();
   return fragment;
 }
+
+export const LINE_SLOT = Object.freeze({ datasetId: REPORT_DATASET_ID, contractVersion: LINE_VISUAL_CONTRACT.contractVersion, consumerSchema: LINE_VISUAL_CONTRACT.consumerSchema });

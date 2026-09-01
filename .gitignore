@@ -226,6 +226,7 @@ snapshots/private/
 private/inbox/
 node_modules/
 site/.observablehq/
+site/data/browser-data.json
 site/dist/
 test-results/
 .bmad-loop/policy.toml

@@ -9,11 +9,31 @@ export class DataClientError extends Error {
   }
 }
 
+function compatibilityError(message) {
+  return new DataClientError("compatibility", message);
+}
+
+function validateCatalog(catalog) {
+  if (!catalog || catalog.schemaId !== "pulse.browser-data" || !String(catalog.schemaVersion).startsWith("1.")) {
+    throw compatibilityError("The report catalog uses an unsupported contract version.");
+  }
+  if (!catalog.datasets || typeof catalog.datasets !== "object") {
+    throw new DataClientError("manifest", "The report catalog is invalid.");
+  }
+  return catalog;
+}
+
 function validateDataset(datasetId, entry) {
-  if (!entry || !/^[a-z][a-z0-9_]*$/.test(entry.table) || typeof entry.parquet !== "string") {
+  const fields = ["datasetId", "logicalTable", "datasetContractVersion", "schema", "contentSha256", "representedPeriod", "semanticMetadata", "visibility", "parquet"];
+  if (entry && !String(entry.datasetContractVersion).startsWith("1.")) {
+    throw compatibilityError(`Dataset '${datasetId}' uses an unsupported contract version.`);
+  }
+  if (!entry || entry.datasetId !== datasetId || !fields.every((field) => Object.hasOwn(entry, field)) ||
+      !/^[a-z][a-z0-9_]*$/.test(entry.logicalTable) ||
+      entry.visibility !== "public" || typeof entry.parquet !== "string") {
     throw new DataClientError("manifest", `Dataset '${datasetId}' is not available.`);
   }
-  return entry;
+  return { ...entry, table: entry.logicalTable };
 }
 
 export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Worker, DuckDB = duckdb, fetch = globalThis.fetch } = {}) {
@@ -67,9 +87,10 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
     try {
       const response = await fetch(manifestUrl);
       if (!response.ok) throw new Error(`manifest returned ${response.status}`);
-      manifest = await response.json();
+      manifest = validateCatalog(await response.json());
       return manifest;
     } catch (error) {
+      if (error instanceof DataClientError) throw error;
       throw new DataClientError("manifest", "The report catalog could not be loaded.", error);
     }
   }
@@ -95,6 +116,10 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
   }
 
   return {
+    async warm() {
+      try { await initialize(); }
+      catch { /* Query surfaces the normalized startup failure in its slot. */ }
+    },
     async query(datasetId, sql, { params = [], signal } = {}) {
       await initialize();
       try {
@@ -113,6 +138,9 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
         if (error instanceof DataClientError || error?.name === "AbortError") throw error;
         throw new DataClientError("query", "The report data could not be queried.", error);
       }
+    },
+    async getDataset(datasetId) {
+      return validateDataset(datasetId, (await loadManifest()).datasets?.[datasetId]);
     },
     get resources() { return { worker, connection }; },
     async dispose({ immediate = false } = {}) {

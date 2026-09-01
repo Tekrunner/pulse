@@ -11,6 +11,8 @@ from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
 from pulse.transform import TransformError, replay_insee
+from pulse.catalog import write_browser_catalog
+from pulse.contracts.snapshot import ContractError
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -21,6 +23,12 @@ def build_parser() -> argparse.ArgumentParser:
     site_subcommands = site.add_subparsers(dest="site_command", required=True)
     site_subcommands.add_parser("build", help="build the static site artifact")
     site_subcommands.add_parser("serve", help="serve the Observable site locally")
+    catalog = subcommands.add_parser("catalog", help="compile browser catalog contracts")
+    catalog_subcommands = catalog.add_subparsers(dest="catalog_command", required=True)
+    catalog_build = catalog_subcommands.add_parser("build", help="compile public browser-data.json")
+    catalog_build.add_argument("--output", type=Path, required=True)
+    catalog_build.add_argument("--publish-root", type=Path, default=Path("publish/public"), help=argparse.SUPPRESS)
+    catalog_build.add_argument("--parquet-prefix", default="datasets", help=argparse.SUPPRESS)
     source = subcommands.add_parser("source", help="acquire one declared source")
     source_subcommands = source.add_subparsers(dest="source_command", required=True)
     acquire = source_subcommands.add_parser("acquire", help="archive a faithful raw source snapshot")
@@ -58,6 +66,14 @@ def main(argv: list[str] | None = None) -> int:
         except VerificationError as error:
             print(f"pulse site {args.site_command} failed: {error}", file=sys.stderr)
             return 1
+        return 0
+    if args.command == "catalog":
+        try:
+            output = write_browser_catalog(args.output, publish_root=args.publish_root, parquet_prefix=args.parquet_prefix)
+        except (ContractError, OSError) as error:
+            print(f"pulse catalog build failed: {error}", file=sys.stderr)
+            return 1
+        print(f"pulse catalog build wrote {output}")
         return 0
     if args.command == "source":
         if args.source_command == "replay":
