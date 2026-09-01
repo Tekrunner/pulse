@@ -69,3 +69,18 @@ PULSE_LIVE_INSEE=1 uv run pytest -m live tests/sources/test_insee_cpi_live.py -q
 
 Story 1.8 will schedule this same proven live adapter path; scheduling and repository
 publication remain outside the source package and outside ordinary verification.
+
+## INSEE replay and publication
+
+Rebuild the report-facing dataset from committed raw snapshots only:
+
+```sh
+uv run pulse source replay insee-cpi
+```
+
+Replay writes faithful disposable landing data under `build/landing/`. Its source-local
+dbt-duckdb project publishes the wide data at `publish/public/data/insee-cpi/monthly/`:
+one monthly `period` plus `cpi_index`, `monthly_change_pct`, and `annual_change_pct`.
+The linked `dataset.json` records semantics, lineage, licence, attribution, SHA-256,
+and assertion status. The initial Parquet is roughly 12 KB, below the provisional
+5–50 MB delivery target, so no tuning is warranted.

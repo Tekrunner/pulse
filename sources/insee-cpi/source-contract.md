@@ -26,3 +26,9 @@ INSEE normally advances these series monthly after the final CPI release. Reuse 
 under Licence Ouverte / Open Licence 2.0 with the attribution declared in
 `source.yaml`. The durable adapter output is faithful raw Parquet plus the generic
 Pulse snapshot manifest; analytical typing and semantics begin only downstream.
+
+`uv run pulse source replay insee-cpi` is offline and snapshot-only. It rejects LFS
+pointer stubs, creates faithful disposable landing data, then invokes the source-local
+dbt-duckdb project to publish the wide monthly Base-2025 dataset. An invalid candidate
+does not replace the selected output; a contract-valid candidate with failed assertions
+is published with a `suspect` result in `dataset.json`.

@@ -1,0 +1,8 @@
+name: insee_cpi
+version: "1.0"
+config-version: 2
+profile: insee_cpi
+model-paths: [models]
+models:
+  insee_cpi:
+    +materialized: table

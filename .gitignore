@@ -9,6 +9,8 @@ __pycache__/
 # Distribution / packaging
 .Python
 build/
+build/landing/
+*.duckdb
 develop-eggs/
 dist/
 downloads/
@@ -218,6 +220,8 @@ __marimo__/
 
 # Pulse disposable local state. Locks, fixtures, and source files remain tracked.
 build/landing/
+publish/
+sources/*/dbt/.user.yml
 snapshots/private/
 private/inbox/
 node_modules/

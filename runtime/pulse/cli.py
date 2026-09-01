@@ -10,6 +10,7 @@ from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows,
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
+from pulse.transform import TransformError, replay_insee
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -33,6 +34,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     acquire.add_argument("--acquisition-id", help="reuse an opaque ID on a logical retry")
     acquire.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    replay = source_subcommands.add_parser("replay", help="rebuild one source from committed raw snapshots")
+    replay.add_argument("source_id", help="declared source ID")
+    replay.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    replay.add_argument("--landing-root", type=Path, default=Path("build/landing/public/insee-cpi"), help=argparse.SUPPRESS)
+    replay.add_argument("--publish-root", type=Path, default=Path("publish/public/data/insee-cpi/monthly"), help=argparse.SUPPRESS)
     return parser
 
 
@@ -54,6 +60,21 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         return 0
     if args.command == "source":
+        if args.source_command == "replay":
+            if args.source_id != "insee-cpi":
+                print("pulse source replay failed: no replay implementation for declared source", file=sys.stderr)
+                return 1
+            try:
+                manifest = replay_insee(
+                    archive_root=args.archive_root.resolve(),
+                    landing_root=args.landing_root.resolve(),
+                    publish_root=args.publish_root.resolve(),
+                )
+            except TransformError as error:
+                print(f"pulse source replay failed: {error}", file=sys.stderr)
+                return 1
+            print(f"pulse source replay published {manifest.dataset_id} ({manifest.status['state']})")
+            return 0
         try:
             declaration = discover_sources().get(args.source_id)
             if declaration is None:
