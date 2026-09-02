@@ -13,8 +13,16 @@ import pytest
 
 from pulse.contracts.landing import validate_landing_manifest
 from pulse.contracts.dataset import validate_diagnostic
+from pulse.cli import main
 from pulse import transform
-from pulse.transform import TransformError, _validate_candidate, _write_landing, replay_insee
+from pulse.transform import (
+    TransformError,
+    _validate_candidate,
+    _validate_category_candidate,
+    _write_landing,
+    replay_insee,
+    replay_insee_category_analysis,
+)
 
 
 ROOT = Path(__file__).parents[2]
@@ -30,6 +38,14 @@ def _roots(tmp_path: Path) -> dict[str, Path]:
         "archive_root": ARCHIVE,
         "landing_root": tmp_path / "landing",
         "publish_root": tmp_path / "publish/insee-cpi/monthly",
+    }
+
+
+def _category_roots(tmp_path: Path) -> dict[str, Path]:
+    return {
+        "archive_root": ARCHIVE,
+        "landing_root": tmp_path / "landing-category",
+        "publish_root": tmp_path / "publish/insee-cpi/category-analysis",
     }
 
 
@@ -79,6 +95,136 @@ def test_repeated_clean_replay_has_equivalent_content_and_metadata(tmp_path: Pat
     assert first.represented_period == second.represented_period
     assert first.columns == second.columns
     assert first.indicators == second.indicators
+
+
+def test_category_replay_is_complete_typed_and_explicit_about_rent_calculation(
+    tmp_path: Path,
+) -> None:
+    roots = _category_roots(tmp_path)
+    manifest = replay_insee_category_analysis(**roots)
+    parquet = roots["publish_root"] / "dataset.parquet"
+    connection = duckdb.connect()
+    try:
+        count, start, end, null_rows, future_weights, formula_mismatches = connection.execute(
+            """
+            SELECT count(*), min(period)::VARCHAR, max(period)::VARCHAR,
+                   count(*) FILTER (WHERE actual_rent_annual_change_pct IS NULL
+                     OR actual_rent_pulse_contribution_pct_points IS NULL),
+                   count(*) FILTER (WHERE actual_rent_weight_reference_year > year(period)),
+                   count(*) FILTER (
+                     WHERE abs(actual_rent_pulse_contribution_pct_points
+                       - round(actual_rent_weight / 10000.0 * actual_rent_annual_change_pct, 3))
+                       > 0.0005
+                   )
+            FROM read_parquet(?)
+            """,
+            [str(parquet)],
+        ).fetchone()
+    finally:
+        connection.close()
+
+    assert manifest.dataset_id == "insee-cpi/category-analysis"
+    assert manifest.represented_period == {"start": "1998-01-01", "end": "2026-07-01"}
+    assert (count, start, end, null_rows, future_weights, formula_mismatches) == (
+        343,
+        "1998-01-01",
+        "2026-07-01",
+        0,
+        0,
+        0,
+    )
+    indicators = {item["column"]: item for item in manifest.indicators}
+    assert indicators["actual_rent_pulse_contribution_pct_points"]["source"] == (
+        "Pulse calculation from INSEE series"
+    )
+    assert indicators["actual_rent_pulse_contribution_pct_points"]["unit"] == (
+        "Percentage points"
+    )
+    assert indicators["actual_rent_weight_reference_year"]["unit"] == "Year"
+    assert "not an official INSEE contribution" in indicators[
+        "actual_rent_pulse_contribution_pct_points"
+    ]["definition"]
+
+
+def test_category_replay_ends_at_latest_common_complete_provider_month(tmp_path: Path) -> None:
+    roots = _category_roots(tmp_path)
+    manifest = replay_insee_category_analysis(**roots)
+
+    # The live immutable snapshot contains August food and energy observations,
+    # while rent and the official contribution series currently end in July.
+    assert manifest.represented_period["end"] == "2026-07-01"
+
+
+def test_category_candidate_rejects_a_missing_derived_value(tmp_path: Path) -> None:
+    roots = _category_roots(tmp_path)
+    replay_insee_category_analysis(**roots)
+    valid = roots["publish_root"] / "dataset.parquet"
+    invalid = tmp_path / "missing-derived.parquet"
+    connection = duckdb.connect()
+    try:
+        connection.execute(
+            f"""COPY (
+              SELECT * REPLACE (
+                CASE WHEN period = DATE '2026-07-01' THEN NULL
+                     ELSE actual_rent_pulse_contribution_pct_points END
+                AS actual_rent_pulse_contribution_pct_points
+              ) FROM read_parquet(?)
+            ) TO {_quoted(invalid)} (FORMAT PARQUET)""",
+            [str(valid)],
+        )
+    finally:
+        connection.close()
+
+    with pytest.raises(TransformError, match="complete comparable"):
+        _validate_category_candidate(invalid)
+
+
+def test_category_candidate_rejects_a_gap_before_rent_change_is_interpreted(
+    tmp_path: Path,
+) -> None:
+    roots = _category_roots(tmp_path)
+    replay_insee_category_analysis(**roots)
+    valid = roots["publish_root"] / "dataset.parquet"
+    invalid = tmp_path / "gapped.parquet"
+    connection = duckdb.connect()
+    try:
+        connection.execute(
+            f"COPY (SELECT * FROM read_parquet(?) WHERE period != DATE '2020-06-01') TO {_quoted(invalid)} (FORMAT PARQUET)",
+            [str(valid)],
+        )
+    finally:
+        connection.close()
+
+    with pytest.raises(TransformError, match="periods are not contiguous"):
+        _validate_category_candidate(invalid)
+
+
+def test_cli_default_replay_rebuilds_both_public_insee_datasets(tmp_path: Path) -> None:
+    monthly = tmp_path / "publish/insee-cpi/monthly"
+    categories = tmp_path / "publish/insee-cpi/category-analysis"
+    assert main(
+        [
+            "source",
+            "replay",
+            "insee-cpi",
+            "--archive-root",
+            str(ARCHIVE),
+            "--landing-root",
+            str(tmp_path / "landing-monthly"),
+            "--publish-root",
+            str(monthly),
+            "--category-landing-root",
+            str(tmp_path / "landing-category"),
+            "--category-publish-root",
+            str(categories),
+        ]
+    ) == 0
+    assert json.loads((monthly / "dataset.json").read_text(encoding="utf-8"))["dataset_id"] == (
+        "insee-cpi/monthly"
+    )
+    assert json.loads((categories / "dataset.json").read_text(encoding="utf-8"))["dataset_id"] == (
+        "insee-cpi/category-analysis"
+    )
 
 
 def test_lfs_rejection_retains_the_previously_published_dataset(tmp_path: Path) -> None:

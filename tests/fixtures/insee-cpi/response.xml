@@ -21,5 +21,57 @@
       <Obs TIME_PERIOD="2026-07" OBS_VALUE="2.1" OBS_STATUS="A" OBS_QUAL="DEF" OBS_TYPE="A"/>
       <Obs TIME_PERIOD="2026-06" OBS_VALUE="1.7" OBS_STATUS="A" OBS_QUAL="DEF" OBS_TYPE="A"/>
     </Series>
+    <Series IDBANK="011813717" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="2">
+      <Obs TIME_PERIOD="2026-08" OBS_VALUE="101.74" OBS_STATUS="P"/>
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="101.29" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813718" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Variation mensuelle - Ensemble des ménages - France - Alimentation" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="0.1" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="-0.3" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813719" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Alimentation" UNIT_MEASURE="POURCENT" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-08" OBS_VALUE="1.1" OBS_STATUS="P"/>
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="1.0" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813864" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="2">
+      <Obs TIME_PERIOD="2026-08" OBS_VALUE="115.57" OBS_STATUS="P"/>
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="111.75" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813866" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Énergie" UNIT_MEASURE="POURCENT" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-08" OBS_VALUE="16.7" OBS_STATUS="P"/>
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="12.6" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011815633" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="2">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="101.60" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="101.57" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011814578" FREQ="A" TITLE_FR="Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation" UNIT_MEASURE="P10000" UNIT_MULT="0" REF_AREA="FE" DECIMALS="0">
+      <Obs TIME_PERIOD="2026" OBS_VALUE="1485" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2025" OBS_VALUE="1464" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011814509" FREQ="A" TITLE_FR="Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie" UNIT_MEASURE="P10000" UNIT_MULT="0" REF_AREA="FE" DECIMALS="0">
+      <Obs TIME_PERIOD="2026" OBS_VALUE="764" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2025" OBS_VALUE="807" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011815638" FREQ="A" TITLE_FR="Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés" UNIT_MEASURE="P10000" UNIT_MULT="0" REF_AREA="FE" DECIMALS="0">
+      <Obs TIME_PERIOD="2026" OBS_VALUE="672" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2025" OBS_VALUE="645" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813664" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Alimentation" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="0.1" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="0.1" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813665" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Services" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="1.1" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="1.0" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813666" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Produits manufacturés" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="-0.2" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="-0.3" OBS_STATUS="A"/>
+    </Series>
+    <Series IDBANK="011813668" FREQ="M" TITLE_FR="Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Énergie" UNIT_MEASURE="SO" UNIT_MULT="0" REF_AREA="FE" DECIMALS="1">
+      <Obs TIME_PERIOD="2026-07" OBS_VALUE="1.0" OBS_STATUS="A"/>
+      <Obs TIME_PERIOD="2026-06" OBS_VALUE="0.8" OBS_STATUS="A"/>
+    </Series>
   </message:DataSet>
 </message:StructureSpecificData>

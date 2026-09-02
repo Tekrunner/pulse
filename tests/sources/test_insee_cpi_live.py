@@ -36,10 +36,15 @@ def test_live_insee_contract_and_temporary_archive(tmp_path: Path) -> None:
     raw = manifest_path.parent / "raw.parquet"
     connection = duckdb.connect()
     try:
-        archived_counts = {
-            row[0]: row[1]
+        archived_series = {
+            row[0]: {"count": row[1], "title": row[2], "frequency": row[3]}
             for row in connection.execute(
-                "SELECT IDBANK, count(*) FROM read_parquet(?) GROUP BY IDBANK", [str(raw)]
+                """
+                SELECT IDBANK, count(*), min(TITLE_FR), min(FREQ)
+                FROM read_parquet(?)
+                GROUP BY IDBANK
+                """,
+                [str(raw)],
             ).fetchall()
         }
         column_types = {
@@ -50,6 +55,14 @@ def test_live_insee_contract_and_temporary_archive(tmp_path: Path) -> None:
         }
     finally:
         connection.close()
-    assert set(archived_counts) == {item["id"] for item in declaration.configuration["series"]}
-    assert all(count > 0 for count in archived_counts.values())
+    declared = {item["id"]: item["name"] for item in declaration.configuration["series"]}
+    assert set(archived_series) == set(declared)
+    assert all(series["count"] > 0 for series in archived_series.values())
+    assert {series_id: series["title"] for series_id, series in archived_series.items()} == declared
+    annual_weights = {"011814578", "011814509", "011815638"}
+    assert {
+        series_id: series["frequency"] for series_id, series in archived_series.items()
+    } == {
+        series_id: "A" if series_id in annual_weights else "M" for series_id in declared
+    }
     assert column_types == {"VARCHAR"}

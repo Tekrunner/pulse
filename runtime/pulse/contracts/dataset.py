@@ -41,15 +41,20 @@ def validate_dataset_manifest(value: dict[str, Any]) -> DatasetManifest:
         raise ContractError("dataset manifest fields are not exact")
     if value["schema_id"] != DATASET_SCHEMA_ID or not str(value["schema_version"]).startswith("1."):
         raise ContractError("dataset manifest has unsupported contract version")
-    if value["dataset_id"] != "insee-cpi/monthly" or value["logical_table"] != "insee_cpi_monthly":
+    shapes = {
+        "insee-cpi/monthly": ("insee_cpi_monthly", {"period", "cpi_index", "monthly_change_pct", "annual_change_pct"}, 3),
+        "insee-cpi/category-analysis": ("insee_cpi_category_analysis", {"period", "food_index", "food_annual_change_pct", "energy_index", "energy_annual_change_pct", "actual_rent_index", "actual_rent_annual_change_pct", "food_weight", "food_weight_reference_year", "energy_weight", "energy_weight_reference_year", "actual_rent_weight", "actual_rent_weight_reference_year", "food_official_contribution_pct_points", "services_official_contribution_pct_points", "manufactured_products_official_contribution_pct_points", "energy_official_contribution_pct_points", "actual_rent_pulse_contribution_pct_points"}, 17),
+    }
+    shape = shapes.get(value["dataset_id"])
+    if shape is None or value["logical_table"] != shape[0]:
         raise ContractError("dataset manifest has invalid dataset identity or table")
     if value["visibility"] != "public" or not isinstance(value["content_sha256"], str) or len(value["content_sha256"]) != 64:
         raise ContractError("dataset manifest has invalid public content identity")
     if set(value["represented_period"]) != {"start", "end"}:
         raise ContractError("dataset manifest represented period is invalid")
-    if not isinstance(value["columns"], list) or {c.get("name") for c in value["columns"]} != {"period", "cpi_index", "monthly_change_pct", "annual_change_pct"}:
+    if not isinstance(value["columns"], list) or {c.get("name") for c in value["columns"]} != shape[1]:
         raise ContractError("dataset manifest must document all output columns")
-    if not isinstance(value["indicators"], list) or len(value["indicators"]) != 3:
+    if not isinstance(value["indicators"], list) or len(value["indicators"]) != shape[2]:
         raise ContractError("dataset manifest must document all indicators")
     if not isinstance(value["lineage"], dict) or not isinstance(value["status"], dict):
         raise ContractError("dataset manifest lineage and status must be objects")

@@ -10,7 +10,7 @@ from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows,
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
-from pulse.transform import TransformError, replay_insee
+from pulse.transform import TransformError, replay_insee, replay_insee_category_analysis
 from pulse.catalog import write_browser_catalog
 from pulse.contracts.snapshot import ContractError
 
@@ -44,9 +44,17 @@ def build_parser() -> argparse.ArgumentParser:
     acquire.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
     replay = source_subcommands.add_parser("replay", help="rebuild one source from committed raw snapshots")
     replay.add_argument("source_id", help="declared source ID")
+    replay.add_argument(
+        "--dataset",
+        choices=("all", "monthly", "category-analysis"),
+        default="all",
+        help="publication to rebuild; defaults to all source-owned datasets",
+    )
     replay.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
     replay.add_argument("--landing-root", type=Path, default=Path("build/landing/public/insee-cpi"), help=argparse.SUPPRESS)
     replay.add_argument("--publish-root", type=Path, default=Path("publish/public/data/insee-cpi/monthly"), help=argparse.SUPPRESS)
+    replay.add_argument("--category-landing-root", type=Path, default=Path("build/landing/public/insee-cpi-category-analysis"), help=argparse.SUPPRESS)
+    replay.add_argument("--category-publish-root", type=Path, default=Path("publish/public/data/insee-cpi/category-analysis"), help=argparse.SUPPRESS)
     return parser
 
 
@@ -81,15 +89,30 @@ def main(argv: list[str] | None = None) -> int:
                 print("pulse source replay failed: no replay implementation for declared source", file=sys.stderr)
                 return 1
             try:
-                manifest = replay_insee(
-                    archive_root=args.archive_root.resolve(),
-                    landing_root=args.landing_root.resolve(),
-                    publish_root=args.publish_root.resolve(),
-                )
+                manifests = []
+                if args.dataset in {"all", "monthly"}:
+                    manifests.append(
+                        replay_insee(
+                            archive_root=args.archive_root.resolve(),
+                            landing_root=args.landing_root.resolve(),
+                            publish_root=args.publish_root.resolve(),
+                        )
+                    )
+                if args.dataset in {"all", "category-analysis"}:
+                    manifests.append(
+                        replay_insee_category_analysis(
+                            archive_root=args.archive_root.resolve(),
+                            landing_root=args.category_landing_root.resolve(),
+                            publish_root=args.category_publish_root.resolve(),
+                        )
+                    )
             except TransformError as error:
                 print(f"pulse source replay failed: {error}", file=sys.stderr)
                 return 1
-            print(f"pulse source replay published {manifest.dataset_id} ({manifest.status['state']})")
+            published = ", ".join(
+                f"{manifest.dataset_id} ({manifest.status['state']})" for manifest in manifests
+            )
+            print(f"pulse source replay published {published}")
             return 0
         try:
             declaration = discover_sources().get(args.source_id)

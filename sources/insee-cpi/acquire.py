@@ -18,6 +18,7 @@ from pulse.sources import AdapterAcquisition, SourceDeclarationError
 DECODER_VERSION = "insee-bdm-structurespecific-sdmxml-v1"
 MEDIA_TYPE = "application/vnd.sdmx.structurespecificdata+xml;version=2.1"
 _MONTH = re.compile(r"^(\d{4})-(0[1-9]|1[0-2])$")
+_YEAR = re.compile(r"^\d{4}$")
 
 
 class InseeResponseError(ValueError):
@@ -71,9 +72,12 @@ def _local_name(tag: str) -> str:
 
 def _source_date(periods: list[str]) -> str:
     for period in periods:
-        if _MONTH.fullmatch(period) is None:
-            raise InseeResponseError("INSEE TIME_PERIOD must be a monthly YYYY-MM provider value")
-    latest = max(periods)
+        if _MONTH.fullmatch(period) is None and _YEAR.fullmatch(period) is None:
+            raise InseeResponseError("INSEE TIME_PERIOD must be a monthly YYYY-MM or annual YYYY provider value")
+    monthly = [period for period in periods if _MONTH.fullmatch(period)]
+    latest = max(monthly or periods)
+    if _YEAR.fullmatch(latest):
+        return f"{latest}-01-01"
     value = f"{latest}-01"
     date.fromisoformat(value)
     return value

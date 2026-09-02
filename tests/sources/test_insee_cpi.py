@@ -51,6 +51,19 @@ def test_discovery_keeps_provider_configuration_opaque() -> None:
         "011814056",
         "011814057",
         "011814058",
+        "011813717",
+        "011813718",
+        "011813719",
+        "011813864",
+        "011813866",
+        "011815633",
+        "011814578",
+        "011814509",
+        "011815638",
+        "011813664",
+        "011813665",
+        "011813666",
+        "011813668",
     ]
     assert "measure" not in str(source.configuration)
 
@@ -83,11 +96,13 @@ attribution: "Source: Example."
 
 def test_fixture_preserves_provider_attributes_as_strings() -> None:
     acquired = _acquired()
-    assert acquired.source_data_date == "2026-07-01"
+    assert acquired.source_data_date == "2026-08-01"
     assert {row["IDBANK"] for row in acquired.rows} == {
-        "011814056",
-        "011814057",
-        "011814058",
+        item["id"] for item in discover_sources()["insee-cpi"].configuration["series"]
+    }
+    assert {row["TIME_PERIOD"] for row in acquired.rows if row["FREQ"] == "A"} == {
+        "2025",
+        "2026",
     }
     assert acquired.rows[0]["OBS_VALUE"] == "102.67"
     assert acquired.rows[0]["DATE_JO"] == "2026-08-15"
@@ -188,7 +203,7 @@ def test_archive_is_string_typed_deterministic_and_idempotent(tmp_path: Path) ->
     assert (snapshot / "snapshot.json").read_bytes() == manifest_bytes
     assert (snapshot / "raw.parquet").read_bytes() == raw_bytes
     manifest = json.loads(manifest_bytes)
-    assert manifest["source_data_date"] == "2026-07-01"
+    assert manifest["source_data_date"] == "2026-08-01"
     schema = duckdb.connect().execute(
         "DESCRIBE SELECT * FROM read_parquet(?)", [str(snapshot / "raw.parquet")]
     ).fetchall()

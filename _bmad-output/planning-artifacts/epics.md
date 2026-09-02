@@ -514,6 +514,47 @@ So that a visual can move from fixture data to real INSEE rows without rewriting
 **Then** it verifies schema compatibility, state isolation, provenance input, cancellation, cleanup, accessibility, responsive behavior, and identical rendering logic across fixture and real rows
 **And** it detects consumer breakage caused by a changed dataset schema.
 
+### Story 1.5a: Expand the INSEE CPI Dataset for Category Analysis
+
+As Yann,
+I want a documented, source-compatible CPI dataset covering headline inflation, food, energy, and actual rents with the weights needed to interpret their relationship,
+So that the French inflation report can explain divergence and composition rather than merely repeat a headline rate.
+
+**Acceptance Criteria:**
+
+**Given** the existing three-series INSEE CPI source selection
+**When** the category-expansion selection record is approved
+**Then** it identifies exact Base-2025 IPC provider series for headline CPI, food, energy, actual rents paid, and the required annual basket weights
+**And** every selected series has compatible measure, geography, population, frequency, revision availability, licence, and attribution
+**And** it does not substitute IPCH, a discontinued base, a different geography, or residential-property sale prices for a comparable CPI category.
+
+**Given** the approved category series
+**When** Pulse acquires the expanded source scope
+**Then** it creates a new immutable INSEE snapshot with a distinct acquisition ID
+**And** the original three-series snapshot remains unchanged and replayable
+**And** source acquisition continues to reject missing, unexpected, duplicate, or title-mismatched declared series.
+
+**Given** an expanded, faithfully decoded CPI snapshot
+**When** the source slice is rebuilt
+**Then** it publishes a wide, typed, public, single-source contract that preserves the existing headline-consumer schema and adds documented category and weight fields or a separately documented source-owned analysis dataset
+**And** every added indicator records its provider ID, title, definition, unit, precision, base, source, licence, and attribution
+**And** every existing report and visual consumer either remains compatible or is migrated atomically with declared schema validation.
+
+**Given** the category levels and annual CPI weights
+**When** a component view is produced
+**Then** its formula, time alignment, category coverage, rebasing behavior, and limitations are explicit and tested
+**And** it does not represent an approximation as an INSEE-published contribution or make unsupported causal claims.
+
+**Given** representative, boundary, schema-drift, and assertion-failure fixtures
+**When** offline source conformance and replay run
+**Then** they verify exact-series selection, comparable semantics, typed monthly grain, metadata completeness, weight validity, transformation behavior, published contract validation, and consumer compatibility
+**And** ordinary CI remains deterministic and does not contact INSEE.
+
+**Given** the enriched published dataset and its declared fixture schema
+**When** Story 1.6 report design begins
+**Then** Claude Design and Yann can select standing questions and purpose-built treatments against representative real category data
+**And** no report visual or layout is selected by this story.
+
 ### Story 1.6: Compose and Explore the French Macroeconomic Report
 
 As Yann,

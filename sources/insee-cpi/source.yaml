@@ -3,7 +3,7 @@ name: INSEE consumer price index, Base 2025
 visibility: public
 acquisition:
   method: INSEE BDM StructureSpecific SDMX-ML 2.1
-  url: https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814056+011814057+011814058
+  url: https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814056+011814057+011814058+011813717+011813718+011813719+011813864+011813866+011815633+011814578+011814509+011815638+011813664+011813665+011813666+011813668
   series:
     - id: '011814056'
       name: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Ensemble hors Tabac
@@ -11,6 +11,32 @@ acquisition:
       name: Indice des prix à la consommation - Base 2025 - Variation mensuelle - Ensemble des ménages - France - Ensemble hors Tabac
     - id: '011814058'
       name: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Ensemble hors Tabac
+    - id: '011813717'
+      name: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation
+    - id: '011813718'
+      name: Indice des prix à la consommation - Base 2025 - Variation mensuelle - Ensemble des ménages - France - Alimentation
+    - id: '011813719'
+      name: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Alimentation
+    - id: '011813864'
+      name: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie
+    - id: '011813866'
+      name: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Énergie
+    - id: '011815633'
+      name: "Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés"
+    - id: '011814578'
+      name: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation
+    - id: '011814509'
+      name: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie
+    - id: '011815638'
+      name: "Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés"
+    - id: '011813664'
+      name: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Alimentation
+    - id: '011813665'
+      name: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Services
+    - id: '011813666'
+      name: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Produits manufacturés
+    - id: '011813668'
+      name: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Énergie
 fetch_cadence: monthly, after the INSEE CPI release
 expected_publication_advance: monthly; final CPI normally advances in the middle of the following month
 licence: Licence Ouverte / Open Licence 2.0

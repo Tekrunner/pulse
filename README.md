@@ -79,11 +79,20 @@ uv run pulse source replay insee-cpi
 ```
 
 Replay writes faithful disposable landing data under `build/landing/`. Its source-local
-dbt-duckdb project publishes the wide data at `publish/public/data/insee-cpi/monthly/`:
-one monthly `period` plus `cpi_index`, `monthly_change_pct`, and `annual_change_pct`.
-The linked `dataset.json` records semantics, lineage, licence, attribution, SHA-256,
-and assertion status. The initial Parquet is roughly 12 KB, below the provisional
-5–50 MB delivery target, so no tuning is warranted.
+dbt-duckdb project publishes two independent contracts. `insee-cpi/monthly` remains
+unchanged: one monthly `period` plus `cpi_index`, `monthly_change_pct`, and
+`annual_change_pct`. The additive `insee-cpi/category-analysis` dataset supplies food,
+energy, and actual-rent levels; food and energy annual changes; annual basket weights
+with explicit reference years; and INSEE's official broad contributions for food,
+services, manufactured products, and energy.
+
+INSEE does not expose a matching provider-published annual-change or contribution
+series for actual rents paid (COICOP 04.1). Pulse derives rent annual change from the
+monthly index, then calculates `rent_weight / 10000 * rent_annual_change_pct`. Both
+fields are labelled as Pulse calculations from INSEE series, never as official INSEE
+contributions or causal estimates. Output ends at the latest month complete across all
+required series; asynchronous provider releases are not imputed. Each `dataset.json`
+records full semantics, lineage, licence, attribution, SHA-256, and assertion status.
 
 ## Visual Contract and browser catalog
 

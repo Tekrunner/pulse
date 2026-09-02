@@ -25,11 +25,30 @@ def _publication(tmp_path: Path) -> Path:
 def test_compiles_complete_public_insee_contract_with_manifest_relative_url(tmp_path: Path) -> None:
     catalog = compile_browser_catalog(_publication(tmp_path))
 
+    assert set(catalog["datasets"]) == {
+        "insee-cpi/monthly",
+        "insee-cpi/category-analysis",
+    }
     entry = catalog["datasets"]["insee-cpi/monthly"]
     assert entry["logicalTable"] == "insee_cpi_monthly"
     assert entry["parquet"] == "datasets/insee-cpi/monthly/dataset.parquet"
     assert entry["representedPeriod"] == {"start": "1996-01-01", "end": "2026-07-01"}
     assert entry["visibility"] == "public"
+    categories = catalog["datasets"]["insee-cpi/category-analysis"]
+    assert categories["logicalTable"] == "insee_cpi_category_analysis"
+    assert categories["parquet"] == "datasets/insee-cpi/category-analysis/dataset.parquet"
+    assert categories["representedPeriod"] == {
+        "start": "1998-01-01",
+        "end": "2026-07-01",
+    }
+    assert {
+        column["name"] for column in categories["schema"]
+    } >= {
+        "food_index",
+        "energy_index",
+        "actual_rent_index",
+        "actual_rent_pulse_contribution_pct_points",
+    }
     assert validate_browser_catalog(catalog) == catalog
 
 

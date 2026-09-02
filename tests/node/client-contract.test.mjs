@@ -11,6 +11,12 @@ const catalog = {
       contentSha256: "a".repeat(64), representedPeriod: { start: "1996-01-01", end: "2026-07-01" },
       semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi/monthly/dataset.parquet",
     },
+    "insee-cpi/category-analysis": {
+      datasetId: "insee-cpi/category-analysis", logicalTable: "insee_cpi_category_analysis", datasetContractVersion: "1.0.0",
+      schema: [{ name: "period", type: "DATE" }, { name: "food_index", type: "DECIMAL(12,2)" }],
+      contentSha256: "b".repeat(64), representedPeriod: { start: "1998-01-01", end: "2026-07-01" },
+      semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi/category-analysis/dataset.parquet",
+    },
   },
 };
 
@@ -42,6 +48,10 @@ const client = createDataClient({
   Worker: WorkerStub, DuckDB, fetch: async () => ({ ok: true, json: async () => catalog }),
 });
 const controller = new AbortController();
+assert.equal(
+  (await client.getDataset("insee-cpi/category-analysis")).logicalTable,
+  "insee_cpi_category_analysis",
+);
 const aborted = client.query("insee-cpi/monthly", "SELECT * FROM insee_cpi_monthly", { signal: controller.signal });
 await firstQueryStarted;
 controller.abort();
