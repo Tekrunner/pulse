@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 08-26-2026 14:16
-last_updated: 09-02-2026
+last_updated: 09-04-2026
 project: pulse
 project_key: NOKEY
 tracking_system: file-system
@@ -42,6 +42,7 @@ development_status:
   1-4-transform-and-publish-the-first-insee-dataset: done
   1-5-render-real-data-through-the-visual-contract: done
   1-5a-expand-the-insee-cpi-dataset-for-category-analysis: review
+  1-5b-establish-independent-source-and-dataset-package-boundaries: done
   1-6-compose-and-explore-the-french-macroeconomic-report: backlog
   1-7-see-pipeline-health-and-data-freshness: backlog
   1-8-run-the-insee-pipeline-automatically-and-on-demand: backlog

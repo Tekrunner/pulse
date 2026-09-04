@@ -14,6 +14,8 @@ context:
 
 <frozen-after-approval reason="human-owned intent — do not modify unless human renegotiates">
 
+> Superseded architecture note (approved 2026-09-03): Story 1.5b retains this live source contract while separating all dataset transformation and publication into independent dataset packages. This file remains the historical implementation record.
+
 ## Intent
 
 **Problem:** Story 1.3 claims a working INSEE acquisition without ever proving the live path. Its synthetic JSON fixture does not match INSEE's real SDMX-ML response, and the source package embeds downstream report intent in documentation, declaration aliases, validation, and CLI dispatch.

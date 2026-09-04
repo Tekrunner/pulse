@@ -1,4 +1,4 @@
-"""Discovery, validation, and execution contracts for source-local adapters."""
+"""Discovery, validation, and execution contracts for acquisition packages."""
 
 from __future__ import annotations
 
@@ -33,6 +33,7 @@ class SourceDeclaration:
     expected_publication_advance: str
     licence: str
     attribution: str
+    snapshot_contract: dict[str, Any]
     path: Path
 
 
@@ -53,6 +54,31 @@ def _required_string(data: dict[str, Any], key: str, path: Path) -> str:
     return value
 
 
+def _load_snapshot_contract(path: Path) -> dict[str, Any]:
+    try:
+        raw = yaml.safe_load(path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as error:
+        raise SourceDeclarationError(f"{path}: invalid snapshot contract") from error
+    if not isinstance(raw, dict) or set(raw) != {
+        "contract_version",
+        "format",
+        "required_fields",
+        "compatible_additions",
+    }:
+        raise SourceDeclarationError(f"{path}: snapshot contract fields are not exact")
+    if not isinstance(raw["contract_version"], str) or not raw["contract_version"].startswith("1."):
+        raise SourceDeclarationError(f"{path}: unsupported snapshot contract major")
+    if raw["format"] != "parquet" or not isinstance(raw["compatible_additions"], bool):
+        raise SourceDeclarationError(f"{path}: snapshot format or addition policy is invalid")
+    fields = raw["required_fields"]
+    if not isinstance(fields, dict) or not fields or not all(
+        isinstance(name, str) and name and kind in {"string", "integer", "number", "boolean"}
+        for name, kind in fields.items()
+    ):
+        raise SourceDeclarationError(f"{path}: required snapshot fields are invalid")
+    return raw
+
+
 def load_source_declaration(path: Path) -> SourceDeclaration:
     try:
         raw = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -71,6 +97,9 @@ def load_source_declaration(path: Path) -> SourceDeclaration:
     lowered_configuration = str(configuration).lower()
     if "token" in lowered_configuration or "password" in lowered_configuration:
         raise SourceDeclarationError(f"{path}: credentials are forbidden in declarations")
+    contract_name = _required_string(raw, "snapshot_contract", path)
+    if Path(contract_name).name != contract_name:
+        raise SourceDeclarationError(f"{path}: snapshot_contract must be a package-local filename")
     return SourceDeclaration(
         source_id=source_id,
         name=_required_string(raw, "name", path),
@@ -80,6 +109,7 @@ def load_source_declaration(path: Path) -> SourceDeclaration:
         expected_publication_advance=_required_string(raw, "expected_publication_advance", path),
         licence=_required_string(raw, "licence", path),
         attribution=_required_string(raw, "attribution", path),
+        snapshot_contract=_load_snapshot_contract(path.parent / contract_name),
         path=path,
     )
 
@@ -95,10 +125,10 @@ def discover_sources(root: Path = ROOT / "sources") -> dict[str, SourceDeclarati
 
 
 def load_source_adapter(declaration: SourceDeclaration) -> ModuleType:
-    """Load and validate a source-local adapter without a central registry."""
+    """Load and validate a package-local acquisition adapter without a registry."""
     adapter_path = declaration.path.parent / "acquire.py"
     if not adapter_path.is_file():
-        raise SourceDeclarationError(f"{declaration.path}: missing source-local acquire.py")
+        raise SourceDeclarationError(f"{declaration.path}: missing package-local acquire.py")
     module_name = f"pulse_source_{declaration.source_id.replace('-', '_')}"
     spec = importlib.util.spec_from_file_location(module_name, adapter_path)
     if spec is None or spec.loader is None:
@@ -156,4 +186,24 @@ def acquire_from_adapter(
         raise SourceDeclarationError("source adapter returned invalid HTTPS provenance URLs")
     if not isinstance(result.decoder_version, str) or not result.decoder_version.strip():
         raise SourceDeclarationError("source adapter returned an invalid decoder version")
+    required = declaration.snapshot_contract["required_fields"]
+    python_types = {
+        "string": str,
+        "integer": int,
+        "number": (int, float),
+        "boolean": bool,
+    }
+    for row in result.rows:
+        missing = set(required) - set(row)
+        if missing:
+            raise SourceDeclarationError(
+                "source adapter output is missing snapshot fields: " + ", ".join(sorted(missing))
+            )
+        for field, kind in required.items():
+            if not isinstance(row[field], python_types[kind]):
+                raise SourceDeclarationError(
+                    f"source adapter field '{field}' violates the snapshot contract"
+                )
+        if not declaration.snapshot_contract["compatible_additions"] and set(row) != set(required):
+            raise SourceDeclarationError("source adapter output has undeclared snapshot fields")
     return result

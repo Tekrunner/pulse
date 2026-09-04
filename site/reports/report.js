@@ -3,7 +3,7 @@ import { getPageDataClient } from "../data/browser-shell.js";
 import { renderLineVisual } from "../visuals/line.js";
 import { LINE_VISUAL_CONTRACT, validateLineConsumerRows } from "../visuals/line.contract.js";
 
-export const REPORT_DATASET_ID = "insee-cpi/monthly";
+export const REPORT_DATASET_ID = "insee-cpi-monthly";
 // The report selects the complete represented CPI history. The lower bound remains
 // parameter-bound and comes from the compiled dataset contract, never from SQL text.
 export const REPORT_SQL = "SELECT CAST(period AS VARCHAR) AS period, CAST(cpi_index AS DOUBLE) AS value FROM insee_cpi_monthly WHERE period >= CAST(? AS DATE) ORDER BY period";

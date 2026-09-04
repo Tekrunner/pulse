@@ -19,7 +19,7 @@ assert.match(client, /manifestUrl/);
 assert.match(client, /pulse\.browser-data/);
 assert.match(client, /catalog\.extensions\?\.parquet/);
 assert.match(report, /REPORT_SQL/);
-assert.match(report, /insee-cpi\/monthly/);
+assert.match(report, /insee-cpi-monthly/);
 assert.match(visual, /createElementNS/);
 assert.match(visual, /accessible-data/);
 assert.match(css, /prefers-reduced-motion/);

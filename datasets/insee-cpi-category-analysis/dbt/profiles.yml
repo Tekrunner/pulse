@@ -1,7 +1,7 @@
-insee_cpi:
-  target: replay
+insee_cpi_category_analysis:
+  target: build
   outputs:
-    replay:
+    build:
       type: duckdb
       path: "{{ env_var('PULSE_DBT_DATABASE') }}"
       threads: 1

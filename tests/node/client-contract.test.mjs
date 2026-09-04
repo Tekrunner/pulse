@@ -5,17 +5,17 @@ const catalog = {
   schemaId: "pulse.browser-data", schemaVersion: "1.0.0",
   extensions: { parquet: "parquet.duckdb_extension.wasm" },
   datasets: {
-    "insee-cpi/monthly": {
-      datasetId: "insee-cpi/monthly", logicalTable: "insee_cpi_monthly", datasetContractVersion: "1.0.0",
+    "insee-cpi-monthly": {
+      datasetId: "insee-cpi-monthly", logicalTable: "insee_cpi_monthly", datasetContractVersion: "1.0.0",
       schema: [{ name: "period", type: "DATE" }, { name: "cpi_index", type: "DECIMAL(12,2)" }],
       contentSha256: "a".repeat(64), representedPeriod: { start: "1996-01-01", end: "2026-07-01" },
-      semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi/monthly/dataset.parquet",
+      semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi-monthly/dataset.parquet",
     },
-    "insee-cpi/category-analysis": {
-      datasetId: "insee-cpi/category-analysis", logicalTable: "insee_cpi_category_analysis", datasetContractVersion: "1.0.0",
+    "insee-cpi-category-analysis": {
+      datasetId: "insee-cpi-category-analysis", logicalTable: "insee_cpi_category_analysis", datasetContractVersion: "1.0.0",
       schema: [{ name: "period", type: "DATE" }, { name: "food_index", type: "DECIMAL(12,2)" }],
       contentSha256: "b".repeat(64), representedPeriod: { start: "1998-01-01", end: "2026-07-01" },
-      semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi/category-analysis/dataset.parquet",
+      semanticMetadata: {}, visibility: "public", parquet: "datasets/insee-cpi-category-analysis/dataset.parquet",
     },
   },
 };
@@ -49,16 +49,16 @@ const client = createDataClient({
 });
 const controller = new AbortController();
 assert.equal(
-  (await client.getDataset("insee-cpi/category-analysis")).logicalTable,
+  (await client.getDataset("insee-cpi-category-analysis")).logicalTable,
   "insee_cpi_category_analysis",
 );
-const aborted = client.query("insee-cpi/monthly", "SELECT * FROM insee_cpi_monthly", { signal: controller.signal });
+const aborted = client.query("insee-cpi-monthly", "SELECT * FROM insee_cpi_monthly", { signal: controller.signal });
 await firstQueryStarted;
 controller.abort();
 await assert.rejects(aborted, (error) => error?.name === "AbortError");
 assert.equal(cancelled, 1);
 assert.equal(terminated, 0, "request cancellation must not terminate the shared worker");
 assert.equal(client.resources.connection, connection, "request cancellation must retain the shared connection");
-assert.deepEqual(await client.query("insee-cpi/monthly", "SELECT * FROM insee_cpi_monthly"), [{ period: "2026-07-01", value: 100 }]);
+assert.deepEqual(await client.query("insee-cpi-monthly", "SELECT * FROM insee_cpi_monthly"), [{ period: "2026-07-01", value: 100 }]);
 assert.equal(terminated, 0);
 console.log("Client contract passed: cancellation is request-scoped and shared resources remain usable.");

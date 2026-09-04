@@ -4,7 +4,7 @@ with typed as (
   select case when FREQ = 'M' then cast(TIME_PERIOD || '-01' as date) end as period,
     try_cast(TIME_PERIOD as integer) as reference_year, IDBANK,
     try_cast(OBS_VALUE as decimal(12,4)) as value, FREQ
-  from {{ ref('stg_insee_cpi_landing') }} where REF_AREA = 'FE' and UNIT_MULT = '0'
+  from {{ ref('stg_snapshot') }} where REF_AREA = 'FE' and UNIT_MULT = '0'
 ), monthly as (
   select period,
     max(case when IDBANK = '011813717' then value end)::decimal(12,2) food_index,
@@ -31,8 +31,6 @@ from monthly
 left join lateral (select food_weight, reference_year food_weight_year from weights where food_weight is not null and reference_year <= year(monthly.period) order by reference_year desc limit 1) food on true
 left join lateral (select energy_weight, reference_year energy_weight_year from weights where energy_weight is not null and reference_year <= year(monthly.period) order by reference_year desc limit 1) energy on true
 left join lateral (select actual_rent_weight, reference_year actual_rent_weight_year from weights where actual_rent_weight is not null and reference_year <= year(monthly.period) order by reference_year desc limit 1) rent on true
--- Provider releases are asynchronous. Publish only the latest common complete
--- monthly period; no observation is imputed and annual weights remain contextual.
 where food_index is not null and food_annual_change_pct is not null
   and energy_index is not null and energy_annual_change_pct is not null
   and actual_rent_index is not null

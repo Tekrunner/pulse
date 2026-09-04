@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: stg_snapshot
+    description: Faithful string-valued INSEE snapshot input.
+  - name: insee_cpi_monthly
+    description: Wide monthly INSEE CPI Base-2025 analytical dataset.
+    columns:
+      - {name: period, description: First day of represented month., data_tests: [not_null, unique]}
+      - {name: cpi_index, description: CPI level Base 2025., data_tests: [not_null]}
+      - {name: monthly_change_pct, description: Provider monthly percentage change., data_tests: [not_null]}
+      - {name: annual_change_pct, description: Provider annual percentage change., data_tests: [not_null]}

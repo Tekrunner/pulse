@@ -13,6 +13,8 @@ context:
 
 <frozen-after-approval reason="human-owned intent — do not modify unless human renegotiates">
 
+> Superseded architecture note (approved 2026-09-03): Story 1.5b preserves this acquisition and its snapshots but replaces source-owned vertical-slice language with an acquisition-only source package and committed snapshot boundary. This file remains the historical implementation record.
+
 ## Intent
 
 **Problem:** Pulse has no real, replayable public source. The first report needs a small authoritative inflation slice, but source discovery, acquisition identity, immutable snapshotting, and LFS-backed raw storage do not exist.

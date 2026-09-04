@@ -1,0 +1,8 @@
+name: insee_cpi_category_analysis
+version: "1.0"
+config-version: 2
+profile: insee_cpi_category_analysis
+model-paths: [models]
+models:
+  insee_cpi_category_analysis:
+    +materialized: table

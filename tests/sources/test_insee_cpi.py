@@ -22,6 +22,16 @@ from pulse.sources import (
 FIXTURE = Path(__file__).parents[1] / "fixtures" / "insee-cpi" / "response.xml"
 
 
+def _write_snapshot_contract(package: Path, fields: str = "native: string") -> None:
+    (package / "snapshot-contract.yaml").write_text(
+        "contract_version: 1.0.0\n"
+        "format: parquet\n"
+        "compatible_additions: true\n"
+        f"required_fields:\n  {fields}\n",
+        encoding="utf-8",
+    )
+
+
 def _acquired():
     declaration = discover_sources()["insee-cpi"]
     return acquire_from_adapter(declaration, fixture=FIXTURE, live=False)
@@ -81,6 +91,7 @@ def test_shared_declaration_validation_does_not_impose_provider_shape(tmp_path: 
         """id: another-source
 name: Another public source
 visibility: public
+snapshot_contract: snapshot-contract.yaml
 acquisition:
   provider_specific_key: anything
 fetch_cadence: weekly
@@ -90,6 +101,7 @@ attribution: "Source: Example."
 """,
         encoding="utf-8",
     )
+    _write_snapshot_contract(tmp_path)
     loaded = load_source_declaration(declaration)
     assert loaded.configuration == {"provider_specific_key": "anything"}
 
@@ -286,6 +298,7 @@ def test_cli_dispatches_an_arbitrary_conforming_adapter(
         """id: another-source
 name: Another source
 visibility: public
+snapshot_contract: snapshot-contract.yaml
 acquisition: {native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
@@ -294,6 +307,7 @@ attribution: Example
 """,
         encoding="utf-8",
     )
+    _write_snapshot_contract(package)
     (package / "acquire.py").write_text(
         """from pulse.sources import AdapterAcquisition
 def acquire(configuration, *, fixture, live):
@@ -333,6 +347,7 @@ def test_cli_rejects_incompatible_adapter_output_before_archive_mutation(
         """id: invalid-adapter
 name: Invalid adapter
 visibility: public
+snapshot_contract: snapshot-contract.yaml
 acquisition: {provider_native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
@@ -341,6 +356,7 @@ attribution: Example
 """,
         encoding="utf-8",
     )
+    _write_snapshot_contract(package)
     (package / "acquire.py").write_text(
         "from pulse.sources import AdapterAcquisition\n"
         "def acquire(configuration, *, fixture, live):\n"
@@ -375,6 +391,7 @@ def test_incompatible_adapter_fails_before_archive_mutation(tmp_path: Path) -> N
         """id: broken-source
 name: Broken source
 visibility: public
+snapshot_contract: snapshot-contract.yaml
 acquisition: {native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
@@ -383,6 +400,7 @@ attribution: Example
 """,
         encoding="utf-8",
     )
+    _write_snapshot_contract(package)
     (package / "acquire.py").write_text("VALUE = 1\n", encoding="utf-8")
     with pytest.raises(SourceDeclarationError, match="must define callable acquire"):
         load_source_adapter(load_source_declaration(declaration_path))

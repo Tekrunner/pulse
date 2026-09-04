@@ -1,0 +1,6 @@
+id: insee-cpi-category-analysis
+name: INSEE CPI category analysis
+source: insee-cpi
+visibility: public
+logical_table: insee_cpi_category_analysis
+contract: dataset-contract.yaml

@@ -1,0 +1,6 @@
+id: insee-cpi-monthly
+name: INSEE CPI monthly headline indicators
+source: insee-cpi
+visibility: public
+logical_table: insee_cpi_monthly
+contract: dataset-contract.yaml

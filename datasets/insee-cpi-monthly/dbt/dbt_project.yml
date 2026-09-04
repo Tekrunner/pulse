@@ -1,8 +1,8 @@
-name: insee_cpi
+name: insee_cpi_monthly
 version: "1.0"
 config-version: 2
-profile: insee_cpi
+profile: insee_cpi_monthly
 model-paths: [models]
 models:
-  insee_cpi:
+  insee_cpi_monthly:
     +materialized: table

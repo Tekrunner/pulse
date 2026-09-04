@@ -7,10 +7,10 @@ import sys
 from pathlib import Path
 
 from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows, issue_acquisition_id, utc_now
+from pulse.datasets import DatasetError, build_all_datasets, build_dataset, discover_datasets
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
-from pulse.transform import TransformError, replay_insee, replay_insee_category_analysis
 from pulse.catalog import write_browser_catalog
 from pulse.contracts.snapshot import ContractError
 
@@ -42,19 +42,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     acquire.add_argument("--acquisition-id", help="reuse an opaque ID on a logical retry")
     acquire.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
-    replay = source_subcommands.add_parser("replay", help="rebuild one source from committed raw snapshots")
-    replay.add_argument("source_id", help="declared source ID")
-    replay.add_argument(
-        "--dataset",
-        choices=("all", "monthly", "category-analysis"),
-        default="all",
-        help="publication to rebuild; defaults to all source-owned datasets",
-    )
-    replay.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
-    replay.add_argument("--landing-root", type=Path, default=Path("build/landing/public/insee-cpi"), help=argparse.SUPPRESS)
-    replay.add_argument("--publish-root", type=Path, default=Path("publish/public/data/insee-cpi/monthly"), help=argparse.SUPPRESS)
-    replay.add_argument("--category-landing-root", type=Path, default=Path("build/landing/public/insee-cpi-category-analysis"), help=argparse.SUPPRESS)
-    replay.add_argument("--category-publish-root", type=Path, default=Path("publish/public/data/insee-cpi/category-analysis"), help=argparse.SUPPRESS)
+    dataset = subcommands.add_parser("dataset", help="build declared datasets from snapshots")
+    dataset_subcommands = dataset.add_subparsers(dest="dataset_command", required=True)
+    dataset_build = dataset_subcommands.add_parser("build", help="build one dataset or all datasets")
+    dataset_build.add_argument("dataset_id", help="declared dataset ID or 'all'")
+    dataset_build.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    dataset_build.add_argument("--build-root", type=Path, default=Path("build/datasets/public"), help=argparse.SUPPRESS)
+    dataset_build.add_argument("--publish-root", type=Path, default=Path("publish/public/data"), help=argparse.SUPPRESS)
     return parser
 
 
@@ -83,37 +77,35 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         print(f"pulse catalog build wrote {output}")
         return 0
+    if args.command == "dataset":
+        try:
+            if args.dataset_id == "all":
+                manifests = build_all_datasets(
+                    archive_root=args.archive_root.resolve(),
+                    build_root=args.build_root.resolve(),
+                    publish_root=args.publish_root.resolve(),
+                )
+            else:
+                declaration = discover_datasets().get(args.dataset_id)
+                if declaration is None:
+                    raise DatasetError(f"declared dataset '{args.dataset_id}' was not found")
+                manifests = [
+                    build_dataset(
+                        declaration,
+                        archive_root=args.archive_root.resolve(),
+                        build_root=args.build_root.resolve(),
+                        publish_root=args.publish_root.resolve() / declaration.dataset_id,
+                    )
+                ]
+        except DatasetError as error:
+            print(f"pulse dataset build failed: {error}", file=sys.stderr)
+            return 1
+        published = ", ".join(
+            f"{manifest.dataset_id} ({manifest.status['state']})" for manifest in manifests
+        )
+        print(f"pulse dataset build published {published}")
+        return 0
     if args.command == "source":
-        if args.source_command == "replay":
-            if args.source_id != "insee-cpi":
-                print("pulse source replay failed: no replay implementation for declared source", file=sys.stderr)
-                return 1
-            try:
-                manifests = []
-                if args.dataset in {"all", "monthly"}:
-                    manifests.append(
-                        replay_insee(
-                            archive_root=args.archive_root.resolve(),
-                            landing_root=args.landing_root.resolve(),
-                            publish_root=args.publish_root.resolve(),
-                        )
-                    )
-                if args.dataset in {"all", "category-analysis"}:
-                    manifests.append(
-                        replay_insee_category_analysis(
-                            archive_root=args.archive_root.resolve(),
-                            landing_root=args.category_landing_root.resolve(),
-                            publish_root=args.category_publish_root.resolve(),
-                        )
-                    )
-            except TransformError as error:
-                print(f"pulse source replay failed: {error}", file=sys.stderr)
-                return 1
-            published = ", ".join(
-                f"{manifest.dataset_id} ({manifest.status['state']})" for manifest in manifests
-            )
-            print(f"pulse source replay published {published}")
-            return 0
         try:
             declaration = discover_sources().get(args.source_id)
             if declaration is None:

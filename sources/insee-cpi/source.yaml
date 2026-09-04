@@ -1,4 +1,5 @@
 id: insee-cpi
+snapshot_contract: snapshot-contract.yaml
 name: INSEE consumer price index, Base 2025
 visibility: public
 acquisition:

@@ -13,6 +13,8 @@ context:
 
 <frozen-after-approval reason="human-owned intent — do not modify unless human renegotiates">
 
+> Superseded architecture note (approved 2026-09-03): Story 1.5b migrates this source-local implementation into an independently discovered dataset package. This file remains the historical implementation record.
+
 ## Intent
 
 **Problem:** The committed INSEE archive is faithful but not report-ready: no replayable landing boundary, typed wide analytical dataset, semantic metadata, or source-specific quality result exists.

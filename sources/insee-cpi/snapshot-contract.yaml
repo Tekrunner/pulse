@@ -1,0 +1,11 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+required_fields:
+  IDBANK: string
+  TITLE_FR: string
+  TIME_PERIOD: string
+  OBS_VALUE: string
+  FREQ: string
+  REF_AREA: string
+  UNIT_MULT: string

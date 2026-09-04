@@ -3,7 +3,7 @@
 with typed as (
   select cast(TIME_PERIOD || '-01' as date) as period, IDBANK,
     try_cast(OBS_VALUE as decimal(12,2)) as value
-  from {{ ref('stg_insee_cpi_landing') }}
+  from {{ ref('stg_snapshot') }}
   where FREQ = 'M' and REF_AREA = 'FE' and UNIT_MULT = '0'
 ), wide as (
   select period,

@@ -180,11 +180,14 @@ The warehouse is rebuilt in full from the raw archive on every pipeline run.
 **Description.** Snapshots are transformed into datasets: wide, properly typed tables curated per question area. Datasets carry their own documentation, which doubles as the semantic layer and as a machine-readable briefing for agents.
 
 #### FR-7: Build datasets from snapshots
-Datasets are built from snapshots through a declared transformation layer.
+Each dataset is a discoverable transformation package, independent of source packages and reports. It declares the snapshot contracts it consumes and emits one documented report-facing dataset contract.
 
 **Consequences (testable):**
 - Datasets are wide and properly typed; no tall/long observations table exists at any level.
 - Each dataset builds from the latest snapshot of its sources. `[ASSUMPTION: v1 builds from latest snapshot only; revision modelling is a non-goal — see §5.]`
+- A dataset builds and tests from committed snapshots without invoking source acquisition or reading source-package code.
+- The v1 single-source limit constrains a dataset's declared lineage; it does not make the dataset part of, or owned by, its source package.
+- Dataset declarations are discovered without a central registry, and adding one requires no provider-specific change to shared transformation code.
 
 #### FR-8: Dataset documentation as semantic layer
 Every dataset and its columns carry descriptions alongside the transformation code.
@@ -353,24 +356,28 @@ The homepage reports on the pipeline that generates it. It must therefore fail v
 **Description.** Adding a source, an indicator, a visual or a report follows a defined workflow. The workflow is a deliverable of pulse, not documentation about it — the repository carries its own instructions as first-class artifacts. Realizes UJ-4, UJ-5.
 
 #### FR-22: Defined workflows for extension
-Each extension task has a defined workflow: a known sequence of steps against a known shape.
+Each extension task has a defined workflow: a known sequence of steps against a known shape. Source acquisition and dataset transformation are separate extension tasks joined by snapshot contracts.
 
 **Consequences (testable):**
-- Each of "add a source", "add an indicator", "add a visual" and "add a report" has a workflow that can be followed without reading unrelated system code.
+- Each of "add a source", "add a dataset or indicator", "add a visual" and "add a report" has a workflow that can be followed without reading unrelated system code.
+- The add-source workflow ends at a valid snapshot contract; the add-dataset workflow begins from one or more snapshot contracts and never embeds acquisition.
 - **Changing a dataset's schema** has a workflow too. §1.2 permits schema changes freely and NFR-5 removes any continuity constraint, but the permission is only usable if the ripple into contracts and reports has a defined path. Changing a schema is the one routine act that is not additive.
 
 #### FR-23: Structure repeats, code does not
-Workflows repeat *shape* — file layout, naming, wiring steps. Implementation is shared.
+Workflows repeat the appropriate *shape* for each independent package kind — source, dataset, visual, or report. Implementation is shared within each layer, and shared runtime contains no exemplar-specific behavior.
 
 **Consequences (testable):**
 - Two sources added at different times have the same shape.
 - Adding a source does not duplicate ingestion logic.
+- Two datasets added at different times have the same shape without being nested in or owned by their source packages.
+- Adding a dataset does not require editing its source package or adding a dataset-specific branch to shared runtime.
 
 #### FR-24: An exemplar to copy
-The first complete instance of each kind serves as the exemplar the workflow refers to.
+The first complete source, dataset, visual, and report independently serve as conformance evidence for their neutral templates.
 
 **Consequences (testable):**
 - Each workflow points at a working instance in the repository.
+- A working instance is evidence that a contract supports real content; it is not scaffolding whose provider, schema, or report decisions are copied.
 
 ---
 
@@ -415,7 +422,7 @@ pulse is not in v1:
 - A scheduled pipeline run executing the whole chain
 - Homepage with navigation and pipeline state *(promoted from Should: FR-19 has nowhere else to live)*
 - Data freshness shown on reports
-- Defined authoring workflows, with the first vertical slice as their exemplar
+- Defined extension workflows with independent, working exemplars for source acquisition, dataset transformation, visual authoring, and report composition
 
 ### 7.2 Should
 
@@ -478,4 +485,4 @@ Everything in §5.
 - **§4.1, FR-4** — Manual private-data ingestion is a v1 Could rather than a Must, following the brainstorm's MoSCoW.
 - **§4.3, FR-7** — Datasets build from the latest snapshot only; revision modelling is a non-goal.
 - **§6, NFR-6** — No numeric performance budget is set; architecture converts the intent into measurable targets once the delivery path is chosen.
-- **§7.1** — One public source and one report constitute the v1 vertical slice, per the brainstorm's Must list.
+- **§7.1** — One public source and one report constitute the v1 end-to-end proof, per the brainstorm's Must list; this does not imply source ownership of datasets or reports.

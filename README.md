@@ -35,11 +35,13 @@ The checks use only committed, offline fixtures. They do not fetch source data o
 
 ## Public source acquisition
 
-Every `sources/<source-id>/` package declares provider-native acquisition scope and
-implements the same source-neutral runtime adapter contract. The adapter owns access
-and faithful decoding through dlt; shared runtime owns discovery, acquisition IDs,
-immutable archive rules, manifests, and generic CLI dispatch. Consumer semantics and
-analytical typing do not belong in acquisition packages.
+Every `sources/<source-id>/` package declares provider-native acquisition scope,
+a committed snapshot contract, and the source-neutral acquisition adapter. The
+adapter owns access and faithful decoding; shared runtime owns discovery,
+acquisition IDs, immutable archive rules, manifests, and generic CLI dispatch.
+Source execution ends after it publishes an immutable snapshot. Consumer
+semantics, analytical typing, dbt models, and dataset documentation do not belong
+in acquisition packages.
 
 The first conforming slice records public Base-2025 INSEE CPI series. Its exact SDMX
 XML fidelity, provider scope, source-data date rule, cadence, rights, attribution,
@@ -70,29 +72,40 @@ PULSE_LIVE_INSEE=1 uv run pytest -m live tests/sources/test_insee_cpi_live.py -q
 Story 1.8 will schedule this same proven live adapter path; scheduling and repository
 publication remain outside the source package and outside ordinary verification.
 
-## INSEE replay and publication
+## Independent dataset build and publication
 
-Rebuild the report-facing dataset from committed raw snapshots only:
+Every `datasets/<dataset-id>/` package independently declares the snapshot
+contract it consumes, its build entry point, dbt models/tests, and its committed
+report-facing contract. A dataset package never invokes acquisition or imports
+source-package code. Shared runtime discovers and executes the declarations
+without knowing provider IDs, analytical columns, or formulas.
+
+Rebuild every report-facing dataset from committed snapshots only:
 
 ```sh
-uv run pulse source replay insee-cpi
+uv run pulse dataset build all
 ```
 
-Replay writes faithful disposable landing data under `build/landing/`. Its source-local
-dbt-duckdb project publishes two independent contracts. `insee-cpi/monthly` remains
-unchanged: one monthly `period` plus `cpi_index`, `monthly_change_pct`, and
-`annual_change_pct`. The additive `insee-cpi/category-analysis` dataset supplies food,
-energy, and actual-rent levels; food and energy annual changes; annual basket weights
-with explicit reference years; and INSEE's official broad contributions for food,
-services, manufactured products, and energy.
+Build one dataset with `pulse dataset build <dataset-id>`. Disposable staging is
+kept under `build/datasets/` and is private to that build; it is not a source or
+inter-package contract. `insee-cpi-monthly` publishes one monthly `period` plus
+`cpi_index`, `monthly_change_pct`, and `annual_change_pct`.
+`insee-cpi-category-analysis` supplies food, energy, and actual-rent levels; food
+and energy annual changes; annual basket weights with explicit reference years;
+and INSEE's official broad contributions for food, services, manufactured
+products, and energy.
 
 INSEE does not expose a matching provider-published annual-change or contribution
 series for actual rents paid (COICOP 04.1). Pulse derives rent annual change from the
 monthly index, then calculates `rent_weight / 10000 * rent_annual_change_pct`. Both
-fields are labelled as Pulse calculations from INSEE series, never as official INSEE
-contributions or causal estimates. Output ends at the latest month complete across all
-required series; asynchronous provider releases are not imputed. Each `dataset.json`
-records full semantics, lineage, licence, attribution, SHA-256, and assertion status.
+fields are labelled as Pulse calculations from INSEE series, never as official
+INSEE contributions or causal estimates. Output ends at the latest complete
+common month; asynchronous releases are not imputed. The authoritative committed
+contracts and full limitations are in
+[`datasets/insee-cpi-monthly/`](datasets/insee-cpi-monthly/) and
+[`datasets/insee-cpi-category-analysis/`](datasets/insee-cpi-category-analysis/).
+Generated `dataset.json` combines those semantics with snapshot lineage,
+represented period, visibility, content hash, and test status.
 
 ## Visual Contract and browser catalog
 
@@ -107,7 +120,7 @@ site inputs: its manifest-relative URL is resolved from the catalog, never the r
 route. Verify this whole offline path with:
 
 ```sh
-uv run pytest tests/runtime tests/sources -q
+uv run pytest tests/runtime tests/sources tests/datasets -q
 npm run verify
 uv run pulse verify
 ```

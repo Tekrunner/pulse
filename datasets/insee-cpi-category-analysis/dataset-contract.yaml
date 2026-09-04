@@ -1,0 +1,130 @@
+contract_version: 1.0.0
+model:
+  name: insee_cpi_category_analysis
+  description: Monthly CPI category analysis with annual basket-weight context.
+columns:
+  - {name: period, type: DATE, description: "First day of the represented month; output stops at the latest common complete provider period."}
+  - {name: food_index, type: "DECIMAL(12,2)", description: "INSEE food CPI level, Base 2025 = 100, all households, France."}
+  - {name: food_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published food year-over-year change.}
+  - {name: energy_index, type: "DECIMAL(12,2)", description: "INSEE energy CPI level, Base 2025 = 100, all households, France."}
+  - {name: energy_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published energy year-over-year change.}
+  - {name: actual_rent_index, type: "DECIMAL(12,2)", description: "INSEE actual rents paid CPI level, COICOP 04.1, Base 2025 = 100, all households, France."}
+  - {name: food_official_contribution_pct_points, type: "DECIMAL(8,3)", description: INSEE provider-published food contribution to headline annual CPI.}
+  - {name: services_official_contribution_pct_points, type: "DECIMAL(8,3)", description: INSEE provider-published services contribution to headline annual CPI.}
+  - {name: manufactured_products_official_contribution_pct_points, type: "DECIMAL(8,3)", description: INSEE provider-published manufactured-products contribution to headline annual CPI.}
+  - {name: energy_official_contribution_pct_points, type: "DECIMAL(8,3)", description: INSEE provider-published energy contribution to headline annual CPI.}
+  - {name: food_weight, type: "DECIMAL(8,0)", description: "INSEE annual food basket weight per 10,000 for the named reference year."}
+  - {name: food_weight_reference_year, type: INTEGER, description: INSEE food weight observation year; not a monthly observation.}
+  - {name: energy_weight, type: "DECIMAL(8,0)", description: "INSEE annual energy basket weight per 10,000 for the named reference year."}
+  - {name: energy_weight_reference_year, type: INTEGER, description: INSEE energy weight observation year; not a monthly observation.}
+  - {name: actual_rent_weight, type: "DECIMAL(8,0)", description: "INSEE annual actual-rent basket weight per 10,000 for the named reference year."}
+  - {name: actual_rent_weight_reference_year, type: INTEGER, description: INSEE actual-rent weight observation year; not a monthly observation.}
+  - {name: actual_rent_annual_change_pct, type: "DECIMAL(8,1)", description: "Pulse-derived year-over-year rent-index change: (index_t / index_t-12 - 1) * 100."}
+  - {name: actual_rent_pulse_contribution_pct_points, type: "DECIMAL(8,3)", description: "Pulse calculation: actual_rent_weight / 10000 * actual_rent_annual_change_pct; not an official INSEE contribution and not causal."}
+indicators:
+  - &insee_indicator
+    column: food_index
+    provider_series_id: "011813717"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation
+    definition: INSEE food CPI level, Base 2025 = 100, all households, France.
+    unit: Index
+    decimal_precision: "2"
+    base: "2025"
+    source: INSEE
+    licence: Licence Ouverte / Open Licence 2.0
+    attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025."
+  - <<: *insee_indicator
+    column: food_annual_change_pct
+    provider_series_id: "011813719"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Alimentation
+    definition: INSEE provider-published food year-over-year change.
+    unit: Percent
+    decimal_precision: "1"
+  - <<: *insee_indicator
+    column: energy_index
+    provider_series_id: "011813864"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie
+    definition: INSEE energy CPI level, Base 2025 = 100, all households, France.
+  - <<: *insee_indicator
+    column: energy_annual_change_pct
+    provider_series_id: "011813866"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Énergie
+    definition: INSEE provider-published energy year-over-year change.
+    unit: Percent
+    decimal_precision: "1"
+  - <<: *insee_indicator
+    column: actual_rent_index
+    provider_series_id: "011815633"
+    provider_title_fr: "Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés"
+    definition: INSEE actual rents paid CPI level, COICOP 04.1, Base 2025 = 100, all households, France.
+  - &contribution
+    <<: *insee_indicator
+    column: food_official_contribution_pct_points
+    provider_series_id: "011813664"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Alimentation
+    definition: INSEE provider-published food contribution to headline annual CPI.
+    unit: Percentage points
+    decimal_precision: "3"
+  - <<: *contribution
+    column: services_official_contribution_pct_points
+    provider_series_id: "011813665"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Services
+    definition: INSEE provider-published services contribution to headline annual CPI.
+  - <<: *contribution
+    column: manufactured_products_official_contribution_pct_points
+    provider_series_id: "011813666"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Produits manufacturés
+    definition: INSEE provider-published manufactured-products contribution to headline annual CPI.
+  - <<: *contribution
+    column: energy_official_contribution_pct_points
+    provider_series_id: "011813668"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des ménages - France - Énergie
+    definition: INSEE provider-published energy contribution to headline annual CPI.
+  - &food_weight
+    <<: *insee_indicator
+    column: food_weight
+    provider_series_id: "011814578"
+    provider_title_fr: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Alimentation
+    definition: INSEE annual food CPI basket weight per 10,000.
+    unit: Weight per 10,000
+    decimal_precision: "0"
+  - <<: *food_weight
+    column: food_weight_reference_year
+    definition: INSEE food weight observation year; not a monthly observation.
+    unit: Year
+  - &energy_weight
+    <<: *food_weight
+    column: energy_weight
+    provider_series_id: "011814509"
+    provider_title_fr: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Énergie
+    definition: INSEE annual energy CPI basket weight per 10,000.
+  - <<: *energy_weight
+    column: energy_weight_reference_year
+    definition: INSEE energy weight observation year; not a monthly observation.
+    unit: Year
+  - &rent_weight
+    <<: *food_weight
+    column: actual_rent_weight
+    provider_series_id: "011815638"
+    provider_title_fr: "Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés"
+    definition: INSEE annual actual-rent CPI basket weight per 10,000.
+  - <<: *rent_weight
+    column: actual_rent_weight_reference_year
+    definition: INSEE actual-rent weight observation year; not a monthly observation.
+    unit: Year
+  - <<: *insee_indicator
+    column: actual_rent_annual_change_pct
+    provider_series_id: "011815633"
+    provider_title_fr: "Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Nomenclature Coicop : 04.1 - Loyers d’habitation effectivement payés"
+    definition: "Pulse-derived year-over-year rent-index change: (index_t / index_t-12 - 1) * 100."
+    unit: Percent
+    decimal_precision: "1"
+    source: Pulse calculation from INSEE series
+    attribution: "Source data: INSEE, Indice des prix à la consommation (IPC), Base 2025."
+  - <<: *rent_weight
+    column: actual_rent_pulse_contribution_pct_points
+    definition: "Pulse calculation: actual_rent_weight / 10000 * actual_rent_annual_change_pct; not an official INSEE contribution and not causal."
+    unit: Percentage points
+    decimal_precision: "3"
+    source: Pulse calculation from INSEE series
+    attribution: "Source data: INSEE, Indice des prix à la consommation (IPC), Base 2025."

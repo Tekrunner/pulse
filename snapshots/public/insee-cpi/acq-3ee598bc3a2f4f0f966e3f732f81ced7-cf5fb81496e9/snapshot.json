@@ -1,0 +1,26 @@
+{
+  "acquired_at": "2026-09-04T15:31:34Z",
+  "acquisition_id": "acq-3ee598bc3a2f4f0f966e3f732f81ced7",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "cf5fb81496e915f805e9c350edf680270e8b02d514dd697b2f4f13b52ed6a018"
+    }
+  ],
+  "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+  "decoder_version": "insee-bdm-structurespecific-sdmxml-v1",
+  "licence": "Licence Ouverte / Open Licence 2.0",
+  "observed_schema_sha256": "a8fed826bbbecc08dd51ab1cc2415ce191bd1c3fe787a9a16b8f4be431f0123d",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.0.0",
+  "snapshot_id": "acq-3ee598bc3a2f4f0f966e3f732f81ced7-cf5fb81496e9",
+  "source_data_date": "2026-08-01",
+  "source_id": "insee-cpi",
+  "source_urls": [
+    "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011814056+011814057+011814058+011813717+011813718+011813719+011813864+011813866+011815633+011814578+011814509+011815638+011813664+011813665+011813666+011813668"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

@@ -9,8 +9,8 @@ const catalogPath = join(root, "browser-data.json");
 const publishDataRoot = join(root, "publish-data");
 const output = join(root, "output");
 const datasets = [
-  ["insee-cpi/monthly", "datasets/insee-cpi/monthly/dataset.parquet", "cpi"],
-  ["other-source/quarterly", "datasets/other-source/quarterly/dataset.parquet", "other"],
+  ["insee-cpi-monthly", "datasets/insee-cpi-monthly/dataset.parquet", "cpi"],
+  ["other-quarterly", "datasets/other-quarterly/dataset.parquet", "other"],
 ];
 for (const [, parquet, contents] of datasets) {
   const source = join(publishDataRoot, ...parquet.split("/").slice(1));

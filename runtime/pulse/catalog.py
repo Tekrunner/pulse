@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from pulse.contracts.dataset import ContractError, DatasetManifest, validate_dataset_manifest
+from pulse.datasets import DatasetError, discover_datasets
 
 
 BROWSER_DATA_SCHEMA_ID = "pulse.browser-data"
@@ -40,10 +41,23 @@ def compile_browser_catalog(
     """Return a deterministic v1 catalog for complete, public publications only."""
     datasets: dict[str, dict[str, Any]] = {}
     tables: set[str] = set()
+    try:
+        declarations = discover_datasets()
+    except DatasetError as error:
+        raise ContractError(f"invalid committed dataset declarations: {error}") from error
     for manifest_path in sorted(publish_root.glob("data/**/dataset.json")):
         try:
             raw = json.loads(manifest_path.read_text(encoding="utf-8"))
-            manifest = validate_dataset_manifest(raw)
+            declaration = declarations.get(raw.get("dataset_id"))
+            if declaration is None:
+                raise ContractError("published dataset has no committed dataset declaration")
+            manifest = validate_dataset_manifest(raw, declaration.contract)
+            if (
+                manifest.source_id != declaration.source_id
+                or manifest.logical_table != declaration.logical_table
+                or manifest.visibility != declaration.visibility
+            ):
+                raise ContractError("published dataset identity disagrees with its declaration")
         except (OSError, json.JSONDecodeError, ContractError) as error:
             raise ContractError(f"invalid published dataset contract at {manifest_path}: {error}") from error
         if manifest.visibility != "public":

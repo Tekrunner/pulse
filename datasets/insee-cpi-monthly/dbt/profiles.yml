@@ -1,0 +1,7 @@
+insee_cpi_monthly:
+  target: build
+  outputs:
+    build:
+      type: duckdb
+      path: "{{ env_var('PULSE_DBT_DATABASE') }}"
+      threads: 1

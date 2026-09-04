@@ -32,9 +32,9 @@ FR4: Private source files can be supplied through a known local-only location an
 
 FR5: Every acquisition creates an immutable pre-transformation snapshot; file sources retain original bytes, other sources retain faithful Parquet, and public snapshots are committed and cloneable.
 
-FR6: Every source slice can be rebuilt fully from committed raw snapshots, and a whole-pipeline run can rebuild all slices without migrating or incrementally mutating a persisted warehouse.
+FR6: Every dataset can be rebuilt fully from committed raw snapshots, and a whole-pipeline run can rebuild all datasets without migrating or incrementally mutating a persisted warehouse.
 
-FR7: Declared transformations build wide, properly typed, single-source datasets from snapshots, using the latest usable source publication in v1.
+FR7: Independently discovered dataset packages build wide, properly typed datasets from declared snapshot contracts, using exactly one source in v1, without invoking acquisition or reading source-package code.
 
 FR8: Every dataset, column, and indicator has machine-readable documentation including unit, definition, source, licence, and attribution, and missing documentation is detectable.
 
@@ -64,9 +64,9 @@ FR20: Every report states the date or represented period of the data it displays
 
 FR21: Contract-compliant but assertion-failing data is published as suspect and marked through lineage while unrelated sources, datasets, reports, and site work continue; undecodable data does not replace the last usable dataset.
 
-FR22: Repository-owned workflows define how an agent adds a source, indicator, visual, or report and changes a dataset schema without reading unrelated code.
+FR22: Repository-owned workflows separately define how an agent adds a source, adds a dataset or indicator, adds a visual or report, and changes a dataset schema without reading unrelated code.
 
-FR23: Extension work repeats a stable file-layout, naming, and wiring shape while calling shared implementation instead of duplicating logic.
+FR23: Each independent package kind repeats a stable file-layout, naming, and wiring shape while calling layer-appropriate shared implementation that contains no exemplar-specific behavior.
 
 FR24: Every extension workflow starts from neutral templates whose contracts are validated by fixtures and at least one complete working implementation; working implementations are conformance evidence, never scaffolds to copy.
 
@@ -92,14 +92,15 @@ NFR6: Opening a report must be fast enough to become habitual; the Observable pi
 
 - Implement the system as pipes and filters separated by immutable, versioned artifact boundaries: acquire, snapshot, decode/land, transform/test, publish data/status, build site, deploy, query, and render.
 - Keep landing Parquet, DuckDB databases, and generated site output disposable; prohibit downstream stages from reaching into another tool's mutable state.
-- Organize each source as a discoverable `sources/<source-id>/` vertical slice owning its declaration, dlt reader, decode/schema contract, assertions, dbt models, fixtures, and tests.
-- Assign faithful source access and decoding to dlt; assign analytical typing, semantics, tests, disposable DuckDB materialization, and published Parquet exclusively to dbt-duckdb.
+- Organize acquisition as discoverable `sources/<source-id>/` packages owning provider access, faithful decoding, source assertions, fixtures, tests, and committed snapshot contracts only.
+- Organize transformation as independently discoverable `datasets/<dataset-id>/` packages owning snapshot dependencies, analytical typing, semantics, dbt models/tests, disposable build state, and committed dataset contracts.
+- Connect packages only through immutable versioned snapshot and dataset artifacts; source, dataset, and report packages do not import one another's code or mutable state.
 - Gate dbt-duckdb `external` publication behind an exemplar smoke test proving `ref()` and passing/failing `not_null` tests against external Parquet; if it fails, select one shared fallback before source work proceeds.
 - Give every logical acquisition one opaque platform-independent acquisition ID; retries reuse it, identical retries no-op, conflicting content for the same ID fails, and later observations receive new IDs even when bytes match.
-- Run one independently scheduled, idempotent workflow per source and a separate site aggregation workflow, so one source's failure or cadence cannot block another.
+- Run one independently scheduled, idempotent acquisition workflow per source, generic downstream dataset orchestration from declared dependencies, and a separate site aggregation workflow.
 - Make versioned Pulse JSON manifests the sole inter-stage API, with UTF-8, well-known filenames, schema IDs, semantic versions, strict validation, and rejection of unsupported major versions.
-- Implement immutable `snapshot.json`, linked `landing.json` and `dataset.json`, compiled `browser-data.json`, `report-catalog.json`, source/site pipeline status, and a versioned sanitized error envelope with the fields defined by AD-4.
-- Use globally unique dataset IDs `<source-id>/<dataset-id>`, visual-slot IDs `<report-id>/<slot-id>`, source pipeline IDs `source/<source-id>`, reserved `system/*` IDs, unique routes, and unique logical DuckDB table names; fail generation on collisions.
+- Implement immutable `snapshot.json`, generated `dataset.json` derived from committed dataset contracts, compiled `browser-data.json`, `report-catalog.json`, source/dataset/site pipeline status, and a versioned sanitized error envelope with the fields defined by AD-4. Landing data is dataset-private disposable state, not an inter-package contract.
+- Use globally unique opaque dataset IDs, visual-slot IDs `<report-id>/<slot-id>`, source pipeline IDs `source/<source-id>`, dataset pipeline IDs `dataset/<dataset-id>`, reserved `system/*` IDs, unique routes, and unique logical DuckDB table names; fail generation on collisions.
 - Resolve report datasets only through IDs and the browser manifest URL; never derive Parquet paths from the current document route.
 - Make each report declaration the canonical owner of stable identity, route, requested visibility, dataset/column dependencies, visual slots, and exploration choice; compiled catalogs own resolved visibility and lineage projections.
 - Compute suspect impact from declared dataset/column lineage and conservatively report possibly affected when column-level precision is unavailable.
@@ -110,9 +111,9 @@ NFR6: Opening a report must be fast enough to become habitual; the Observable pi
 - Let reports own parameterized SQL, exploration/cross-visual state, annotations, provenance, and routing; visuals know none of SQL, DuckDB, Parquet paths, routes, or framework protocols and return DOM/SVG.
 - Define visual contract major `v1` with declared-schema fixtures, rows/display/provenance inputs, registration, and consumer validation; require atomic migration or an application compatibility adapter for breaking majors.
 - Isolate loading and all failure/empty states per visual slot so sibling visuals remain usable; escalate only shared engine or delivery failures to report scope.
-- Provide one repository-local Pulse CLI as the sole high-level automation API for source/whole runs, replay, profiles, verification, site build, and local serving; local use, agents, and thin Actions workflows call it identically.
+- Provide one repository-local Pulse CLI as the sole high-level automation API for source acquisition, dataset build/replay, whole runs, profiles, verification, site build, and local serving; local use, agents, and thin Actions workflows call it identically.
 - Serialize every default-branch mutation through one shared-concurrency repository-writer job starting from the current default branch; keep site builds mutation-free and in a separate latest-wins concurrency group.
-- Provide an offline source-conformance suite covering deterministic decode, manifests and semantic metadata, schema drift, raw replay, release-calendar freshness, and profile privacy; use scheduled acquisition as the live integration test.
+- Provide separate offline source and dataset conformance suites plus a neutral synthetic source/dataset pair; retain explicit provider live acquisition as an integration acceptance gate without making ordinary CI depend on it.
 - Provide visual contract tests and Playwright coverage for a multi-visual nested report, isolated slot failure, reload, keyboard/accessibility behavior, DuckDB-WASM startup/query failures, and public-artifact scanning.
 - Lock Python 3.13 with uv/`uv.lock` and Node 24 LTS with npm/`package-lock.json`; the first implementation change creates both lockfiles and passes clean-install CLI, dbt, DuckDB, and Observable smoke tests before ratifying versions.
 - Use frozen installs in CI and make dependency upgrades explicit tested changes, never part of ingestion.
@@ -139,8 +140,8 @@ FR2: Stories 1.3, 1.8, and 2.2 - Declare and automate independent source cadence
 FR3: Story 1.8 - Acquire public data automatically and on demand through idempotent execution.
 FR4: Story 3.1 - Ingest private files through the controlled local-only source path.
 FR5: Stories 1.3 and 3.1 - Preserve public and private acquisitions as immutable raw snapshots.
-FR6: Stories 1.4 and 1.9 - Rebuild source slices and the complete public system from committed raw snapshots.
-FR7: Story 1.4 - Produce a wide, typed, single-source dataset through declared transformations.
+FR6: Stories 1.4, 1.5b, and 1.9 - Rebuild independent datasets and the complete public system from committed raw snapshots.
+FR7: Stories 1.4 and 1.5b - Produce wide, typed datasets through independently discovered transformation packages.
 FR8: Stories 1.4 and 2.3 - Publish and safely evolve machine-readable dataset, column, indicator, licence, and attribution metadata.
 FR9: Stories 1.4, 1.7, and 2.2 - Test transformed data and evaluate source-specific plausibility and release-calendar-aware freshness.
 FR10: Stories 1.5 and 2.4 - Establish, use, and extend the versioned visual data-interface contract and defined slot states.
@@ -155,7 +156,7 @@ FR18: Stories 1.2 and 1.9 - Build, serve, verify, and deploy static output with 
 FR19: Story 1.7 - Show navigation, freshness, assertions, and canonical pipeline-stage state on the homepage.
 FR20: Stories 1.6 and 1.7 - Show represented data periods and provenance/status context on reports.
 FR21: Stories 1.4, 1.7, and 1.8 - Publish and mark usable suspect data while isolating failures and retaining the last usable dataset.
-FR22: Stories 2.2, 2.3, 2.4, and 2.5 - Define agent workflows for sources, indicators, schema changes, visuals, and reports.
+FR22: Stories 1.5b, 2.2, 2.3, 2.4, and 2.5 - Define separate agent workflows for sources, datasets/indicators, schema changes, visuals, and reports.
 FR23: Stories 2.2, 2.3, 2.4, and 2.5 - Repeat neutral structure while reusing shared contracts and implementation.
 FR24: Stories 2.1, 2.2, 2.3, 2.4, and 2.5 - Start from neutral templates and validate them with fixtures and complete working implementations without copying those implementations.
 FR25: Story 1.6 - Let a report opt into serverless exploration while retaining its pre-composed default experience.
@@ -299,11 +300,11 @@ So that the chosen site framework is proven before the product depends on it.
 **Then** report implementation is blocked
 **And** the site-substrate decision is reopened through an architecture update without automatically substituting Evidence.
 
-### Story 1.3: Select, Acquire, and Archive the First INSEE Dataset
+### Story 1.3: Select, Acquire, and Archive the First INSEE Source
 
 As a builder,
-I want to acquire authoritative INSEE data for the first French macroeconomic report,
-So that Pulse begins with a relevant, traceable, and permanently replayable public source.
+I want to acquire authoritative INSEE source data and publish its snapshot contract,
+So that Pulse begins with a relevant, traceable, and permanently replayable public source independent of its future datasets.
 
 **Acceptance Criteria:**
 
@@ -315,9 +316,10 @@ So that Pulse begins with a relevant, traceable, and permanently replayable publ
 
 **Given** the selected INSEE dataset
 **When** its source package is created
-**Then** it follows the `sources/<source-id>/` vertical-slice structure with a stable lowercase kebab-case ID
+**Then** it follows the acquisition-only `sources/<source-id>/` structure with a stable lowercase kebab-case ID
 **And** its declaration records public visibility, acquisition method, fetch cadence, expected publication advancement, licence, attribution, and source identity
-**And** it is discovered without adding an entry to a central registry.
+**And** it is discovered without adding an entry to a central registry
+**And** it contains no analytical transformation, dataset schema, or report logic.
 
 **Given** an invalid or incomplete source declaration
 **When** source discovery and validation run
@@ -367,23 +369,24 @@ So that Pulse begins with a relevant, traceable, and permanently replayable publ
 **Then** acquisition and snapshot creation are deterministic without contacting INSEE
 **And** a separately identified live acquisition can verify upstream integration without becoming a prerequisite for ordinary CI.
 
-### Story 1.4: Transform and Publish the First INSEE Dataset
+### Story 1.4: Build and Publish the First Independent Dataset
 
 As a builder,
-I want to transform archived INSEE snapshots into a tested and documented dataset,
-So that reports can consume trustworthy analytical data without depending on mutable pipeline state.
+I want an independently discovered dataset package to transform archived INSEE snapshots into tested and documented data,
+So that reports can consume trustworthy analytical data without depending on acquisition code or mutable pipeline state.
 
 **Acceptance Criteria:**
 
 **Given** the committed INSEE archive and no existing landing files, DuckDB database, or published dataset
-**When** the documented source-replay command runs
-**Then** it reconstructs the complete current INSEE dataset slice from the raw archive alone
+**When** the documented dataset-build command runs
+**Then** it reconstructs the complete current dataset from the raw archive alone
 **And** it does not depend on dlt state, a prior warehouse, a prior publication, or author-machine state.
 
-**Given** a selected INSEE snapshot
-**When** the decode stage runs
-**Then** dlt produces faithful landing Parquet without applying analytical semantics
-**And** a validated `landing.json` references the source and immutable snapshot
+**Given** a selected INSEE snapshot satisfying its committed snapshot contract
+**When** the independent dataset package builds
+**Then** it may create faithful package-private staging without applying semantics to the snapshot itself
+**And** the generated dataset manifest references the immutable snapshot directly
+**And** no landing artifact becomes an inter-package API
 **And** the original snapshot remains unchanged.
 
 **Given** an observed source schema with compatible additions
@@ -397,11 +400,12 @@ So that reports can consume trustworthy analytical data without depending on mut
 **And** no invalid landing or dataset artifact is accepted
 **And** any previously published usable dataset remains selected.
 
-**Given** valid landing Parquet
+**Given** a valid declared snapshot input
 **When** dbt builds the INSEE models
-**Then** dbt-duckdb alone owns analytical typing, semantics, tests, disposable DuckDB materialization, and external Parquet publication
+**Then** the dataset package and dbt-duckdb own analytical typing, semantics, tests, disposable DuckDB materialization, and external Parquet publication
 **And** the published dataset is wide, properly typed, and derived from exactly one source
-**And** no tall or long observations table is published as the report-facing dataset.
+**And** no tall or long observations table is published as the report-facing dataset
+**And** the source package and shared runtime contain none of this dataset's columns, formulas, or schema.
 
 **Given** the transformed dataset definition
 **When** metadata validation runs
@@ -412,7 +416,7 @@ So that reports can consume trustworthy analytical data without depending on mut
 **Given** valid transformation output
 **When** publication runs
 **Then** it emits report-facing Parquet and a strictly validated `dataset.json` linked to the landing artifact and source snapshot
-**And** the manifest records the globally unique `<source-id>/<dataset-id>`, unique logical DuckDB table name, contract version, schema, content hash, represented period, Parquet location, semantic metadata, and public visibility
+**And** the manifest records the globally unique opaque dataset ID, unique logical DuckDB table name, contract version, schema, content hash, represented period, Parquet location, semantic metadata, declared snapshot lineage, and public visibility
 **And** identity or table-name collisions fail publication.
 
 **Given** source-specific dbt tests and assertions
@@ -427,18 +431,18 @@ So that reports can consume trustworthy analytical data without depending on mut
 **And** unrelated source processing is not blocked.
 
 **Given** an undecodable or contract-invalid new snapshot
-**When** the source slice is rebuilt
+**When** the dataset is rebuilt
 **Then** the failed attempt does not replace the last successfully derived dataset
 **And** if no usable dataset has ever existed, no report-facing dataset is selected.
 
 **Given** the same committed archive and locked toolchain
-**When** disposable build outputs are deleted and the source slice is rebuilt repeatedly
+**When** disposable build outputs are deleted and the dataset is rebuilt repeatedly
 **Then** the resulting analytical rows, schema, semantic metadata, and content hashes are equivalent
 **And** differences in execution timestamps do not alter dataset identity or content equivalence.
 
 **Given** the INSEE fixture suite
-**When** offline source conformance runs
-**Then** it covers deterministic decode, manifest completeness, semantic metadata, compatible and incompatible schema drift, raw replay, release-calendar freshness, assertion failure, and public-profile behavior
+**When** offline dataset conformance runs
+**Then** it covers snapshot-only replay, manifest completeness, semantic metadata, compatible and incompatible schema drift, deterministic transformation, data-test failure, and public-profile behavior
 **And** it does not contact INSEE.
 
 **Given** the initial published Parquet file
@@ -535,8 +539,8 @@ So that the French inflation report can explain divergence and composition rathe
 **And** source acquisition continues to reject missing, unexpected, duplicate, or title-mismatched declared series.
 
 **Given** an expanded, faithfully decoded CPI snapshot
-**When** the source slice is rebuilt
-**Then** it publishes a wide, typed, public, single-source contract that preserves the existing headline-consumer schema and adds documented category and weight fields or a separately documented source-owned analysis dataset
+**When** the independent CPI dataset packages are rebuilt
+**Then** they publish wide, typed, public, single-source contracts that preserve the existing headline-consumer schema and provide a separately documented category-analysis dataset consuming the same snapshot contract
 **And** every added indicator records its provider ID, title, definition, unit, precision, base, source, licence, and attribution
 **And** every existing report and visual consumer either remains compatible or is migrated atomically with declared schema validation.
 
@@ -546,7 +550,7 @@ So that the French inflation report can explain divergence and composition rathe
 **And** it does not represent an approximation as an INSEE-published contribution or make unsupported causal claims.
 
 **Given** representative, boundary, schema-drift, and assertion-failure fixtures
-**When** offline source conformance and replay run
+**When** offline source and dataset conformance run
 **Then** they verify exact-series selection, comparable semantics, typed monthly grain, metadata completeness, weight validity, transformation behavior, published contract validation, and consumer compatibility
 **And** ordinary CI remains deterministic and does not contact INSEE.
 
@@ -554,6 +558,63 @@ So that the French inflation report can explain divergence and composition rathe
 **When** Story 1.6 report design begins
 **Then** Claude Design and Yann can select standing questions and purpose-built treatments against representative real category data
 **And** no report visual or layout is selected by this story.
+
+### Story 1.5b: Establish Independent Source and Dataset Package Boundaries
+
+As a builder,
+I want independently discoverable source and dataset packages connected by committed contracts,
+So that adding future data and reports extends Pulse without changing shared runtime or inheriting INSEE-specific structure.
+
+**Acceptance Criteria:**
+
+**Given** a source package
+**When** source discovery and conformance run
+**Then** the package contains only its declaration, acquisition adapter, snapshot contract, fixtures, source assertions, and tests
+**And** source execution ends after a validated immutable snapshot is published
+**And** it neither discovers nor executes analytical transformations.
+
+**Given** a dataset package
+**When** dataset discovery and conformance run
+**Then** it declares a globally unique source-neutral identity, snapshot dependency, transformation entry point, committed report-facing schema and semantics, fixtures, and tests
+**And** adding it requires no source registry, source-package edit, or dataset-specific shared-runtime branch.
+
+**Given** the current INSEE implementation
+**When** it is migrated
+**Then** the dbt models and all CPI formulas, output schemas, semantic metadata, and analytical tests belong to the two independent dataset packages
+**And** the INSEE source package and source contract contain no report-facing column, formula, or dataset limitation.
+
+**Given** shared Pulse runtime and generic manifest validators
+**When** extension-neutrality checks run
+**Then** they contain no `insee-cpi`, provider series IDs, CPI columns, rent calculations, hard-coded dataset shapes, or provider-specific paths
+**And** generic validation loads package-specific schema and semantics from committed contracts.
+
+**Given** the repository-local Pulse CLI
+**When** its source, dataset, and whole-build commands run
+**Then** `source acquire` produces a snapshot only
+**And** `dataset build` consumes committed snapshots without loading a source adapter or contacting its provider
+**And** the whole build discovers and rebuilds every eligible dataset before building the site.
+
+**Given** a committed dataset contract
+**When** a report author or repository-connected design tool inspects it
+**Then** schema, definitions, types, units, provenance, formulas, and limitations are available without generated files or transformation-code inspection
+**And** generated `dataset.json` combines that contract with measured hashes, periods, selected snapshots, status, and resolved visibility
+**And** disagreement between contract, output, and manifest fails publication.
+
+**Given** a neutral synthetic source and dataset
+**When** conformance runs end to end
+**Then** discovery, snapshot production, dataset build, lineage, contract validation, and collision handling pass without importing or copying INSEE implementation code.
+
+**Given** the existing INSEE snapshots and published analytical behavior
+**When** migration completes
+**Then** every snapshot remains byte-identical and replayable
+**And** both CPI datasets preserve their analytical rows and documented semantics apart from an explicitly migrated source-neutral identity
+**And** Story 1.5 browser/catalog consumers move atomically with consumer-schema tests.
+
+**Given** verification for the migration
+**When** Story 1.5b is evaluated for completion
+**Then** ordinary CI is offline and deterministic
+**And** the explicit live INSEE contract test is preserved and passes
+**And** README and extension documentation explain the source-to-snapshot, snapshot-to-dataset, and dataset-to-report boundaries.
 
 ### Story 1.6: Compose and Explore the French Macroeconomic Report
 
@@ -563,7 +624,7 @@ So that I can quickly refresh my understanding and investigate the underlying da
 
 **Acceptance Criteria:**
 
-**Given** the real published INSEE dataset
+**Given** the independently published CPI dataset contracts from Story 1.5b
 **When** report design begins
 **Then** Yann and the authoring agent select the standing questions, indicators, figures, precision, comparisons, arrangement, and visual treatments in session against the real data
 **And** those content decisions are not inferred from a universal chart vocabulary or predetermined by this story.
@@ -630,16 +691,21 @@ So that I know when figures are current, suspect, unavailable, or backed by a st
 
 **Acceptance Criteria:**
 
-**Given** the discovered source declarations and the single `system/site` declaration
+**Given** the discovered source and dataset declarations and the single `system/site` declaration
 **When** the expected-pipeline catalog is compiled
-**Then** it contains the complete set of expected source and site pipeline IDs and names
+**Then** it contains the complete set of expected source, dataset, and site pipeline IDs and names
 **And** undeclared runtime jobs or missing expected entries fail validation.
 
-**Given** an attempted INSEE source run
+**Given** an attempted INSEE source acquisition
 **When** its current status is published
 **Then** a strictly validated `pipeline-status.json` records stable identity, cadence, execution time, canonical stage outcomes, latest usable output, and sanitized diagnostics
-**And** the canonical source stages are `acquire`, `snapshot`, `decode`, `transform`, `test`, and `publish-data`
+**And** the canonical source stages are `acquire` and `snapshot`
 **And** the repository writer is represented as part of publication rather than as a separate user-facing pipeline.
+
+**Given** an attempted dataset build
+**When** its current status is published
+**Then** the canonical dataset stages are `transform`, `test`, and `publish-data`
+**And** the status declares the snapshot lineage selected by the dataset package.
 
 **Given** source-stage results
 **When** overall source state is derived
@@ -697,18 +763,24 @@ So that I know when figures are current, suspect, unavailable, or backed by a st
 **Then** all states have semantic text, accessible names, visible focus where interactive, sufficient contrast, and non-color-only distinctions
 **And** navigation and report access remain usable when a status component fails to render.
 
-### Story 1.8: Run the INSEE Pipeline Automatically and On Demand
+### Story 1.8: Run INSEE Acquisition and Downstream Builds Automatically and On Demand
 
 As Yann,
-I want the INSEE pipeline to refresh itself on schedule and run whenever I request it,
-So that the archive grows and the published dataset stays current without manual pipeline work.
+I want INSEE acquisition to refresh itself on schedule and trigger generic downstream builds,
+So that the archive grows and dependent datasets stay current without coupling them to the source package.
 
 **Acceptance Criteria:**
 
 **Given** the INSEE source declaration and repository-local Pulse CLI
 **When** its GitHub Actions workflow is generated or validated
-**Then** one independently scheduled workflow owns that source through `acquire`, `snapshot`, `decode`, `transform`, `test`, and `publish-data`
+**Then** one independently scheduled workflow owns that source through `acquire` and `snapshot`
 **And** the workflow remains a thin adapter that invokes the same CLI used locally rather than reimplementing pipeline logic in YAML.
+
+**Given** a new contract-compliant snapshot
+**When** downstream orchestration begins
+**Then** it discovers affected dataset packages from their declarations
+**And** executes generic dataset build, test, and publication stages without importing source-package code
+**And** no source workflow contains dataset IDs, columns, transformations, or publication paths.
 
 **Given** the source's declared fetch cadence
 **When** the workflow schedule is inspected
@@ -717,8 +789,8 @@ So that the archive grows and the published dataset stays current without manual
 
 **Given** Yann wants fresh INSEE data before the next schedule
 **When** he triggers the source workflow on demand
-**Then** the complete INSEE source slice runs without editing its schedule
-**And** the invocation uses the same stages, contracts, and validation as a scheduled run.
+**Then** INSEE acquisition and generic downstream orchestration run without editing its schedule
+**And** the invocation uses the same independent source and dataset contracts as a scheduled run.
 
 **Given** a logical scheduled or manual observation
 **When** the workflow starts or retries
@@ -728,7 +800,7 @@ So that the archive grows and the published dataset stays current without manual
 
 **Given** a scheduled run is delayed or dropped
 **When** the next scheduled or manual run succeeds
-**Then** the source returns to its expected current state without repairing an incremental warehouse
+**Then** the source returns to its expected current state and dependent datasets rebuild from snapshots without repairing an incremental warehouse
 **And** no missed scheduler invocation causes loss or corruption of an existing snapshot.
 
 **Given** raw INSEE history is required by a workflow job
@@ -736,11 +808,11 @@ So that the archive grows and the published dataset stays current without manual
 **Then** it fetches and materializes only the LFS objects needed for that source
 **And** it rejects unresolved pointer stubs before decoding or rebuilding.
 
-**Given** source computation produces a new snapshot, dataset, or current-status projection
+**Given** source or dataset computation produces a new snapshot, dataset, or current-status projection
 **When** default-branch publication begins
 **Then** every mutation passes through the single shared-concurrency repository-writer job
-**And** that job starts from the current default branch and commits one atomic source-scoped change set
-**And** source computation never pushes directly to the default branch.
+**And** that job starts from the current default branch and commits one atomic artifact-scoped change set
+**And** source and dataset computation never push directly to the default branch.
 
 **Given** concurrent or stale source computations attempt publication
 **When** the repository writer serializes them
@@ -750,7 +822,7 @@ So that the archive grows and the published dataset stays current without manual
 
 **Given** a contract-compliant dataset with failed assertions
 **When** the source workflow publishes
-**Then** the suspect dataset and source-status projection are committed atomically
+**Then** the suspect dataset and dataset-status projection are committed atomically
 **And** the workflow records the assertion outcome without blocking future site aggregation.
 
 **Given** acquisition succeeds but decoding or transformation fails
@@ -760,7 +832,7 @@ So that the archive grows and the published dataset stays current without manual
 
 **Given** acquisition itself fails before a snapshot can be produced
 **When** the workflow completes
-**Then** it publishes a sanitized failed-attempt status when safe publication is possible
+**Then** it publishes a sanitized source failed-attempt status when safe publication is possible
 **And** no partial snapshot or dataset is committed
 **And** the workflow exits unsuccessfully with its diagnostic retained by GitHub Actions.
 
@@ -788,10 +860,10 @@ So that I can trust that the hosted experience is exactly what the repository bu
 
 **Acceptance Criteria:**
 
-**Given** the committed public source declarations, snapshots, datasets, status projections, report declarations, and site code
+**Given** the committed public source declarations, dataset declarations, snapshots, datasets, status projections, report declarations, and site code
 **When** the documented whole-pipeline command runs from a clean clone
-**Then** it rebuilds every public source slice and the complete public site without private data, prior warehouse state, generated site files, or author-machine state
-**And** it uses the same Pulse CLI stages and locked dependencies used by source workflows and local development.
+**Then** it rebuilds every public dataset from committed snapshots and the complete public site without private data, prior warehouse state, generated site files, acquisition network access, or author-machine state
+**And** it uses the same independent dataset stages and locked dependencies used by downstream workflows and local development.
 
 **Given** a clean clone with Git LFS installed
 **When** the public rebuild begins
@@ -939,20 +1011,21 @@ So that each provider remains isolated while Pulse gains new data through a pred
 
 **Given** a valid source-selection record
 **When** the workflow scaffolds a public source package
-**Then** it starts from source-neutral templates for `source.yml`, acquisition/reader code, decode/schema contract, dbt models, fixtures, assertions, and tests
+**Then** it starts from source-neutral templates for `source.yml`, acquisition/reader code, snapshot contract, fixtures, source assertions, and tests
 **And** it creates only the files required by that source
 **And** it does not copy INSEE-specific identifiers, endpoints, schemas, cadence, assertions, or transformations.
 
 **Given** a generated source package
 **When** source discovery runs
 **Then** the source is found from its declaration without changing a central registry
-**And** stable ID, dataset ID, logical table, pipeline ID, and artifact-path collisions are rejected.
+**And** stable source ID, pipeline ID, and artifact-path collisions are rejected
+**And** no dataset is implicitly created or owned by the source.
 
 **Given** a provider exposes files or an API
 **When** the agent implements acquisition
 **Then** provider-specific access and faithful decoding stay inside the source package
 **And** shared runtime code owns acquisition IDs, immutable archive writing, manifest validation, retry semantics, and CLI orchestration
-**And** analytical typing and semantics remain in source-local dbt models rather than acquisition code.
+**And** analytical typing and semantics remain outside the source package in independently discovered dataset packages.
 
 **Given** provider-specific behavior is needed by only that source
 **When** the workflow is completed
@@ -973,18 +1046,23 @@ So that each provider remains isolated while Pulse gains new data through a pred
 
 **Given** the generated fixture and source contract
 **When** offline conformance runs
-**Then** it verifies deterministic acquisition/decode, manifest and semantic-metadata completeness, compatible and incompatible schema drift, raw replay, release-calendar freshness, assertion outcomes, profile visibility, and unresolved LFS-pointer rejection
+**Then** it verifies deterministic acquisition/decode, snapshot-contract completeness, compatible and incompatible source-schema drift, release-calendar freshness, source-assertion outcomes, profile visibility, and unresolved LFS-pointer rejection
 **And** ordinary CI does not contact the provider.
 
 **Given** the generic source-template fixture
 **When** template tests execute it end to end
-**Then** the neutral package shape produces a valid snapshot, landing artifact, dataset, source status, and scheduled-workflow configuration
+**Then** the neutral package shape produces a valid snapshot, source status, and scheduled-workflow configuration
 **And** no INSEE package is copied or required as scaffold input.
 
 **Given** the completed INSEE source and any source created through the neutral workflow
 **When** repository-wide source conformance runs
 **Then** both satisfy the same contracts and shared verification
 **And** the INSEE implementation serves only as evidence that the neutral interfaces support a real provider.
+
+**Given** the source requires a real upstream integration check
+**When** the explicit live test runs
+**Then** it verifies the provider contract separately from ordinary offline CI
+**And** at least one live provider test is retained as an acceptance gate.
 
 **Given** the new source has a failed or suspect run
 **When** the existing homepage, report catalogs, and status derivation are rebuilt
@@ -996,28 +1074,28 @@ So that each provider remains isolated while Pulse gains new data through a pred
 **Then** every required decision, command, artifact, validation, and completion condition is available without reading unrelated source implementations
 **And** the workflow never instructs the agent to duplicate shared runtime code or invent an alternative automation entry point.
 
-### Story 2.3: Add Indicators and Change Dataset Schemas Safely
+### Story 2.3: Add and Evolve Dataset Packages Safely
 
 As a builder,
-I want agents to add indicators and evolve dataset schemas through explicit, source-neutral workflows,
+I want agents to add datasets and indicators and evolve dataset schemas through explicit, source-neutral workflows,
 So that Pulse can answer new questions without silently breaking reports or visuals.
 
 **Acceptance Criteria:**
 
-**Given** an approved indicator requirement from report planning
-**When** the add-indicator workflow begins
+**Given** an approved dataset or indicator requirement from report planning
+**When** the add-dataset-or-indicator workflow begins
 **Then** it requires the indicator's stable name, question served, source field or derivation, unit, definition, provenance, attribution, temporal meaning, expected type, and validation rules
-**And** it confirms that the indicator belongs to an existing single-source dataset
-**And** it routes to the add-source workflow when the required source does not yet exist.
+**And** it either identifies the independent dataset package that owns the indicator or defines a new dataset package
+**And** it routes to the add-source workflow only when no suitable snapshot contract exists.
 
 **Given** a valid indicator requirement
 **When** the workflow scaffolds the change
-**Then** it starts from source-neutral transformation, semantic-metadata, assertion, and fixture templates
-**And** it changes only the source-local contract, dbt models, tests, and metadata needed by that indicator
+**Then** it starts from source-neutral dataset declaration, transformation, semantic-metadata, data-test, and fixture templates
+**And** it changes only the owning dataset package's contract, dbt models, tests, and metadata needed by that indicator
 **And** it does not copy INSEE-specific transformations or report-specific queries.
 
 **Given** an additive indicator that does not alter existing columns
-**When** the source slice is rebuilt
+**When** the owning dataset is rebuilt
 **Then** the new indicator appears as a documented, properly typed column in the wide dataset
 **And** its unit, definition, source, licence, and attribution are machine-readable
 **And** existing consumers continue to receive their previously declared schema and behavior unchanged.
@@ -1034,7 +1112,7 @@ So that Pulse can answer new questions without silently breaking reports or visu
 **And** no unrelated report or visual requires modification.
 
 **Given** a missing required source field or incompatible source type
-**When** the source slice is rebuilt
+**When** the owning dataset is rebuilt
 **Then** faithful decoding or transformation fails visibly according to the source contract
 **And** the last usable dataset remains selected
 **And** no consumer receives silently coerced, missing, or incorrectly typed data.
@@ -1055,7 +1133,7 @@ So that Pulse can answer new questions without silently breaking reports or visu
 **And** provider-specific or visual-specific compatibility logic does not leak into shared contracts.
 
 **Given** any indicator or schema change
-**When** the source slice is rebuilt from the immutable archive
+**When** the dataset is rebuilt from the immutable archive
 **Then** no persisted warehouse migration is required
 **And** prior raw snapshots remain unchanged
 **And** the resulting dataset manifest records the new schema and content hashes.
@@ -1070,7 +1148,7 @@ So that Pulse can answer new questions without silently breaking reports or visu
 **Then** all unaffected sources, datasets, reports, visuals, workflows, and the public artifact remain unchanged in behavior
 **And** affected consumers pass their declared-schema and end-to-end tests.
 
-**Given** the agent-facing add-indicator and change-schema instructions
+**Given** the agent-facing add-dataset-or-indicator and change-schema instructions
 **When** an agent follows either workflow
 **Then** all decisions, files, commands, consumer-impact checks, and completion gates are explicit
 **And** the agent does not need to inspect unrelated source or visual implementations to discover the required process.
@@ -1174,7 +1252,7 @@ So that each report uses appropriate sources and bespoke visuals without turning
 
 **Given** a required source or indicator does not exist
 **When** the workflow reaches that dependency
-**Then** it invokes the neutral add-source or add-indicator workflow with the approved selection record
+**Then** it invokes the neutral add-source workflow when a snapshot contract is missing and the add-dataset-or-indicator workflow when a report-facing contract is missing
 **And** report work resumes only after the dependency publishes valid contracts and fixtures.
 
 **Given** the report consumes several datasets
@@ -1293,11 +1371,11 @@ So that Pulse can archive and process them without exposing their contents outsi
 
 **Given** malformed, unreadable, unsupported, or contract-invalid private input
 **When** acquisition or faithful decoding fails
-**Then** no partial artifact is accepted as a valid snapshot or landing artifact
+**Then** no partial artifact is accepted as a valid snapshot
 **And** existing private snapshots remain unchanged
 **And** the local diagnostic is actionable without reproducing sensitive field values or file contents.
 
-**Given** private inputs, snapshots, landing files, databases, datasets, statuses, and build residue
+**Given** private inputs, snapshots, dataset-private staging, databases, datasets, statuses, and build residue
 **When** repository ignore and status checks run
 **Then** none is eligible for Git staging or inclusion in public build discovery
 **And** source code and neutral synthetic fixtures remain independently commit-safe.
@@ -1331,9 +1409,10 @@ So that I can use personal data without relying on manual exclusion rules.
 **And** each retains its declared visibility and independent source ownership.
 
 **Given** valid private snapshots
-**When** the private source slice is rebuilt
-**Then** it uses the same faithful landing, dbt transformation, testing, semantic metadata, dataset-manifest, assertion, and status contracts as a public source
-**And** all landing files, DuckDB databases, datasets, manifests, and statuses remain in ignored private roots.
+**When** eligible independent dataset packages are rebuilt under the private profile
+**Then** they use the same snapshot dependency, dbt transformation, testing, semantic metadata, dataset-manifest, assertion, and status contracts as public datasets
+**And** all dataset-private staging, DuckDB databases, datasets, manifests, and statuses remain in ignored private roots
+**And** no private source package owns or executes their transformations.
 
 **Given** a dataset derived from a private source
 **When** its visibility is resolved
@@ -1357,7 +1436,7 @@ So that I can use personal data without relying on manual exclusion rules.
 
 **Given** a report consuming both public and private datasets
 **When** it is built
-**Then** each dataset remains independently source-owned rather than becoming an undeclared multi-source dataset
+**Then** each dataset remains independently packaged with its own declared single-source lineage rather than becoming an undeclared multi-source dataset
 **And** the report resolves to private
 **And** its joined query results and derived browser artifacts remain private.
 
@@ -1368,7 +1447,7 @@ So that I can use personal data without relying on manual exclusion rules.
 
 **Given** the private build profile
 **When** Yann runs the documented local build-and-serve command
-**Then** Pulse rebuilds the eligible public and private source slices and produces a private static site under an ignored local root
+**Then** Pulse rebuilds eligible public and private datasets from their declared snapshots and produces a private static site under an ignored local root
 **And** the site can be opened through the normal local server
 **And** no deployment workflow or public repository mutation is available from that command.
 

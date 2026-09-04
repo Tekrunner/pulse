@@ -1,0 +1,11 @@
+version: 2
+models:
+  - name: stg_snapshot
+    description: Faithful string-valued INSEE snapshot input.
+  - name: insee_cpi_category_analysis
+    description: Monthly CPI category analysis with annual basket-weight context.
+    columns:
+      - {name: period, description: First day of represented month., data_tests: [not_null, unique]}
+      - {name: food_index, description: Food CPI level., data_tests: [not_null]}
+      - {name: energy_index, description: Energy CPI level., data_tests: [not_null]}
+      - {name: actual_rent_index, description: Actual rents paid CPI level., data_tests: [not_null]}

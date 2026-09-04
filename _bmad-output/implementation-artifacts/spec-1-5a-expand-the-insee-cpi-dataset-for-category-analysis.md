@@ -12,6 +12,8 @@ context:
 
 <frozen-after-approval reason="human-owned intent — do not modify unless human renegotiates">
 
+> Superseded architecture note (approved 2026-09-03): Story 1.5b preserves the acquired series and analytical behavior while moving category analysis out of the source package and shared runtime into an independent dataset package. This file remains the historical implementation record.
+
 ## Intent
 
 **Problem:** The current INSEE CPI publication intentionally contains only headline CPI and its provider-published monthly and annual changes. It cannot support a credible French inflation analysis of food, energy, actual rents, or their relationship to the headline.

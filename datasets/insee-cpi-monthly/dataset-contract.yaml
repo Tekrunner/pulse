@@ -1,0 +1,51 @@
+contract_version: 1.0.0
+model:
+  name: insee_cpi_monthly
+  description: Wide monthly INSEE CPI headline indicators, Base 2025.
+columns:
+  - name: period
+    type: DATE
+    description: First day of the represented month.
+  - name: cpi_index
+    type: DECIMAL(12,2)
+    description: CPI level, Base 2025 = 100, all households, France, excluding tobacco.
+    indicator_id: "011814056"
+  - name: monthly_change_pct
+    type: DECIMAL(8,1)
+    description: Provider-published month-over-month percentage change.
+    indicator_id: "011814057"
+  - name: annual_change_pct
+    type: DECIMAL(8,1)
+    description: Provider-published year-over-year percentage change.
+    indicator_id: "011814058"
+indicators:
+  - column: cpi_index
+    provider_series_id: "011814056"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Ensemble hors Tabac
+    definition: CPI level, Base 2025 = 100, all households, France, excluding tobacco.
+    unit: Index
+    decimal_precision: "2"
+    base: "2025"
+    source: INSEE
+    licence: Licence Ouverte / Open Licence 2.0
+    attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025."
+  - column: monthly_change_pct
+    provider_series_id: "011814057"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Variation mensuelle - Ensemble des ménages - France - Ensemble hors Tabac
+    definition: Provider-published month-over-month percentage change.
+    unit: Percent
+    decimal_precision: "1"
+    base: "2025"
+    source: INSEE
+    licence: Licence Ouverte / Open Licence 2.0
+    attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025."
+  - column: annual_change_pct
+    provider_series_id: "011814058"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Ensemble hors Tabac
+    definition: Provider-published year-over-year percentage change.
+    unit: Percent
+    decimal_precision: "1"
+    base: "2025"
+    source: INSEE
+    licence: Licence Ouverte / Open Licence 2.0
+    attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025."
