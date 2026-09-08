@@ -5,6 +5,7 @@ with typed as (
     try_cast(OBS_VALUE as decimal(12,2)) as value
   from {{ ref('stg_snapshot') }}
   where FREQ = 'M' and REF_AREA = 'FE' and UNIT_MULT = '0'
+    and IDBANK in ('011814056', '011814057', '011814058')
 ), wide as (
   select period,
     max(case when IDBANK = '011814056' then value end)::decimal(12,2) as cpi_index,

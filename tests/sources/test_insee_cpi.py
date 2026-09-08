@@ -74,6 +74,12 @@ def test_discovery_keeps_provider_configuration_opaque() -> None:
         "011813665",
         "011813666",
         "011813668",
+        "011813906",
+        "011813908",
+        "011814579",
+        "011813780",
+        "011813782",
+        "011814496",
     ]
     assert "measure" not in str(source.configuration)
 
@@ -112,12 +118,15 @@ def test_fixture_preserves_provider_attributes_as_strings() -> None:
     assert {row["IDBANK"] for row in acquired.rows} == {
         item["id"] for item in discover_sources()["insee-cpi"].configuration["series"]
     }
-    assert {row["TIME_PERIOD"] for row in acquired.rows if row["FREQ"] == "A"} == {
-        "2025",
-        "2026",
+    assert {"2025", "2026"} <= {
+        row["TIME_PERIOD"] for row in acquired.rows if row["FREQ"] == "A"
     }
-    assert acquired.rows[0]["OBS_VALUE"] == "102.67"
-    assert acquired.rows[0]["DATE_JO"] == "2026-08-15"
+    headline_july = next(
+        row for row in acquired.rows
+        if row["IDBANK"] == "011814056" and row["TIME_PERIOD"] == "2026-07"
+    )
+    assert headline_july["OBS_VALUE"] == "102.67"
+    assert headline_july["DATE_JO"] == "2026-08-15"
     assert all(isinstance(value, str) for row in acquired.rows for value in row.values())
 
 
@@ -151,7 +160,7 @@ def test_compatible_attribute_addition_is_preserved_and_changes_schema_hash(tmp_
     evolved_fixture.write_text(payload, encoding="utf-8")
     declaration = discover_sources()["insee-cpi"]
     evolved = acquire_from_adapter(declaration, fixture=evolved_fixture, live=False)
-    assert evolved.rows[0]["PROVIDER_ADDITION"] == "kept"
+    assert any(row.get("PROVIDER_ADDITION") == "kept" for row in evolved.rows)
     evolved_snapshot = archive_rows(
         root=tmp_path / "evolved",
         source_id=declaration.source_id,

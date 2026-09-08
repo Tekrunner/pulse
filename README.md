@@ -1,5 +1,11 @@
 # Pulse
 
+Public source snapshots and canonical dataset Parquet publications are immutable,
+Git LFS-backed artifacts. Their `snapshot.json` and `dataset.json` manifests stay
+in normal Git so hashes, lineage, represented periods, and semantic changes are
+reviewable. `site/data/browser-data.json`, `site/data/reports.json`, copied site
+datasets, and `dist/` are generated outputs and must not be committed.
+
 ## Workspace verification
 
 Pulse requires CPython 3.13, [uv](https://docs.astral.sh/uv/), Node 24, and its bundled npm 11.

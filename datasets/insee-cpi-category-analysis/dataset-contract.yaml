@@ -6,6 +6,10 @@ columns:
   - {name: period, type: DATE, description: "First day of the represented month; output stops at the latest common complete provider period."}
   - {name: food_index, type: "DECIMAL(12,2)", description: "INSEE food CPI level, Base 2025 = 100, all households, France."}
   - {name: food_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published food year-over-year change.}
+  - {name: services_index, type: "DECIMAL(12,2)", description: "INSEE services CPI level, Base 2025 = 100, all households, France."}
+  - {name: services_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published services year-over-year change.}
+  - {name: manufactured_products_index, type: "DECIMAL(12,2)", description: "INSEE manufactured-products CPI level, Base 2025 = 100, all households, France."}
+  - {name: manufactured_products_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published manufactured-products year-over-year change.}
   - {name: energy_index, type: "DECIMAL(12,2)", description: "INSEE energy CPI level, Base 2025 = 100, all households, France."}
   - {name: energy_annual_change_pct, type: "DECIMAL(8,1)", description: INSEE provider-published energy year-over-year change.}
   - {name: actual_rent_index, type: "DECIMAL(12,2)", description: "INSEE actual rents paid CPI level, COICOP 04.1, Base 2025 = 100, all households, France."}
@@ -15,6 +19,10 @@ columns:
   - {name: energy_official_contribution_pct_points, type: "DECIMAL(8,3)", description: INSEE provider-published energy contribution to headline annual CPI.}
   - {name: food_weight, type: "DECIMAL(8,0)", description: "INSEE annual food basket weight per 10,000 for the named reference year."}
   - {name: food_weight_reference_year, type: INTEGER, description: INSEE food weight observation year; not a monthly observation.}
+  - {name: services_weight, type: "DECIMAL(8,0)", description: "INSEE annual services basket weight per 10,000 for the named reference year."}
+  - {name: services_weight_reference_year, type: INTEGER, description: INSEE services weight observation year; not a monthly observation.}
+  - {name: manufactured_products_weight, type: "DECIMAL(8,0)", description: "INSEE annual manufactured-products basket weight per 10,000 for the named reference year."}
+  - {name: manufactured_products_weight_reference_year, type: INTEGER, description: INSEE manufactured-products weight observation year; not a monthly observation.}
   - {name: energy_weight, type: "DECIMAL(8,0)", description: "INSEE annual energy basket weight per 10,000 for the named reference year."}
   - {name: energy_weight_reference_year, type: INTEGER, description: INSEE energy weight observation year; not a monthly observation.}
   - {name: actual_rent_weight, type: "DECIMAL(8,0)", description: "INSEE annual actual-rent basket weight per 10,000 for the named reference year."}
@@ -38,6 +46,30 @@ indicators:
     provider_series_id: "011813719"
     provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Alimentation
     definition: INSEE provider-published food year-over-year change.
+    unit: Percent
+    decimal_precision: "1"
+  - <<: *insee_indicator
+    column: services_index
+    provider_series_id: "011813906"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Services
+    definition: INSEE services CPI level, Base 2025 = 100, all households, France.
+  - <<: *insee_indicator
+    column: services_annual_change_pct
+    provider_series_id: "011813908"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Services
+    definition: INSEE provider-published services year-over-year change.
+    unit: Percent
+    decimal_precision: "1"
+  - <<: *insee_indicator
+    column: manufactured_products_index
+    provider_series_id: "011813780"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Produits manufacturés
+    definition: INSEE manufactured-products CPI level, Base 2025 = 100, all households, France.
+  - <<: *insee_indicator
+    column: manufactured_products_annual_change_pct
+    provider_series_id: "011813782"
+    provider_title_fr: Indice des prix à la consommation - Base 2025 - Glissement annuel - Ensemble des ménages - France - Produits manufacturés
+    definition: INSEE provider-published manufactured-products year-over-year change.
     unit: Percent
     decimal_precision: "1"
   - <<: *insee_indicator
@@ -91,6 +123,26 @@ indicators:
   - <<: *food_weight
     column: food_weight_reference_year
     definition: INSEE food weight observation year; not a monthly observation.
+    unit: Year
+  - &services_weight
+    <<: *food_weight
+    column: services_weight
+    provider_series_id: "011814579"
+    provider_title_fr: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Services
+    definition: INSEE annual services CPI basket weight per 10,000.
+  - <<: *services_weight
+    column: services_weight_reference_year
+    definition: INSEE services weight observation year; not a monthly observation.
+    unit: Year
+  - &manufactured_weight
+    <<: *food_weight
+    column: manufactured_products_weight
+    provider_series_id: "011814496"
+    provider_title_fr: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Produits manufacturés
+    definition: INSEE annual manufactured-products CPI basket weight per 10,000.
+  - <<: *manufactured_weight
+    column: manufactured_products_weight_reference_year
+    definition: INSEE manufactured-products weight observation year; not a monthly observation.
     unit: Year
   - &energy_weight
     <<: *food_weight

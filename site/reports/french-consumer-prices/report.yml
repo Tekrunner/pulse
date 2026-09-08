@@ -1,0 +1,29 @@
+id: french-consumer-prices
+title: French consumer prices
+route: reports/french-consumer-prices
+visibility: public
+datasets: [insee-cpi-monthly, insee-cpi-category-analysis]
+visuals:
+  - id: headline-trend
+    contract: 1.0.0
+    dataset: insee-cpi-monthly
+    columns: [period, cpi_index, monthly_change_pct, annual_change_pct]
+  - id: contribution-stack
+    contract: 1.0.0
+    dataset: insee-cpi-category-analysis
+    columns: [period, food_official_contribution_pct_points, services_official_contribution_pct_points, manufactured_products_official_contribution_pct_points, energy_official_contribution_pct_points, actual_rent_pulse_contribution_pct_points, actual_rent_weight]
+  - id: divergence-multiples
+    contract: 1.0.0
+    dataset: insee-cpi-category-analysis
+    columns: [period, food_annual_change_pct, services_annual_change_pct, manufactured_products_annual_change_pct, energy_annual_change_pct, actual_rent_annual_change_pct, food_weight, food_weight_reference_year, services_weight, services_weight_reference_year, manufactured_products_weight, manufactured_products_weight_reference_year, energy_weight, energy_weight_reference_year, actual_rent_weight, actual_rent_weight_reference_year]
+  - id: index-level-paths
+    contract: 1.0.0
+    dataset: insee-cpi-category-analysis
+    columns: [period, food_index, services_index, manufactured_products_index, energy_index, actual_rent_index]
+lineage:
+  insee-cpi-monthly: [period, cpi_index, monthly_change_pct, annual_change_pct]
+  insee-cpi-category-analysis: [period, food_index, food_annual_change_pct, services_index, services_annual_change_pct, manufactured_products_index, manufactured_products_annual_change_pct, energy_index, energy_annual_change_pct, actual_rent_index, food_official_contribution_pct_points, services_official_contribution_pct_points, manufactured_products_official_contribution_pct_points, energy_official_contribution_pct_points, food_weight, food_weight_reference_year, services_weight, services_weight_reference_year, manufactured_products_weight, manufactured_products_weight_reference_year, energy_weight, energy_weight_reference_year, actual_rent_weight, actual_rent_weight_reference_year, actual_rent_annual_change_pct, actual_rent_pulse_contribution_pct_points]
+exploration:
+  enabled: true
+  default_period: five-years
+  controls: [represented-period, observation-month, components, lead-series, equivalent-amount]

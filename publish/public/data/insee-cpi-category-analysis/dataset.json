@@ -1,0 +1,466 @@
+{
+  "columns": [
+    {
+      "description": "First day of the represented month; output stops at the latest common complete provider period.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "INSEE food CPI level, Base 2025 = 100, all households, France.",
+      "name": "food_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "INSEE provider-published food year-over-year change.",
+      "name": "food_annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "INSEE services CPI level, Base 2025 = 100, all households, France.",
+      "name": "services_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "INSEE provider-published services year-over-year change.",
+      "name": "services_annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "INSEE manufactured-products CPI level, Base 2025 = 100, all households, France.",
+      "name": "manufactured_products_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "INSEE provider-published manufactured-products year-over-year change.",
+      "name": "manufactured_products_annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "INSEE energy CPI level, Base 2025 = 100, all households, France.",
+      "name": "energy_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "INSEE provider-published energy year-over-year change.",
+      "name": "energy_annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "INSEE actual rents paid CPI level, COICOP 04.1, Base 2025 = 100, all households, France.",
+      "name": "actual_rent_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "INSEE provider-published food contribution to headline annual CPI.",
+      "name": "food_official_contribution_pct_points",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "INSEE provider-published services contribution to headline annual CPI.",
+      "name": "services_official_contribution_pct_points",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "INSEE provider-published manufactured-products contribution to headline annual CPI.",
+      "name": "manufactured_products_official_contribution_pct_points",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "INSEE provider-published energy contribution to headline annual CPI.",
+      "name": "energy_official_contribution_pct_points",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "INSEE annual food basket weight per 10,000 for the named reference year.",
+      "name": "food_weight",
+      "type": "DECIMAL(8,0)"
+    },
+    {
+      "description": "INSEE food weight observation year; not a monthly observation.",
+      "name": "food_weight_reference_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "INSEE annual services basket weight per 10,000 for the named reference year.",
+      "name": "services_weight",
+      "type": "DECIMAL(8,0)"
+    },
+    {
+      "description": "INSEE services weight observation year; not a monthly observation.",
+      "name": "services_weight_reference_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "INSEE annual manufactured-products basket weight per 10,000 for the named reference year.",
+      "name": "manufactured_products_weight",
+      "type": "DECIMAL(8,0)"
+    },
+    {
+      "description": "INSEE manufactured-products weight observation year; not a monthly observation.",
+      "name": "manufactured_products_weight_reference_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "INSEE annual energy basket weight per 10,000 for the named reference year.",
+      "name": "energy_weight",
+      "type": "DECIMAL(8,0)"
+    },
+    {
+      "description": "INSEE energy weight observation year; not a monthly observation.",
+      "name": "energy_weight_reference_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "INSEE annual actual-rent basket weight per 10,000 for the named reference year.",
+      "name": "actual_rent_weight",
+      "type": "DECIMAL(8,0)"
+    },
+    {
+      "description": "INSEE actual-rent weight observation year; not a monthly observation.",
+      "name": "actual_rent_weight_reference_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "Pulse-derived year-over-year rent-index change: (index_t / index_t-12 - 1) * 100.",
+      "name": "actual_rent_annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "Pulse calculation: actual_rent_weight / 10000 * actual_rent_annual_change_pct; not an official INSEE contribution and not causal.",
+      "name": "actual_rent_pulse_contribution_pct_points",
+      "type": "DECIMAL(8,3)"
+    }
+  ],
+  "content_sha256": "a86b88c65c79ca17dd68eb5748e82667e78ce709fbbdc06fd6cd0e4c99849fca",
+  "dataset_id": "insee-cpi-category-analysis",
+  "indicators": [
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "food_index",
+      "decimal_precision": "2",
+      "definition": "INSEE food CPI level, Base 2025 = 100, all households, France.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813717",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Alimentation",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "food_annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "INSEE provider-published food year-over-year change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813719",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Glissement annuel - Ensemble des m\u00e9nages - France - Alimentation",
+      "source": "INSEE",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "services_index",
+      "decimal_precision": "2",
+      "definition": "INSEE services CPI level, Base 2025 = 100, all households, France.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813906",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Services",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "services_annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "INSEE provider-published services year-over-year change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813908",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Glissement annuel - Ensemble des m\u00e9nages - France - Services",
+      "source": "INSEE",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "manufactured_products_index",
+      "decimal_precision": "2",
+      "definition": "INSEE manufactured-products CPI level, Base 2025 = 100, all households, France.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813780",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Produits manufactur\u00e9s",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "manufactured_products_annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "INSEE provider-published manufactured-products year-over-year change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813782",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Glissement annuel - Ensemble des m\u00e9nages - France - Produits manufactur\u00e9s",
+      "source": "INSEE",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "energy_index",
+      "decimal_precision": "2",
+      "definition": "INSEE energy CPI level, Base 2025 = 100, all households, France.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813864",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - \u00c9nergie",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "energy_annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "INSEE provider-published energy year-over-year change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813866",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Glissement annuel - Ensemble des m\u00e9nages - France - \u00c9nergie",
+      "source": "INSEE",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "actual_rent_index",
+      "decimal_precision": "2",
+      "definition": "INSEE actual rents paid CPI level, COICOP 04.1, Base 2025 = 100, all households, France.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011815633",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Nomenclature Coicop : 04.1 - Loyers d\u2019habitation effectivement pay\u00e9s",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "food_official_contribution_pct_points",
+      "decimal_precision": "3",
+      "definition": "INSEE provider-published food contribution to headline annual CPI.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813664",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des m\u00e9nages - France - Alimentation",
+      "source": "INSEE",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "services_official_contribution_pct_points",
+      "decimal_precision": "3",
+      "definition": "INSEE provider-published services contribution to headline annual CPI.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813665",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des m\u00e9nages - France - Services",
+      "source": "INSEE",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "manufactured_products_official_contribution_pct_points",
+      "decimal_precision": "3",
+      "definition": "INSEE provider-published manufactured-products contribution to headline annual CPI.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813666",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des m\u00e9nages - France - Produits manufactur\u00e9s",
+      "source": "INSEE",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "energy_official_contribution_pct_points",
+      "decimal_precision": "3",
+      "definition": "INSEE provider-published energy contribution to headline annual CPI.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011813668",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Contribution au glissement annuel - Ensemble des m\u00e9nages - France - \u00c9nergie",
+      "source": "INSEE",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "food_weight",
+      "decimal_precision": "0",
+      "definition": "INSEE annual food CPI basket weight per 10,000.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814578",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Alimentation",
+      "source": "INSEE",
+      "unit": "Weight per 10,000"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "food_weight_reference_year",
+      "decimal_precision": "0",
+      "definition": "INSEE food weight observation year; not a monthly observation.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814578",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Alimentation",
+      "source": "INSEE",
+      "unit": "Year"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "services_weight",
+      "decimal_precision": "0",
+      "definition": "INSEE annual services CPI basket weight per 10,000.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814579",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Services",
+      "source": "INSEE",
+      "unit": "Weight per 10,000"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "services_weight_reference_year",
+      "decimal_precision": "0",
+      "definition": "INSEE services weight observation year; not a monthly observation.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814579",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Services",
+      "source": "INSEE",
+      "unit": "Year"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "manufactured_products_weight",
+      "decimal_precision": "0",
+      "definition": "INSEE annual manufactured-products CPI basket weight per 10,000.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814496",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Produits manufactur\u00e9s",
+      "source": "INSEE",
+      "unit": "Weight per 10,000"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "manufactured_products_weight_reference_year",
+      "decimal_precision": "0",
+      "definition": "INSEE manufactured-products weight observation year; not a monthly observation.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814496",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Produits manufactur\u00e9s",
+      "source": "INSEE",
+      "unit": "Year"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "energy_weight",
+      "decimal_precision": "0",
+      "definition": "INSEE annual energy CPI basket weight per 10,000.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814509",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - \u00c9nergie",
+      "source": "INSEE",
+      "unit": "Weight per 10,000"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "energy_weight_reference_year",
+      "decimal_precision": "0",
+      "definition": "INSEE energy weight observation year; not a monthly observation.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814509",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - \u00c9nergie",
+      "source": "INSEE",
+      "unit": "Year"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "actual_rent_weight",
+      "decimal_precision": "0",
+      "definition": "INSEE annual actual-rent CPI basket weight per 10,000.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011815638",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Nomenclature Coicop : 04.1 - Loyers d\u2019habitation effectivement pay\u00e9s",
+      "source": "INSEE",
+      "unit": "Weight per 10,000"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "actual_rent_weight_reference_year",
+      "decimal_precision": "0",
+      "definition": "INSEE actual-rent weight observation year; not a monthly observation.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011815638",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Nomenclature Coicop : 04.1 - Loyers d\u2019habitation effectivement pay\u00e9s",
+      "source": "INSEE",
+      "unit": "Year"
+    },
+    {
+      "attribution": "Source data: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "actual_rent_annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "Pulse-derived year-over-year rent-index change: (index_t / index_t-12 - 1) * 100.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011815633",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Nomenclature Coicop : 04.1 - Loyers d\u2019habitation effectivement pay\u00e9s",
+      "source": "Pulse calculation from INSEE series",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source data: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "actual_rent_pulse_contribution_pct_points",
+      "decimal_precision": "3",
+      "definition": "Pulse calculation: actual_rent_weight / 10000 * actual_rent_annual_change_pct; not an official INSEE contribution and not causal.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011815638",
+      "provider_title_fr": "Pond\u00e9ration de l'indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Nomenclature Coicop : 04.1 - Loyers d\u2019habitation effectivement pay\u00e9s",
+      "source": "Pulse calculation from INSEE series",
+      "unit": "Percentage points"
+    }
+  ],
+  "lineage": {
+    "native_fields": [
+      "OBS_STATUS",
+      "OBS_QUAL",
+      "DATE_JO",
+      "LAST_UPDATE"
+    ],
+    "snapshot_id": "acq-cd64f5f9e5bb443c94b6fb004a534b8a-8106c9fd4a1e",
+    "snapshot_sha256": "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
+  },
+  "logical_table": "insee_cpi_category_analysis",
+  "model": {
+    "description": "Monthly CPI category analysis with annual basket-weight context.",
+    "name": "insee_cpi_category_analysis"
+  },
+  "parquet_path": "dataset.parquet",
+  "represented_period": {
+    "end": "2026-07-01",
+    "start": "1998-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.0.0",
+  "source_id": "insee-cpi",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "visibility": "public"
+}

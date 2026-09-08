@@ -12,3 +12,5 @@ display(reportLink("./reports/report"));
 ```
 
 This static shell uses same-origin, manifest-relative data and purpose-built DOM/SVG visuals.
+
+[Open the complete French consumer-price report](./reports/french-consumer-prices)

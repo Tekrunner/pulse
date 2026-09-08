@@ -68,7 +68,7 @@ def test_monthly_build_preserves_analytical_rows_schema_and_bytes(tmp_path: Path
         "monthly_change_pct": "DECIMAL(8,1)",
         "annual_change_pct": "DECIMAL(8,1)",
     }
-    assert manifest.lineage["snapshot_id"].startswith("acq-4f6f4d2c8a6b4e5f9a7c1d3e5b8f2041-")
+    assert manifest.lineage["snapshot_id"].startswith("acq-cd64f5f9e5bb443c94b6fb004a534b8a-")
 
 
 def test_category_build_preserves_rows_and_documents_calculated_rent(tmp_path: Path) -> None:
@@ -88,13 +88,13 @@ def test_category_build_preserves_rows_and_documents_calculated_rent(tmp_path: P
     finally:
         connection.close()
     assert manifest.dataset_id == "insee-cpi-category-analysis"
-    assert manifest.content_sha256 == "91c9954a1ac2bfff87a4abd63280136adcab7da0c92ab8458dcae94613f8ad30"
+    assert manifest.content_sha256 == "a86b88c65c79ca17dd68eb5748e82667e78ce709fbbdc06fd6cd0e4c99849fca"
     assert result == (343, "1998-01-01", "2026-07-01", 0, 0)
     indicators = {item["column"]: item for item in manifest.indicators}
     rent = indicators["actual_rent_pulse_contribution_pct_points"]
     assert rent["source"] == "Pulse calculation from INSEE series"
     assert "not an official INSEE contribution" in rent["definition"]
-    assert manifest.lineage["snapshot_id"].startswith("acq-category-analysis-")
+    assert manifest.lineage["snapshot_id"].startswith("acq-cd64f5f9e5bb443c94b6fb004a534b8a-")
 
 
 def test_generated_manifest_must_equal_committed_contract(tmp_path: Path) -> None:

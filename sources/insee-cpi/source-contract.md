@@ -2,9 +2,10 @@
 
 This public acquisition package fetches one combined, credential-free INSEE BDM
 SDMX 2.1 `StructureSpecificData` response. Its provider-native scope is declared
-in `source.yaml`: sixteen Base-2025 IPC series covering the headline index and
-changes, food, energy, actual rents paid, annual basket weights, and official
-broad-component contributions.
+in `source.yaml`: twenty-two Base-2025 IPC series covering the headline index
+and changes; food, services, manufactured products, energy, and actual rents;
+their available annual basket weights; and official broad-component
+contributions.
 
 Those series are acquisition scope, not a declaration of any Pulse dataset.
 Their INSEE IDs and French catalogue titles are retained exactly so the adapter

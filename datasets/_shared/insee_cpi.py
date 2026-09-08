@@ -19,7 +19,8 @@ CATEGORY_SERIES = {
     "011814056", "011814057", "011814058", "011813717", "011813718",
     "011813719", "011813864", "011813866", "011815633", "011814578",
     "011814509", "011815638", "011813664", "011813665", "011813666",
-    "011813668",
+    "011813668", "011813906", "011813908", "011814579", "011813780",
+    "011813782", "011814496",
 }
 
 
@@ -28,7 +29,7 @@ def _quote(path: Path) -> str:
 
 
 def select_snapshot(context: DatasetBuildContext, required_series: set[str]) -> SnapshotInput:
-    """Select the newest snapshot whose provider-native series set matches exactly."""
+    """Select the newest snapshot containing the package's provider-native series."""
     for snapshot in context.snapshots:
         connection = duckdb.connect()
         try:
@@ -59,7 +60,7 @@ def select_snapshot(context: DatasetBuildContext, required_series: set[str]) -> 
             ).fetchone()[0]
         finally:
             connection.close()
-        if series == required_series and not duplicates and not invalid:
+        if required_series <= series and not duplicates and not invalid:
             return snapshot
     raise DatasetError("no snapshot satisfies this dataset's declared INSEE input contract")
 
@@ -167,6 +168,8 @@ def build_category_analysis(context: DatasetBuildContext) -> DatasetBuildResult:
         missing, future_weights, bad_formula = connection.execute(
             f"""SELECT count(*) FILTER (WHERE {null_predicate}),
                        count(*) FILTER (WHERE food_weight_reference_year > year(period)
+                         OR services_weight_reference_year > year(period)
+                         OR manufactured_products_weight_reference_year > year(period)
                          OR energy_weight_reference_year > year(period)
                          OR actual_rent_weight_reference_year > year(period)),
                        count(*) FILTER (

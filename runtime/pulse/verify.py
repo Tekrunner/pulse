@@ -15,7 +15,9 @@ class VerificationError(RuntimeError):
 
 
 ROOT = Path(__file__).resolve().parents[2]
-SUBPROCESS_TIMEOUT_SECONDS = 180
+# Dataset conformance exercises two dbt builds over the full public snapshot;
+# allow the reproducible suite to complete on slower CI and Firefox hosts.
+SUBPROCESS_TIMEOUT_SECONDS = 600
 
 
 def _run(name: str, command: list[str]) -> None:

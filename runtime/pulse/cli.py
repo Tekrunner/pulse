@@ -11,7 +11,7 @@ from pulse.datasets import DatasetError, build_all_datasets, build_dataset, disc
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
-from pulse.catalog import write_browser_catalog
+from pulse.catalog import compile_browser_catalog, write_browser_catalog, write_report_catalog
 from pulse.contracts.snapshot import ContractError
 
 
@@ -29,6 +29,8 @@ def build_parser() -> argparse.ArgumentParser:
     catalog_build.add_argument("--output", type=Path, required=True)
     catalog_build.add_argument("--publish-root", type=Path, default=Path("publish/public"), help=argparse.SUPPRESS)
     catalog_build.add_argument("--parquet-prefix", default="datasets", help=argparse.SUPPRESS)
+    catalog_build.add_argument("--reports-output", type=Path, help=argparse.SUPPRESS)
+    catalog_build.add_argument("--reports-root", type=Path, default=Path("site/reports"), help=argparse.SUPPRESS)
     source = subcommands.add_parser("source", help="acquire one declared source")
     source_subcommands = source.add_subparsers(dest="source_command", required=True)
     acquire = source_subcommands.add_parser("acquire", help="archive a faithful raw source snapshot")
@@ -72,6 +74,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "catalog":
         try:
             output = write_browser_catalog(args.output, publish_root=args.publish_root, parquet_prefix=args.parquet_prefix)
+            if args.reports_output:
+                write_report_catalog(
+                    args.reports_output,
+                    reports_root=args.reports_root,
+                    browser_catalog=compile_browser_catalog(args.publish_root, parquet_prefix=args.parquet_prefix),
+                )
         except (ContractError, OSError) as error:
             print(f"pulse catalog build failed: {error}", file=sys.stderr)
             return 1

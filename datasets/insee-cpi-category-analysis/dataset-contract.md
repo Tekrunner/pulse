@@ -1,7 +1,7 @@
 # INSEE CPI category-analysis dataset contract
 
 This independent dataset consumes the expanded INSEE Base-2025 CPI snapshot. It
-publishes monthly food, energy, and actual-rent indices; comparable annual
+publishes monthly food, services, manufactured-products, energy, and actual-rent indices; comparable annual
 changes; official INSEE contributions for the available broad components; and
 annual basket-weight context.
 
@@ -9,6 +9,10 @@ Annual weights are joined using the latest reference year not after the
 represented calendar year. They remain annual context rather than monthly
 observations. Output ends at the latest common complete provider month; missing
 asynchronous observations are not imputed.
+
+Services and manufactured-products levels, annual changes, and annual weights
+are provider-published INSEE series. They are never reconstructed from
+contributions or representative weights.
 
 INSEE does not publish a compatible annual-change series for actual rents in
 this selection. `actual_rent_annual_change_pct` is therefore calculated by

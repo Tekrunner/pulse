@@ -59,7 +59,7 @@ def test_live_insee_contract_and_temporary_archive(tmp_path: Path) -> None:
     assert set(archived_series) == set(declared)
     assert all(series["count"] > 0 for series in archived_series.values())
     assert {series_id: series["title"] for series_id, series in archived_series.items()} == declared
-    annual_weights = {"011814578", "011814509", "011815638"}
+    annual_weights = {"011814578", "011814509", "011815638", "011814579", "011814496"}
     assert {
         series_id: series["frequency"] for series_id, series in archived_series.items()
     } == {

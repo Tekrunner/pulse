@@ -1,0 +1,95 @@
+{
+  "columns": [
+    {
+      "description": "First day of the represented month.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "CPI level, Base 2025 = 100, all households, France, excluding tobacco.",
+      "indicator_id": "011814056",
+      "name": "cpi_index",
+      "type": "DECIMAL(12,2)"
+    },
+    {
+      "description": "Provider-published month-over-month percentage change.",
+      "indicator_id": "011814057",
+      "name": "monthly_change_pct",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "Provider-published year-over-year percentage change.",
+      "indicator_id": "011814058",
+      "name": "annual_change_pct",
+      "type": "DECIMAL(8,1)"
+    }
+  ],
+  "content_sha256": "39e166e9ee601157f50977183bb18c46cb2b7cbe5e1f77925e829453f22680bf",
+  "dataset_id": "insee-cpi-monthly",
+  "indicators": [
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "cpi_index",
+      "decimal_precision": "2",
+      "definition": "CPI level, Base 2025 = 100, all households, France, excluding tobacco.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814056",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Ensemble des m\u00e9nages - France - Ensemble hors Tabac",
+      "source": "INSEE",
+      "unit": "Index"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "monthly_change_pct",
+      "decimal_precision": "1",
+      "definition": "Provider-published month-over-month percentage change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814057",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Variation mensuelle - Ensemble des m\u00e9nages - France - Ensemble hors Tabac",
+      "source": "INSEE",
+      "unit": "Percent"
+    },
+    {
+      "attribution": "Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025.",
+      "base": "2025",
+      "column": "annual_change_pct",
+      "decimal_precision": "1",
+      "definition": "Provider-published year-over-year percentage change.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "provider_series_id": "011814058",
+      "provider_title_fr": "Indice des prix \u00e0 la consommation - Base 2025 - Glissement annuel - Ensemble des m\u00e9nages - France - Ensemble hors Tabac",
+      "source": "INSEE",
+      "unit": "Percent"
+    }
+  ],
+  "lineage": {
+    "native_fields": [
+      "OBS_STATUS",
+      "OBS_QUAL",
+      "DATE_JO",
+      "LAST_UPDATE"
+    ],
+    "snapshot_id": "acq-cd64f5f9e5bb443c94b6fb004a534b8a-8106c9fd4a1e",
+    "snapshot_sha256": "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
+  },
+  "logical_table": "insee_cpi_monthly",
+  "model": {
+    "description": "Wide monthly INSEE CPI headline indicators, Base 2025.",
+    "name": "insee_cpi_monthly"
+  },
+  "parquet_path": "dataset.parquet",
+  "represented_period": {
+    "end": "2026-07-01",
+    "start": "1996-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.0.0",
+  "source_id": "insee-cpi",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "visibility": "public"
+}

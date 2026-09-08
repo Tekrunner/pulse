@@ -229,7 +229,11 @@ def _snapshots(
     return tuple(
         sorted(
             found,
-            key=lambda item: (item.manifest.source_data_date or "", item.path.name),
+            key=lambda item: (
+                item.manifest.source_data_date or "",
+                item.manifest.acquired_at,
+                item.path.name,
+            ),
             reverse=True,
         )
     )
