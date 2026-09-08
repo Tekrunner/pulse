@@ -687,13 +687,13 @@ So that I can quickly refresh my understanding and investigate the underlying da
 
 As Yann,
 I want pipeline health and data freshness visible on my normal path into reports,
-So that I know when figures are current, suspect, unavailable, or backed by a stale site.
+So that I know when figures are current, suspect, unavailable, or stale.
 
 **Acceptance Criteria:**
 
-**Given** the discovered source and dataset declarations and the single `system/site` declaration
+**Given** the discovered source and dataset declarations
 **When** the expected-pipeline catalog is compiled
-**Then** it contains the complete set of expected source, dataset, and site pipeline IDs and names
+**Then** it contains the complete set of expected source and dataset pipeline IDs and names
 **And** undeclared runtime jobs or missing expected entries fail validation.
 
 **Given** an attempted INSEE source acquisition
@@ -731,19 +731,9 @@ So that I know when figures are current, suspect, unavailable, or backed by a st
 **Then** the result uses the source's expected publication schedule and validity deadline rather than fetch cadence alone
 **And** data is marked stale only after the declared advancement deadline passes.
 
-**Given** a successful site build and deployment projection
-**When** the static artifact is assembled
-**Then** `system/site` records generation time, validity deadline, and the canonical `build-site` and `deploy-site` outcomes inside the deployed artifact
-**And** the site does not require GitHub Actions APIs or other mutable external state to explain its health.
-
-**Given** a site replacement fails before deployment
-**When** the previously deployed site passes its validity deadline
-**Then** that site computes and displays itself as stale rather than continuing to claim healthy status
-**And** the failed workflow retains its diagnostic in GitHub Actions without attempting to rewrite the old artifact.
-
 **Given** the homepage is opened
 **When** navigation and status catalogs load
-**Then** it links to every included report and displays every expected source and site pipeline
+**Then** it links to every included report and displays every expected source and dataset pipeline
 **And** it shows freshness, stage state, assertion state, last attempt, latest usable output, and safe diagnostic context
 **And** healthy state remains quiet while degraded state is perceivable without relying on color alone.
 
