@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  html, body { margin: 0; background: #161826; color: #e9e9ed; font-family: "Inter", system-ui, sans-serif; font-size: 15px; line-height: 1.6; }
+  *, *::before, *::after { box-sizing: border-box; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid #9184d9; outline-offset: 2px; }
+  ::selection { background: rgba(145,132,217,.3); }
+  a { color: #b5abfc; text-underline-offset: 3px; }
+  a:hover { color: #d2cefd; }
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .92em; color: #d2cefd; }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .001ms !important; animation-duration: .001ms !important; } }
+</style>
+</helmet>
+<div style="max-width: 940px; margin: 0 auto; padding: 33.6px 16.8px 56px; display: flex; flex-direction: column; gap: 33.6px;">
+
+  <header style="display: flex; flex-direction: column; gap: 8.4px;">
+    <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">Pulse · Story 1.6 · design session record</span>
+    <h1 style="font-size: 40px; font-weight: 500; line-height: 1.1; letter-spacing: -.015em; margin: 0;">French consumer prices: report design decisions</h1>
+    <p style="margin: 0; max-width: 70ch; color: #cfd3e5; font-size: 16px; text-wrap: pretty;">Decided against the published data, not a mock: 367 monthly headline observations (Jan 1996 – Jul 2026) and 343 category observations (Jan 1998 – Jul 2026) read out of the two Parquet publications. Every figure quoted below is a real published value. The companion design is <a href="Pulse%20CPI%20Report.dc.html">Pulse CPI Report</a>; the fixture declarations are in <code>deliverables/visuals/</code>.</p>
+  </header>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">1 · Standing questions and narrative hierarchy</h2>
+    <p style="margin: 0; max-width: 74ch; color: #cfd3e5;">The report is standing, not an article: it must answer the same questions every month, in the same order, whatever the numbers do. Four questions carry it, and they are also the four figures. Everything else was cut.</p>
+    <ol style="margin: 0; padding-left: 22.4px; display: flex; flex-direction: column; gap: 8.4px; color: #cfd3e5; max-width: 78ch;">
+      <li><strong style="color: #e9e9ed;">Where do prices stand, and is the rate accelerating?</strong> Answered twice: in the scorecard as four figures, then as the trend figure. Both carry the same-month-a-year-ago comparison, because “2.1%” only means something beside “0.9% a year earlier”.</li>
+      <li><strong style="color: #e9e9ed;">What is carrying the annual rate?</strong> INSEE’s four published contributions, stacked against the headline rate. Rents are answered here too, in their own lane and on their own scale.</li>
+      <li><strong style="color: #e9e9ed;">Which components diverge from headline, and how much of the basket are they?</strong> Small multiples, each panel carrying its basket share so a 12.6% energy move is read against a 7.6% basket share.</li>
+      <li><strong style="color: #e9e9ed;">What has the price level done cumulatively?</strong> Index levels since Base 2025 = 100 — the answer the annual rate hides when it falls while levels keep climbing.</li>
+    </ol>
+    <p style="margin: 0; max-width: 74ch; color: #a9abb4; font-size: 13px;">Hierarchy: answer first, evidence second. A reader who stops after the scorecard has the month’s answer in four numbers and one sentence; each figure below then earns its place by answering a question the ones above it cannot.</p>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">2 · Indicators, precision, comparisons, periods</h2>
+    <p style="margin: 0; max-width: 74ch; color: #cfd3e5;">Every value is displayed at the precision the provider publishes. No rounding up for tidiness, no derived decimals: the contracts declare <code>DECIMAL(12,2)</code> for levels and <code>DECIMAL(8,1)</code> for changes, and the report shows exactly that.</p>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <thead><tr>
+          <sc-for list="{{ indicatorCols }}" as="c" hint-placeholder-count="5">
+            <th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.16); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a9abb4; white-space: nowrap;">{{ c.label }}</th>
+          </sc-for>
+        </tr></thead>
+        <tbody>
+          <sc-for list="{{ indicators }}" as="r" hint-placeholder-count="10">
+            <tr>
+              <th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); font-weight: 400; color: #e9e9ed;">{{ r.name }}</th>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5; font-variant-numeric: tabular-nums; white-space: nowrap;">{{ r.series }}</td>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5;">{{ r.precision }}</td>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5; font-variant-numeric: tabular-nums;">{{ r.latest }}</td>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: {{ r.originColor }};">{{ r.origin }}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16.8px;">
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Represented periods</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">Default five years (Aug 2021 – Jul 2026): long enough to hold the 2022–23 episode and the 2026 turn, short enough that a monthly bar stays legible. Also 24 months and “since 2015”. Full history back to 1996 is deliberately not offered in the standing view: at 367 monthly bars the composition figure becomes texture.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Comparisons</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">Three, and only three: against the same month a year earlier (scorecard and lead), against the headline rate (every component panel and the contribution figure), and against the 2025 base (level figure). No forecasts, no targets, no cross-country comparison — that needs another source.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Rounding rule</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">Charts and prose show one decimal for percentages and contributions, two for levels. The Pulse rent contribution is published at three decimals; figures show two, and the accessible table carries all three. Signs are explicit (<code>+2.1%</code>, <code>−0.3%</code>) so a fall is never a bare number.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 16.8px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">3 · The four visuals</h2>
+    <p style="margin: 0; max-width: 74ch; color: #cfd3e5;">Each answers a question the others cannot, and each is a separate Visual Contract v1 module: rows in, DOM out. None of them fetches, selects a dataset, formats a period label from routing state, or knows what a dataset is.</p>
+    <sc-for list="{{ visuals }}" as="v" hint-placeholder-count="4">
+      <article style="display: flex; flex-direction: column; gap: 8.4px; padding: 16.8px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d;">
+        <div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8.4px;">
+          <h3 style="font-size: 20px; font-weight: 500; margin: 0;">{{ v.name }}</h3>
+          <code style="font-size: 12px; color: #a9abb4;">{{ v.file }}</code>
+        </div>
+        <p style="margin: 0; color: #cfd3e5; max-width: 74ch;"><strong style="color: #e9e9ed;">Question.</strong> {{ v.question }}</p>
+        <p style="margin: 0; color: #cfd3e5; max-width: 74ch;"><strong style="color: #e9e9ed;">Encoding.</strong> {{ v.encoding }}</p>
+        <p style="margin: 0; color: #cfd3e5; max-width: 74ch;"><strong style="color: #e9e9ed;">Why this and not something else.</strong> {{ v.why }}</p>
+        <div style="display: flex; flex-direction: column; gap: 2.8px; padding-top: 5.6px;">
+          <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a9abb4;">Declared consumer schema</span>
+          <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; line-height: 1.5; background: #1b1d2b; border-radius: 4px; color: #cfd3e5;">{{ v.schema }}</pre>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 2.8px;">
+          <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a9abb4;">Representative fixture rows — real published values</span>
+          <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; line-height: 1.5; background: #1b1d2b; border-radius: 4px; color: #cfd3e5;">{{ v.fixture }}</pre>
+        </div>
+        <p style="margin: 0; font-size: 13px; color: #a9abb4; max-width: 74ch;">{{ v.reading }}</p>
+      </article>
+    </sc-for>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">4 · Layout and responsive behaviour</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16.8px;">
+      <sc-for list="{{ layout }}" as="l" hint-placeholder-count="5">
+        <div style="display: flex; flex-direction: column; gap: 5.6px;">
+          <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">{{ l.title }}</h3>
+          <p style="margin: 0; font-size: 13px; color: #cfd3e5; text-wrap: pretty;">{{ l.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin: 0; padding: 11.2px; border-radius: 8px; background: #1b1d2b; font-size: 13px; color: #cfd3e5; max-width: 84ch;"><strong style="color: #e9e9ed;">One structural decision worth flagging.</strong> Axis labels, tick labels, the selected-point readout and the end-of-line values are real DOM text positioned over the plot, not <code>&lt;text&gt;</code> inside the SVG. The SVG carries geometry only. That keeps every label at its true font size under 400% zoom and text-only scaling instead of shrinking with the viewBox, and keeps it selectable. Visuals therefore receive <code>display.width</code> in CSS pixels from the report and draw at 1 unit = 1 px; they never measure the DOM themselves.</p>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">5 · Exploration controls and parameterized queries</h2>
+    <p style="margin: 0; max-width: 74ch; color: #cfd3e5;">The report opts into exploration while its default composition stays fully pre-composed: on load, with no interaction, it already answers all four questions for the latest month. Three controls, each bound to a query parameter, plus a download of exactly what is on screen.</p>
+    <div style="overflow-x: auto;">
+      <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+        <thead><tr>
+          <sc-for list="{{ controlCols }}" as="c" hint-placeholder-count="4">
+            <th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.16); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a9abb4;">{{ c.label }}</th>
+          </sc-for>
+        </tr></thead>
+        <tbody>
+          <sc-for list="{{ controls }}" as="r" hint-placeholder-count="4">
+            <tr>
+              <th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); font-weight: 400; color: #e9e9ed;">{{ r.control }}</th>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5;">{{ r.param }}</td>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5;">{{ r.affects }}</td>
+              <td style="padding: 5.6px; border-bottom: 1px solid rgba(233,233,237,.08); color: #cfd3e5;">{{ r.notes }}</td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 5.6px;">
+      <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Where each concern lives</h3>
+      <p style="margin: 0; font-size: 13px; color: #cfd3e5; max-width: 82ch;">SQL, dataset selection, exploration state, provenance strings and routing all sit in the report module. It runs the parameterized queries, validates the result against the visual’s declared schema, maps columns to the visual’s field names, and passes <code>(rows, display, provenance)</code>. A visual receives arrays and numbers, returns an element, and declares <code>cleanup</code>. The month control changes no query at all — it is a selection index over rows already in hand, so scrubbing it never touches the database.</p>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">6 · Provenance and accessible data equivalents</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16.8px;">
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Two levels, no third</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">A header block carries source, licence, dataset names, contract version and the latest published month — visible without interaction. Each figure then carries a disclosure with its own provider series identifiers, precision, query and data table. Per-figure footer lines were rejected: four repetitions of the same attribution is noise, and the identifiers differ per figure anyway.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #9dc0ae;">Provider vs Pulse</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">Anything Pulse computes is labelled where it is read, not only in a footnote: the rent lane says “Pulse calculation, separate scale” in its legend, the rent columns say “(Pulse)”, and the method section states the formula. The rent contribution is never stacked with the four official ones, because rents already sit inside services.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #b5abfc;">Data equivalents</h3>
+        <p style="margin: 0; font-size: 13px; color: #cfd3e5;">Every figure ships a table of the same rows it drew, in the same disclosure as its query, capped to a scroll region so it never buries the page. Each chart also carries a written <code>aria-label</code> naming the series, the window, the range and the latest value — a sentence, not “chart”. The prose read-out under each figure states the answer in words, so the finding survives with images off.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">7 · State treatments</h2>
+    <p style="margin: 0; max-width: 74ch; color: #cfd3e5;">Failures are scoped to whoever owns them. A query belongs to the report, so a query failure replaces the figures wholesale rather than showing four broken panels. Schema and render failures belong to one visual, so they stay inside that figure and the other three keep answering.</p>
+    <div style="display: flex; flex-direction: column; gap: 8.4px;">
+      <sc-for list="{{ states }}" as="s" hint-placeholder-count="5">
+        <div style="display: flex; flex-wrap: wrap; gap: 8.4px 16.8px; padding: 11.2px; border-radius: 8px; background: #1b1d2b; border-inline-start: 4px solid {{ s.accent }};">
+          <div style="flex: 0 0 150px; display: flex; flex-direction: column; gap: 2.8px;">
+            <strong style="font-size: 14px; font-weight: 600;">{{ s.name }}</strong>
+            <span style="font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: #a9abb4;">{{ s.scope }}</span>
+          </div>
+          <p style="flex: 1 1 320px; margin: 0; font-size: 13px; color: #cfd3e5; text-wrap: pretty;">{{ s.body }}</p>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin: 0; font-size: 13px; color: #a9abb4; max-width: 78ch;">All five are switchable by hand in the design harness at the top of the report, which is review scaffolding and not part of the shipped page — the <code>showDesignHarness</code> prop turns it off.</p>
+  </section>
+
+  <section style="display: flex; flex-direction: column; gap: 11.2px; border-top: 1px solid rgba(233,233,237,.16); padding-top: 22.4px;">
+    <h2 style="font-size: 28px; font-weight: 500; margin: 0; letter-spacing: -.015em;">8 · Open items for implementation</h2>
+    <ul style="margin: 0; padding-left: 22.4px; display: flex; flex-direction: column; gap: 5.6px; color: #cfd3e5; max-width: 80ch;">
+      <sc-for list="{{ open }}" as="o" hint-placeholder-count="4">
+        <li>{{ o.text }}</li>
+      </sc-for>
+    </ul>
+    <p style="margin: 0; font-size: 12px; color: #a9abb4; max-width: 88ch;">Source: INSEE, Indice des prix à la consommation (IPC), Base 2025 — all households, France; headline series excludes tobacco. Licence Ouverte / Open Licence 2.0. Datasets <code>insee_cpi_monthly</code> and <code>insee_cpi_category_analysis</code>, contract 1.0.0. Values quoted in this record were read from the published Parquet files on 7 September 2026; latest published month Jul 2026.</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:940}}">
+const PROVIDER = "#cfd3e5";
+const PULSE = "#9dc0ae";
+
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      indicatorCols: [{ label: "Indicator" }, { label: "Series" }, { label: "Displayed precision" }, { label: "Jul 2026" }, { label: "Origin" }],
+      indicators: [
+        { name: "Headline CPI level", series: "011814056", precision: "2 dp, Base 2025 = 100", latest: "102.67", origin: "INSEE", originColor: PROVIDER },
+        { name: "Headline monthly change", series: "011814057", precision: "1 dp, signed", latest: "+0.6%", origin: "INSEE", originColor: PROVIDER },
+        { name: "Headline annual change", series: "011814058", precision: "1 dp, signed", latest: "+2.1%", origin: "INSEE", originColor: PROVIDER },
+        { name: "Food annual change", series: "011813719", precision: "1 dp, signed", latest: "+1.0%", origin: "INSEE", originColor: PROVIDER },
+        { name: "Energy annual change", series: "011813866", precision: "1 dp, signed", latest: "+12.6%", origin: "INSEE", originColor: PROVIDER },
+        { name: "Contributions: food / services / manufactured / energy", series: "011813664 · 665 · 666 · 668", precision: "1 dp, pp, signed", latest: "+0.1 · +1.1 · −0.2 · +1.0", origin: "INSEE", originColor: PROVIDER },
+        { name: "Category levels: food / energy / rents", series: "011813717 · 011813864 · 011815633", precision: "2 dp, Base 2025 = 100", latest: "101.29 · 111.75 · 101.60", origin: "INSEE", originColor: PROVIDER },
+        { name: "Basket weights: food / energy / rents", series: "011814578 · 011814509 · 011815638", precision: "per 10 000, shown as % of basket, 1 dp", latest: "14.9% · 7.6% · 6.7% (2026)", origin: "INSEE, annual", originColor: PROVIDER },
+        { name: "Rent annual change", series: "from 011815633", precision: "1 dp, signed", latest: "+1.6%", origin: "Pulse calculation", originColor: PULSE },
+        { name: "Rent contribution", series: "from 011815633 + 011815638", precision: "2 dp in figures, 3 dp in tables", latest: "+0.11 pp", origin: "Pulse calculation", originColor: PULSE },
+      ],
+      visuals: [
+        {
+          name: "Headline trend",
+          file: "headline-trend.js",
+          question: "Where does headline inflation stand, and is it accelerating or decelerating?",
+          encoding: "One line for the annual change, with the monthly change as signed bars in a 52 px lane beneath it, sharing the x scale. The report's selected month is a dashed rule plus a labelled point.",
+          why: "The annual rate alone cannot show turning points early; the monthly bars can. Two panels in one visual rather than two figures, because reading them apart is what makes people mistake a base effect for a turn. In this window the annual rate peaked at 6.4% in Feb 2023, bottomed at 0.3% in Jan 2026 and is back to 2.1% — carried by +1.0% monthly prints in Mar and Apr 2026.",
+          schema: "{ period: string \"YYYY-MM\",\n  annual_change_pct: number,   // 1 dp\n  monthly_change_pct: number } // 1 dp\n\ndisplay: { width, selectedIndex, unit }",
+          fixture: "{ period: \"2023-02\", annual_change_pct: 6.4, monthly_change_pct: 1.1 }\n{ period: \"2026-01\", annual_change_pct: 0.3, monthly_change_pct: -0.4 }\n{ period: \"2026-06\", annual_change_pct: 1.7, monthly_change_pct: -0.3 }\n{ period: \"2026-07\", annual_change_pct: 2.1, monthly_change_pct: 0.6 }",
+          reading: "Rows must be ascending and gapless; the visual draws what it is given and does not interpolate a missing month.",
+        },
+        {
+          name: "Contribution stack",
+          file: "contribution-stack.js",
+          question: "What is carrying the headline annual rate, and how large are rents beside it?",
+          encoding: "Signed stacked bars of the four official contributions — positives up, negatives down from a zero rule — with the headline annual change as a dashed white line over them. Rents occupy a separate 62 px lane below, on a 0–0.13 pp scale of their own.",
+          why: "Composition is the question, so the bars stack; but a 0.11 pp rent contribution is invisible on a 6 pp axis, and forcing it onto that axis would either lie about its size or misrepresent it as additive. Separate lane, separate scale, labelled as a Pulse calculation. The figure shows services carrying +1.1 pp of the 2.1 pp total, and energy swinging from −0.6 pp to +1.0 pp in a year.",
+          schema: "{ period: string,\n  food_pp, services_pp, manufactured_pp, energy_pp: number, // 1 dp\n  headline_pct: number,        // 1 dp, reference line\n  rent_pulse_pp: number,       // 3 dp, NOT additive\n  rent_weight_per_10k: number }\n\ndisplay: { width, selectedIndex, showRentLane }",
+          fixture: "{ period: \"2025-07\", food_pp: 0.2, services_pp: 1.3, manufactured_pp: -0.1,\n  energy_pp: -0.6, headline_pct: 0.9, rent_pulse_pp: 0.142, rent_weight_per_10k: 645 }\n{ period: \"2026-07\", food_pp: 0.1, services_pp: 1.1, manufactured_pp: -0.2,\n  energy_pp: 1.0, headline_pct: 2.1, rent_pulse_pp: 0.108, rent_weight_per_10k: 672 }",
+          reading: "The contract declares rent_pulse_pp in nonAdditiveFields, so an implementation that stacks it fails review rather than silently double-counting rents inside services.",
+        },
+        {
+          name: "Divergence multiples",
+          file: "divergence-multiples.js",
+          question: "Which components diverge from headline inflation, and by how much?",
+          encoding: "One panel per selected component: the component's annual change, the headline rate dashed behind it, and the area between them tinted. Panels share one vertical domain. Each panel states the selected month's gap in percentage points and the component's basket share.",
+          why: "Divergence is a comparison, so the reference line belongs inside each panel rather than in a legend. The shared domain is the whole point: energy at +12.6% against food at +1.0% must look as different as it is. Per-panel scaling would have made every component look equally dramatic.",
+          schema: "// long format, one row per period per category\n{ period: string,\n  category: \"food\" | \"energy\" | \"rent\",\n  annual_change_pct: number,\n  headline_annual_change_pct: number,\n  weight_per_10k: number,\n  weight_reference_year: number,\n  is_pulse_calculation: boolean }\n\ndisplay: { width, selectedIndex, sharedDomain }",
+          fixture: "{ period: \"2026-07\", category: \"energy\", annual_change_pct: 12.6,\n  headline_annual_change_pct: 2.1, weight_per_10k: 764,\n  weight_reference_year: 2026, is_pulse_calculation: false }\n{ period: \"2026-07\", category: \"rent\", annual_change_pct: 1.6,\n  headline_annual_change_pct: 2.1, weight_per_10k: 672,\n  weight_reference_year: 2026, is_pulse_calculation: true }",
+          reading: "is_pulse_calculation drives the marking, so the visual never has to know which provider series a category came from.",
+        },
+        {
+          name: "Index level paths",
+          file: "index-level-paths.js",
+          question: "What has the price level actually done since the 2025 base year?",
+          encoding: "One line per series, Base 2025 = 100, with the 100 rule emphasised and the latest value printed at each line's end. Series are distinguished by colour and dash pattern together, never colour alone.",
+          why: "Falling inflation reads as falling prices unless levels are shown. Over this window headline moved 88.64 → 102.67 while energy ran 80.19 → 111.75, which is the sentence the rate figures cannot say. Levels are also where rebasing is honest: this is Base 2025, not comparable with earlier-base publications.",
+          schema: "// long format, one row per period per series\n{ period: string,\n  series: \"headline\" | \"food\" | \"energy\" | \"rent\",\n  index: number } // 2 dp\n\ndisplay: { width, selectedIndex, referenceValue }",
+          fixture: "{ period: \"2025-07\", series: \"headline\", index: 100.56 }\n{ period: \"2026-07\", series: \"headline\", index: 102.67 }\n{ period: \"2026-07\", series: \"energy\",   index: 111.75 }\n{ period: \"2026-07\", series: \"rent\",     index: 101.60 }",
+          reading: "The report decides which series are present from the component control; the visual draws every series it receives.",
+        },
+      ],
+      layout: [
+        { title: "One column, left aligned", body: "A single 1180 px reading column, content flush left. Figures are full-width cards; only the divergence multiples subdivide, and only when there is room for it." },
+        { title: "Scorecard and multiples", body: "Both are auto-fitting: the scorecard wraps from four cells to two to one at 190 px minimum; the multiples sit three across above ~780 px, then wrap to one per row. No breakpoint list to maintain." },
+        { title: "Charts measure, not scale", body: "Each visual is drawn at the measured pixel width the report passes it, so lines thicken and labels stay 12 px instead of the whole figure shrinking. Chart heights are clamped ratios of that width (190–300 px), which keeps a smartphone-landscape figure short enough to read without scrolling past it." },
+        { title: "Narrow smartphone landscape", body: "At 740 × 360 the control bar stops pinning and scrolls away with the page, the multiples stack one per row, and every figure keeps its own horizontal scroll region rather than compressing bars below 1.5 px." },
+        { title: "Zoom and reflow", body: "No fixed widths, no viewport units, nothing positioned absolutely except labels inside their own plot box. At 400% zoom on a 1280 px viewport the page reflows to one column with no two-dimensional scrolling; the control bar unsticks below 480 px of viewport height — its four control groups need about 200 px once wrapped, which is most of a landscape phone, so it scrolls away instead of pinning." },
+        { title: "Keyboard and targets", body: "Period is a radio group, components are checkboxes, the month is a native range input, every disclosure a native details/summary — tab order follows reading order and needs no roles. Interactive rows are 44 px tall; the smallest target, a summary toggle, is 24 px, which meets 2.5.8. Focus is the design system's 2 px accent ring at 2 px offset, never the browser default." },
+      ],
+      controlCols: [{ label: "Control" }, { label: "Query parameter" }, { label: "Affects" }, { label: "Notes" }],
+      controls: [
+        { control: "Represented period", param: "$months ∈ {24, 60, since-2015}", affects: "All four queries", notes: "Default 60. Bound into the WHERE clause, never by slicing a full-history result client-side." },
+        { control: "Observation month", param: "none", affects: "Selection index only", notes: "Scrubbing runs no query. Announced through aria-valuetext and a live output region." },
+        { control: "Components shown", param: "$categories ⊆ {food, energy, rent}", affects: "Divergence and level queries", notes: "Empty selection is legal and shows headline only; it is not an error state." },
+        { control: "Download this result", param: "current $months, $categories", affects: "Nothing", notes: "Serialises exactly the rows on screen, with the period in the filename." },
+      ],
+      states: [
+        { name: "Loading", scope: "Report", accent: "#75798c", body: "Skeleton blocks at each figure's real height so nothing reflows on arrival, a polite live message naming the window being loaded, and aria-busy on the region. The header, scorecard labels and control bar are already present — the page never starts blank." },
+        { name: "Empty result", scope: "Report", accent: "#75798c", body: "Says why the window is empty (both datasets stop at the latest month published in full), not just that it is, and offers the five-year window as a one-click way out. Not styled as an error: no observations is a legitimate answer." },
+        { name: "Query error", scope: "Report", accent: "#ff8a80", body: "Replaces the figures rather than showing four broken ones, names the last successful month, keeps the reader's selection intact, prints the machine-readable reason, and offers a retry that re-runs the same parameters." },
+        { name: "Schema error", scope: "One visual", accent: "#ff8a80", body: "The visual's validator throws a TypeError; the report catches it at the figure boundary and shows which declared field was missing or non-finite, with the visual id and contract version. The other three figures render normally." },
+        { name: "Render error", scope: "One visual", accent: "#ff8a80", body: "Data validated but drawing threw. The figure keeps its accessible data table so the answer is still available, states plainly that the chart failed, and leaves the rest of the report untouched." },
+      ],
+      open: [
+        { text: "Weight-reference-year labelling: weights are annual, so a within-year contribution moves only with prices. The panels print the reference year (2026 weights); if the release cadence changes, that label is the thing to keep honest." },
+        { text: "The rent contribution is shown at two decimals in figures and three in tables. If review prefers one precision everywhere, change it in the report's formatter, not in the visual." },
+        { text: "“Since 2015” is the widest standing window. Full history to Jan 1996 is available in the dataset and can be added as a fourth option once the contribution figure's bar-width floor is agreed for ~360 monthly bars." },
+        { text: "Colour and dash carry series identity together, and every figure has a prose read-out; a contrast pass on the four series colours against the #232532 surface should be re-run if the design system's ramps are retuned." },
+        { text: "International comparison and property sale prices stay out of scope, per the 2026-09-02 change proposal: both need another source and cadence." },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

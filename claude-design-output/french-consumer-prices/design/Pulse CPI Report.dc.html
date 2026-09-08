@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap">
+<link rel="stylesheet" href="_ds/nocturne-ed2b79e9-e601-49fa-a054-b2aaf239b6c4/styles.css">
+<script src="_ds/nocturne-ed2b79e9-e601-49fa-a054-b2aaf239b6c4/_ds_bundle.js"></script>
+<style>
+  /* Every colour comes from Nocturne's styles.css above, with two documented
+     extensions the token set does not carry: the categorical chart palette
+     (food #8fb0d1, energy #d09a6a, rents #9dc0ae, share strip #8f93a6) and the
+     error red #ff8a80. Chart fills and strokes are written as literal hexes in
+     the logic class because SVG presentation attributes cannot read var(). */
+  html, body { margin: 0; background: var(--color-bg); color: var(--color-text); font-family: var(--font-body); font-size: 15px; line-height: 1.55; }
+  *, *::before, *::after { box-sizing: border-box; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  ::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+  a { color: var(--color-accent-400); text-underline-offset: 3px; }
+  a:hover { color: var(--color-accent-300); }
+  svg text { font-family: var(--font-body); }
+  input[type="range"] { accent-color: var(--color-accent); }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .001ms !important; animation-duration: .001ms !important; animation-iteration-count: 1 !important; }
+  }
+  @media not (prefers-reduced-motion: reduce) {
+    .pulse-skel { animation: pulseFade 1.6s ease-in-out infinite; }
+  }
+  @media (max-height: 480px) {
+    .pulse-controls { position: static !important; }
+  }
+  @keyframes pulseFade { 0%, 100% { opacity: .35 } 50% { opacity: .7 } }
+</style>
+</helmet>
+<div ref="{{ setRoot }}" style="max-width: 1180px; margin: 0 auto; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px;">
+
+  <sc-if value="{{ showHarness }}" hint-placeholder-val="{{ true }}">
+    <div role="group" aria-label="Design harness" style="display: flex; flex-wrap: wrap; align-items: center; gap: 8.4px; padding: 8.4px 11.2px; border: 1px dashed var(--color-neutral-700); border-radius: 8px; background: var(--color-bg);">
+      <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #d09a6a;">Design harness · not shipped</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 5.6px;">
+        <sc-for list="{{ harnessOptions }}" as="opt" hint-placeholder-count="6">
+          <button type="button" onClick="{{ opt.pick }}" aria-pressed="{{ opt.on }}" style="min-height: 32px; padding: 4px 10px; font: inherit; font-size: 13px; white-space: nowrap; cursor: pointer; border-radius: 8px; background: transparent; color: var(--color-text); border: 1px solid var(--color-neutral-800);" style-hover="{background: 'color-mix(in srgb, var(--color-text) 7%, transparent)'}">{{ opt.label }}</button>
+        </sc-for>
+      </div>
+      <span style="flex: 1 0 100%; font-size: 12px; color: var(--color-neutral-400);">{{ harnessNote }}</span>
+    </div>
+  </sc-if>
+
+  <header style="display: flex; flex-direction: column; gap: 8.4px; border-bottom: 1px solid var(--color-divider); padding-bottom: 16.8px;">
+    <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-accent-400);">Standing report · France · monthly</span>
+    <h1 style="font-size: 40px; font-weight: 500; line-height: 1.1; letter-spacing: -.015em; margin: 0; max-width: 22ch;">Consumer prices in France</h1>
+    <p style="margin: 0; max-width: 62ch; color: var(--color-neutral-300); font-size: 16px; text-wrap: pretty;">Rebuilt each month from INSEE’s consumer price index, Base 2025.</p>
+    <dl style="display: flex; flex-wrap: wrap; gap: 4px 22.4px; margin: 5.6px 0 0; font-size: 12px; color: var(--color-neutral-400);">
+      <div style="display: flex; gap: 6px;"><dt>Latest published month</dt><dd style="margin: 0; color: var(--color-text);">{{ latestLabel }}</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>Source</dt><dd style="margin: 0; color: var(--color-text);">INSEE — IPC, Base 2025</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>Licence</dt><dd style="margin: 0; color: var(--color-text);">Licence Ouverte / Open Licence 2.0</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>Datasets</dt><dd style="margin: 0; color: var(--color-text);">insee_cpi_monthly · insee_cpi_category_analysis (contract 1.0.0)</dd></div>
+    </dl>
+  </header>
+
+  <section aria-labelledby="now-h" style="display: flex; flex-direction: column; gap: 11.2px;">
+    <h2 id="now-h" style="font-size: 25px; font-weight: 500; margin: 0; letter-spacing: -.015em;">Where prices stand</h2>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 11.2px;">
+      <sc-for list="{{ scorecard }}" as="s" hint-placeholder-count="4">
+        <div style="display: flex; flex-direction: column; gap: 2.8px; padding: 11.2px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+          <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-accent-400);">{{ s.kicker }}</span>
+          <span style="font-size: 32px; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums;">{{ s.value }}</span>
+          <span style="font-size: 12px; color: var(--color-neutral-400); text-wrap: pretty;">{{ s.note }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section aria-label="Exploration controls" class="pulse-controls" style="display: flex; flex-wrap: wrap; gap: 16.8px; align-items: flex-end; padding: 11.2px; border-radius: 8px; background: var(--color-bg); box-shadow: 0 0 0 1px var(--color-neutral-800); position: sticky; top: 0; z-index: 5;">
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5.6px;">
+      <legend style="font-size: 12px; color: var(--color-neutral-400); padding: 0;">Represented period</legend>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8.4px;">
+        <div role="radiogroup" aria-label="Represented period presets" style="display: flex; border: 1px solid var(--color-divider); border-radius: 8px; overflow: hidden;">
+          <sc-for list="{{ periodOptions }}" as="p" hint-placeholder-count="3">
+            <label style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; font-size: 13px; cursor: pointer; border-left: 1px solid var(--color-divider);" style-hover="{background: 'color-mix(in srgb, var(--color-text) 7%, transparent)'}">
+              <input type="radio" name="pulse-period" checked="{{ p.on }}" onChange="{{ p.pick }}" style="position: absolute; opacity: 0; width: 0; height: 0;">
+              <span style="color: {{ p.color }};">{{ p.label }}</span>
+            </label>
+          </sc-for>
+        </div>
+        <div style="display: flex; align-items: center; gap: 5.6px;">
+          <span style="font-size: 12px; color: var(--color-neutral-400);">From</span>
+          <select aria-label="Start month" value="{{ startPick.month }}" onChange="{{ startPick.onMonth }}" style="min-height: 44px; padding: 0 6px; font: inherit; font-size: 13px; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ startPick.monthOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+          <select aria-label="Start year" value="{{ startPick.year }}" onChange="{{ startPick.onYear }}" style="min-height: 44px; padding: 0 6px; font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ startPick.yearOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+          <span style="font-size: 12px; color: var(--color-neutral-400);">to</span>
+          <select aria-label="End month" value="{{ endPick.month }}" onChange="{{ endPick.onMonth }}" style="min-height: 44px; padding: 0 6px; font: inherit; font-size: 13px; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ endPick.monthOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+          <select aria-label="End year" value="{{ endPick.year }}" onChange="{{ endPick.onYear }}" style="min-height: 44px; padding: 0 6px; font: inherit; font-size: 13px; font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-surface); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ endPick.yearOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <div style="display: flex; flex-direction: column; gap: 5.6px; flex: 1 1 260px; min-width: 220px;">
+      <label for="pulse-month" style="font-size: 12px; color: var(--color-neutral-400);">Observation month — or click any point on a figure</label>
+      <input id="pulse-month" type="range" min="0" max="{{ selMax }}" step="1" value="{{ selIdx }}" onInput="{{ onSel }}" aria-valuetext="{{ selLabel }}" style="width: 100%; min-height: 44px; margin: 0;">
+      <output for="pulse-month" aria-live="polite" style="font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums;">{{ selReadout }}</output>
+    </div>
+
+    <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5.6px;">
+      <legend style="font-size: 12px; color: var(--color-neutral-400); padding: 0;">Components shown</legend>
+      <div style="display: flex; flex-wrap: wrap; gap: 8.4px;">
+        <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="3">
+          <label style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 10px; font-size: 13px; cursor: pointer; border-radius: 8px; border: 1px solid var(--color-divider);" style-hover="{background: 'color-mix(in srgb, var(--color-text) 7%, transparent)'}">
+            <input type="checkbox" checked="{{ c.on }}" onChange="{{ c.toggle }}" style="width: 16px; height: 16px; accent-color: var(--color-accent);">
+            <span aria-hidden="true" style="width: 14px; height: 3px; border-radius: 2px; background: {{ c.color }};"></span>
+            <span>{{ c.label }}</span>
+          </label>
+        </sc-for>
+      </div>
+      <span style="font-size: 11px; color: #d09a6a; max-width: 40ch;">Services and manufactured products carry representative values until the dataset publishes their index and weight.</span>
+    </fieldset>
+
+    
+  </section>
+
+  <sc-if value="{{ isQueryError }}" hint-placeholder-val="{{ false }}">
+    <div role="alert" style="display: flex; flex-direction: column; gap: 5.6px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); border-inline-start: 4px solid #ff8a80;">
+      <strong style="font-weight: 600;">The query for this period did not complete.</strong>
+      <p style="margin: 0; color: var(--color-neutral-300); max-width: 66ch;">No figures are shown rather than partial ones. The last successful result was {{ latestLabel }}. Nothing about your selection was lost — retrying re-runs the same parameters.</p>
+      <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); font-family: ui-monospace, monospace;">query_failed · insee_cpi_monthly + insee_cpi_category_analysis · window={{ windowMonths }}m</p>
+      <div><button type="button" onClick="{{ retry }}" style="min-height: 44px; padding: 0 14px; font: inherit; font-weight: 500; cursor: pointer; border-radius: 8px; background: transparent; color: var(--color-accent-400); border: 1px solid var(--color-accent);" style-hover="{background: 'color-mix(in srgb, var(--color-accent) 12%, transparent)'}">Retry the query</button></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+    <div aria-busy="true" aria-live="polite" style="display: flex; flex-direction: column; gap: 16.8px;">
+      <p style="margin: 0; color: var(--color-neutral-400);">Loading {{ windowLabel }} of observations…</p>
+      <sc-for list="{{ skeletons }}" as="sk" hint-placeholder-count="3">
+        <div class="pulse-skel" style="height: {{ sk.h }}px; border-radius: 8px; background: linear-gradient(100deg, var(--color-surface), var(--color-neutral-900), var(--color-surface));"></div>
+      </sc-for>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="display: flex; flex-direction: column; gap: 5.6px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+      <strong style="font-weight: 600;">No observations in this window.</strong>
+      <p style="margin: 0; color: var(--color-neutral-300); max-width: 66ch;">The datasets stop at the latest month both providers publish in full. Widen the period, or return after the next INSEE release.</p>
+      <div><button type="button" onClick="{{ widen }}" style="min-height: 44px; padding: 0 14px; font: inherit; font-weight: 500; cursor: pointer; border-radius: 8px; background: transparent; color: var(--color-accent-400); border: 1px solid var(--color-accent);" style-hover="{background: 'color-mix(in srgb, var(--color-accent) 12%, transparent)'}">Show the last five years</button></div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isReady }}" hint-placeholder-val="{{ true }}">
+    <div style="display: flex; flex-direction: column; gap: 33.6px;">
+
+      <figure aria-labelledby="v1-h" style="margin: 0; display: flex; flex-direction: column; gap: 8.4px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+        <figcaption style="display: flex; flex-direction: column; gap: 2.8px;">
+          <h3 id="v1-h" style="font-size: 20px; font-weight: 500; margin: 0;">How is inflation evolving?<br></h3>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 74ch;">Annual change, month by month, with the month-over-month change beneath it.</p>
+        </figcaption>
+        <fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5.6px;">
+          <legend style="font-size: 12px; color: var(--color-neutral-400); padding: 0;">Series — one at a time</legend>
+          <div role="radiogroup" aria-label="Series shown in this figure" style="display: flex; flex-wrap: wrap; border: 1px solid var(--color-divider); border-radius: 8px; overflow: hidden; width: fit-content;">
+            <sc-for list="{{ v1.seriesOptions }}" as="s" hint-placeholder-count="4">
+              <label style="display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; font-size: 13px; cursor: pointer; border-left: 1px solid var(--color-divider); background: {{ s.bg }};" style-hover="{background: 'color-mix(in srgb, var(--color-text) 7%, transparent)'}">
+                <input type="radio" name="pulse-v1-series" checked="{{ s.on }}" onChange="{{ s.pick }}" style="position: absolute; opacity: 0; width: 0; height: 0;">
+                <span aria-hidden="true" style="width: 14px; height: 3px; border-radius: 2px; background: {{ s.color }};"></span>
+                <span style="color: {{ s.text }};">{{ s.label }}</span>
+              </label>
+            </sc-for>
+          </div>
+        </fieldset>
+        <div data-chart-box="1" style="overflow-x: auto; position: relative;">
+          <svg viewBox="0 0 {{ v1.w }} {{ v1.h }}" width="{{ v1.w }}" height="{{ v1.h }}" role="img" aria-label="{{ v1.alt }}" onClick="{{ v1.onPick }}" style="display: block; max-width: 100%; cursor: pointer;">
+            <sc-for list="{{ v1.grid }}" as="g" hint-placeholder-count="5">
+              <g><line x1="{{ v1.padL }}" x2="{{ v1.rx }}" y1="{{ g.y }}" y2="{{ g.y }}" stroke="{{ g.stroke }}" stroke-width="1"></line></g>
+            </sc-for>
+            <polyline points="{{ v1.pts }}" fill="none" stroke="{{ v1.color }}" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"></polyline>
+            <sc-for list="{{ v1.bars }}" as="b" hint-placeholder-count="24">
+              <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" fill="{{ b.fill }}"></rect>
+            </sc-for>
+            <line x1="{{ v1.padL }}" x2="{{ v1.rx }}" y1="{{ v1.barZero }}" y2="{{ v1.barZero }}" stroke="var(--color-neutral-600)" stroke-width="1"></line>
+            <line x1="{{ v1.selX }}" x2="{{ v1.selX }}" y1="8" y2="{{ v1.selBottom }}" stroke="var(--color-text)" stroke-width="1" stroke-dasharray="3 3"></line>
+            <circle cx="{{ v1.selX }}" cy="{{ v1.selY }}" r="5" fill="var(--color-text)" stroke="var(--color-bg)" stroke-width="2"></circle>
+          </svg>
+          <div style="position: absolute; inset: 0; pointer-events: none; font-size: 12px; color: var(--color-neutral-400);">
+            <sc-for list="{{ v1.grid }}" as="g" hint-placeholder-count="5">
+              <span style="position: absolute; left: 0; width: 36px; text-align: right; top: {{ g.top }}px; font-variant-numeric: tabular-nums;">{{ g.label }}</span>
+            </sc-for>
+            <sc-for list="{{ v1.xticks }}" as="t" hint-placeholder-count="6">
+              <span style="position: absolute; left: {{ t.left }}px; width: 64px; text-align: center; top: {{ v1.tickTop }}px;">{{ t.label }}</span>
+            </sc-for>
+            <span style="position: absolute; left: {{ v1.labLeft }}px; top: {{ v1.labTop }}px; width: 96px; text-align: {{ v1.labAlign }}; color: var(--color-text); font-size: 13px; font-weight: 600;">{{ v1.labText }}</span>
+            <span style="position: absolute; left: {{ v1.momLabLeft }}px; top: {{ v1.momLabTop }}px; width: 96px; text-align: {{ v1.labAlign }}; color: var(--color-text); font-size: 13px; font-weight: 600;">{{ v1.momLabText }}</span>
+            <span style="position: absolute; left: 0; width: 36px; text-align: right; top: {{ v1.momTop }}px; color: var(--color-neutral-400);">m/m</span>
+          </div>
+        </div>
+        
+        <details style="font-size: 13px;">
+          <summary style="cursor: pointer; color: var(--color-accent-400); min-height: 24px;">Data table, query and provenance</summary>
+          <div style="display: flex; flex-direction: column; gap: 8.4px; padding-top: 8.4px;">
+            <p style="margin: 0; color: var(--color-neutral-400);">{{ v1.prov }}</p>
+            <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; background: var(--color-bg); border-radius: 4px; color: var(--color-neutral-300);">{{ v1.sql }}</pre>
+            <div style="max-height: 320px; overflow: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums;">
+                <caption style="text-align: left; font-size: 12px; color: var(--color-neutral-400); padding-bottom: 5.6px;">{{ v1.caption }}</caption>
+                <thead><tr><th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Period</th><th scope="col" style="text-align: right; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Annual change</th><th scope="col" style="text-align: right; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Monthly change</th></tr></thead>
+                <tbody>
+                  <sc-for list="{{ v1.table }}" as="r" hint-placeholder-count="8">
+                    <tr><th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-weight: 400;">{{ r.p }}</th><td style="text-align: right; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">{{ r.yoy }}</td><td style="text-align: right; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">{{ r.mom }}</td></tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </figure>
+
+      <figure aria-labelledby="v2-h" style="margin: 0; display: flex; flex-direction: column; gap: 8.4px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+        <figcaption style="display: flex; flex-direction: column; gap: 2.8px;">
+          <h3 id="v2-h" style="font-size: 20px; font-weight: 500; margin: 0;">What is carrying the annual rate?</h3>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 74ch">INSEE’s four published contributions to the headline annual change, stacked, against the headline rate itself.&nbsp;<span style="font-size: 12px;">Rents paid (COICOP 04.1) are already inside the services contribution above. The rent lane is a Pulse calculation — annual basket weight ÷ 10 000 × rent annual change.</span></p>
+        </figcaption>
+        <sc-if value="{{ isSchemaError }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="display: flex; flex-direction: column; gap: 5.6px; padding: 11.2px; border-radius: 8px; background: var(--color-bg); border-inline-start: 4px solid #ff8a80;">
+            <strong style="font-weight: 600;">This figure cannot be drawn from the result it was given.</strong>
+            <p style="margin: 0; color: var(--color-neutral-300); max-width: 66ch;">The visual declares <code>services_official_contribution_pct_points</code> as a finite number; the row it received had no such field. The rest of the report is unaffected.</p>
+            <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); font-family: ui-monospace, monospace;">TypeError · contribution-stack@1.0.0 · row 0 · expected number, received undefined</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ v2ok }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-direction: column; gap: 8.4px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 5.6px 16.8px;">
+              <sc-for list="{{ v2.legend }}" as="l" hint-placeholder-count="5">
+                <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-neutral-300);"><span aria-hidden="true" style="width: 12px; height: 12px; border-radius: 3px; background: {{ l.color }};"></span>{{ l.label }}</span>
+              </sc-for>
+            </div>
+            <div style="overflow-x: auto; overflow-y: hidden; position: relative;">
+              <svg viewBox="0 0 {{ v2.w }} {{ v2.h }}" width="{{ v2.w }}" height="{{ v2.h }}" role="img" aria-label="{{ v2.alt }}" onClick="{{ v2.onPick }}" style="display: block; max-width: 100%; cursor: pointer;">
+                <sc-for list="{{ v2.grid }}" as="g" hint-placeholder-count="5">
+                  <g><line x1="{{ v2.padL }}" x2="{{ v2.rx }}" y1="{{ g.y }}" y2="{{ g.y }}" stroke="{{ g.stroke }}" stroke-width="1"></line></g>
+                </sc-for>
+                <sc-for list="{{ v2.segs }}" as="s" hint-placeholder-count="96">
+                  <rect x="{{ s.x }}" y="{{ s.y }}" width="{{ s.w }}" height="{{ s.h }}" fill="{{ s.fill }}"></rect>
+                </sc-for>
+                <polyline points="{{ v2.headline }}" fill="none" stroke="var(--color-text)" stroke-width="2" stroke-dasharray="5 4"></polyline>
+                <line x1="{{ v2.selX }}" x2="{{ v2.selX }}" y1="8" y2="{{ v2.selBottom }}" stroke="var(--color-text)" stroke-width="1" stroke-dasharray="3 3"></line>
+                <sc-if value="{{ v2.laneOn }}" hint-placeholder-val="{{ true }}">
+                  <g>
+                    <line x1="{{ v2.padL }}" x2="{{ v2.rx }}" y1="{{ v2.laneZero }}" y2="{{ v2.laneZero }}" stroke="var(--color-neutral-600)" stroke-width="1"></line>
+                    <line x1="{{ v2.padL }}" x2="{{ v2.rx }}" y1="{{ v2.laneTopY }}" y2="{{ v2.laneTopY }}" stroke="color-mix(in srgb, var(--color-text) 10%, transparent)" stroke-width="1"></line>
+                    <sc-for list="{{ v2.laneBars }}" as="b" hint-placeholder-count="24">
+                      <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.w }}" height="{{ b.h }}" fill="#9dc0ae" opacity=".85"></rect>
+                    </sc-for>
+                  </g>
+                </sc-if>
+              </svg>
+          <div style="position: absolute; inset: 0; pointer-events: none; font-size: 12px; color: var(--color-neutral-400);">
+            <sc-for list="{{ v2.grid }}" as="g" hint-placeholder-count="5">
+              <span style="position: absolute; left: 0; width: 36px; text-align: right; top: {{ g.top }}px; font-variant-numeric: tabular-nums;">{{ g.label }}</span>
+            </sc-for>
+            <sc-for list="{{ v2.xticks }}" as="t" hint-placeholder-count="6">
+              <span style="position: absolute; left: {{ t.left }}px; width: 64px; text-align: center; top: {{ v2.tickTop }}px;">{{ t.label }}</span>
+            </sc-for>
+            <sc-for list="{{ v2.laneAxis }}" as="a" hint-placeholder-count="3">
+              <span style="position: absolute; left: 0; width: 36px; text-align: right; top: {{ a.top }}px; font-size: {{ a.size }}px; font-variant-numeric: tabular-nums; color: {{ a.color }};">{{ a.label }}</span>
+            </sc-for>
+            <div style="position: absolute; left: {{ v2.calloutLeft }}px; top: 6px; width: 168px; display: flex; flex-direction: column; gap: 1px; padding: 7px 9px; border-radius: 8px; background: color-mix(in srgb, var(--color-bg) 92%, transparent); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+              <span style="font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--color-accent-400);">{{ v2.calloutTitle }}</span>
+              <sc-for list="{{ v2.callout }}" as="c" hint-placeholder-count="6">
+                <span style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-neutral-300);"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 2px; flex: none; background: {{ c.color }};"></span><span style="flex: 1 1 auto;">{{ c.label }}</span><span style="font-variant-numeric: tabular-nums; font-weight: 600; color: var(--color-text);">{{ c.value }}</span></span>
+              </sc-for>
+            </div>
+          </div>
+            </div>
+            
+            
+            <details style="font-size: 13px;">
+              <summary style="cursor: pointer; color: var(--color-accent-400); min-height: 24px;">Data table, query and provenance</summary>
+              <div style="display: flex; flex-direction: column; gap: 8.4px; padding-top: 8.4px;">
+                <p style="margin: 0; color: var(--color-neutral-400);">Official contributions: series 011813664 food, 011813665 services, 011813666 manufactured products, 011813668 energy, DECIMAL(8,3), published to one decimal. Rent lane: Pulse calculation from 011815633 and weight 011815638. Source: INSEE, IPC, Base 2025.</p>
+                <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; background: var(--color-bg); border-radius: 4px; color: var(--color-neutral-300);">{{ v2.sql }}</pre>
+                <div style="max-height: 320px; overflow: auto;">
+                  <table style="width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums;">
+                    <caption style="text-align: left; font-size: 12px; color: var(--color-neutral-400); padding-bottom: 5.6px;">Contributions to the headline annual change, percentage points</caption>
+                    <thead><tr>
+                      <th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Period</th>
+                      <sc-for list="{{ v2.cols }}" as="c" hint-placeholder-count="6">
+                        <th scope="col" style="text-align: right; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">{{ c.label }}</th>
+                      </sc-for>
+                    </tr></thead>
+                    <tbody>
+                      <sc-for list="{{ v2.table }}" as="r" hint-placeholder-count="8">
+                        <tr>
+                          <th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-weight: 400;">{{ r.p }}</th>
+                          <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="6">
+                            <td style="text-align: right; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">{{ cell.v }}</td>
+                          </sc-for>
+                        </tr>
+                      </sc-for>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </details>
+          </div>
+        </sc-if>
+      </figure>
+
+      <figure aria-labelledby="v3-h" style="margin: 0; display: flex; flex-direction: column; gap: 11.2px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+        <figcaption style="display: flex; flex-direction: column; gap: 2.8px;">
+          <h3 id="v3-h" style="font-size: 20px; font-weight: 500; margin: 0;">Which components diverge from headline?</h3>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 74ch;">Each component’s annual change against the headline rate on the same axis, one panel per component. Panels share their vertical scale so the size of a gap is comparable across them. Beneath each panel, the component’s share of the basket over the same months.</p>
+        </figcaption>
+        <sc-if value="{{ isRenderError }}" hint-placeholder-val="{{ false }}">
+          <div role="alert" style="display: flex; flex-direction: column; gap: 5.6px; padding: 11.2px; border-radius: 8px; background: var(--color-bg); border-inline-start: 4px solid #ff8a80;">
+            <strong style="font-weight: 600;">This figure failed while drawing. Its numbers are below.</strong>
+            <p style="margin: 0; color: var(--color-neutral-300); max-width: 66ch;">The data arrived and validated; rendering threw. The report keeps the accessible table so the answer is still available, and other figures are untouched.</p>
+            <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); font-family: ui-monospace, monospace;">RenderError · divergence-multiples@1.0.0 · caught at the figure boundary</p>
+          </div>
+        </sc-if>
+        <sc-if value="{{ v3ok }}" hint-placeholder-val="{{ true }}">
+          <div style="display: flex; flex-wrap: wrap; gap: 11.2px;">
+            <sc-for list="{{ v3.panels }}" as="p" hint-placeholder-count="3">
+              <div style="display: flex; flex-direction: column; gap: 5.6px; padding: 8.4px; border-radius: 8px; background: var(--color-bg); flex: 1 1 {{ p.basis }}px; min-width: 0;">
+                <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8.4px;">
+                  <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 500;"><span aria-hidden="true" style="width: 14px; height: 3px; border-radius: 2px; background: {{ p.color }};"></span>{{ p.label }}</span>
+                  <span style="font-size: 13px; font-variant-numeric: tabular-nums; color: var(--color-neutral-300);">{{ p.latest }}</span>
+                </div>
+                <div style="position: relative;">
+                <svg viewBox="0 0 {{ p.w }} {{ p.h }}" width="{{ p.w }}" height="{{ p.h }}" role="img" aria-label="{{ p.alt }}" onClick="{{ p.onPick }}" style="display: block; max-width: 100%; cursor: pointer;">
+                  <sc-for list="{{ p.grid }}" as="g" hint-placeholder-count="4">
+                    <g><line x1="{{ p.padL }}" x2="{{ p.rx }}" y1="{{ g.y }}" y2="{{ g.y }}" stroke="{{ g.stroke }}" stroke-width="1"></line></g>
+                  </sc-for>
+                  <polyline points="{{ p.gapArea }}" fill="{{ p.color }}" opacity=".14" stroke="none"></polyline>
+                  <polyline points="{{ p.headline }}" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-dasharray="4 3"></polyline>
+                  <polyline points="{{ p.pts }}" fill="none" stroke="{{ p.color }}" stroke-width="2.5" stroke-linejoin="round"></polyline>
+                  <line x1="{{ p.selX }}" x2="{{ p.selX }}" y1="6" y2="{{ p.selBottom }}" stroke="var(--color-text)" stroke-width="1" stroke-dasharray="3 3"></line>
+                  <circle cx="{{ p.selX }}" cy="{{ p.selY }}" r="4" fill="{{ p.color }}" stroke="var(--color-bg)" stroke-width="1.5"></circle>
+                </svg>
+                  <div style="position: absolute; inset: 0; pointer-events: none; font-size: 11px; color: var(--color-neutral-400);">
+                    <sc-for list="{{ p.grid }}" as="g" hint-placeholder-count="4">
+                      <span style="position: absolute; left: 0; width: 28px; text-align: right; top: {{ g.top }}px; font-variant-numeric: tabular-nums;">{{ g.label }}</span>
+                    </sc-for>
+                    <sc-for list="{{ p.xticks }}" as="t" hint-placeholder-count="3">
+                      <span style="position: absolute; left: {{ t.left }}px; width: 56px; text-align: center; top: {{ p.tickTop }}px;">{{ t.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="position: relative;">
+                  <svg viewBox="0 0 {{ p.w }} {{ p.wh }}" width="{{ p.w }}" height="{{ p.wh }}" role="img" aria-label="{{ p.wAlt }}" onClick="{{ p.onPick }}" style="display: block; max-width: 100%; cursor: pointer;">
+                    <polyline points="{{ p.wPts }}" fill="none" stroke="#8f93a6" stroke-width="1.5" stroke-linejoin="round"></polyline>
+                    <circle cx="{{ p.selX }}" cy="{{ p.wSelY }}" r="3" fill="var(--color-text)" stroke="var(--color-bg)" stroke-width="1.5"></circle>
+                  </svg>
+                  <div style="position: absolute; inset: 0; pointer-events: none; font-size: 11px; color: var(--color-neutral-400);">
+                    <sc-for list="{{ p.wAxis }}" as="a" hint-placeholder-count="2">
+                      <span style="position: absolute; left: 0; width: 28px; text-align: right; top: {{ a.top }}px; font-variant-numeric: tabular-nums;">{{ a.label }}</span>
+                    </sc-for>
+                  </div>
+                </div>
+                <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); text-wrap: pretty;">{{ p.wRead }}</p>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+        <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); max-width: 74ch;">Dashed line in every panel: headline annual change. Food and energy annual changes are provider-published; the rent annual change is a Pulse calculation from the rent index, marked as such in the table. Basket shares are the annual weights the same dataset publishes, per 10 000, shown as a percentage — they step once a year.</p>
+        <details style="font-size: 13px;">
+          <summary style="cursor: pointer; color: var(--color-accent-400); min-height: 24px;">Data table, query and provenance</summary>
+          <div style="display: flex; flex-direction: column; gap: 8.4px; padding-top: 8.4px;">
+            <p style="margin: 0; color: var(--color-neutral-400);">Food 011813719, energy 011813866 (provider-published annual change); rents from 011815633 with a Pulse year-over-year calculation. Weights: food, energy and rent annual basket weights per 10 000 from the same dataset. Source: INSEE, IPC, Base 2025.</p>
+            <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; background: var(--color-bg); border-radius: 4px; color: var(--color-neutral-300);">{{ v3.sql }}</pre>
+            <div style="max-height: 320px; overflow: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums;">
+                <caption style="text-align: left; font-size: 12px; color: var(--color-neutral-400); padding-bottom: 5.6px;">Component annual change against headline, percent, with basket share</caption>
+                <thead><tr>
+                  <th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Period</th>
+                  <sc-for list="{{ v3.cols }}" as="c" hint-placeholder-count="4">
+                    <th scope="col" style="text-align: right; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">{{ c.label }}</th>
+                  </sc-for>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ v3.table }}" as="r" hint-placeholder-count="8">
+                    <tr>
+                      <th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-weight: 400;">{{ r.p }}</th>
+                      <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="4">
+                        <td style="text-align: right; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">{{ cell.v }}</td>
+                      </sc-for>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </figure>
+
+      <figure aria-labelledby="v4-h" style="margin: 0; display: flex; flex-direction: column; gap: 8.4px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+        <figcaption style="display: flex; flex-direction: column; gap: 2.8px;">
+          <h3 id="v4-h" style="font-size: 20px; font-weight: 500; margin: 0;">What has the price level actually done?</h3>
+          <p style="margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 74ch;">Index levels, Base 2025 = 100.<br></p>
+        </figcaption>
+        <div style="display: flex; flex-wrap: wrap; gap: 5.6px 16.8px;">
+          <sc-for list="{{ v4.legend }}" as="l" hint-placeholder-count="4">
+            <span style="display: inline-flex; align-items: center; gap: 6px; font-size: 12px; color: var(--color-neutral-300);"><span aria-hidden="true" style="width: 16px; height: 0; border-top: 3px {{ l.style }} {{ l.color }};"></span>{{ l.label }}</span>
+          </sc-for>
+        </div>
+        <div style="overflow-x: auto; position: relative;">
+          <svg viewBox="0 0 {{ v4.w }} {{ v4.h }}" width="{{ v4.w }}" height="{{ v4.h }}" role="img" aria-label="{{ v4.alt }}" onClick="{{ v4.onPick }}" style="display: block; max-width: 100%; cursor: pointer;">
+            <sc-for list="{{ v4.grid }}" as="g" hint-placeholder-count="5">
+              <g><line x1="{{ v4.padL }}" x2="{{ v4.rx }}" y1="{{ g.y }}" y2="{{ g.y }}" stroke="{{ g.stroke }}" stroke-width="1"></line></g>
+            </sc-for>
+            <sc-for list="{{ v4.series }}" as="s" hint-placeholder-count="4">
+              <polyline points="{{ s.pts }}" fill="none" stroke="{{ s.color }}" stroke-width="2.5" stroke-dasharray="{{ s.dash }}" stroke-linejoin="round"></polyline>
+            </sc-for>
+            <line x1="{{ v4.selX }}" x2="{{ v4.selX }}" y1="8" y2="{{ v4.selBottom }}" stroke="var(--color-text)" stroke-width="1" stroke-dasharray="3 3"></line>
+            <sc-for list="{{ v4.selDots }}" as="d" hint-placeholder-count="4">
+              <circle cx="{{ v4.selX }}" cy="{{ d.cy }}" r="4" fill="{{ d.color }}" stroke="var(--color-bg)" stroke-width="1.5"></circle>
+            </sc-for>
+          </svg>
+          <div style="position: absolute; inset: 0; pointer-events: none; font-size: 12px; color: var(--color-neutral-400);">
+            <sc-for list="{{ v4.grid }}" as="g" hint-placeholder-count="5">
+              <span style="position: absolute; left: 0; width: 36px; text-align: right; top: {{ g.top }}px; font-variant-numeric: tabular-nums;">{{ g.label }}</span>
+            </sc-for>
+            <sc-for list="{{ v4.xticks }}" as="t" hint-placeholder-count="6">
+              <span style="position: absolute; left: {{ t.left }}px; width: 64px; text-align: center; top: {{ v4.tickTop }}px;">{{ t.label }}</span>
+            </sc-for>
+            <sc-for list="{{ v4.selLabels }}" as="e" hint-placeholder-count="4">
+              <span style="position: absolute; left: {{ e.left }}px; top: {{ e.top }}px; width: 60px; padding: 1px 4px; border-radius: 4px; background: color-mix(in srgb, var(--color-bg) 92%, transparent); text-align: {{ e.align }}; font-weight: 600; font-variant-numeric: tabular-nums; color: {{ e.color }};">{{ e.label }}</span>
+            </sc-for>
+          </div>
+        </div>
+        
+        <details style="font-size: 13px;">
+          <summary style="cursor: pointer; color: var(--color-accent-400); min-height: 24px;">Data table, query and provenance</summary>
+          <div style="display: flex; flex-direction: column; gap: 8.4px; padding-top: 8.4px;">
+            <p style="margin: 0; color: var(--color-neutral-400);">Levels: headline 011814056, food 011813717, energy 011813864, rents 011815633. All Base 2025 = 100, DECIMAL(12,2), all households, France; headline excludes tobacco. Source: INSEE, IPC, Base 2025.</p>
+            <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; background: var(--color-bg); border-radius: 4px; color: var(--color-neutral-300);">{{ v4.sql }}</pre>
+            <div style="max-height: 320px; overflow: auto;">
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums;">
+                <caption style="text-align: left; font-size: 12px; color: var(--color-neutral-400); padding-bottom: 5.6px;">Index levels, Base 2025 = 100, two decimals as published</caption>
+                <thead><tr>
+                  <th scope="col" style="text-align: left; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">Period</th>
+                  <sc-for list="{{ v4.cols }}" as="c" hint-placeholder-count="4">
+                    <th scope="col" style="text-align: right; padding: 5.6px; border-bottom: 1px solid var(--color-divider); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--color-neutral-400);">{{ c.label }}</th>
+                  </sc-for>
+                </tr></thead>
+                <tbody>
+                  <sc-for list="{{ v4.table }}" as="r" hint-placeholder-count="8">
+                    <tr>
+                      <th scope="row" style="text-align: left; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent); font-weight: 400;">{{ r.p }}</th>
+                      <sc-for list="{{ r.cells }}" as="cell" hint-placeholder-count="4">
+                        <td style="text-align: right; padding: 5.6px; border-bottom: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);">{{ cell.v }}</td>
+                      </sc-for>
+                    </tr>
+                  </sc-for>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </details>
+      </figure>
+
+    </div>
+  </sc-if>
+
+  <section aria-labelledby="calc-h" style="display: flex; flex-direction: column; gap: 11.2px; padding: 16.8px; border-radius: 8px; background: var(--color-surface); box-shadow: 0 0 0 1px var(--color-neutral-800);">
+    <div style="display: flex; flex-direction: column; gap: 2.8px;">
+      <h2 id="calc-h" style="font-size: 20px; font-weight: 500; margin: 0;">What is an amount worth in another month?</h2>
+      <p style="margin: 0; font-size: 13px; color: var(--color-neutral-400); max-width: 74ch;">The headline index carries the whole calculation: an amount is scaled by the ratio of the two months’ index levels.</p>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 16.8px; align-items: flex-end;">
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <label for="calc-amount" style="font-size: 12px; color: var(--color-neutral-400);">Amount (€)</label>
+        <input id="calc-amount" type="number" min="0" step="any" value="{{ calc.amount }}" onChange="{{ calc.onAmount }}" onInput="{{ calc.onAmount }}" style="width: 140px; min-height: 44px; padding: 0 10px; font: inherit; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 8px;">
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <span style="font-size: 12px; color: var(--color-neutral-400);">In this month</span>
+        <div style="display: flex; gap: 5.6px;">
+          <select aria-label="Origin month" value="{{ calc.fromPick.month }}" onChange="{{ calc.fromPick.onMonth }}" style="min-height: 44px; padding: 0 8px; font: inherit; font-size: 15px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ calc.fromPick.monthOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+          <select aria-label="Origin year" value="{{ calc.fromPick.year }}" onChange="{{ calc.fromPick.onYear }}" style="min-height: 44px; padding: 0 8px; font: inherit; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ calc.fromPick.yearOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+      <button type="button" onClick="{{ calc.swap }}" aria-label="Swap the origin and target months" title="Swap the two months" style="min-height: 44px; margin-bottom: 0; padding: 0 12px; font: inherit; font-size: 15px; cursor: pointer; border-radius: 8px; background: transparent; color: var(--color-accent-400); border: 1px solid var(--color-accent);" style-hover="{background: 'color-mix(in srgb, var(--color-accent) 12%, transparent)'}">⇄ Swap</button>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <span style="font-size: 12px; color: var(--color-neutral-400);">Expressed in this month’s euros</span>
+        <div style="display: flex; gap: 5.6px;">
+          <select aria-label="Target month" value="{{ calc.toPick.month }}" onChange="{{ calc.toPick.onMonth }}" style="min-height: 44px; padding: 0 8px; font: inherit; font-size: 15px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ calc.toPick.monthOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+          <select aria-label="Target year" value="{{ calc.toPick.year }}" onChange="{{ calc.toPick.onYear }}" style="min-height: 44px; padding: 0 8px; font: inherit; font-size: 15px; font-variant-numeric: tabular-nums; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: 8px;">
+            <sc-for list="{{ calc.toPick.yearOptions }}" as="o" hint-placeholder-count="12"><option value="{{ o.value }}">{{ o.label }}</option></sc-for>
+          </select>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 2.8px; padding: 8.4px 16.8px; border-radius: 8px; background: var(--color-bg); box-shadow: 0 0 0 1px var(--color-neutral-800); min-width: 220px;">
+        <span style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--color-accent-400);">Equivalent amount</span>
+        <span aria-live="polite" style="font-size: 32px; font-weight: 500; line-height: 1.1; font-variant-numeric: tabular-nums;">{{ calc.result }}</span>
+        <span style="font-size: 12px; color: var(--color-neutral-400); font-variant-numeric: tabular-nums;">{{ calc.changeNote }}</span>
+      </div>
+    </div>
+    <p style="margin: 0; font-size: 12px; color: var(--color-neutral-400); max-width: 88ch; text-wrap: pretty;">{{ calc.sentence }}</p>
+    <details style="font-size: 13px;">
+      <summary style="cursor: pointer; color: var(--color-accent-400); min-height: 24px;">Method and provenance</summary>
+      <div style="display: flex; flex-direction: column; gap: 8.4px; padding-top: 8.4px;">
+        <p style="margin: 0; color: var(--color-neutral-400);">Amount × (headline index of the target month ÷ headline index of the origin month). Index series 011814056, Base 2025 = 100, DECIMAL(12,2), all households, France, excluding tobacco. The result is a Pulse calculation; both index levels are provider-published. INSEE publishes its own equivalent-purchasing-power converter on the same series.</p>
+        <pre style="margin: 0; padding: 8.4px; overflow-x: auto; font-size: 12px; background: var(--color-bg); border-radius: 4px; color: var(--color-neutral-300);">{{ calc.sql }}</pre>
+      </div>
+    </details>
+  </section>
+
+  <section aria-labelledby="method-h" style="display: flex; flex-direction: column; gap: 8.4px; border-top: 1px solid var(--color-divider); padding-top: 16.8px;">
+    <h2 id="method-h" style="font-size: 20px; font-weight: 500; margin: 0;">Method, provenance and limits</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16.8px;">
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: var(--color-accent-400);">What is provider-published</h3>
+        <p style="margin: 0; font-size: 13px; color: var(--color-neutral-300); text-wrap: pretty;">Index levels, monthly and annual changes for headline, food and energy, the four contributions, and the annual basket weights. Precision is shown exactly as published: index two decimals, percentages and contributions one decimal.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #9dc0ae;">What Pulse calculates</h3>
+        <p style="margin: 0; font-size: 13px; color: var(--color-neutral-300); text-wrap: pretty;">The rent annual change, (index ÷ index twelve months earlier − 1) × 100; the rent contribution, weight ÷ 10 000 × that change; the month-over-month change of each component, from its index; and the equivalent-amount calculation.</p>
+        <p style="margin: 0; font-size: 13px; color: #d09a6a; text-wrap: pretty;">Services and manufactured products are shown from representative series: the datasets publish their contributions but not yet an index or a weight, so both are reconstructed from the contribution and a representative annual weight (4 770 and 2 370 per 10 000). Every figure and table marks them; they are replaced series-for-series when the dataset carries them.</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 5.6px;">
+        <h3 style="font-size: 13px; font-weight: 600; margin: 0; letter-spacing: .06em; text-transform: uppercase; color: #d09a6a;">Limits to read with</h3>
+        <p style="margin: 0; font-size: 13px; color: var(--color-neutral-300); text-wrap: pretty;">Weights are annual, so a within-year contribution moves only with prices. Rents overlap the services contribution. The three basket shares shown do not sum to 100% — the datasets publish weights for food, energy and rents only, so the remainder is not attributable here. Base-2025 rebasing means levels are not comparable with earlier-base publications.</p>
+      </div>
+    </div>
+    <p style="margin: 5.6px 0 0; font-size: 12px; color: var(--color-neutral-400); max-width: 88ch;">Source: INSEE, Indice des prix à la consommation (IPC), Base 2025 — all households, France; headline series excludes tobacco. Series identifiers are listed in each figure’s disclosure..</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180},&quot;defaultWindow&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;2y&quot;,&quot;5y&quot;,&quot;all&quot;],&quot;default&quot;:&quot;5y&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Report defaults&quot;},&quot;showRentPulseLane&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Report defaults&quot;},&quot;showDesignHarness&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Review&quot;}}">
+const MONTHLY_RAW = "1998-01|65.89|-0.4|0.5;1998-02|66.14|0.4|0.7;1998-03|66.26|0.2|0.8;1998-04|66.39|0.2|1.0;1998-05|66.41|0.0|0.9;1998-06|66.46|0.1|1.0;1998-07|66.24|-0.3|0.8;1998-08|66.28|0.1|0.6;1998-09|66.26|0.0|0.3;1998-10|66.22|-0.1|0.3;1998-11|66.18|-0.1|0.1;1998-12|66.25|0.1|0.2;1999-01|66.00|-0.4|0.2;1999-02|66.21|0.3|0.1;1999-03|66.43|0.3|0.3;1999-04|66.62|0.3|0.3;1999-05|66.63|0.0|0.3;1999-06|66.62|0.0|0.2;1999-07|66.44|-0.3|0.3;1999-08|66.55|0.2|0.4;1999-09|66.66|0.2|0.6;1999-10|66.71|0.1|0.7;1999-11|66.74|0.0|0.8;1999-12|67.04|0.4|1.2;2000-01|66.98|-0.1|1.5;2000-02|67.06|0.1|1.3;2000-03|67.38|0.5|1.4;2000-04|67.38|0.0|1.1;2000-05|67.52|0.2|1.3;2000-06|67.69|0.3|1.6;2000-07|67.58|-0.2|1.7;2000-08|67.71|0.2|1.7;2000-09|68.06|0.5|2.1;2000-10|67.98|-0.1|1.9;2000-11|68.13|0.2|2.1;2000-12|68.10|0.0|1.6;2001-01|67.75|-0.5|1.1;2001-02|67.93|0.3|1.3;2001-03|68.24|0.5|1.3;2001-04|68.57|0.5|1.8;2001-05|69.00|0.6|2.2;2001-06|69.05|0.1|2.0;2001-07|68.90|-0.2|2.0;2001-08|68.90|0.0|1.8;2001-09|69.03|0.2|1.4;2001-10|69.07|0.1|1.6;2001-11|68.88|-0.3|1.1;2001-12|68.97|0.1|1.3;2002-01|69.18|0.3|2.1;2002-02|69.27|0.1|2.0;2002-03|69.57|0.4|1.9;2002-04|69.84|0.4|1.9;2002-05|69.93|0.1|1.3;2002-06|69.92|0.0|1.3;2002-07|69.92|0.0|1.5;2002-08|70.09|0.2|1.7;2002-09|70.22|0.2|1.7;2002-10|70.33|0.2|1.8;2002-11|70.33|0.0|2.1;2002-12|70.45|0.2|2.1;2003-01|70.45|0.0|1.8;2003-02|70.93|0.7|2.4;2003-03|71.22|0.4|2.4;2003-04|71.12|-0.1|1.8;2003-05|71.04|-0.1|1.6;2003-06|71.17|0.2|1.8;2003-07|71.10|-0.1|1.7;2003-08|71.27|0.2|1.7;2003-09|71.55|0.4|1.9;2003-10|71.59|0.1|1.8;2003-11|71.50|-0.1|1.7;2003-12|71.58|0.1|1.6;2004-01|71.45|-0.2|1.4;2004-02|71.74|0.4|1.1;2004-03|72.03|0.4|1.1;2004-04|72.22|0.3|1.5;2004-05|72.49|0.4|2.0;2004-06|72.52|0.0|1.9;2004-07|72.40|-0.2|1.8;2004-08|72.56|0.2|1.8;2004-09|72.63|0.1|1.5;2004-10|72.82|0.3|1.7;2004-11|72.86|0.1|1.9;2004-12|72.95|0.1|1.9;2005-01|72.54|-0.6|1.5;2005-02|72.99|0.6|1.7;2005-03|73.47|0.7|2.0;2005-04|73.60|0.2|1.9;2005-05|73.65|0.1|1.6;2005-06|73.74|0.1|1.7;2005-07|73.63|-0.1|1.7;2005-08|73.92|0.4|1.9;2005-09|74.21|0.4|2.2;2005-10|74.19|0.0|1.9;2005-11|74.04|-0.2|1.6;2005-12|74.13|0.1|1.6;2006-01|74.06|-0.1|2.1;2006-02|74.34|0.4|1.8;2006-03|74.56|0.3|1.5;2006-04|74.88|0.4|1.7;2006-05|75.21|0.4|2.1;2006-06|75.20|0.0|2.0;2006-07|75.07|-0.2|2.0;2006-08|75.33|0.3|1.9;2006-09|75.16|-0.2|1.3;2006-10|74.99|-0.2|1.1;2006-11|75.08|0.1|1.4;2006-12|75.25|0.2|1.5;2007-01|74.99|-0.3|1.3;2007-02|75.13|0.2|1.1;2007-03|75.46|0.4|1.2;2007-04|75.83|0.5|1.3;2007-05|76.02|0.3|1.1;2007-06|76.12|0.1|1.2;2007-07|75.92|-0.3|1.1;2007-08|76.16|0.3|1.1;2007-09|76.24|0.1|1.4;2007-10|76.43|0.2|1.9;2007-11|76.86|0.6|2.4;2007-12|77.15|0.4|2.5;2008-01|77.06|-0.1|2.8;2008-02|77.23|0.2|2.8;2008-03|77.82|0.8|3.1;2008-04|78.08|0.3|3.0;2008-05|78.51|0.6|3.3;2008-06|78.80|0.4|3.5;2008-07|78.63|-0.2|3.6;2008-08|78.60|0.0|3.2;2008-09|78.54|-0.1|3.0;2008-10|78.50|-0.1|2.7;2008-11|78.12|-0.5|1.6;2008-12|77.93|-0.2|1.0;2009-01|77.60|-0.4|0.7;2009-02|77.90|0.4|0.9;2009-03|78.05|0.2|0.3;2009-04|78.17|0.2|0.1;2009-05|78.29|0.2|-0.3;2009-06|78.39|0.1|-0.5;2009-07|78.04|-0.4|-0.8;2009-08|78.44|0.5|-0.2;2009-09|78.25|-0.2|-0.4;2009-10|78.33|0.1|-0.2;2009-11|78.38|0.1|0.3;2009-12|78.57|0.2|0.8;2010-01|78.39|-0.2|1.0;2010-02|78.83|0.6|1.2;2010-03|79.22|0.5|1.5;2010-04|79.43|0.3|1.6;2010-05|79.52|0.1|1.6;2010-06|79.51|0.0|1.4;2010-07|79.29|-0.3|1.6;2010-08|79.48|0.2|1.3;2010-09|79.42|-0.1|1.5;2010-10|79.52|0.1|1.5;2010-11|79.56|0.1|1.5;2010-12|79.90|0.4|1.7;2011-01|79.71|-0.2|1.7;2011-02|80.09|0.5|1.6;2011-03|80.76|0.8|1.9;2011-04|81.04|0.3|2.0;2011-05|81.09|0.1|2.0;2011-06|81.15|0.1|2.1;2011-07|80.79|-0.4|1.9;2011-08|81.21|0.5|2.2;2011-09|81.15|-0.1|2.2;2011-10|81.31|0.2|2.3;2011-11|81.49|0.2|2.4;2011-12|81.82|0.4|2.4;2012-01|81.53|-0.4|2.3;2012-02|81.87|0.4|2.2;2012-03|82.56|0.8|2.2;2012-04|82.68|0.1|2.0;2012-05|82.63|-0.1|1.9;2012-06|82.66|0.0|1.9;2012-07|82.29|-0.4|1.9;2012-08|82.85|0.7|2.0;2012-09|82.64|-0.3|1.8;2012-10|82.68|0.0|1.7;2012-11|82.55|-0.2|1.3;2012-12|82.82|0.3|1.2;2013-01|82.39|-0.5|1.1;2013-02|82.63|0.3|0.9;2013-03|83.27|0.8|0.9;2013-04|83.14|-0.2|0.6;2013-05|83.19|0.1|0.7;2013-06|83.33|0.2|0.8;2013-07|83.04|-0.3|0.9;2013-08|83.41|0.4|0.7;2013-09|83.21|-0.2|0.7;2013-10|83.10|-0.1|0.5;2013-11|83.06|0.0|0.6;2013-12|83.35|0.3|0.6;2014-01|82.84|-0.6|0.5;2014-02|83.28|0.5|0.8;2014-03|83.67|0.5|0.5;2014-04|83.63|0.0|0.6;2014-05|83.65|0.0|0.6;2014-06|83.62|0.0|0.3;2014-07|83.35|-0.3|0.4;2014-08|83.72|0.4|0.4;2014-09|83.40|-0.4|0.2;2014-10|83.42|0.0|0.4;2014-11|83.28|-0.2|0.3;2014-12|83.35|0.1|0.0;2015-01|82.50|-1.0|-0.4;2015-02|83.05|0.7|-0.3;2015-03|83.60|0.7|-0.1;2015-04|83.70|0.1|0.1;2015-05|83.90|0.2|0.3;2015-06|83.84|-0.1|0.3;2015-07|83.49|-0.4|0.2;2015-08|83.76|0.3|0.0;2015-09|83.42|-0.4|0.0;2015-10|83.47|0.1|0.1;2015-11|83.30|-0.2|0.0;2015-12|83.49|0.2|0.2;2016-01|82.68|-1.0|0.2;2016-02|82.89|0.3|-0.2;2016-03|83.48|0.7|-0.1;2016-04|83.54|0.1|-0.2;2016-05|83.89|0.4|0.0;2016-06|84.00|0.1|0.2;2016-07|83.67|-0.4|0.2;2016-08|83.95|0.3|0.2;2016-09|83.75|-0.2|0.4;2016-10|83.77|0.0|0.4;2016-11|83.76|0.0|0.6;2016-12|84.01|0.3|0.6;2017-01|83.80|-0.2|1.4;2017-02|83.89|0.1|1.2;2017-03|84.41|0.6|1.1;2017-04|84.49|0.1|1.1;2017-05|84.53|0.0|0.8;2017-06|84.54|0.0|0.6;2017-07|84.24|-0.4|0.7;2017-08|84.69|0.5|0.9;2017-09|84.55|-0.2|1.0;2017-10|84.63|0.1|1.0;2017-11|84.69|0.1|1.1;2017-12|84.93|0.3|1.1;2018-01|84.86|-0.1|1.3;2018-02|84.83|0.0|1.1;2018-03|85.48|0.8|1.3;2018-04|85.62|0.2|1.3;2018-05|86.01|0.5|1.8;2018-06|86.03|0.0|1.8;2018-07|85.93|-0.1|2.0;2018-08|86.36|0.5|2.0;2018-09|86.17|-0.2|1.9;2018-10|86.27|0.1|1.9;2018-11|86.08|-0.2|1.6;2018-12|86.10|0.0|1.4;2019-01|85.69|-0.5|1.0;2019-02|85.74|0.1|1.1;2019-03|86.32|0.7|1.0;2019-04|86.60|0.3|1.1;2019-05|86.68|0.1|0.8;2019-06|86.90|0.3|1.0;2019-07|86.72|-0.2|0.9;2019-08|87.13|0.5|0.9;2019-09|86.83|-0.3|0.8;2019-10|86.79|0.0|0.6;2019-11|86.73|-0.1|0.8;2019-12|87.12|0.4|1.2;2020-01|86.75|-0.4|1.2;2020-02|86.74|0.0|1.2;2020-03|86.67|-0.1|0.4;2020-04|86.64|0.0|0.0;2020-05|86.76|0.1|0.1;2020-06|86.83|0.1|-0.1;2020-07|87.16|0.4|0.5;2020-08|87.08|-0.1|-0.1;2020-09|86.63|-0.5|-0.2;2020-10|86.59|0.0|-0.2;2020-11|86.68|0.1|-0.1;2020-12|86.88|0.2|-0.3;2021-01|87.00|0.1|0.3;2021-02|87.00|0.0|0.3;2021-03|87.54|0.6|1.0;2021-04|87.63|0.1|1.1;2021-05|87.92|0.3|1.3;2021-06|88.04|0.1|1.4;2021-07|88.09|0.1|1.1;2021-08|88.64|0.6|1.8;2021-09|88.45|-0.2|2.1;2021-10|88.82|0.4|2.6;2021-11|89.15|0.4|2.8;2021-12|89.33|0.2|2.8;2022-01|89.55|0.2|2.9;2022-02|90.25|0.8|3.7;2022-03|91.56|1.5|4.6;2022-04|91.96|0.4|4.9;2022-05|92.60|0.7|5.3;2022-06|93.31|0.8|6.0;2022-07|93.57|0.3|6.2;2022-08|94.00|0.5|6.0;2022-09|93.46|-0.6|5.7;2022-10|94.45|1.1|6.3;2022-11|94.75|0.3|6.3;2022-12|94.66|-0.1|6.0;2023-01|95.03|0.4|6.1;2023-02|96.03|1.1|6.4;2023-03|96.75|0.7|5.7;2023-04|97.32|0.6|5.8;2023-05|97.26|-0.1|5.0;2023-06|97.44|0.2|4.4;2023-07|97.49|0.1|4.2;2023-08|98.48|1.0|4.8;2023-09|97.96|-0.5|4.8;2023-10|98.10|0.1|3.9;2023-11|97.93|-0.2|3.4;2023-12|98.06|0.1|3.6;2024-01|97.78|-0.3|2.9;2024-02|98.61|0.8|2.7;2024-03|98.82|0.2|2.1;2024-04|99.33|0.5|2.1;2024-05|99.36|0.0|2.2;2024-06|99.43|0.1|2.0;2024-07|99.62|0.2|2.2;2024-08|100.16|0.5|1.7;2024-09|98.90|-1.3|1.0;2024-10|99.18|0.3|1.1;2024-11|99.03|-0.2|1.1;2024-12|99.22|0.2|1.2;2025-01|99.32|0.1|1.6;2025-02|99.33|0.0|0.7;2025-03|99.52|0.2|0.7;2025-04|100.09|0.6|0.8;2025-05|99.96|-0.1|0.6;2025-06|100.35|0.4|0.9;2025-07|100.56|0.2|0.9;2025-08|100.99|0.4|0.8;2025-09|99.99|-1.0|1.1;2025-10|100.06|0.1|0.9;2025-11|99.87|-0.2|0.8;2025-12|99.95|0.1|0.7;2026-01|99.57|-0.4|0.3;2026-02|100.20|0.6|0.9;2026-03|101.18|1.0|1.7;2026-04|102.24|1.0|2.1;2026-05|102.37|0.1|2.4;2026-06|102.09|-0.3|1.7;2026-07|102.67|0.6|2.1";
+const CATEGORY_RAW = "1998-01|56.32|0.9|40.50|-1.5|65.57|1.6|0.2|0.5|0.0|-0.1|0.096|1818|800|601|1998;1998-02|56.33|1.7|40.38|-1.7|65.70|1.6|0.4|0.6|0.0|-0.1|0.096|1818|800|601|1998;1998-03|56.41|2.3|40.06|-1.7|65.83|1.6|0.5|0.5|-0.1|-0.1|0.096|1818|800|601|1998;1998-04|56.77|2.7|39.97|-1.1|66.01|1.9|0.5|0.5|0.0|-0.1|0.114|1818|800|601|1998;1998-05|57.06|2.4|39.46|-2.0|66.09|2.1|0.5|0.5|0.0|-0.1|0.126|1818|800|601|1998;1998-06|57.28|2.8|39.15|-2.4|66.18|2.1|0.5|0.6|0.0|-0.2|0.126|1818|800|601|1998;1998-07|56.99|2.0|38.98|-2.5|66.31|2.1|0.4|0.6|0.0|-0.2|0.126|1818|800|601|1998;1998-08|56.67|1.7|38.79|-4.1|66.48|2.2|0.3|0.6|0.0|-0.3|0.132|1818|800|601|1998;1998-09|56.61|1.2|38.78|-4.1|66.64|2.2|0.2|0.4|0.0|-0.3|0.132|1818|800|601|1998;1998-10|56.47|0.7|38.87|-4.0|66.79|2.2|0.1|0.5|0.0|-0.3|0.132|1818|800|601|1998;1998-11|56.61|0.4|38.67|-5.2|66.86|2.1|0.1|0.5|-0.1|-0.4|0.126|1818|800|601|1998;1998-12|56.76|0.8|38.54|-5.3|66.92|2.1|0.1|0.5|-0.1|-0.4|0.126|1818|800|601|1998;1999-01|57.10|1.4|38.17|-5.8|66.97|2.1|0.3|0.5|-0.1|-0.5|0.130|1812|729|617|1999;1999-02|57.04|1.3|38.14|-5.5|67.04|2.0|0.2|0.5|-0.2|-0.4|0.123|1812|729|617|1999;1999-03|57.16|1.3|38.37|-4.2|67.14|2.0|0.2|0.5|-0.1|-0.3|0.123|1812|729|617|1999;1999-04|57.23|0.8|39.05|-2.3|67.36|2.0|0.1|0.5|-0.2|-0.2|0.123|1812|729|617|1999;1999-05|57.39|0.6|38.81|-1.6|67.43|2.0|0.1|0.5|-0.1|-0.1|0.123|1812|729|617|1999;1999-06|57.30|0.0|38.71|-1.1|67.49|2.0|0.0|0.4|-0.1|-0.1|0.123|1812|729|617|1999;1999-07|56.91|-0.1|39.22|0.6|67.45|1.7|0.0|0.4|-0.2|0.0|0.105|1812|729|617|1999;1999-08|56.46|-0.4|39.86|2.8|67.58|1.7|-0.1|0.4|-0.1|0.2|0.105|1812|729|617|1999;1999-09|56.55|-0.1|40.35|4.0|67.72|1.6|0.0|0.5|-0.2|0.3|0.099|1812|729|617|1999;1999-10|56.84|0.7|40.67|4.6|67.70|1.4|0.1|0.4|-0.1|0.3|0.086|1812|729|617|1999;1999-11|57.11|0.9|40.90|5.8|67.77|1.4|0.2|0.4|-0.1|0.4|0.086|1812|729|617|1999;1999-12|57.34|1.0|42.22|9.5|67.84|1.4|0.2|0.4|-0.1|0.7|0.086|1812|729|617|1999;2000-01|57.47|0.6|42.71|11.9|67.00|0.0|0.1|0.3|0.1|0.9|0.000|1745|776|613|2000;2000-02|57.68|1.1|43.05|12.9|67.10|0.1|0.2|0.3|-0.2|0.9|0.006|1745|776|613|2000;2000-03|57.68|0.9|43.81|14.2|67.20|0.1|0.2|0.3|-0.1|1.0|0.006|1745|776|613|2000;2000-04|58.11|1.5|43.29|10.9|67.22|-0.2|0.3|0.1|-0.1|0.8|-0.012|1745|776|613|2000;2000-05|58.34|1.7|43.72|12.7|67.29|-0.2|0.3|0.2|-0.1|0.9|-0.012|1745|776|613|2000;2000-06|58.35|1.8|44.48|14.9|67.36|-0.2|0.3|0.2|-0.1|1.1|-0.012|1745|776|613|2000;2000-07|58.23|2.3|44.76|14.1|67.40|-0.1|0.4|0.3|-0.1|1.0|-0.006|1745|776|613|2000;2000-08|58.17|3.0|44.71|12.2|67.50|-0.1|0.5|0.3|0.0|0.9|-0.006|1745|776|613|2000;2000-09|58.33|3.1|46.75|15.9|67.60|-0.2|0.6|0.3|0.1|1.2|-0.012|1745|776|613|2000;2000-10|58.52|3.0|45.68|12.3|67.57|-0.2|0.5|0.3|0.1|0.9|-0.012|1745|776|613|2000;2000-11|58.91|3.2|46.34|13.3|67.63|-0.2|0.6|0.4|0.1|1.0|-0.012|1745|776|613|2000;2000-12|58.97|2.8|45.51|7.8|67.68|-0.2|0.5|0.3|0.1|0.6|-0.012|1745|776|613|2000;2001-01|59.35|3.3|43.31|1.4|67.21|0.3|0.6|0.4|0.0|0.1|0.017|1741|807|574|2001;2001-02|59.58|3.3|43.63|1.3|67.27|0.3|0.6|0.4|0.2|0.1|0.017|1741|807|574|2001;2001-03|60.27|4.5|43.50|-0.7|67.34|0.2|0.8|0.4|0.2|0.0|0.011|1741|807|574|2001;2001-04|60.86|4.7|43.96|1.5|67.39|0.3|0.8|0.5|0.2|0.1|0.017|1741|807|574|2001;2001-05|61.89|6.1|45.32|3.7|67.45|0.2|1.1|0.5|0.3|0.3|0.011|1741|807|574|2001;2001-06|61.94|6.2|45.28|1.8|67.52|0.2|1.1|0.5|0.2|0.1|0.011|1741|807|574|2001;2001-07|62.01|6.5|44.42|-0.8|67.58|0.3|1.1|0.6|0.3|-0.1|0.017|1741|807|574|2001;2001-08|61.47|5.7|43.71|-2.2|67.68|0.3|1.0|0.6|0.3|-0.2|0.017|1741|807|574|2001;2001-09|61.56|5.5|44.08|-5.7|67.78|0.3|1.0|0.7|0.3|-0.5|0.017|1741|807|574|2001;2001-10|61.77|5.6|43.52|-4.7|68.01|0.7|1.0|0.8|0.3|-0.4|0.040|1741|807|574|2001;2001-11|61.63|4.6|42.82|-7.6|68.11|0.7|0.8|0.7|0.2|-0.6|0.040|1741|807|574|2001;2001-12|61.84|4.9|42.09|-7.5|68.21|0.8|0.8|0.8|0.2|-0.6|0.046|1741|807|574|2001;2002-01|62.94|6.0|42.08|-2.8|68.34|1.7|1.1|1.0|0.3|-0.2|0.094|1761|704|554|2002;2002-02|62.78|5.4|42.09|-3.5|68.53|1.9|0.9|1.0|0.2|-0.3|0.105|1761|704|554|2002;2002-03|62.81|4.2|42.47|-2.4|68.72|2.0|0.7|1.1|0.2|-0.2|0.111|1761|704|554|2002;2002-04|62.87|3.3|43.47|-1.1|69.02|2.4|0.6|1.1|0.2|-0.1|0.133|1761|704|554|2002;2002-05|63.05|1.9|43.23|-4.6|69.16|2.5|0.3|1.2|0.2|-0.4|0.138|1761|704|554|2002;2002-06|63.03|1.8|42.75|-5.6|69.27|2.6|0.3|1.2|0.2|-0.4|0.144|1761|704|554|2002;2002-07|62.68|1.1|42.50|-4.3|69.34|2.6|0.2|1.4|0.2|-0.3|0.144|1761|704|554|2002;2002-08|62.37|1.5|43.11|-1.4|69.54|2.7|0.3|1.4|0.1|-0.1|0.150|1761|704|554|2002;2002-09|62.45|1.4|43.72|-0.8|69.74|2.9|0.3|1.4|0.2|-0.1|0.161|1761|704|554|2002;2002-10|62.62|1.4|44.09|1.3|69.99|2.9|0.2|1.3|0.1|0.1|0.161|1761|704|554|2002;2002-11|62.64|1.6|43.66|2.0|70.11|2.9|0.3|1.5|0.2|0.1|0.161|1761|704|554|2002;2002-12|62.72|1.4|43.71|3.8|70.23|3.0|0.3|1.4|0.2|0.3|0.166|1761|704|554|2002;2003-01|63.29|0.6|44.65|6.1|70.38|3.0|0.1|1.3|-0.1|0.4|0.171|1719|725|570|2003;2003-02|63.55|1.2|45.59|8.3|70.55|2.9|0.2|1.3|0.2|0.6|0.165|1719|725|570|2003;2003-03|63.84|1.6|46.32|9.1|70.73|2.9|0.3|1.3|0.1|0.6|0.165|1719|725|570|2003;2003-04|64.08|1.9|44.42|2.2|70.99|2.9|0.3|1.2|0.1|0.2|0.165|1719|725|570|2003;2003-05|64.07|1.6|43.21|0.0|71.09|2.8|0.3|1.2|0.1|0.0|0.160|1719|725|570|2003;2003-06|64.60|2.5|42.97|0.5|71.20|2.8|0.4|1.2|0.0|0.0|0.160|1719|725|570|2003;2003-07|64.36|2.7|43.42|2.2|71.25|2.8|0.5|1.0|0.0|0.2|0.160|1719|725|570|2003;2003-08|64.25|3.0|43.79|1.6|71.43|2.7|0.5|1.0|0.0|0.1|0.154|1719|725|570|2003;2003-09|64.75|3.7|43.91|0.4|71.61|2.7|0.6|1.1|0.1|0.0|0.154|1719|725|570|2003;2003-10|64.49|3.0|43.94|-0.3|71.81|2.6|0.5|1.1|0.1|0.0|0.148|1719|725|570|2003;2003-11|64.42|2.8|43.73|0.2|71.95|2.6|0.5|1.0|0.1|0.0|0.148|1719|725|570|2003;2003-12|64.22|2.4|43.67|-0.1|72.08|2.6|0.4|1.0|0.1|0.0|0.148|1719|725|570|2003;2004-01|64.60|2.1|44.13|-1.2|72.17|2.5|0.4|1.1|0.0|-0.1|0.146|1711|692|585|2004;2004-02|64.34|1.2|43.97|-3.6|72.36|2.6|0.2|1.1|0.0|-0.3|0.152|1711|692|585|2004;2004-03|64.75|1.4|44.78|-3.3|72.55|2.6|0.2|1.1|0.0|-0.3|0.152|1711|692|585|2004;2004-04|65.04|1.5|45.09|1.5|72.79|2.5|0.3|1.1|0.1|0.1|0.146|1711|692|585|2004;2004-05|65.21|1.8|46.40|7.4|72.91|2.6|0.3|1.1|0.1|0.5|0.152|1711|692|585|2004;2004-06|65.51|1.4|45.94|6.9|73.03|2.6|0.2|1.1|0.1|0.5|0.152|1711|692|585|2004;2004-07|64.86|0.8|46.01|6.0|73.23|2.8|0.1|1.3|0.0|0.4|0.164|1711|692|585|2004;2004-08|63.90|-0.5|47.00|7.3|73.47|2.9|-0.1|1.2|0.1|0.5|0.170|1711|692|585|2004;2004-09|63.99|-1.2|47.09|7.2|73.71|2.9|-0.2|1.1|0.0|0.5|0.170|1711|692|585|2004;2004-10|64.00|-0.8|48.58|10.6|74.06|3.1|-0.1|1.1|0.0|0.7|0.181|1711|692|585|2004;2004-11|64.13|-0.5|48.71|11.4|74.34|3.3|-0.1|1.1|0.0|0.8|0.193|1711|692|585|2004;2004-12|64.28|0.1|48.12|10.2|74.52|3.4|0.0|1.2|0.0|0.7|0.199|1711|692|585|2004;2005-01|64.29|-0.5|47.26|7.1|74.69|3.5|-0.1|1.1|0.0|0.5|0.204|1723|780|584|2005;2005-02|64.62|0.4|48.01|9.2|74.91|3.5|0.1|1.2|-0.2|0.6|0.204|1723|780|584|2005;2005-03|65.18|0.7|49.25|10.0|75.16|3.6|0.1|1.2|-0.1|0.7|0.210|1723|780|584|2005;2005-04|64.93|-0.2|50.11|11.1|75.44|3.6|0.0|1.2|-0.1|0.8|0.210|1723|780|584|2005;2005-05|65.19|0.0|49.44|6.6|75.63|3.7|0.0|1.2|-0.1|0.5|0.216|1723|780|584|2005;2005-06|65.04|-0.7|50.35|9.6|75.79|3.8|-0.1|1.2|-0.1|0.7|0.222|1723|780|584|2005;2005-07|64.56|-0.5|51.76|12.5|75.90|3.6|-0.1|1.1|-0.3|0.9|0.210|1723|780|584|2005;2005-08|64.11|0.3|52.46|11.6|76.21|3.7|0.1|1.1|-0.2|0.9|0.216|1723|780|584|2005;2005-09|64.14|0.2|54.26|15.2|76.51|3.8|0.0|1.1|-0.2|1.2|0.222|1723|780|584|2005;2005-10|64.26|0.4|54.34|11.9|76.58|3.4|0.1|1.0|-0.2|0.9|0.199|1723|780|584|2005;2005-11|64.47|0.5|52.81|8.4|76.89|3.4|0.1|1.0|-0.2|0.7|0.199|1723|780|584|2005;2005-12|64.72|0.7|52.06|8.2|77.08|3.4|0.1|1.0|-0.2|0.6|0.199|1723|780|584|2005;2006-01|65.00|1.1|52.96|12.1|77.38|3.6|0.2|1.0|-0.1|0.9|0.212|1674|818|590|2006;2006-02|65.31|1.1|53.16|10.7|77.67|3.7|0.2|0.9|-0.1|0.8|0.218|1674|818|590|2006;2006-03|65.39|0.3|53.42|8.5|77.96|3.7|0.1|0.9|-0.2|0.7|0.218|1674|818|590|2006;2006-04|65.53|0.9|54.71|9.2|78.17|3.6|0.2|1.0|-0.1|0.7|0.212|1674|818|590|2006;2006-05|65.96|1.2|55.82|12.9|78.30|3.5|0.2|1.0|-0.1|1.0|0.207|1674|818|590|2006;2006-06|65.96|1.4|55.45|10.1|78.43|3.5|0.2|1.0|-0.1|0.8|0.207|1674|818|590|2006;2006-07|65.80|1.9|55.91|8.0|78.54|3.5|0.3|1.1|-0.1|0.7|0.207|1674|818|590|2006;2006-08|65.51|2.2|56.23|7.2|78.78|3.4|0.4|1.0|-0.1|0.6|0.201|1674|818|590|2006;2006-09|65.75|2.5|54.78|1.0|79.01|3.3|0.4|0.9|-0.2|0.1|0.195|1674|818|590|2006;2006-10|65.55|2.0|53.18|-2.1|79.18|3.4|0.3|1.1|-0.2|-0.2|0.201|1674|818|590|2006;2006-11|65.95|2.3|52.90|0.2|79.35|3.2|0.4|1.1|-0.1|0.0|0.189|1674|818|590|2006;2006-12|65.84|1.7|52.95|1.7|79.53|3.2|0.3|1.1|-0.1|0.1|0.189|1674|818|590|2006;2007-01|66.04|1.6|52.58|-0.7|79.73|3.0|0.3|1.2|-0.1|-0.1|0.179|1660|789|598|2007;2007-02|65.78|0.7|52.70|-0.9|80.01|3.0|0.1|1.1|-0.1|-0.1|0.179|1660|789|598|2007;2007-03|65.74|0.5|53.52|0.2|80.29|3.0|0.1|1.1|0.0|0.0|0.179|1660|789|598|2007;2007-04|66.27|1.1|54.39|-0.6|80.65|3.2|0.2|1.2|0.0|-0.1|0.191|1660|789|598|2007;2007-05|66.57|0.9|55.01|-1.5|80.80|3.2|0.2|1.1|0.0|-0.1|0.191|1660|789|598|2007;2007-06|66.81|1.3|55.29|-0.3|80.96|3.2|0.2|1.0|0.0|0.0|0.191|1660|789|598|2007;2007-07|66.35|0.8|55.51|-0.7|81.02|3.2|0.1|1.0|0.0|-0.1|0.191|1660|789|598|2007;2007-08|66.27|1.2|55.21|-1.8|81.26|3.1|0.2|1.0|0.0|-0.2|0.185|1660|789|598|2007;2007-09|66.63|1.3|55.56|1.4|81.49|3.1|0.2|1.1|0.0|0.1|0.185|1660|789|598|2007;2007-10|66.98|2.2|55.95|5.2|81.64|3.1|0.4|1.0|0.1|0.4|0.185|1660|789|598|2007;2007-11|67.43|2.2|58.28|10.2|81.86|3.2|0.4|1.0|0.1|0.8|0.191|1660|789|598|2007;2007-12|67.85|3.1|58.58|10.6|82.07|3.2|0.5|1.0|0.1|0.8|0.191|1660|789|598|2007;2008-01|68.82|4.2|59.05|12.3|82.08|2.9|0.7|1.0|0.1|1.0|0.173|1643|787|596|2008;2008-02|68.96|4.8|58.72|11.4|82.25|2.8|0.8|1.0|0.1|0.9|0.167|1643|787|596|2008;2008-03|69.25|5.3|60.29|12.6|82.42|2.7|0.9|1.0|0.2|1.0|0.161|1643|787|596|2008;2008-04|69.71|5.2|60.92|12.0|82.47|2.3|0.9|1.0|0.1|0.9|0.137|1643|787|596|2008;2008-05|70.39|5.7|63.45|15.3|82.62|2.3|0.9|1.0|0.0|1.2|0.137|1643|787|596|2008;2008-06|70.52|5.6|65.69|18.8|82.76|2.2|0.9|1.0|0.1|1.5|0.131|1643|787|596|2008;2008-07|70.57|6.4|65.80|18.5|82.72|2.1|1.0|1.0|0.0|1.4|0.125|1643|787|596|2008;2008-08|69.74|5.2|63.66|15.3|82.91|2.0|0.9|1.0|0.1|1.2|0.119|1643|787|596|2008;2008-09|69.79|4.7|63.44|14.2|83.10|2.0|0.8|0.9|0.2|1.1|0.119|1643|787|596|2008;2008-10|70.13|4.7|61.07|9.2|83.24|2.0|0.8|1.0|0.1|0.7|0.119|1643|787|596|2008;2008-11|70.01|3.8|57.71|-1.0|83.37|1.8|0.6|1.0|0.1|-0.1|0.107|1643|787|596|2008;2008-12|70.04|3.2|54.47|-7.0|83.51|1.8|0.5|1.0|0.0|-0.6|0.107|1643|787|596|2008;2009-01|70.47|2.4|53.28|-9.8|83.48|1.7|0.4|1.1|0.0|-0.8|0.102|1654|723|600|2009;2009-02|70.50|2.2|53.57|-8.8|83.67|1.7|0.4|1.1|0.0|-0.7|0.102|1654|723|600|2009;2009-03|70.40|1.7|52.50|-12.9|83.88|1.8|0.3|1.0|0.0|-1.0|0.108|1654|723|600|2009;2009-04|70.45|1.1|52.50|-13.8|84.23|2.1|0.2|1.0|0.0|-1.1|0.126|1654|723|600|2009;2009-05|70.66|0.4|52.59|-17.1|84.35|2.1|0.1|1.1|0.0|-1.4|0.126|1654|723|600|2009;2009-06|70.26|-0.4|54.26|-17.4|84.48|2.1|-0.1|1.1|0.0|-1.5|0.126|1654|723|600|2009;2009-07|69.78|-1.1|53.74|-18.3|84.58|2.2|-0.2|1.0|0.0|-1.6|0.132|1654|723|600|2009;2009-08|69.27|-0.7|54.76|-14.0|84.78|2.3|-0.1|0.9|0.2|-1.2|0.138|1654|723|600|2009;2009-09|69.58|-0.3|54.36|-14.3|84.97|2.3|0.0|0.9|0.0|-1.2|0.138|1654|723|600|2009;2009-10|69.88|-0.4|54.23|-11.2|84.97|2.1|-0.1|0.8|-0.1|-0.9|0.126|1654|723|600|2009;2009-11|69.93|-0.1|55.28|-4.2|85.06|2.0|0.0|0.8|-0.1|-0.3|0.120|1654|723|600|2009;2009-12|69.85|-0.3|55.07|1.1|85.15|2.0|0.0|0.8|0.0|0.1|0.120|1654|723|600|2009;2010-01|70.52|0.1|56.49|6.0|85.21|2.1|0.0|0.7|-0.2|0.4|0.127|1625|730|607|2010;2010-02|70.56|0.1|56.49|5.5|85.40|2.1|0.0|0.7|0.1|0.4|0.127|1625|730|607|2010;2010-03|70.82|0.6|57.68|9.9|85.61|2.1|0.1|0.7|0.0|0.7|0.127|1625|730|607|2010;2010-04|71.09|0.9|59.25|12.9|85.69|1.7|0.1|0.6|-0.1|0.9|0.103|1625|730|607|2010;2010-05|71.27|0.9|59.76|13.6|85.77|1.7|0.1|0.5|-0.1|1.0|0.103|1625|730|607|2010;2010-06|71.16|1.3|59.37|9.4|85.85|1.6|0.2|0.6|0.0|0.7|0.097|1625|730|607|2010;2010-07|70.77|1.4|59.37|10.5|85.84|1.5|0.2|0.6|0.0|0.8|0.091|1625|730|607|2010;2010-08|70.15|1.3|59.37|8.4|85.96|1.4|0.2|0.6|-0.1|0.6|0.085|1625|730|607|2010;2010-09|70.17|0.8|59.67|9.8|86.09|1.3|0.1|0.6|0.0|0.7|0.079|1625|730|607|2010;2010-10|70.23|0.5|60.24|11.1|86.05|1.3|0.1|0.6|0.0|0.8|0.079|1625|730|607|2010;2010-11|70.56|0.9|60.81|10.0|86.13|1.3|0.1|0.6|0.0|0.7|0.079|1625|730|607|2010;2010-12|70.67|1.2|61.98|12.5|86.22|1.3|0.2|0.6|0.0|0.9|0.079|1625|730|607|2010;2011-01|70.57|0.1|64.24|13.7|86.27|1.2|0.0|0.5|0.1|1.0|0.071|1613|812|591|2011;2011-02|70.78|0.3|64.95|15.0|86.45|1.2|0.1|0.7|-0.3|1.1|0.071|1613|812|591|2011;2011-03|71.39|0.8|66.53|15.3|86.63|1.2|0.1|0.7|-0.1|1.2|0.071|1613|812|591|2011;2011-04|71.50|0.6|67.36|13.7|86.64|1.1|0.1|0.7|0.1|1.1|0.065|1613|812|591|2011;2011-05|72.22|1.3|66.51|11.3|86.72|1.1|0.2|0.8|0.0|0.9|0.065|1613|812|591|2011;2011-06|72.40|1.7|66.18|11.5|86.81|1.1|0.3|0.8|0.1|0.9|0.065|1613|812|591|2011;2011-07|72.29|2.1|66.17|11.5|86.88|1.2|0.3|0.8|-0.2|0.9|0.071|1613|812|591|2011;2011-08|72.18|2.9|66.44|11.9|86.96|1.2|0.5|0.8|-0.1|0.9|0.071|1613|812|591|2011;2011-09|72.33|3.1|66.91|12.1|87.04|1.1|0.5|0.6|0.0|1.0|0.065|1613|812|591|2011;2011-10|72.59|3.4|66.99|11.2|87.12|1.2|0.5|0.6|0.2|0.9|0.071|1613|812|591|2011;2011-11|72.80|3.2|67.78|11.5|87.21|1.3|0.5|0.7|0.2|0.9|0.077|1613|812|591|2011;2011-12|73.00|3.3|67.73|9.3|87.29|1.2|0.5|0.8|0.3|0.8|0.071|1613|812|591|2011;2012-01|73.07|3.5|69.32|7.9|87.43|1.3|0.6|0.8|0.2|0.7|0.076|1638|868|586|2012;2012-02|73.48|3.8|70.03|7.8|87.61|1.3|0.6|0.7|0.2|0.7|0.076|1638|868|586|2012;2012-03|74.00|3.7|70.84|6.5|87.78|1.3|0.6|0.7|0.4|0.6|0.076|1638|868|586|2012;2012-04|74.00|3.5|70.93|5.3|88.05|1.6|0.6|0.7|0.2|0.5|0.094|1638|868|586|2012;2012-05|74.41|3.0|69.84|5.0|88.15|1.6|0.5|0.6|0.3|0.4|0.094|1638|868|586|2012;2012-06|74.71|3.2|68.38|3.3|88.25|1.7|0.5|0.7|0.3|0.3|0.100|1638|868|586|2012;2012-07|74.26|2.7|68.54|3.6|88.28|1.6|0.4|0.8|0.3|0.3|0.094|1638|868|586|2012;2012-08|73.90|2.4|71.01|6.9|88.37|1.6|0.4|0.8|0.1|0.6|0.094|1638|868|586|2012;2012-09|74.06|2.4|70.80|5.8|88.46|1.6|0.4|0.7|0.2|0.5|0.094|1638|868|586|2012;2012-10|74.69|2.9|70.43|5.1|88.61|1.7|0.5|0.7|0.1|0.4|0.100|1638|868|586|2012;2012-11|74.69|2.6|69.60|2.7|88.70|1.7|0.4|0.5|0.1|0.2|0.100|1638|868|586|2012;2012-12|74.68|2.3|69.46|2.6|88.79|1.7|0.4|0.5|0.1|0.2|0.100|1638|868|586|2012;2013-01|74.63|2.1|70.69|2.0|88.88|1.7|0.4|0.5|0.0|0.2|0.100|1658|822|591|2013;2013-02|74.71|1.7|71.72|2.4|89.38|2.0|0.3|0.4|0.0|0.2|0.118|1658|822|591|2013;2013-03|75.07|1.4|71.59|1.1|89.46|1.9|0.2|0.5|0.0|0.1|0.112|1658|822|591|2013;2013-04|75.28|1.7|70.79|-0.2|89.46|1.6|0.3|0.4|-0.1|0.0|0.095|1658|822|591|2013;2013-05|75.75|1.8|69.55|-0.4|89.52|1.6|0.3|0.5|-0.1|0.0|0.095|1658|822|591|2013;2013-06|76.08|1.8|69.56|1.7|89.55|1.5|0.3|0.5|-0.1|0.1|0.089|1658|822|591|2013;2013-07|75.58|1.8|69.78|1.8|89.71|1.6|0.3|0.5|-0.1|0.2|0.095|1658|822|591|2013;2013-08|75.25|1.8|70.77|-0.3|89.82|1.6|0.3|0.5|-0.1|0.0|0.095|1658|822|591|2013;2013-09|74.91|1.1|71.33|0.7|89.89|1.6|0.2|0.6|-0.2|0.1|0.095|1658|822|591|2013;2013-10|74.83|0.2|70.12|-0.4|89.90|1.5|0.0|0.6|-0.1|0.0|0.089|1658|822|591|2013;2013-11|74.90|0.3|69.68|0.1|89.93|1.4|0.0|0.7|-0.1|0.0|0.083|1658|822|591|2013;2013-12|74.97|0.4|70.19|1.1|89.96|1.3|0.1|0.6|-0.2|0.1|0.077|1658|822|591|2013;2014-01|74.91|0.4|70.79|0.1|90.05|1.3|0.1|0.8|-0.3|0.0|0.077|1653|850|595|2014;2014-02|74.82|0.1|70.88|-1.2|90.38|1.1|0.0|0.9|0.0|-0.1|0.065|1653|850|595|2014;2014-03|74.96|-0.1|70.43|-1.6|90.42|1.1|0.0|0.8|-0.2|-0.1|0.065|1653|850|595|2014;2014-04|74.84|-0.6|70.32|-0.7|90.43|1.1|-0.1|0.9|-0.2|-0.1|0.065|1653|850|595|2014;2014-05|75.08|-0.9|70.28|1.0|90.51|1.1|-0.1|0.8|-0.2|0.1|0.065|1653|850|595|2014;2014-06|74.93|-1.5|70.25|1.0|90.54|1.1|-0.3|0.8|-0.3|0.1|0.065|1653|850|595|2014;2014-07|74.52|-1.4|70.29|0.7|90.57|1.0|-0.2|0.8|-0.3|0.1|0.060|1653|850|595|2014;2014-08|74.12|-1.5|69.72|-1.5|90.63|0.9|-0.2|0.9|-0.1|-0.1|0.054|1653|850|595|2014;2014-09|74.45|-0.6|69.57|-2.5|90.68|0.9|-0.1|0.7|-0.2|-0.2|0.054|1653|850|595|2014;2014-10|74.72|-0.1|69.30|-1.2|90.73|0.9|0.0|0.7|-0.2|-0.1|0.054|1653|850|595|2014;2014-11|74.71|-0.3|68.91|-1.1|90.81|1.0|0.0|0.7|-0.3|-0.1|0.060|1653|850|595|2014;2014-12|74.66|-0.4|67.13|-4.4|90.85|1.0|-0.1|0.7|-0.3|-0.4|0.060|1653|850|595|2014;2015-01|74.73|-0.2|65.75|-7.1|90.87|0.9|0.0|0.6|-0.4|-0.6|0.055|1662|815|609|2015;2015-02|74.86|0.1|67.14|-5.3|90.98|0.7|0.0|0.6|-0.4|-0.5|0.043|1662|815|609|2015;2015-03|75.03|0.1|67.80|-3.7|91.01|0.7|0.0|0.5|-0.3|-0.3|0.043|1662|815|609|2015;2015-04|75.04|0.3|67.94|-3.4|91.06|0.7|0.0|0.6|-0.2|-0.3|0.043|1662|815|609|2015;2015-05|75.38|0.4|68.59|-2.4|91.11|0.7|0.1|0.6|-0.2|-0.2|0.043|1662|815|609|2015;2015-06|75.20|0.4|68.26|-2.8|91.13|0.7|0.1|0.6|-0.2|-0.2|0.043|1662|815|609|2015;2015-07|74.80|0.4|67.45|-4.0|91.13|0.6|0.1|0.7|-0.2|-0.3|0.037|1662|815|609|2015;2015-08|74.73|0.8|66.18|-5.1|91.25|0.7|0.1|0.6|-0.3|-0.4|0.043|1662|815|609|2015;2015-09|75.11|0.9|65.49|-5.9|91.27|0.7|0.1|0.6|-0.2|-0.5|0.043|1662|815|609|2015;2015-10|75.48|1.0|65.08|-6.1|91.27|0.6|0.2|0.6|-0.2|-0.5|0.037|1662|815|609|2015;2015-11|75.32|0.8|64.77|-6.0|91.27|0.5|0.1|0.5|-0.1|-0.5|0.030|1662|815|609|2015;2015-12|75.08|0.6|63.98|-4.7|91.28|0.5|0.1|0.5|-0.1|-0.4|0.030|1662|815|609|2015;2016-01|75.01|0.4|63.22|-3.8|91.29|0.5|0.1|0.5|0.0|-0.3|0.031|1615|773|621|2016;2016-02|74.99|0.2|62.58|-6.8|91.36|0.4|0.0|0.4|0.0|-0.6|0.025|1615|773|621|2016;2016-03|75.33|0.4|63.13|-6.9|91.37|0.4|0.1|0.4|-0.1|-0.6|0.025|1615|773|621|2016;2016-04|75.34|0.4|63.33|-6.8|91.37|0.3|0.1|0.5|-0.2|-0.6|0.019|1615|773|621|2016;2016-05|76.10|1.0|64.70|-5.7|91.42|0.3|0.2|0.5|-0.2|-0.5|0.019|1615|773|621|2016;2016-06|75.63|0.6|66.13|-3.1|91.43|0.3|0.1|0.5|-0.1|-0.3|0.019|1615|773|621|2016;2016-07|75.72|1.2|65.25|-3.3|91.45|0.4|0.2|0.4|-0.1|-0.3|0.025|1615|773|621|2016;2016-08|75.84|1.5|64.21|-3.0|91.48|0.3|0.2|0.4|-0.1|-0.2|0.019|1615|773|621|2016;2016-09|75.46|0.5|64.75|-1.1|91.49|0.2|0.1|0.6|-0.2|-0.1|0.012|1615|773|621|2016;2016-10|75.41|-0.1|65.56|0.7|91.50|0.3|0.0|0.5|-0.2|0.1|0.019|1615|773|621|2016;2016-11|75.53|0.3|66.15|2.1|91.52|0.3|0.0|0.5|-0.2|0.2|0.019|1615|773|621|2016;2016-12|75.62|0.7|66.74|4.3|91.52|0.3|0.1|0.4|-0.3|0.3|0.019|1615|773|621|2016;2017-01|75.96|1.3|69.73|10.3|91.48|0.2|0.2|0.4|-0.1|0.8|0.013|1627|748|628|2017;2017-02|76.16|1.6|69.72|11.4|91.50|0.2|0.3|0.5|-0.4|0.8|0.013|1627|748|628|2017;2017-03|75.94|0.8|69.38|9.9|91.52|0.2|0.1|0.5|-0.3|0.7|0.013|1627|748|628|2017;2017-04|75.89|0.7|69.19|9.3|91.57|0.2|0.1|0.5|-0.2|0.7|0.013|1627|748|628|2017;2017-05|76.44|0.4|68.14|5.3|91.60|0.2|0.1|0.5|-0.2|0.4|0.013|1627|748|628|2017;2017-06|76.23|0.8|67.38|1.9|91.61|0.2|0.1|0.4|-0.1|0.1|0.013|1627|748|628|2017;2017-07|76.28|0.7|66.50|1.9|91.61|0.2|0.1|0.5|-0.1|0.2|0.013|1627|748|628|2017;2017-08|76.32|0.6|67.30|4.8|91.63|0.2|0.1|0.6|-0.2|0.4|0.013|1627|748|628|2017;2017-09|76.26|1.1|68.02|5.1|91.64|0.2|0.2|0.5|-0.1|0.4|0.013|1627|748|628|2017;2017-10|76.58|1.6|68.68|4.8|91.68|0.2|0.3|0.5|-0.1|0.4|0.013|1627|748|628|2017;2017-11|76.65|1.5|69.75|5.4|91.71|0.2|0.2|0.5|-0.1|0.4|0.013|1627|748|628|2017;2017-12|76.64|1.3|70.08|5.0|91.72|0.2|0.2|0.5|0.0|0.4|0.013|1627|748|628|2017;2018-01|76.89|1.2|73.37|5.2|91.79|0.3|0.2|0.6|0.0|0.4|0.018|1627|777|614|2018;2018-02|76.79|0.8|73.37|5.2|91.93|0.5|0.1|0.5|0.0|0.4|0.031|1627|777|614|2018;2018-03|77.06|1.5|72.85|5.0|91.94|0.5|0.2|0.7|-0.1|0.4|0.031|1627|777|614|2018;2018-04|77.10|1.6|73.55|6.3|91.97|0.4|0.3|0.7|-0.1|0.5|0.025|1627|777|614|2018;2018-05|77.80|1.8|74.99|10.1|92.05|0.5|0.3|0.7|0.0|0.8|0.031|1627|777|614|2018;2018-06|77.66|1.9|75.64|12.3|91.00|-0.7|0.3|0.6|-0.1|0.9|-0.043|1627|777|614|2018;2018-07|77.76|1.9|76.00|14.3|90.94|-0.7|0.3|0.6|0.0|1.1|-0.043|1627|777|614|2018;2018-08|77.97|2.2|76.02|13.0|90.86|-0.8|0.4|0.6|0.0|1.0|-0.049|1627|777|614|2018;2018-09|78.41|2.8|76.73|12.8|90.88|-0.8|0.5|0.5|-0.1|1.0|-0.049|1627|777|614|2018;2018-10|78.29|2.2|78.12|13.7|90.98|-0.8|0.4|0.6|-0.1|1.1|-0.049|1627|777|614|2018;2018-11|78.15|2.0|77.57|11.2|91.00|-0.8|0.3|0.5|-0.1|0.9|-0.049|1627|777|614|2018;2018-12|78.59|2.5|75.70|8.0|91.04|-0.7|0.4|0.4|-0.1|0.6|-0.043|1627|777|614|2018;2019-01|78.99|2.7|74.75|1.9|91.10|-0.8|0.4|0.5|-0.1|0.2|-0.048|1619|804|600|2019;2019-02|79.12|3.0|75.75|3.2|91.57|-0.4|0.5|0.4|-0.1|0.3|-0.024|1619|804|600|2019;2019-03|78.97|2.5|76.59|5.1|91.61|-0.4|0.4|0.3|-0.1|0.4|-0.024|1619|804|600|2019;2019-04|79.02|2.5|77.08|4.8|91.71|-0.3|0.4|0.5|-0.1|0.4|-0.018|1619|804|600|2019;2019-05|79.56|2.3|77.55|3.4|91.71|-0.4|0.4|0.3|-0.2|0.3|-0.024|1619|804|600|2019;2019-06|79.64|2.5|77.44|2.4|91.75|0.8|0.4|0.6|-0.2|0.2|0.048|1619|804|600|2019;2019-07|80.06|3.0|76.60|0.8|91.80|0.9|0.5|0.5|-0.2|0.1|0.054|1619|804|600|2019;2019-08|80.43|3.2|76.59|0.7|91.86|1.1|0.5|0.5|-0.2|0.1|0.066|1619|804|600|2019;2019-09|80.03|2.1|76.86|0.2|91.90|1.1|0.3|0.6|-0.2|0.0|0.066|1619|804|600|2019;2019-10|79.68|1.8|76.86|-1.6|91.97|1.1|0.3|0.6|-0.1|-0.1|0.066|1619|804|600|2019;2019-11|79.77|2.1|77.07|-0.6|91.97|1.1|0.3|0.6|-0.2|-0.1|0.066|1619|804|600|2019;2019-12|80.22|2.1|77.69|2.6|92.01|1.1|0.3|0.7|-0.1|0.2|0.066|1619|804|600|2019;2020-01|80.55|2.0|78.08|4.5|92.06|1.1|0.3|0.6|-0.1|0.4|0.067|1610|808|611|2020;2020-02|80.53|1.8|76.56|1.1|92.06|0.5|0.3|0.7|0.1|0.1|0.031|1610|808|611|2020;2020-03|80.49|1.9|73.55|-4.0|92.11|0.5|0.3|0.5|-0.1|-0.3|0.031|1610|808|611|2020;2020-04|81.94|3.7|70.48|-8.6|92.09|0.4|0.6|0.3|-0.1|-0.7|0.024|1610|808|611|2020;2020-05|82.35|3.5|69.02|-11.0|92.01|0.3|0.6|0.6|-0.2|-0.9|0.018|1610|808|611|2020;2020-06|81.71|2.6|70.26|-9.3|92.03|0.3|0.4|0.5|-0.3|-0.7|0.018|1610|808|611|2020;2020-07|80.95|1.1|70.94|-7.4|92.06|0.3|0.2|0.5|0.5|-0.6|0.018|1610|808|611|2020;2020-08|81.13|0.9|71.18|-7.1|92.08|0.2|0.1|0.4|-0.1|-0.6|0.012|1610|808|611|2020;2020-09|80.74|0.9|70.70|-8.0|92.11|0.2|0.1|0.3|0.0|-0.6|0.012|1610|808|611|2020;2020-10|80.87|1.5|70.86|-7.8|92.17|0.2|0.2|0.2|0.0|-0.6|0.012|1610|808|611|2020;2020-11|81.38|2.0|71.09|-7.8|92.20|0.3|0.3|0.3|-0.1|-0.6|0.018|1610|808|611|2020;2020-12|81.06|1.0|72.28|-7.0|92.22|0.2|0.2|0.4|-0.2|-0.6|0.012|1610|808|611|2020;2021-01|81.37|1.0|73.51|-5.9|92.26|0.2|0.2|0.4|0.2|-0.5|0.014|1785|746|696|2021;2021-02|81.21|0.8|75.35|-1.6|92.87|0.9|0.1|0.4|-0.1|-0.1|0.063|1785|746|696|2021;2021-03|81.25|0.9|77.00|4.7|92.88|0.8|0.2|0.5|0.0|0.4|0.056|1785|746|696|2021;2021-04|81.70|-0.3|76.67|8.8|92.96|0.9|0.0|0.6|-0.1|0.6|0.063|1785|746|696|2021;2021-05|82.13|-0.3|77.09|11.7|92.86|0.9|0.0|0.5|0.0|0.8|0.063|1785|746|696|2021;2021-06|81.55|-0.2|77.95|10.9|92.88|0.9|0.0|0.4|0.2|0.8|0.063|1785|746|696|2021;2021-07|81.65|0.9|79.69|12.3|92.94|1.0|0.2|0.3|-0.3|0.9|0.070|1785|746|696|2021;2021-08|82.18|1.3|80.19|12.7|93.05|1.1|0.2|0.3|0.3|0.9|0.077|1785|746|696|2021;2021-09|81.55|1.0|81.27|15.0|93.06|1.0|0.2|0.7|0.1|1.1|0.070|1785|746|696|2021;2021-10|81.42|0.7|85.16|20.2|93.06|1.0|0.1|0.8|0.1|1.5|0.070|1785|746|696|2021;2021-11|81.75|0.5|86.45|21.6|92.87|0.7|0.1|0.9|0.2|1.6|0.049|1785|746|696|2021;2021-12|82.16|1.4|85.66|18.5|92.91|0.7|0.2|0.8|0.3|1.4|0.049|1785|746|696|2021;2022-01|82.62|1.5|88.11|19.9|92.92|0.7|0.3|0.9|0.2|1.5|0.045|1649|886|647|2022;2022-02|82.91|2.1|91.28|21.1|93.22|0.4|0.4|1.1|0.6|1.7|0.026|1649|886|647|2022;2022-03|83.64|2.9|99.51|29.2|93.26|0.4|0.5|1.1|0.5|2.3|0.026|1649|886|647|2022;2022-04|84.84|3.8|96.99|26.5|93.33|0.4|0.6|1.4|0.7|2.1|0.026|1649|886|647|2022;2022-05|85.65|4.3|98.55|27.8|93.41|0.6|0.7|1.5|0.7|2.2|0.039|1649|886|647|2022;2022-06|86.32|5.8|103.71|33.0|93.45|0.6|1.0|1.6|0.6|2.7|0.039|1649|886|647|2022;2022-07|87.18|6.8|102.40|28.5|93.52|0.6|1.1|1.9|0.7|2.4|0.039|1649|886|647|2022;2022-08|88.64|7.9|98.42|22.7|93.63|0.6|1.3|1.9|0.9|1.9|0.039|1649|886|647|2022;2022-09|89.62|9.9|95.83|17.9|93.71|0.7|1.6|1.5|0.9|1.5|0.045|1649|886|647|2022;2022-10|91.18|12.0|101.42|19.1|93.80|0.8|2.0|1.5|1.0|1.7|0.052|1649|886|647|2022;2022-11|91.65|12.1|102.32|18.4|93.89|1.1|2.0|1.4|1.1|1.6|0.071|1649|886|647|2022;2022-12|92.08|12.1|98.63|15.1|93.98|1.2|2.0|1.4|1.1|1.3|0.078|1649|886|647|2022;2023-01|93.64|13.3|102.43|16.3|94.06|1.2|2.2|1.3|1.1|1.4|0.072|1624|857|597|2023;2023-02|95.22|14.8|104.11|14.1|95.17|2.1|2.4|1.5|1.1|1.3|0.125|1624|857|597|2023;2023-03|96.95|15.9|104.37|4.9|95.27|2.2|2.5|1.4|1.2|0.4|0.131|1624|857|597|2023;2023-04|97.53|15.0|103.61|6.8|95.34|2.2|2.4|1.6|1.1|0.6|0.131|1624|857|597|2023;2023-05|97.86|14.3|100.53|2.0|95.46|2.2|2.3|1.5|1.0|0.2|0.131|1624|857|597|2023;2023-06|98.12|13.7|100.59|-3.0|95.53|2.2|2.2|1.5|1.0|-0.3|0.131|1624|857|597|2023;2023-07|98.21|12.7|98.61|-3.7|95.63|2.3|2.0|1.6|0.8|-0.4|0.137|1624|857|597|2023;2023-08|98.55|11.2|105.12|6.8|95.74|2.3|1.8|1.6|0.7|0.6|0.137|1624|857|597|2023;2023-09|98.28|9.7|107.20|11.9|95.82|2.3|1.6|1.4|0.7|1.0|0.137|1624|857|597|2023;2023-10|98.31|7.8|106.66|5.2|95.94|2.3|1.3|1.6|0.5|0.4|0.137|1624|857|597|2023;2023-11|98.69|7.7|105.48|3.1|95.96|2.2|1.2|1.4|0.4|0.2|0.131|1624|857|597|2023;2023-12|98.72|7.2|104.24|5.7|96.06|2.2|1.2|1.6|0.3|0.5|0.131|1624|857|597|2023;2024-01|98.95|5.7|104.40|1.9|96.22|2.3|0.9|1.6|0.2|0.2|0.147|1507|832|641|2024;2024-02|98.62|3.6|108.63|4.3|97.24|2.2|0.6|1.6|0.1|0.4|0.141|1507|832|641|2024;2024-03|98.62|1.7|107.87|3.4|97.44|2.3|0.3|1.5|0.0|0.3|0.147|1507|832|641|2024;2024-04|98.71|1.2|107.55|3.8|97.54|2.3|0.2|1.5|0.0|0.3|0.147|1507|832|641|2024;2024-05|99.10|1.3|106.30|5.7|97.74|2.4|0.2|1.4|0.0|0.5|0.154|1507|832|641|2024;2024-06|98.92|0.8|105.47|4.9|97.84|2.4|0.1|1.5|0.0|0.4|0.154|1507|832|641|2024;2024-07|98.72|0.5|106.96|8.5|97.89|2.4|0.1|1.4|0.0|0.7|0.154|1507|832|641|2024;2024-08|99.04|0.5|105.58|0.4|97.98|2.3|0.1|1.6|0.0|0.0|0.147|1507|832|641|2024;2024-09|98.72|0.4|103.66|-3.3|98.07|2.3|0.1|1.2|-0.1|-0.3|0.147|1507|832|641|2024;2024-10|98.92|0.6|104.53|-2.0|98.20|2.4|0.1|1.2|0.0|-0.2|0.154|1507|832|641|2024;2024-11|98.88|0.2|104.78|-0.7|98.32|2.5|0.0|1.2|-0.1|-0.1|0.160|1507|832|641|2024;2024-12|98.74|0.0|105.53|1.2|98.32|2.4|0.0|1.2|-0.1|0.1|0.154|1507|832|641|2024;2025-01|99.03|0.1|107.25|2.7|98.50|2.4|0.0|1.3|0.0|0.2|0.155|1464|807|645|2025;2025-02|98.96|0.3|102.33|-5.8|99.67|2.5|0.1|1.2|0.0|-0.5|0.161|1464|807|645|2025;2025-03|99.22|0.6|100.81|-6.5|99.74|2.4|0.1|1.2|0.0|-0.5|0.155|1464|807|645|2025;2025-04|99.94|1.2|99.19|-7.8|99.87|2.4|0.2|1.3|0.0|-0.6|0.155|1464|807|645|2025;2025-05|100.39|1.3|97.79|-8.0|99.93|2.2|0.2|1.1|0.0|-0.7|0.142|1464|807|645|2025;2025-06|100.27|1.4|98.40|-6.7|99.99|2.2|0.2|1.3|0.0|-0.5|0.142|1464|807|645|2025;2025-07|100.32|1.6|99.24|-7.2|100.04|2.2|0.2|1.3|-0.1|-0.6|0.142|1464|807|645|2025;2025-08|100.62|1.6|99.03|-6.2|100.12|2.2|0.2|1.2|-0.1|-0.5|0.142|1464|807|645|2025;2025-09|100.42|1.7|99.05|-4.4|100.17|2.1|0.3|1.3|-0.1|-0.3|0.135|1464|807|645|2025;2025-10|100.20|1.3|98.64|-5.6|100.26|2.1|0.2|1.2|-0.1|-0.4|0.135|1464|807|645|2025;2025-11|100.22|1.4|99.96|-4.6|100.83|2.6|0.2|1.1|-0.1|-0.4|0.168|1464|807|645|2025;2025-12|100.39|1.7|98.33|-6.8|100.89|2.6|0.2|1.1|-0.1|-0.6|0.168|1464|807|645|2025;2026-01|100.87|1.9|99.08|-7.6|100.90|2.4|0.3|0.9|-0.3|-0.6|0.161|1485|764|672|2026;2026-02|100.90|2.0|99.37|-2.9|101.32|1.7|0.3|0.8|0.0|-0.2|0.114|1485|764|672|2026;2026-03|100.99|1.8|108.24|7.4|101.37|1.6|0.3|0.9|-0.1|0.6|0.108|1485|764|672|2026;2026-04|101.18|1.2|113.36|14.3|101.44|1.6|0.2|1.0|-0.1|1.1|0.108|1485|764|672|2026;2026-05|101.49|1.1|113.99|16.6|101.52|1.6|0.2|1.1|-0.1|1.3|0.108|1485|764|672|2026;2026-06|101.14|0.9|109.24|11.0|101.57|1.6|0.1|1.0|-0.3|0.8|0.108|1485|764|672|2026;2026-07|101.29|1.0|111.75|12.6|101.60|1.6|0.1|1.1|-0.2|1.0|0.108|1485|764|672|2026";
+
+// Services and manufactured products are not in the datasets yet. Until they
+// are, both series are reconstructed from the contributions INSEE does publish
+// and a representative annual weight, then rebased so 2025 averages 100.
+const REP_W = { services: 4770, manufactured: 2370 };
+const CAT = {
+  food: { label: "Food", color: "#8fb0d1" },
+  services: { label: "Services", color: "#b5abfc", rep: true },
+  manufactured: { label: "Manufactured products", color: "#8c93a8", rep: true },
+  energy: { label: "Energy", color: "#d09a6a" },
+  rent: { label: "Rents paid", color: "#9dc0ae" },
+};
+const V1S = {
+  headline: { label: "Headline", color: "#9184d9", yk: "yoy", mk: "mom", pub: true },
+  food: { label: "Food", color: "#8fb0d1", yk: "foodYoY", mk: "foodMom" },
+  services: { label: "Services", color: "#b5abfc", yk: "sYoY", mk: "sMom", rep: true },
+  manufactured: { label: "Manufactured", color: "#8c93a8", yk: "mYoY", mk: "mMom", rep: true },
+  energy: { label: "Energy", color: "#d09a6a", yk: "enYoY", mk: "enMom" },
+  rent: { label: "Rents paid", color: "#9dc0ae", yk: "rentYoY", mk: "rentMom" },
+};
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function num(v) { return v === "" || v === undefined ? null : Number(v); }
+function label(p) { const [y, m] = p.split("-"); return MONTH_NAMES[Number(m) - 1] + " " + y; }
+function shortLabel(p) { const [y, m] = p.split("-"); return MONTH_NAMES[Number(m) - 1] + " " + y.slice(2); }
+function sign(v, dp) { const s = v < 0 ? "\u2212" : "+"; return s + Math.abs(v).toFixed(dp); }
+function pct(v, dp) { return v === null || v === undefined ? "\u2014" : sign(v, dp === undefined ? 1 : dp) + "%"; }
+function pp(v, dp) { return v === null || v === undefined ? "\u2014" : sign(v, dp === undefined ? 1 : dp) + " pp"; }
+function euro(v) { return "\u20ac" + v.toLocaleString("en-GB", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+function niceDomain(min, max) {
+  let lo = Math.min(0, min), hi = Math.max(0, max);
+  const span = hi - lo || 1;
+  const raw = span / 4;
+  const mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * mag).find((s) => s >= raw) || 10 * mag;
+  lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+  return { lo, hi, step };
+}
+function gridRows(dom, y) {
+  const rows = []; const dp = dom.step < 1 ? 1 : 0;
+  for (let v = dom.lo; v <= dom.hi + 1e-9; v += dom.step) {
+    const yy = y(v);
+    rows.push({ y: yy, ty: yy - 4, top: yy - 9, label: (Math.abs(v) < 1e-9 ? "0" : v.toFixed(dp)), stroke: Math.abs(v) < 1e-9 ? "#75798c" : "rgba(233,233,237,.10)" });
+  }
+  return rows;
+}
+function tickIdx(n, width) {
+  const target = Math.max(2, Math.min(7, Math.floor(width / 110)));
+  const step = Math.max(1, Math.ceil((n - 1) / (target - 1)));
+  const out = []; for (let i = n - 1; i >= 0; i -= step) out.unshift(i);
+  if (out[0] !== 0 && out[0] - 0 > step / 2) out.unshift(0);
+  return out;
+}
+
+class Component extends DCLogic {
+  state = {
+    w: null, startP: null, endP: null, selP: null,
+    cats: { food: true, services: true, manufactured: true, energy: true, rent: true },
+    harness: "ready", v1s: "headline", amount: 100, calcFrom: null, calcTo: null,
+  };
+
+  setRoot = (el) => {
+    this._el = el || null;
+    if (!el) return;
+    if (!this._onResize) { this._onResize = () => this.measure(); window.addEventListener("resize", this._onResize); }
+    if (!this._iv) this._iv = setInterval(() => this.measure(), 500);
+    this.measure();
+    requestAnimationFrame(() => this.measure());
+  };
+  measure() {
+    const el = this._el; if (!el) return;
+    const box = el.querySelector("[data-chart-box]");
+    if (box !== this._box) {
+      this._box = box;
+      if (this._ro) { this._ro.disconnect(); this._ro = null; }
+      if (typeof ResizeObserver !== "undefined") {
+        this._ro = new ResizeObserver(() => this.measure());
+        this._ro.observe(box || el);
+      }
+    }
+    const raw = box ? box.clientWidth : Math.round(el.getBoundingClientRect().width) - 68;
+    if (!(raw > 2)) return;
+    const w = box ? raw - 1 : raw;
+    if (w !== this.state.w) this.setState({ w });
+  }
+  componentDidMount() { this.measure(); }
+  componentDidUpdate() { this.measure(); }
+  componentWillUnmount() {
+    if (this._ro) this._ro.disconnect();
+    if (this._iv) clearInterval(this._iv);
+    if (this._onResize) window.removeEventListener("resize", this._onResize);
+  }
+  chartWidth() {
+    if (this.state.w) return this.state.w;
+    const vw = typeof window === "undefined" ? 1180 : window.innerWidth;
+    return Math.max(320, Math.min(1180, vw) - 68);
+  }
+
+  rows() {
+    if (!this._rows) {
+      const m = new Map();
+      for (const line of MONTHLY_RAW.split(";")) {
+        const [p, idx, mom, yoy] = line.split("|");
+        m.set(p, { p, idx: num(idx), mom: num(mom), yoy: num(yoy) });
+      }
+      for (const line of CATEGORY_RAW.split(";")) {
+        const f = line.split("|");
+        const r = m.get(f[0]); if (!r) continue;
+        r.foodIdx = num(f[1]); r.foodYoY = num(f[2]); r.enIdx = num(f[3]); r.enYoY = num(f[4]);
+        r.rentIdx = num(f[5]); r.rentYoY = num(f[6]);
+        r.cF = num(f[7]); r.cS = num(f[8]); r.cM = num(f[9]); r.cE = num(f[10]);
+        r.rentPP = num(f[11]); r.wF = num(f[12]); r.wE = num(f[13]); r.wR = num(f[14]); r.wYear = num(f[15]);
+      }
+      const all = [...m.values()];
+      const kept = all.filter((r) => r.cF !== undefined);
+      // Month-over-month change of each component: a Pulse calculation from the
+      // component index, since the datasets publish only the annual change.
+      kept.forEach((r, i) => {
+        const prev = i > 0 ? kept[i - 1] : null;
+        const der = (a, b) => (prev && b && a ? ((a / b) - 1) * 100 : null);
+        r.foodMom = der(r.foodIdx, prev && prev.foodIdx);
+        r.enMom = der(r.enIdx, prev && prev.enIdx);
+        r.rentMom = der(r.rentIdx, prev && prev.rentIdx);
+        r.wS = REP_W.services; r.wM = REP_W.manufactured;
+        r.sYoY = r.cS === null ? null : (r.cS * 10000) / REP_W.services;
+        r.mYoY = r.cM === null ? null : (r.cM * 10000) / REP_W.manufactured;
+      });
+      // Chain each representative index off the headline index for the first
+      // twelve months, then off its own year-earlier value.
+      kept.forEach((r, i) => {
+        if (i < 12) { r.sIdx = r.idx; r.mIdx = r.idx; return; }
+        r.sIdx = kept[i - 12].sIdx * (1 + (r.sYoY || 0) / 100);
+        r.mIdx = kept[i - 12].mIdx * (1 + (r.mYoY || 0) / 100);
+      });
+      const base = kept.filter((r) => r.p.slice(0, 4) === "2025");
+      if (base.length) {
+        const mean = (k) => base.reduce((a, r) => a + r[k], 0) / base.length;
+        const ks = 100 / mean("sIdx"), km = 100 / mean("mIdx");
+        kept.forEach((r) => { r.sIdx = r.sIdx * ks; r.mIdx = r.mIdx * km; });
+      }
+      kept.forEach((r, i) => {
+        const prev = i > 0 ? kept[i - 1] : null;
+        r.sMom = prev ? ((r.sIdx / prev.sIdx) - 1) * 100 : null;
+        r.mMom = prev ? ((r.mIdx / prev.mIdx) - 1) * 100 : null;
+      });
+      this._rows = kept;
+      this._byP = new Map(kept.map((r) => [r.p, r]));
+    }
+    return this._rows;
+  }
+  byP(p) { this.rows(); return this._byP.get(p) || null; }
+
+  defaultMonths() {
+    const d = this.props.defaultWindow || "5y";
+    return d === "2y" || d === "24" ? 24 : (d === "all" || d === "since2015") ? 9999 : 60;
+  }
+  startP() {
+    const r = this.rows();
+    if (this.state.startP) return this.state.startP;
+    return r[Math.max(0, r.length - this.defaultMonths())].p;
+  }
+  endP() { const r = this.rows(); return this.state.endP || r[r.length - 1].p; }
+  win() {
+    const s = this.startP(), e = this.endP();
+    const out = this.rows().filter((r) => r.p >= s && r.p <= e);
+    return out.length >= 2 ? out : this.rows().slice(-2);
+  }
+  selIndex() {
+    const w = this.win(); const p = this.state.selP;
+    const i = p ? w.findIndex((r) => r.p === p) : -1;
+    return i < 0 ? w.length - 1 : i;
+  }
+  // Month + year selects rather than an <input type="month"> — the native
+  // picker will not reach 1998 in every host.
+  pickerVals(p, set) {
+    const rows = this.rows();
+    const first = rows[0].p, last = rows[rows.length - 1].p;
+    const clamp = (v) => (v < first ? first : v > last ? last : v);
+    const y = p.slice(0, 4), m = p.slice(5);
+    const years = [];
+    for (let yy = Number(first.slice(0, 4)); yy <= Number(last.slice(0, 4)); yy++) years.push(String(yy));
+    return {
+      month: m, year: y,
+      monthOptions: MONTH_NAMES.map((nm, i) => ({ value: String(i + 1).padStart(2, "0"), label: nm })),
+      yearOptions: years.map((yy) => ({ value: yy, label: yy })),
+      onMonth: (e) => set(clamp(y + "-" + e.target.value)),
+      onYear: (e) => set(clamp(e.target.value + "-" + m)),
+    };
+  }
+  setPreset(n) {
+    const r = this.rows();
+    this.setState({ startP: r[Math.max(0, r.length - n)].p, endP: r[r.length - 1].p, selP: null });
+  }
+
+  renderVals() {
+    const rows = this.rows();
+    const win = this.win();
+    const w = this.chartWidth();
+    const si = this.selIndex();
+    const sel = win[si];
+    const latest = rows[rows.length - 1];
+    const yearAgo = rows[rows.length - 13];
+    const cats = this.state.cats;
+    const laneOn = this.props.showRentPulseLane !== false;
+    const harness = this.state.harness;
+    const empty = harness === "empty";
+    const months = win.length;
+    const startP = this.startP(), endP = this.endP();
+
+    const vals = {
+      setRoot: this.setRoot,
+      showHarness: this.props.showDesignHarness !== false,
+      harnessNote: "Every state below is the shipped treatment, switched by hand for review.",
+      harnessOptions: [["ready", "Ready"], ["loading", "Loading"], ["empty", "Empty result"], ["query", "Query error"], ["schema", "Schema error"], ["render", "Render error"]].map(([k, l]) => ({
+        label: l, on: harness === k, pick: () => this.setState({ harness: k }),
+      })),
+      isReady: harness === "ready" || harness === "schema" || harness === "render",
+      isLoading: harness === "loading",
+      isEmpty: empty,
+      isQueryError: harness === "query",
+      isSchemaError: harness === "schema",
+      isRenderError: harness === "render",
+      v2ok: harness !== "schema",
+      v3ok: harness !== "render",
+      skeletons: [{ h: 300 }, { h: 340 }, { h: 220 }],
+      retry: () => this.setState({ harness: "ready" }),
+      widen: () => { this.setState({ harness: "ready" }); this.setPreset(60); },
+      latestLabel: label(latest.p),
+      windowMonths: months,
+      windowLabel: months + " months",
+      firstMonth: rows[0].p,
+      lastMonth: latest.p,
+      startMonth: startP,
+      endMonth: endP,
+      startPick: this.pickerVals(startP, (v) => this.setState({ startP: v, endP: v > endP ? v : endP, selP: null })),
+      endPick: this.pickerVals(endP, (v) => this.setState({ endP: v, startP: v < startP ? v : startP, selP: null })),
+      scorecard: [
+        { kicker: "Annual change", value: pct(latest.yoy), note: label(latest.p) + " \u00b7 " + pct(yearAgo.yoy) + " a year earlier" },
+        { kicker: "Monthly change", value: pct(latest.mom), note: "Month on " + label(rows[rows.length - 2].p) },
+        { kicker: "Index level", value: latest.idx.toFixed(2), note: "Base 2025 = 100 \u00b7 " + sign(latest.idx - 100, 2) + " since the base year" },
+        { kicker: "Largest contribution", value: pp(Math.max(latest.cF, latest.cS, latest.cM, latest.cE)), note: "Services, of a " + latest.yoy.toFixed(1) + " pp annual rate" },
+      ],
+      periodOptions: [[24, "2 years"], [60, "5 years"], [9999, "From start"]].map(([n, l]) => {
+        const s = rows[Math.max(0, rows.length - n)].p;
+        const on = startP === s && endP === latest.p;
+        return { label: l, on, color: on ? "#b5abfc" : "#e9e9ed", pick: () => this.setPreset(n) };
+      }),
+      catOptions: Object.keys(CAT).map((k) => ({
+        label: CAT[k].label, color: CAT[k].color, on: !!cats[k],
+        toggle: () => this.setState((s) => ({ cats: Object.assign({}, s.cats, { [k]: !s.cats[k] }) })),
+      })),
+      selMax: win.length - 1,
+      selIdx: si,
+      selLabel: label(sel.p),
+      selReadout: label(sel.p) + " \u00b7 headline " + pct(sel.yoy) + " y/y, " + pct(sel.mom) + " m/m, index " + sel.idx.toFixed(2),
+      onSel: (e) => this.setState({ selP: win[Number(e.target.value)].p }),
+    };
+
+    // shared x scale
+    const padL = 44, padR = 14;
+    const innerW = Math.max(120, w - padL - padR);
+    const n = win.length;
+    const X = (i) => padL + (n === 1 ? innerW / 2 : (i * innerW) / (n - 1));
+    const ticks = tickIdx(n, innerW).map((i) => ({
+      x: X(i), label: shortLabel(win[i].p),
+      left: Math.max(padL - 10, Math.min(w - 64, X(i) - 32)),
+      anchor: i === 0 ? "start" : i === n - 1 ? "end" : "middle",
+    }));
+    const rx = padL + innerW;
+
+    // Clicking anywhere on a figure selects the nearest month.
+    const picker = (padLx, innerWx) => (e) => {
+      const svg = e.currentTarget;
+      const r = svg.getBoundingClientRect();
+      if (!r.width) return;
+      const vbw = (svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width) || r.width;
+      const x = (e.clientX - r.left) * (vbw / r.width);
+      const i = n === 1 ? 0 : Math.round(((x - padLx) / innerWx) * (n - 1));
+      this.setState({ selP: win[Math.max(0, Math.min(n - 1, i))].p });
+    };
+    const onPick = picker(padL, innerW);
+
+    // ---- V1 : one series at a time, annual change + m/m bars
+    const sk = V1S[this.state.v1s] ? this.state.v1s : "headline";
+    const S1 = V1S[sk];
+    const h1 = Math.round(Math.max(190, Math.min(300, w * 0.26)));
+    const lineH = h1 - 96, barTop = h1 - 78, barH = 52;
+    const yv = win.map((r) => r[S1.yk]).filter((v) => v !== null && v !== undefined);
+    const d1 = niceDomain(Math.min(...yv), Math.max(...yv));
+    const Y1 = (v) => 12 + (1 - (v - d1.lo) / (d1.hi - d1.lo)) * (lineH - 12);
+    const momVals = win.map((r) => r[S1.mk]).filter((v) => v !== null && v !== undefined);
+    const momMax = Math.max(...momVals.map(Math.abs)) || 1;
+    const bz = barTop + barH / 2;
+    const bw = Math.max(1.5, Math.min(14, (innerW / n) * 0.62));
+    const selY1 = sel[S1.yk] === null || sel[S1.yk] === undefined ? null : sel[S1.yk];
+    const labUp = Y1(selY1 || 0) > 40;
+    const selMom = sel[S1.mk];
+    vals.v1 = {
+      w, h: h1, padL, rx, grid: gridRows(d1, Y1), color: S1.color, onPick,
+      seriesOptions: Object.keys(V1S).map((k) => ({
+        label: V1S[k].label, color: V1S[k].color, on: k === sk,
+        bg: k === sk ? "rgba(145,132,217,.16)" : "transparent",
+        text: k === sk ? "#e9e9ed" : "#cfd3e5",
+        pick: () => this.setState({ v1s: k }),
+      })),
+      xticks: ticks,
+      pts: win.filter((r) => r[S1.yk] !== null && r[S1.yk] !== undefined).map((r) => X(win.indexOf(r)).toFixed(1) + "," + Y1(r[S1.yk]).toFixed(1)).join(" "),
+      bars: win.map((r, i) => {
+        const v = r[S1.mk];
+        if (v === null || v === undefined) return { x: "0", y: "0", w: "0", h: "0", fill: "transparent" };
+        const hh = Math.max(1, (Math.abs(v) / momMax) * (barH / 2));
+        return { x: (X(i) - bw / 2).toFixed(1), y: (v >= 0 ? bz - hh : bz).toFixed(1), w: bw.toFixed(1), h: hh.toFixed(1), fill: v >= 0 ? S1.color : "#75798c" };
+      }),
+      barZero: bz, momTop: bz - 9, tickTop: h1 - 21,
+      labLeft: Math.max(0, Math.min(w - 96, si > n / 2 ? X(si) - 104 : X(si) + 8)).toFixed(0),
+      labTop: (labUp ? Y1(selY1 || 0) - 26 : Y1(selY1 || 0) + 10).toFixed(0),
+      labAlign: si > n / 2 ? "right" : "left",
+      selX: X(si).toFixed(1), selY: Y1(selY1 || 0).toFixed(1), selBottom: barTop + barH,
+      labText: pct(selY1) + " y/y",
+      momLabLeft: Math.max(0, Math.min(w - 96, si > n / 2 ? X(si) - 104 : X(si) + 8)).toFixed(0),
+      momLabTop: ((selMom === null || selMom === undefined || selMom >= 0) ? bz + 5 : bz - 24).toFixed(0),
+      momLabText: (selMom === null || selMom === undefined ? "\u2014" : pct(selMom)) + " m/m",
+      alt: S1.label + " annual change from " + label(win[0].p) + " to " + label(win[n - 1].p) + ", between " + Math.min(...yv).toFixed(1) + "% and " + Math.max(...yv).toFixed(1) + "%, " + label(sel.p) + " " + pct(selY1) + " year on year and " + (selMom === null || selMom === undefined ? "no monthly change published" : pct(selMom) + " on the month") + ".",
+      caption: S1.label + (S1.pub ? " annual and monthly change, percent, one decimal as published"
+        : S1.rep ? " annual and monthly change, percent \u2014 representative series, not yet published"
+        : " annual change as published, with the month-over-month change calculated by Pulse from the index"),
+      prov: S1.pub
+        ? "Provider series 011814058 (annual change) and 011814057 (monthly change), both DECIMAL(8,1). Source: INSEE, Indice des prix \u00e0 la consommation (IPC), Base 2025."
+        : S1.rep
+          ? S1.label + ": representative series. The datasets do not yet publish a " + S1.label.toLowerCase() + " index, annual change or weight, so both are reconstructed by the report from the published contribution and a representative annual weight of " + (S1.yk === "sYoY" ? REP_W.services : REP_W.manufactured) + " per 10 000 (annual change = contribution \u00d7 10 000 \u00f7 weight; the index is chained from that and rebased so 2025 averages 100). Replace with the published series when it lands \u2014 nothing else in the figure changes. Source of the contribution: INSEE, IPC, Base 2025."
+          : S1.label + ": annual change as published (rents are themselves a Pulse year-over-year calculation from index 011815633). The month-over-month change is a Pulse calculation, (index \u00f7 previous month\u2019s index \u2212 1) \u00d7 100, because the datasets publish no monthly change per component. Source: INSEE, IPC, Base 2025.",
+      sql: "-- report-owned, parameterized; the visual receives rows only\nSELECT period, annual_change_pct, monthly_change_pct\nFROM insee_cpi_monthly\nWHERE period BETWEEN $from AND $to\nORDER BY period;\n-- component series come from insee_cpi_category_analysis; their monthly\n-- change is derived by the report from the component index.",
+      table: win.slice().reverse().map((r) => ({
+        p: label(r.p),
+        yoy: r[S1.yk] === null || r[S1.yk] === undefined ? "\u2014" : r[S1.yk].toFixed(1) + "%",
+        mom: r[S1.mk] === null || r[S1.mk] === undefined ? "\u2014" : r[S1.mk].toFixed(1) + "%",
+      })),
+    };
+
+    // ---- V2 : contributions
+    const laneH = laneOn ? 62 : 0;
+    const stackH = Math.round(Math.max(170, Math.min(260, w * 0.22)));
+    const h2 = stackH + 34 + laneH + (laneOn ? 22 : 0);   // room for the lane's axis label
+    const sums = win.map((r) => ({
+      pos: [r.cF, r.cS, r.cM, r.cE].filter((v) => v > 0).reduce((a, b) => a + b, 0),
+      neg: [r.cF, r.cS, r.cM, r.cE].filter((v) => v < 0).reduce((a, b) => a + b, 0),
+    }));
+    const d2 = niceDomain(Math.min(...sums.map((s) => s.neg), ...win.map((r) => r.yoy)), Math.max(...sums.map((s) => s.pos), ...win.map((r) => r.yoy)));
+    const Y2 = (v) => 12 + (1 - (v - d2.lo) / (d2.hi - d2.lo)) * (stackH - 12);
+    const SEG = [["cF", "#8fb0d1"], ["cS", "#b5abfc"], ["cM", "#8c93a8"], ["cE", "#d09a6a"]];
+    const bw2 = Math.max(1.5, Math.min(16, (innerW / n) * 0.68));
+    const segs = [];
+    win.forEach((r, i) => {
+      let up = 0, dn = 0;
+      for (const [k, fill] of SEG) {
+        const v = r[k]; if (!v) continue;
+        const y0 = v > 0 ? Y2(up + v) : Y2(dn);
+        const y1 = v > 0 ? Y2(up) : Y2(dn + v);
+        segs.push({ x: (X(i) - bw2 / 2).toFixed(1), y: y0.toFixed(1), w: bw2.toFixed(1), h: Math.max(0.8, y1 - y0).toFixed(1), fill });
+        if (v > 0) up += v; else dn += v;
+      }
+    });
+    const laneMax = Math.max(...win.map((r) => r.rentPP)) * 1.15 || 1;
+    const laneZero = stackH + 34 + laneH - 14;
+    const laneTopY = laneZero - (laneH - 24);
+    vals.v2 = {
+      w, h: h2, padL, rx, grid: gridRows(d2, Y2), xticks: ticks, tickTop: stackH + 14, onPick,
+      segs, headline: win.map((r, i) => X(i).toFixed(1) + "," + Y2(r.yoy).toFixed(1)).join(" "),
+      selX: X(si).toFixed(1), selBottom: stackH + 4,
+      laneOn, laneZero, laneTopY,
+      laneAxis: laneOn ? [
+        { top: (laneTopY - 9).toFixed(0), label: laneMax.toFixed(2), size: 11, color: "#a9abb4" },
+        { top: (laneZero - 9).toFixed(0), label: "0", size: 11, color: "#a9abb4" },
+        { top: (laneZero + 3).toFixed(0), label: "Rents, pp", size: 10, color: "#9dc0ae" },
+      ] : [],
+      laneBars: win.map((r, i) => {
+        const hh = Math.max(1, (r.rentPP / laneMax) * (laneH - 24));
+        return { x: (X(i) - bw2 / 2).toFixed(1), y: (laneZero - hh).toFixed(1), w: bw2.toFixed(1), h: hh.toFixed(1) };
+      }),
+      calloutLeft: Math.max(padL + 4, Math.min(w - 172, si > n / 2 ? X(si) - 180 : X(si) + 12)).toFixed(0),
+      calloutTitle: label(sel.p),
+      callout: [
+        { label: "Food", color: "#8fb0d1", value: pp(sel.cF) },
+        { label: "Services", color: "#b5abfc", value: pp(sel.cS) },
+        { label: "Manufactured", color: "#8c93a8", value: pp(sel.cM) },
+        { label: "Energy", color: "#d09a6a", value: pp(sel.cE) },
+        { label: "Headline", color: "#e9e9ed", value: pct(sel.yoy) },
+      ].concat(laneOn ? [{ label: "Rents (Pulse)", color: "#9dc0ae", value: sel.rentPP.toFixed(3) + " pp" }] : []),
+      legend: [
+        { label: "Food", color: "#8fb0d1" }, { label: "Services", color: "#b5abfc" },
+        { label: "Manufactured products", color: "#8c93a8" }, { label: "Energy", color: "#d09a6a" },
+        { label: "Headline annual change (dashed)", color: "#e9e9ed" },
+      ].concat(laneOn ? [{ label: "Rents \u2014 Pulse calculation, separate scale", color: "#9dc0ae" }] : []),
+      alt: "Stacked bars of the four official contributions to the headline annual change from " + label(win[0].p) + " to " + label(win[n - 1].p) + ". In " + label(sel.p) + " services contributes " + sel.cS.toFixed(1) + " pp, energy " + sel.cE.toFixed(1) + " pp, food " + sel.cF.toFixed(1) + " pp and manufactured products " + sel.cM.toFixed(1) + " pp, against a headline rate of " + sel.yoy.toFixed(1) + "%.",
+      sql: "-- report-owned join; contributions and headline arrive in one result\nSELECT c.period,\n       c.food_official_contribution_pct_points          AS food_pp,\n       c.services_official_contribution_pct_points      AS services_pp,\n       c.manufactured_products_official_contribution_pct_points AS manufactured_pp,\n       c.energy_official_contribution_pct_points        AS energy_pp,\n       c.actual_rent_pulse_contribution_pct_points      AS rent_pulse_pp,\n       c.actual_rent_weight                             AS rent_weight_per_10k,\n       m.annual_change_pct                              AS headline_pct\nFROM insee_cpi_category_analysis c\nJOIN insee_cpi_monthly m USING (period)\nWHERE c.period BETWEEN $from AND $to\nORDER BY c.period;",
+      cols: [{ label: "Food" }, { label: "Services" }, { label: "Manuf." }, { label: "Energy" }, { label: "Headline" }, { label: "Rents (Pulse)" }],
+      table: win.slice().reverse().map((r) => ({ p: label(r.p), cells: [
+        { v: r.cF.toFixed(1) }, { v: r.cS.toFixed(1) }, { v: r.cM.toFixed(1) }, { v: r.cE.toFixed(1) },
+        { v: r.yoy.toFixed(1) + "%" }, { v: r.rentPP.toFixed(3) },
+      ] })),
+    };
+
+    // ---- V3 : divergence small multiples, with the basket share beneath each
+    const active = Object.keys(CAT).filter((k) => cats[k]);
+    const colCount = w >= 780 && active.length > 1 ? Math.min(3, active.length) : 1;
+    const pw = Math.floor((w - 11.2 * (colCount - 1)) / colCount) - 17;
+    const ph = Math.round(Math.max(150, Math.min(210, pw * 0.62)));
+    const key = { food: "foodYoY", services: "sYoY", manufactured: "mYoY", energy: "enYoY", rent: "rentYoY" };
+    const wkey = { food: "wF", services: "wS", manufactured: "wM", energy: "wE", rent: "wR" };
+    const allVals = active.flatMap((k) => win.map((r) => r[key[k]])).concat(win.map((r) => r.yoy));
+    const d3 = niceDomain(Math.min(...allVals), Math.max(...allVals));
+    const padL3 = 34, innerW3 = Math.max(80, pw - padL3 - 22);
+    const X3 = (i) => padL3 + (n === 1 ? innerW3 / 2 : (i * innerW3) / (n - 1));
+    const Y3 = (v) => 10 + (1 - (v - d3.lo) / (d3.hi - d3.lo)) * (ph - 48);
+    const onPick3 = picker(padL3, innerW3);
+    const wh = 30;
+    vals.v3 = {
+      panels: active.map((k) => {
+        const kk = key[k], wk = wkey[k];
+        const cat = win.map((r, i) => X3(i).toFixed(1) + "," + Y3(r[kk]).toFixed(1));
+        const head = win.map((r, i) => X3(i).toFixed(1) + "," + Y3(r.yoy).toFixed(1));
+        const shares = win.map((r) => r[wk] / 100);
+        const wLo = Math.min(...shares), wHi = Math.max(...shares);
+        const wSpan = (wHi - wLo) || 1;
+        const YW = (v) => 8 + (1 - (v - (wLo - wSpan * 0.25)) / (wSpan * 1.5)) * (wh - 14);
+        return {
+          label: CAT[k].label, color: CAT[k].color, w: pw, h: ph, padL: padL3, rx: padL3 + innerW3,
+          grid: gridRows(d3, Y3), pts: cat.join(" "), headline: head.join(" "), tickTop: ph - 19, basis: pw,
+          gapArea: cat.concat(head.slice().reverse()).join(" "),
+          selX: X3(si).toFixed(1), selY: Y3(sel[kk]).toFixed(1), selBottom: ph - 26, onPick: onPick3,
+          xticks: tickIdx(n, innerW3).map((i) => ({ x: X3(i), label: shortLabel(win[i].p), left: Math.max(padL3, Math.min(pw - 56, X3(i) - 28)), anchor: i === 0 ? "start" : i === n - 1 ? "end" : "middle" })),
+          latest: pct(sel[kk]) + " y/y",
+          wh, wPts: win.map((r, i) => X3(i).toFixed(1) + "," + YW(r[wk] / 100).toFixed(1)).join(" "),
+          wSelY: YW(sel[wk] / 100).toFixed(1),
+          wAxis: (wHi - wLo < 0.05
+            ? [{ label: wHi.toFixed(1) + "%", top: (YW(wHi) - 7).toFixed(0) }]
+            : [{ label: wHi.toFixed(1) + "%", top: (YW(wHi) - 7).toFixed(0) }, { label: wLo.toFixed(1) + "%", top: (YW(wLo) - 7).toFixed(0) }]),
+          wRead: CAT[k].rep
+            ? "Basket share " + (sel[wk] / 100).toFixed(1) + "% \u2014 a representative weight, held flat until the dataset publishes it."
+            : "Basket share " + (sel[wk] / 100).toFixed(1) + "% in " + label(sel.p) + " (" + sel.wYear + " weights), from " + (win[0][wk] / 100).toFixed(1) + "% at the start of this window.",
+          wAlt: CAT[k].label + " share of the basket, " + (win[0][wk] / 100).toFixed(1) + "% in " + label(win[0].p) + " to " + (win[n - 1][wk] / 100).toFixed(1) + "% in " + label(win[n - 1].p) + ".",
+          alt: CAT[k].label + " annual change against headline, " + label(win[0].p) + " to " + label(win[n - 1].p) + ", " + label(sel.p) + " " + sel[kk].toFixed(1) + "% against headline " + sel.yoy.toFixed(1) + "%.",
+        };
+      }),
+      sql: "-- long-format result; $categories is bound from the component control\nSELECT period, 'food' AS category, food_annual_change_pct AS annual_change_pct, food_weight AS weight_per_10k FROM insee_cpi_category_analysis\nUNION ALL SELECT period, 'energy', energy_annual_change_pct, energy_weight FROM insee_cpi_category_analysis\nUNION ALL SELECT period, 'rent',   actual_rent_annual_change_pct, actual_rent_weight FROM insee_cpi_category_analysis\n-- joined by the report to insee_cpi_monthly.annual_change_pct as headline\nWHERE category IN $categories AND period BETWEEN $from AND $to\nORDER BY category, period;",
+      cols: [{ label: "Headline" }, { label: "Food" }, { label: "Services (rep.)" }, { label: "Manuf. (rep.)" }, { label: "Energy" }, { label: "Rents (Pulse)" }, { label: "Food share" }, { label: "Services share (rep.)" }, { label: "Manuf. share (rep.)" }, { label: "Energy share" }, { label: "Rent share" }],
+      table: win.slice().reverse().map((r) => ({ p: label(r.p), cells: [
+        { v: r.yoy.toFixed(1) + "%" }, { v: r.foodYoY.toFixed(1) + "%" }, { v: r.sYoY.toFixed(1) + "%" }, { v: r.mYoY.toFixed(1) + "%" },
+        { v: r.enYoY.toFixed(1) + "%" }, { v: r.rentYoY.toFixed(1) + "%" },
+        { v: (r.wF / 100).toFixed(2) + "%" }, { v: (r.wS / 100).toFixed(2) + "%" }, { v: (r.wM / 100).toFixed(2) + "%" },
+        { v: (r.wE / 100).toFixed(2) + "%" }, { v: (r.wR / 100).toFixed(2) + "%" },
+      ] })),
+    };
+
+    // ---- V4 : index levels
+    const h4 = Math.round(Math.max(200, Math.min(300, w * 0.24)));
+    const S4 = [{ k: "idx", label: "Headline", color: "#9184d9", dash: "none" }]
+      .concat(cats.food ? [{ k: "foodIdx", label: "Food", color: "#8fb0d1", dash: "6 4" }] : [])
+      .concat(cats.services ? [{ k: "sIdx", label: "Services (representative)", color: "#b5abfc", dash: "4 3" }] : [])
+      .concat(cats.manufactured ? [{ k: "mIdx", label: "Manufactured products (representative)", color: "#8c93a8", dash: "1 3" }] : [])
+      .concat(cats.energy ? [{ k: "enIdx", label: "Energy", color: "#d09a6a", dash: "2 4" }] : [])
+      .concat(cats.rent ? [{ k: "rentIdx", label: "Rents paid", color: "#9dc0ae", dash: "10 4" }] : []);
+    const v4vals = S4.flatMap((s) => win.map((r) => r[s.k]));
+    const lo4 = Math.min(...v4vals), hi4 = Math.max(...v4vals);
+    const pad4 = (hi4 - lo4) * 0.12 || 1;
+    const Y4 = (v) => 12 + (1 - (v - (lo4 - pad4)) / (hi4 + pad4 - (lo4 - pad4))) * (h4 - 40);
+    const g4 = []; const st4 = Math.max(1, Math.round((hi4 - lo4) / 4));
+    for (let v = Math.ceil((lo4 - pad4) / st4) * st4; v <= hi4 + pad4; v += st4) {
+      g4.push({ y: Y4(v), ty: Y4(v) - 4, top: Y4(v) - 9, label: v.toFixed(0), stroke: v === 100 ? "#75798c" : "rgba(233,233,237,.10)" });
+    }
+    const rightSide = si <= n / 2;
+    vals.v4 = {
+      w, h: h4, padL, rx, grid: g4, xticks: ticks, tickTop: h4 - 21, onPick,
+      series: S4.map((s) => ({ pts: win.map((r, i) => X(i).toFixed(1) + "," + Y4(r[s.k]).toFixed(1)).join(" "), color: s.color, dash: s.dash })),
+      selDots: S4.map((s) => ({ cy: Y4(sel[s.k]).toFixed(1), color: s.color })),
+      selLabels: (() => {
+        const items = S4.map((s) => ({ y: Y4(sel[s.k]) - 9, color: s.color, label: sel[s.k].toFixed(2) })).sort((a, b) => a.y - b.y);
+        for (let i = 1; i < items.length; i++) if (items[i].y - items[i - 1].y < 17) items[i].y = items[i - 1].y + 17;
+        const over = items.length ? items[items.length - 1].y - (h4 - 30) : 0;
+        if (over > 0) for (const it of items) it.y -= over;
+        const left = rightSide ? Math.min(w - 64, X(si) + 9) : Math.max(padL, X(si) - 69);
+        return items.map((it) => ({ left: left.toFixed(0), top: Math.max(0, it.y).toFixed(0), color: it.color, label: it.label, align: rightSide ? "left" : "right" }));
+      })(),
+      legend: S4.map((s) => ({ label: s.label, color: s.color, style: s.dash === "none" ? "solid" : "dashed" })),
+      selX: X(si).toFixed(1), selBottom: h4 - 26,
+      alt: "Index levels, Base 2025 = 100, " + label(win[0].p) + " to " + label(win[n - 1].p) + ". In " + label(sel.p) + " headline stands at " + sel.idx.toFixed(2) + ", food " + sel.foodIdx.toFixed(2) + ", energy " + sel.enIdx.toFixed(2) + ", rents " + sel.rentIdx.toFixed(2) + ".",
+      sql: "SELECT m.period, m.cpi_index AS headline_index,\n       c.food_index, c.energy_index, c.actual_rent_index\nFROM insee_cpi_monthly m\nLEFT JOIN insee_cpi_category_analysis c USING (period)\nWHERE m.period BETWEEN $from AND $to\nORDER BY m.period;",
+      cols: [{ label: "Headline" }, { label: "Food" }, { label: "Services (rep.)" }, { label: "Manuf. (rep.)" }, { label: "Energy" }, { label: "Rents" }],
+      table: win.slice().reverse().map((r) => ({ p: label(r.p), cells: [
+        { v: r.idx.toFixed(2) }, { v: r.foodIdx.toFixed(2) }, { v: r.sIdx.toFixed(2) }, { v: r.mIdx.toFixed(2) },
+        { v: r.enIdx.toFixed(2) }, { v: r.rentIdx.toFixed(2) },
+      ] })),
+    };
+
+    // ---- equivalent amount
+    const defFrom = rows[Math.max(0, rows.length - 13)].p;   // twelve months before the latest month
+    const cFromP = this.state.calcFrom && this.byP(this.state.calcFrom) ? this.state.calcFrom : defFrom;
+    const cToP = this.state.calcTo && this.byP(this.state.calcTo) ? this.state.calcTo : latest.p;
+    const fromRow = this.byP(cFromP), toRow = this.byP(cToP);
+    const amount = Number.isFinite(this.state.amount) ? this.state.amount : 0;
+    const ratio = toRow.idx / fromRow.idx;
+    const result = amount * ratio;
+    const changePct = (ratio - 1) * 100;
+    const gap = (Number(cToP.slice(0, 4)) - Number(cFromP.slice(0, 4))) * 12 + (Number(cToP.slice(5)) - Number(cFromP.slice(5)));
+    const annual = Math.abs(gap) >= 12 ? (Math.pow(ratio, 12 / gap) - 1) * 100 : null;
+    vals.calc = {
+      amount: this.state.amount === null ? "" : this.state.amount,
+      from: cFromP, to: cToP,
+      onAmount: (e) => { const v = e.target.value; this.setState({ amount: v === "" ? null : Number(v) }); },
+      fromPick: this.pickerVals(cFromP, (v) => this.setState({ calcFrom: v })),
+      toPick: this.pickerVals(cToP, (v) => this.setState({ calcTo: v })),
+      swap: () => this.setState({ calcFrom: cToP, calcTo: cFromP }),
+      result: euro(result),
+      changeNote: pct(changePct, 1) + " over " + Math.abs(gap) + " months" + (annual === null ? "" : " \u00b7 " + pct(annual, 1) + " a year"),
+      sentence: euro(amount) + " in " + label(cFromP) + " has the same purchasing power as " + euro(result) + " in " + label(cToP) +
+        ", on index levels of " + fromRow.idx.toFixed(2) + " and " + toRow.idx.toFixed(2) + " (Base 2025 = 100).",
+      sql: "SELECT $amount * (t.cpi_index / f.cpi_index) AS equivalent_amount,\n       f.cpi_index AS origin_index, t.cpi_index AS target_index\nFROM insee_cpi_monthly f, insee_cpi_monthly t\nWHERE f.period = $origin_month AND t.period = $target_month;",
+    };
+
+    return vals;
+  }
+}
+</script>
+</body>
+</html>
