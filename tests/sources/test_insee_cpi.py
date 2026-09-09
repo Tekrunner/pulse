@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 from urllib.error import HTTPError
@@ -20,6 +21,8 @@ from pulse.sources import (
 
 
 FIXTURE = Path(__file__).parents[1] / "fixtures" / "insee-cpi" / "response.xml"
+COMMITTED_SNAPSHOTS = Path(__file__).parents[2] / "snapshots" / "public" / "insee-cpi"
+FIXTURE_PARQUET_SHA256 = "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
 
 
 def _write_snapshot_contract(package: Path, fields: str = "native: string") -> None:
@@ -230,6 +233,22 @@ def test_archive_is_string_typed_deterministic_and_idempotent(tmp_path: Path) ->
         "DESCRIBE SELECT * FROM read_parquet(?)", [str(snapshot / "raw.parquet")]
     ).fetchall()
     assert {row[1] for row in schema} == {"VARCHAR"}
+
+
+def test_fixture_acquisition_reproduces_committed_snapshot_bytes(tmp_path: Path) -> None:
+    # Archive bytes are the inter-package contract: every snapshot.json records
+    # this hash, and a dataset build consumes it. Determinism within one run
+    # cannot catch a writer, DuckDB, or optional-dependency change that shifts
+    # the encoding for everyone -- that surfaces later as an integrity conflict
+    # against an acquisition ID that was previously fine. Pin it here instead.
+    snapshot, _ = _archive(tmp_path, "acq-fixture-reproduction")
+    produced = hashlib.sha256((snapshot / "raw.parquet").read_bytes()).hexdigest()
+    assert produced == FIXTURE_PARQUET_SHA256
+    committed = {
+        json.loads(path.read_text(encoding="utf-8"))["artifacts"][0]["sha256"]
+        for path in COMMITTED_SNAPSHOTS.glob("*/snapshot.json")
+    }
+    assert produced in committed, "fixture no longer reproduces any committed snapshot"
 
 
 def test_conflict_does_not_replace_snapshot(tmp_path: Path) -> None:

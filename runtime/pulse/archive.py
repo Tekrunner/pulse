@@ -80,16 +80,48 @@ def _write_parquet(rows: list[dict[str, Any]], destination: Path) -> None:
     def quoted(identifier: str) -> str:
         return '"' + identifier.replace('"', '""') + '"'
 
+    def literal(text: str) -> str:
+        return "'" + text.replace("'", "''") + "'"
+
     definitions = ", ".join(f"{quoted(column)} {sql_type(column)}" for column in columns)
-    placeholders = ", ".join("?" for _ in columns)
-    values = [[row.get(column) for column in columns] for row in rows]
+    # Load through newline-delimited JSON rather than a row-at-a-time INSERT.
+    # Per-value binding makes DuckDB test every value for pandas support, and a
+    # failed optional import is never cached, so each check re-walked sys.path:
+    # 178k lookups for one acquisition. DuckDB reads the file in one pass
+    # instead, and the declared column types keep the explicit typing above --
+    # JSON auto-detection is never consulted. CSV cannot express the difference
+    # between an empty string and a null, so it is not usable here.
+    declared = ", ".join(f"{literal(column)}: {literal(sql_type(column))}" for column in columns)
     connection = duckdb.connect()
+    staging = Path(tempfile.mkdtemp(prefix=".rows-"))
     try:
+        payload = staging / "rows.json"
+        try:
+            with payload.open("w", encoding="utf-8") as handle:
+                for row in rows:
+                    # allow_nan=False: NaN and Infinity are not JSON, and emitting
+                    # them would hand read_json a value it cannot round-trip. Fail
+                    # loudly instead of archiving a silently altered observation.
+                    handle.write(
+                        json.dumps(
+                            {column: row.get(column) for column in columns},
+                            ensure_ascii=False,
+                            allow_nan=False,
+                        )
+                        + "\n"
+                    )
+        except ValueError as error:
+            raise ArchiveError("provider rows contain a value that is not representable") from error
         connection.execute(f"CREATE TABLE source_rows ({definitions})")
-        connection.executemany(f"INSERT INTO source_rows VALUES ({placeholders})", values)
+        connection.execute(
+            f"INSERT INTO source_rows SELECT {', '.join(quoted(column) for column in columns)} "
+            f"FROM read_json({literal(payload.as_posix())}, "
+            f"format='newline_delimited', columns={{{declared}}})"
+        )
         connection.execute("COPY source_rows TO ? (FORMAT PARQUET)", [str(destination)])
     finally:
         connection.close()
+        shutil.rmtree(staging, ignore_errors=True)
 
 
 def archive_rows(*, root: Path, source_id: str, acquisition_id: str, acquired_at: str, source_data_date: str | None, source_urls: list[str], rows: list[dict[str, Any]], decoder_version: str, licence: str, attribution: str) -> tuple[Path, bool]:
