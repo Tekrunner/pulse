@@ -707,6 +707,49 @@ test("homepage marks pipeline state with a glanceable non-colour cue", async ({
   expect(new Set(markers)).toEqual(new Set(["✓"]));
 });
 
+test("homepage orders pipelines by attention, then along the data flow", async ({
+  page,
+}) => {
+  const ids = (locator) =>
+    locator.evaluateAll((nodes) => nodes.map((node) => node.dataset.pipeline));
+  // Healthy: nothing needs attention, so the source leads its two datasets.
+  await page.goto("./");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  expect(await ids(health.locator("[data-pipeline]"))).toEqual([
+    "source:insee-cpi",
+    "dataset:insee-cpi-category-analysis",
+    "dataset:insee-cpi-monthly",
+  ]);
+  // Degraded: the failing dataset is lifted above the healthy source, and the
+  // remaining healthy rows keep source-before-dataset order.
+  await page.goto("?scenario=status-failed");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  expect(await ids(health.locator("[data-pipeline]"))).toEqual([
+    "dataset:insee-cpi-category-analysis",
+    "source:insee-cpi",
+    "dataset:insee-cpi-monthly",
+  ]);
+});
+
+test("homepage gives failed, degraded and healthy distinct severity colours", async ({
+  page,
+}) => {
+  // Colour is additive on top of the marker and the state word, but failed and
+  // suspect/stale previously shared one red edge and looked identical. Compared
+  // as computed values rather than hex literals so the palette can move.
+  const edge = async (scenario, state) => {
+    await page.goto(`?scenario=${scenario}`);
+    const item = page.locator(`[data-pipeline-health] [data-state="${state}"]`).first();
+    await expect(item).toBeVisible();
+    return item.evaluate((node) => getComputedStyle(node).borderInlineStartColor);
+  };
+  const failed = await edge("status-failed", "failed");
+  const stale = await edge("status-stale", "stale");
+  const healthy = await edge("status-stale", "succeeded");
+  expect(new Set([failed, stale, healthy]).size).toBe(3);
+});
+
 test("homepage shows a suspect-data warning without expanding", async ({
   page,
 }) => {

@@ -20,6 +20,13 @@
   --color-accent: #73d6c2;
   --color-focus: #ffd166;
   --color-error: #ff8a80;
+  /* Severity colours for pipeline health. Deliberately not --color-focus
+     (#ffd166), which is reserved for focus rings: two meanings on one hue
+     would be ambiguous. Both clear WCAG AA on --color-panel (ok 10.67:1,
+     warn 7.40:1) and never carry state on their own -- the marker glyph and
+     the state word do that. */
+  --color-ok: #6ee7a0;
+  --color-warn: #f2994a;
   --space-1: .5rem;
   --space-2: 1rem;
 }
@@ -140,6 +147,23 @@ button { min-height:44px; padding:.5rem 1rem; }
 .report-index a { font-size:1.05rem; }
 .pipeline-list>li { border-radius:12px; background:var(--color-panel); border-inline-start:4px solid var(--color-neutral-700); }
 .pipeline-list>li.pipeline-degraded { border-inline-start-color:var(--color-error); }
+/* Colour is additive: the marker glyph and the state word already carry the
+   state, so these rules only make it louder. Failed and suspect/stale get
+   different hues because a red edge on both made them look identical. */
+.pipeline-list>li[data-state="succeeded"] { border-inline-start-color:var(--color-ok); }
+.pipeline-list>li[data-state="suspect"],
+.pipeline-list>li[data-state="stale"] { border-inline-start-color:var(--color-warn); }
+.pipeline-list>li[data-state="failed"] { border-inline-start-color:var(--color-error); }
+li[data-state="succeeded"]>details>summary .pipeline-marker,
+li[data-state="succeeded"]>details>summary .pipeline-state { color:var(--color-ok); }
+li[data-state="suspect"]>details>summary .pipeline-marker,
+li[data-state="suspect"]>details>summary .pipeline-state,
+li[data-state="stale"]>details>summary .pipeline-marker,
+li[data-state="stale"]>details>summary .pipeline-state { color:var(--color-warn); }
+li[data-state="failed"]>details>summary .pipeline-marker,
+li[data-state="failed"]>details>summary .pipeline-state { color:var(--color-error); }
+li[data-state="not-run"]>details>summary .pipeline-marker,
+li[data-state="not-run"]>details>summary .pipeline-state { color:var(--color-muted); }
 .pipeline-list h3 { margin:0; font-size:1rem; }
 .pipeline-kind { color:var(--color-muted); font-size:.8rem; font-weight:400; }
 /* The summary stays a list-item so the platform disclosure triangle survives;

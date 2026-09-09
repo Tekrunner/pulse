@@ -26,6 +26,13 @@ const KIND_LABELS = { source: "Source pipeline", dataset: "Dataset pipeline" };
 // and anything else breaks the column; the adjacent word carries the precise
 // state, and screen readers get the word rather than the glyph.
 const STATE_MARKERS = { succeeded: "✓", "not-run": "–", suspect: "!", stale: "!", failed: "✕" };
+// Rows sort by attention first, then along the data flow. `not-run` sits above
+// healthy because the first question is whether a pipeline executed at all,
+// but below the degraded states, which have actual evidence to act on.
+const STATE_ORDER = { failed: 0, suspect: 1, stale: 2, "not-run": 3, succeeded: 4 };
+// Sources before the datasets derived from them: when a source breaks, its
+// datasets break as a consequence, and the cause should not render below them.
+const KIND_ORDER = { source: 0, dataset: 1 };
 const monthFormat = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 const dayFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const timeFormat = new Intl.DateTimeFormat("en-GB", {
@@ -94,8 +101,7 @@ function suspectWarning(entry) {
   return `Suspect data — ${assertionSummary(entry)}`;
 }
 
-function pipelineItem(entry, now) {
-  const resolved = derivePipelineState(entry, now);
+function pipelineItem(entry, resolved) {
   const item = el("li");
   item.dataset.pipeline = entry.pipelineId;
   item.dataset.state = resolved.state;
@@ -197,11 +203,21 @@ async function fillHealth(container, client, now) {
     const catalog = await client.status();
     const list = el("ul");
     list.className = "pipeline-list";
-    for (const entry of Object.values(catalog.pipelines).sort((first, second) =>
-      first.pipelineId.localeCompare(second.pipelineId),
-    )) {
-      list.append(pipelineItem(entry, now()));
-    }
+    // One clock for the whole list, so ordering and rendering cannot disagree
+    // about which pipelines are overdue.
+    const at = now();
+    const rows = Object.values(catalog.pipelines).map((entry) => ({
+      entry,
+      resolved: derivePipelineState(entry, at),
+    }));
+    rows.sort(
+      (first, second) =>
+        STATE_ORDER[first.resolved.state] - STATE_ORDER[second.resolved.state] ||
+        KIND_ORDER[first.entry.kind] - KIND_ORDER[second.entry.kind] ||
+        first.entry.name.localeCompare(second.entry.name) ||
+        first.entry.pipelineId.localeCompare(second.entry.pipelineId),
+    );
+    for (const { entry, resolved } of rows) list.append(pipelineItem(entry, resolved));
     container.dataset.state = "ready";
     container.replaceChildren(list);
   } catch (error) {
