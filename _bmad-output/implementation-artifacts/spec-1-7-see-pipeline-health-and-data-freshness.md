@@ -76,15 +76,16 @@ context: ['_bmad-output/implementation-artifacts/epic-1-context.md']
 
 ## Verification Evidence
 
-- `uv run --no-sync pytest` -- 106 passed, 1 deselected (`live`). The 28 new status tests cover every matrix row, the five states, precedence, deadline transitions, and both lineage-precision levels.
+- `uv run --no-sync pytest` -- 108 passed, 1 deselected (`live`), in 89s. The 28 new status tests cover every matrix row, the five states, precedence, deadline transitions, and both lineage-precision levels.
 - `uv run --no-sync pulse status` -- prints all three expected pipelines; both datasets read `succeeded` at 2026-09-09 because data through 2026-07-01 is only overdue once the August observation misses 2026-09-15 plus grace. Boundary confirmed directly: the flip to `stale` lands on 2026-09-22.
 - `npm run verify` node contract stages -- all passed, including "staleness is derived at read time and failures stay normalized".
 - `npm run build` and `npm run portability:build` -- pass, after `scripts/build-site.mjs` was fixed to spawn `observable.cmd` through a shell on Windows.
-- `npx playwright test --project=chromium` -- 41/41 passed.
+- `npx playwright test` -- 82/82 passed across Chromium and Firefox.
 - `npm run artifact:scan` -- passed (38,815,906 bytes), asserting no pipeline or stage bakes a staleness state and no diagnostic carries a traceback or private path.
+- `PLAYWRIGHT_BROWSERS_PATH` must point at a browser store outside `%LOCALAPPDATA%` on Windows; Playwright's Firefox cannot activate its `mozglue` side-by-side assembly from the default `ms-playwright` location and fails every launch with `spawn UNKNOWN`. Verified working from `C:\pw`.
+- `uv run --no-sync pulse verify` -- **passed**, exit 0, 383s: status contract, 108 Python tests, node contracts, site and portability builds, 82 browser tests across Chromium and Firefox, artifact scan.
+- Archive write path rebuilt during verification: `_write_parquet` bulk-loads through `read_json` instead of binding 6,354 rows one at a time, which removed 178,740 uncached failed `pandas` imports per acquisition. Full Python suite 1518s -> 89s; `raw.parquet` stays byte-identical at `8106c9fd4a1e...`, now pinned by `test_fixture_acquisition_reproduces_committed_snapshot_bytes`.
 - Review patch applied: `site/data/status-scenarios.js` no longer ships a `status-healthy` fixture, which `?scenario=` could have used to render fabricated healthy state over a degraded pipeline. Re-verified after the change: node status contract passed, `npm run build` passed, 41/41 Chromium, artifact scan passed (38,816,137 bytes). `pytest` was not re-run because removing a browser fixture cannot affect it.
-- **Not verified: Firefox.** All 41 Firefox tests fail at `browserType.launch: spawn UNKNOWN`; the binary returns `Permission denied` when run directly, so this machine blocks it. Browser evidence is Chromium-only, against a project convention of both engines. Logged to `deferred-work.md`.
-- **Not run clean: `uv run --no-sync pulse verify`.** The Python suite takes ~25 minutes against the 600s `SUBPROCESS_TIMEOUT_SECONDS` cap in `verify.py`, so the stage times out. Pre-existing and unrelated to this story: ~1,424s of the 1,518s sits in `tests/sources` and the dbt tests, whose acquire/archive path this change never touches, and whose slowest new test here is 7.6s. Logged to `deferred-work.md`.
 
 ## Design Notes
 
