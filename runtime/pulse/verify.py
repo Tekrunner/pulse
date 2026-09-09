@@ -109,7 +109,27 @@ def _node_smoke() -> None:
     _run("node smoke", [npm, "run", "verify"])
 
 
-SMOKE_STAGES: tuple[Callable[[], None], ...] = (_python_smoke, _node_smoke)
+def _status_smoke() -> None:
+    """Gate the committed pipelines against the expected-pipeline catalog.
+
+    Imported here so verification stays usable as a plain module: the catalog
+    pulls in DuckDB and dlt, which a bare `pulse verify` should not pay for
+    before it has decided the stage will run.
+    """
+    from pulse.catalog import compile_expected_pipelines, compile_status_catalog
+    from pulse.contracts.snapshot import ContractError
+
+    print("[status contract] compile expected pipelines and status", flush=True)
+    try:
+        compile_status_catalog(expected=compile_expected_pipelines())
+    except (ContractError, OSError) as error:
+        raise VerificationError(
+            f"stage 'status contract' rejected the committed pipelines: {error}; "
+            "reconcile the declarations, snapshots and publications."
+        ) from error
+
+
+SMOKE_STAGES: tuple[Callable[[], None], ...] = (_status_smoke, _python_smoke, _node_smoke)
 
 
 def verify_workspace() -> None:

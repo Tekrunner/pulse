@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
@@ -11,7 +12,14 @@ from pulse.datasets import DatasetError, build_all_datasets, build_dataset, disc
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
-from pulse.catalog import compile_browser_catalog, write_browser_catalog, write_report_catalog
+from pulse.catalog import (
+    compile_browser_catalog,
+    compile_status_catalog,
+    status_report,
+    write_browser_catalog,
+    write_report_catalog,
+    write_status_catalog,
+)
 from pulse.contracts.snapshot import ContractError
 
 
@@ -31,6 +39,11 @@ def build_parser() -> argparse.ArgumentParser:
     catalog_build.add_argument("--parquet-prefix", default="datasets", help=argparse.SUPPRESS)
     catalog_build.add_argument("--reports-output", type=Path, help=argparse.SUPPRESS)
     catalog_build.add_argument("--reports-root", type=Path, default=Path("site/reports"), help=argparse.SUPPRESS)
+    catalog_build.add_argument("--status-output", type=Path, help=argparse.SUPPRESS)
+    catalog_build.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    status = subcommands.add_parser("status", help="print the derived state of every expected pipeline")
+    status.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    status.add_argument("--publish-root", type=Path, default=Path("publish/public"), help=argparse.SUPPRESS)
     source = subcommands.add_parser("source", help="acquire one declared source")
     source_subcommands = source.add_subparsers(dest="source_command", required=True)
     acquire = source_subcommands.add_parser("acquire", help="archive a faithful raw source snapshot")
@@ -80,10 +93,31 @@ def main(argv: list[str] | None = None) -> int:
                     reports_root=args.reports_root,
                     browser_catalog=compile_browser_catalog(args.publish_root, parquet_prefix=args.parquet_prefix),
                 )
+            if args.status_output:
+                write_status_catalog(
+                    args.status_output,
+                    archive_root=args.archive_root,
+                    publish_root=args.publish_root,
+                )
         except (ContractError, OSError) as error:
             print(f"pulse catalog build failed: {error}", file=sys.stderr)
             return 1
         print(f"pulse catalog build wrote {output}")
+        return 0
+    if args.command == "status":
+        try:
+            catalog = compile_status_catalog(
+                archive_root=args.archive_root, publish_root=args.publish_root
+            )
+        except (ContractError, OSError) as error:
+            print(f"pulse status failed: {error}", file=sys.stderr)
+            return 1
+        now = datetime.now(timezone.utc)
+        # Staleness is resolved here against this clock, exactly as the browser
+        # resolves it against the reader's; the artifact stores no state string.
+        print(f"pulse status at {now.replace(microsecond=0).isoformat().replace('+00:00', 'Z')}")
+        for line in status_report(catalog, now):
+            print(line)
         return 0
     if args.command == "dataset":
         try:

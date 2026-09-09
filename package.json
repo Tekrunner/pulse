@@ -16,7 +16,7 @@
     "browser:test": "playwright test --config tests/browser/playwright.config.js",
     "portability:build": "vite build --config tests/portability/vite.config.js",
     "portability:serve": "vite preview --config tests/portability/vite.config.js --host 127.0.0.1 --port 4173",
-    "verify": "node tests/node/dependency-policy.test.mjs && node tests/node/verify-baseline.mjs && node tests/node/pilot-contract.test.mjs && node tests/node/report-contract.test.mjs && node tests/node/client-contract.test.mjs && node tests/node/public-data-assets.test.mjs && npm run build && npm run portability:build && npm run browser:test && npm run artifact:scan"
+    "verify": "node tests/node/dependency-policy.test.mjs && node tests/node/verify-baseline.mjs && node tests/node/pilot-contract.test.mjs && node tests/node/report-contract.test.mjs && node tests/node/client-contract.test.mjs && node tests/node/status-client.test.mjs && node tests/node/public-data-assets.test.mjs && npm run build && npm run portability:build && npm run browser:test && npm run artifact:scan"
   },
   "dependencies": {
     "@duckdb/duckdb-wasm": "1.31.0",

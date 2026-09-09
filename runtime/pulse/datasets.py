@@ -17,7 +17,7 @@ from typing import Any
 import duckdb
 import yaml
 
-from pulse.archive import ArchiveError, reject_lfs_pointer
+from pulse.archive import ArchiveError, reject_lfs_pointer, utc_now
 from pulse.contracts.dataset import (
     DATASET_SCHEMA_ID,
     DATASET_SCHEMA_VERSION,
@@ -25,7 +25,8 @@ from pulse.contracts.dataset import (
     diagnostic,
     validate_dataset_manifest,
 )
-from pulse.contracts.snapshot import SnapshotManifest, validate_snapshot_manifest
+from pulse.contracts.snapshot import ContractError, SnapshotManifest, validate_snapshot_manifest
+from pulse.contracts.status import DATASET_STAGES, attempt
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -36,7 +37,18 @@ _TABLE = re.compile(r"^[a-z][a-z0-9_]*$")
 
 
 class DatasetError(RuntimeError):
-    """A dataset package or candidate violates its declared boundary."""
+    """A dataset package or candidate violates its declared boundary.
+
+    Every failure carries the canonical dataset stage it belongs to, so a
+    published diagnostic names the stage that actually failed instead of
+    attributing every failure to the transform.
+    """
+
+    def __init__(self, message: str, *, stage: str = "transform") -> None:
+        super().__init__(message)
+        if stage not in DATASET_STAGES:
+            raise ContractError(f"dataset failures must name a canonical stage, not '{stage}'")
+        self.stage = stage
 
 
 @dataclass(frozen=True)
@@ -279,12 +291,19 @@ def _observed_schema(path: Path) -> dict[str, str]:
         connection.close()
 
 
-def _write_diagnostic(publish_root: Path, code: str, message: str) -> None:
-    publish_root.parent.mkdir(parents=True, exist_ok=True)
-    value = diagnostic("transform", code, message, retryable=True)
-    (publish_root.parent / "diagnostic.json").write_text(
-        json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8"
-    )
+def _write_json(path: Path, value: dict[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _write_diagnostic(target: Path, code: str, message: str, *, stage: str, retryable: bool) -> None:
+    """Record one sanitized diagnostic beside the pipeline it belongs to.
+
+    Per-pipeline on purpose: a diagnostic shared across a publication root
+    cannot say which dataset failed, and status has to attribute a failure to
+    exactly one expected pipeline.
+    """
+    _write_json(target / "diagnostic.json", diagnostic(stage, code, message, retryable=retryable))
 
 
 def build_dataset(
@@ -301,6 +320,10 @@ def build_dataset(
     build_parent.mkdir(parents=True, exist_ok=True)
     work = Path(tempfile.mkdtemp(prefix=".build-", dir=build_parent))
     candidate = work / "dataset.parquet"
+    # Record the attempt before anything can fail. A dataset build has no other
+    # trace of when it ran, and status must report a last attempt even when the
+    # attempt produced nothing publishable.
+    _write_json(target / "attempt.json", attempt(utc_now()))
     try:
         from pulse.sources import discover_sources
 
@@ -348,21 +371,42 @@ def build_dataset(
             declaration.contract.indicators,
             result.status,
         )
-        validate_dataset_manifest(manifest.to_dict(), declaration.contract)
-        target.mkdir(parents=True, exist_ok=True)
-        candidate.replace(target / "dataset.parquet")
-        (target / "dataset.json").write_text(
-            json.dumps(manifest.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
-        )
+        try:
+            validate_dataset_manifest(manifest.to_dict(), declaration.contract)
+        except ContractError as error:
+            raise DatasetError(
+                f"dataset '{declaration.dataset_id}' manifest disagrees with its committed contract",
+                stage="publish-data",
+            ) from error
+        try:
+            target.mkdir(parents=True, exist_ok=True)
+            candidate.replace(target / "dataset.parquet")
+            (target / "dataset.json").write_text(
+                json.dumps(manifest.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            # A successful publication clears the previous failure, so the
+            # presence of a diagnostic always describes the latest attempt.
+            (target / "diagnostic.json").unlink(missing_ok=True)
+        except OSError as error:
+            raise DatasetError(
+                f"dataset '{declaration.dataset_id}' could not be published atomically",
+                stage="publish-data",
+            ) from error
         return manifest
     except DatasetError as error:
-        _write_diagnostic(target, "candidate_rejected", str(error))
+        # A rejected candidate is deterministic for the same inputs: retrying it
+        # unchanged cannot succeed, so it is not advertised as retryable.
+        _write_diagnostic(
+            target, "candidate_rejected", str(error), stage=error.stage, retryable=False
+        )
         raise
     except Exception as error:
         sanitized = DatasetError(
             f"dataset '{declaration.dataset_id}' build failed; retained any prior usable publication"
         )
-        _write_diagnostic(target, "build_failed", str(sanitized))
+        _write_diagnostic(
+            target, "build_failed", str(sanitized), stage=sanitized.stage, retryable=True
+        )
         raise sanitized from error
     finally:
         shutil.rmtree(work, ignore_errors=True)

@@ -13,6 +13,9 @@ from typing import Any
 
 import yaml
 
+from pulse.contracts.snapshot import ContractError
+from pulse.contracts.status import validate_publication_schedule
+
 
 ROOT = Path(__file__).resolve().parents[2]
 _SOURCE_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
@@ -31,6 +34,7 @@ class SourceDeclaration:
     configuration: dict[str, Any]
     cadence: str
     expected_publication_advance: str
+    publication_schedule: dict[str, Any]
     licence: str
     attribution: str
     snapshot_contract: dict[str, Any]
@@ -79,6 +83,19 @@ def _load_snapshot_contract(path: Path) -> dict[str, Any]:
     return raw
 
 
+def _load_publication_schedule(raw: dict[str, Any], path: Path) -> dict[str, Any]:
+    """Validate the declared, machine-readable schedule beside its prose cadence.
+
+    The prose fields stay: they say what a reader needs to know. This adds the
+    part a machine needs, so an overdue period is computable rather than
+    inferred from English.
+    """
+    try:
+        return validate_publication_schedule(raw.get("publication_schedule"))
+    except ContractError as error:
+        raise SourceDeclarationError(f"{path}: {error}") from error
+
+
 def load_source_declaration(path: Path) -> SourceDeclaration:
     try:
         raw = yaml.safe_load(path.read_text(encoding="utf-8"))
@@ -107,6 +124,7 @@ def load_source_declaration(path: Path) -> SourceDeclaration:
         configuration=configuration,
         cadence=_required_string(raw, "fetch_cadence", path),
         expected_publication_advance=_required_string(raw, "expected_publication_advance", path),
+        publication_schedule=_load_publication_schedule(raw, path),
         licence=_required_string(raw, "licence", path),
         attribution=_required_string(raw, "attribution", path),
         snapshot_contract=_load_snapshot_contract(path.parent / contract_name),

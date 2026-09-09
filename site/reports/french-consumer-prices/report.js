@@ -1,5 +1,11 @@
 import { DataClientError } from "../../data/client.js";
 import { getPageDataClient } from "../../data/browser-shell.js";
+import {
+  getPageStatusClient,
+  qualificationLine,
+  qualifyReport,
+} from "../../data/status-client.js";
+import { scenarioStatusClient } from "../../data/status-scenarios.js";
 import { renderHeadlineTrend } from "../../visuals/headline-trend.js";
 import {
   renderContributionStack,
@@ -16,6 +22,7 @@ if (!document.querySelector("style[data-pulse-inter]")) {
   document.head.append(fontStyle);
 }
 
+export const REPORT_ID = "french-consumer-prices";
 export const MONTHLY_DATASET_ID = "insee-cpi-monthly",
   CATEGORY_DATASET_ID = "insee-cpi-category-analysis";
 export const MONTHLY_SQL =
@@ -302,6 +309,7 @@ function figureCard(
 
 export function renderFrenchConsumerPricesReport({
   client = getPageDataClient(),
+  statusClient = getPageStatusClient(),
   scenario,
 } = {}) {
   const main = el("main");
@@ -337,6 +345,8 @@ export function renderFrenchConsumerPricesReport({
   content.className = "report-content";
   main.append(navigation, header, standings, controls, content);
   const active = scenarioClient(client, scenario);
+  const activeStatus = scenarioStatusClient(statusClient, scenario);
+  let qualification = null;
   let monthly = [],
     history = [],
     category = [],
@@ -389,6 +399,38 @@ export function renderFrenchConsumerPricesReport({
     }
     content.style.minHeight = "";
     window.scrollTo({ left: view.x, top: view.y, behavior: "instant" });
+  }
+  // One qualification line in the provenance list, and nothing attached to a
+  // figure: suspect, stale or failed lineage qualifies the reading, it does not
+  // interrupt it, so the per-figure alert path stays reserved for render
+  // failures. Staleness resolves against this clock, not the build's.
+  function applyQualification() {
+    for (const previous of [...meta.querySelectorAll("[data-qualification]")])
+      previous.remove();
+    const line = qualificationLine(qualification);
+    if (!line || !meta.children.length) return;
+    const item = el("div");
+    item.dataset.qualification = qualification.state;
+    item.append(el("dt", "Data qualification"), el("dd", line));
+    meta.append(item);
+  }
+  async function loadQualification() {
+    try {
+      const [status, reports] = await Promise.all([
+        activeStatus.status(),
+        activeStatus.reports(),
+      ]);
+      qualification = qualifyReport({
+        status,
+        reports,
+        reportId: REPORT_ID,
+        now: new Date(),
+      });
+    } catch {
+      // Provenance stays exactly as published when health cannot be read.
+      qualification = null;
+    }
+    applyQualification();
   }
   const state = (kind, text) => {
     content.dataset.state = kind;
@@ -984,6 +1026,7 @@ export function renderFrenchConsumerPricesReport({
         return;
       }
       meta.innerHTML = `<div><dt>Latest published month</dt><dd>${maxP}</dd></div><div><dt>Source</dt><dd>INSEE — IPC, Base 2025</dd></div><div><dt>Licence</dt><dd>Licence Ouverte / Open Licence 2.0</dd></div><div><dt>Datasets</dt><dd>insee_cpi_monthly · insee_cpi_category_analysis (contract 1.0.0)</dd></div>`;
+      applyQualification();
       renderReady(previousView.open);
     } catch (error) {
       const lastSuccessful =
@@ -999,5 +1042,6 @@ export function renderFrenchConsumerPricesReport({
     }
   }
   void load();
+  void loadQualification();
   return main;
 }

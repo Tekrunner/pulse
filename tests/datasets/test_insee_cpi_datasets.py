@@ -182,6 +182,7 @@ def test_neutral_dataset_package_builds_without_shared_runtime_changes(tmp_path:
         "id: example-source\nname: Example source\nvisibility: public\n"
         "snapshot_contract: snapshot-contract.yaml\nacquisition: {native: example}\n"
         "fetch_cadence: monthly\nexpected_publication_advance: monthly\n"
+        "publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}\n"
         "licence: Open\nattribution: Example\n",
         encoding="utf-8",
     )

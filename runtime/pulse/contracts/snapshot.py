@@ -39,7 +39,8 @@ class SnapshotManifest:
         return asdict(self)
 
 
-def _utc_timestamp(value: str, field: str) -> None:
+def utc_timestamp(value: str, field: str) -> None:
+    """Reject anything but a UTC ISO-8601 timestamp ending in Z."""
     if not value.endswith("Z"):
         raise ContractError(f"{field} must be a UTC ISO-8601 timestamp ending in Z")
     try:
@@ -68,7 +69,7 @@ def validate_snapshot_manifest(value: dict[str, Any]) -> SnapshotManifest:
             raise ContractError(f"snapshot manifest {field} must be lowercase kebab-case")
     if not isinstance(value["snapshot_id"], str) or not value["snapshot_id"].startswith(value["acquisition_id"] + "-"):
         raise ContractError("snapshot manifest snapshot_id must derive from acquisition_id")
-    _utc_timestamp(value["acquired_at"], "acquired_at")
+    utc_timestamp(value["acquired_at"], "acquired_at")
     if value["source_data_date"] is not None:
         if not isinstance(value["source_data_date"], str):
             raise ContractError("source_data_date must be an ISO date or null")

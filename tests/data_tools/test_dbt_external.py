@@ -101,5 +101,8 @@ def test_invalid_not_null_fixture_fails_as_evidence(tmp_path: Path) -> None:
     assert result.returncode != 0, "invalid not_null fixture unexpectedly passed"
     output = result.stdout + result.stderr
     assert "FAIL 1 not_null_invalid_required_value" in output
-    assert "in test not_null_invalid_required_value (models/invalid_schema.yml)" in output
+    # dbt reports the schema path with the platform separator.
+    assert (
+        f"in test not_null_invalid_required_value (models{os.sep}invalid_schema.yml)" in output
+    )
     assert "Got 1 result, configured to fail if != 0" in output

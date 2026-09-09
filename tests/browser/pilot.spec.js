@@ -595,3 +595,182 @@ test("desktop exploration controls keep period, observation and component contro
     140,
   );
 });
+
+test("homepage links every included report and lists pipeline health quietly", async ({
+  page,
+}) => {
+  await page.goto("");
+  const reportIndex = page.locator("[data-report-index]");
+  await expect(reportIndex).toHaveAttribute("data-state", "ready");
+  await expect(
+    reportIndex.getByRole("link", { name: "French consumer prices" }),
+  ).toBeVisible();
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  await expect(health.locator("[data-pipeline]")).toHaveCount(3);
+  for (const pipeline of [
+    "source:insee-cpi",
+    "dataset:insee-cpi-monthly",
+    "dataset:insee-cpi-category-analysis",
+  ]) {
+    const item = health.locator(`[data-pipeline="${pipeline}"]`);
+    await expect(item).toHaveAttribute("data-state", "succeeded");
+    await expect(item.locator(".pipeline-state")).toHaveText("Up to date");
+    await expect(item).toContainText("Data through");
+    await expect(item).toContainText("Last attempt");
+    await expect(item).toContainText("Latest usable output");
+    // Healthy state stays quiet: no diagnostic, no severity treatment.
+    await expect(item).not.toContainText("Diagnostic");
+    await expect(item).not.toHaveClass(/pipeline-degraded/);
+  }
+  await expect(page.locator("[data-report-index] a")).toHaveAttribute(
+    "href",
+    "./reports/french-consumer-prices",
+  );
+  await page
+    .getByRole("link", { name: "French consumer prices", exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/pulse\/reports\/french-consumer-prices$/);
+});
+
+for (const [scenario, state, expectations] of [
+  ["status-not-run", "not-run", { label: "Not run yet", degraded: false }],
+  ["status-suspect", "suspect", { label: "Suspect", degraded: true, text: "provider_annual_change" }],
+  ["status-suspect-unknown", "suspect", { label: "Suspect", degraded: true, text: "affected columns unknown" }],
+  ["status-stale", "stale", { label: "Stale", degraded: true, text: "the next observation was due" }],
+  ["status-failed", "failed", { label: "Failed", degraded: true, text: "candidate_rejected at transform" }],
+]) {
+  // Keyed on the scenario, not the state: two scenarios share the `suspect`
+  // state and differ only in whether column lineage is available.
+  test(`homepage renders the ${scenario} pipeline state as text`, async ({ page }) => {
+    await page.goto(`?scenario=${scenario}`);
+    const health = page.locator("[data-pipeline-health]");
+    await expect(health).toHaveAttribute("data-state", "ready");
+    const item = health.locator(`[data-state="${state}"]`).first();
+    await expect(item.locator(".pipeline-state")).toHaveText(
+      expectations.label,
+    );
+    if (expectations.text) await expect(item).toContainText(expectations.text);
+    if (expectations.degraded)
+      await expect(item).toHaveClass(/pipeline-degraded/);
+    else await expect(item).not.toHaveClass(/pipeline-degraded/);
+    // Degraded state never leaks a stack trace or a private path.
+    await expect(health).not.toContainText(/Traceback|password|token|\/home\//i);
+    // Navigation survives whatever health reports.
+    await expect(
+      page.getByRole("link", { name: "French consumer prices", exact: true }),
+    ).toBeVisible();
+  });
+}
+
+test("homepage keeps navigation and reports usable when status cannot be read", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-unavailable");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "unavailable");
+  await expect(health.getByRole("alert")).toContainText(
+    "Reports and their data are unaffected.",
+  );
+  await expect(health.locator("[data-pipeline]")).toHaveCount(0);
+  await expect(page.locator("[data-report-index]")).toHaveAttribute(
+    "data-state",
+    "ready",
+  );
+  const link = page.getByRole("link", {
+    name: "French consumer prices",
+    exact: true,
+  });
+  await expect(link).toBeVisible();
+  await link.focus();
+  expect(
+    await link.evaluate((node) =>
+      Number.parseFloat(getComputedStyle(node).outlineWidth),
+    ),
+  ).toBeGreaterThan(0);
+  await expect(
+    page.getByRole("link", { name: "Open the French macroeconomic pilot" }),
+  ).toBeVisible();
+});
+
+test("homepage pipeline health reflows without horizontal overflow", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto("?scenario=status-failed");
+  await expect(page.locator("[data-pipeline-health]")).toHaveAttribute(
+    "data-state",
+    "ready",
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await expect(
+    page.getByRole("heading", { name: "Pipeline health" }),
+  ).toBeVisible();
+});
+
+test("report provenance states the represented period and source without qualification when healthy", async ({
+  page,
+}) => {
+  await page.goto("reports/french-consumer-prices");
+  await expect(page.locator('.report-content[data-state="ready"]')).toBeVisible(
+    { timeout: 10_000 },
+  );
+  const provenance = page.locator(".cpi-report header dl");
+  await expect(provenance).toContainText("Latest published month");
+  await expect(provenance).toContainText("INSEE — IPC, Base 2025");
+  await expect(provenance.locator("[data-qualification]")).toHaveCount(0);
+});
+
+for (const [scenario, expected] of [
+  ["status-suspect", "Suspect data — affects Figure 2 and Figure 3"],
+  ["status-suspect-unknown", "Suspect data — affected visuals unknown"],
+  ["status-stale", "Stale data — affects Figure 2, Figure 3 and Figure 4"],
+  [
+    "status-failed",
+    "Failed refresh — affects Figure 2, Figure 3 and Figure 4; the retained dataset through 2026-07 is still shown",
+  ],
+]) {
+  test(`report adds one provenance qualification line for ${scenario}`, async ({
+    page,
+  }) => {
+    await page.goto(`reports/french-consumer-prices?scenario=${scenario}`);
+    await expect(
+      page.locator('.report-content[data-state="ready"]'),
+    ).toBeVisible({ timeout: 10_000 });
+    const qualification = page.locator(
+      ".cpi-report header dl [data-qualification]",
+    );
+    await expect(qualification).toHaveCount(1);
+    await expect(qualification).toContainText(expected);
+    // The qualification is a reading caveat, not an interruption: figures draw.
+    await expect(page.locator('figure[data-state="ready"]')).toHaveCount(4);
+    // Filtered count, not `not.toContainText`: the latter resolves strictly and
+    // throws on the four figures instead of asserting none of them carries it.
+    await expect(
+      page
+        .locator(".cpi-report figure")
+        .filter({ hasText: /Suspect data|Stale data|Failed refresh/ }),
+    ).toHaveCount(0);
+    await expect(page.locator(".cpi-report figure [role=alert]")).toHaveCount(0);
+  });
+}
+
+test("report provenance stays as published when status cannot be read", async ({
+  page,
+}) => {
+  await page.goto("reports/french-consumer-prices?scenario=status-unavailable");
+  await expect(page.locator('.report-content[data-state="ready"]')).toBeVisible(
+    { timeout: 10_000 },
+  );
+  await expect(
+    page.locator(".cpi-report header dl [data-qualification]"),
+  ).toHaveCount(0);
+  await expect(page.locator('figure[data-state="ready"]')).toHaveCount(4);
+  await expect(
+    page.getByRole("navigation", { name: "Report navigation" }),
+  ).toBeVisible();
+});

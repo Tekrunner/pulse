@@ -7,7 +7,8 @@ const root = resolve(import.meta.dirname, "..");
 const observable = process.platform === "win32" ? "observable.cmd" : "observable";
 const catalog = resolve(root, "site/data/browser-data.json");
 const reportCatalog = resolve(root, "site/data/reports.json");
-const catalogBuild = spawnSync("uv", ["run", "pulse", "catalog", "build", "--output", catalog, "--reports-output", reportCatalog, "--parquet-prefix", "datasets"], {
+const statusCatalog = resolve(root, "site/data/status.json");
+const catalogBuild = spawnSync("uv", ["run", "pulse", "catalog", "build", "--output", catalog, "--reports-output", reportCatalog, "--status-output", statusCatalog, "--parquet-prefix", "datasets"], {
   cwd: root,
   stdio: "inherit",
 });
@@ -17,6 +18,9 @@ const build = spawnSync(observable, ["build"], {
   cwd: root,
   env: { ...process.env, OBSERVABLE_TELEMETRY_DISABLE: "1" },
   stdio: "inherit",
+  // Node refuses to spawn a .cmd shim directly on Windows (EINVAL), so the
+  // platform that needs the .cmd name is also the one that needs a shell.
+  shell: process.platform === "win32",
 });
 if (build.error) throw build.error;
 if (build.status !== 0) process.exit(build.status ?? 1);
@@ -30,8 +34,10 @@ await Promise.all([
   cp(resolve(root, "site/data/parquet.duckdb_extension.wasm"), resolve(dataOutput, "parquet.duckdb_extension.wasm")),
   cp(catalog, resolve(dataOutput, "browser-data.json")),
   cp(reportCatalog, resolve(dataOutput, "reports.json")),
+  cp(statusCatalog, resolve(dataOutput, "status.json")),
   copyCatalogedParquet({ catalogPath: catalog, publishDataRoot: resolve(root, "publish/public/data"), dataOutput }),
 ]);
 await rm(catalog, { force: true });
 await rm(reportCatalog, { force: true });
-console.log("Pulse site artifact includes local EH worker, WASM, Parquet extension, browser catalog, and published INSEE Parquet.");
+await rm(statusCatalog, { force: true });
+console.log("Pulse site artifact includes local EH worker, WASM, Parquet extension, browser and status catalogs, and published INSEE Parquet.");

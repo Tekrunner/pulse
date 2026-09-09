@@ -52,5 +52,9 @@ acquisition:
       name: Pondération de l'indice des prix à la consommation - Base 2025 - Ensemble des ménages - France - Produits manufacturés
 fetch_cadence: monthly, after the INSEE CPI release
 expected_publication_advance: monthly; final CPI normally advances in the middle of the following month
+publication_schedule:
+  period: monthly
+  expected_by_day_of_following_month: 15
+  grace_days: 7
 licence: Licence Ouverte / Open Licence 2.0
 attribution: "Source: INSEE, Indice des prix à la consommation (IPC), Base 2025."

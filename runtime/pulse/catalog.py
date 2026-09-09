@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
@@ -10,10 +11,34 @@ from typing import Any
 
 import yaml
 
-from pulse.contracts.dataset import ContractError, DatasetManifest, validate_dataset_manifest
+from pulse.contracts.dataset import (
+    ContractError,
+    DatasetManifest,
+    diagnostic,
+    validate_dataset_manifest,
+    validate_diagnostic,
+)
+from pulse.contracts.snapshot import validate_snapshot_manifest
+from pulse.contracts.status import (
+    DATASET_STAGES,
+    EXPECTED_PIPELINES_SCHEMA_ID,
+    EXPECTED_PIPELINES_SCHEMA_VERSION,
+    SOURCE_STAGES,
+    STATUS_SCHEMA_ID,
+    STATUS_SCHEMA_VERSION,
+    browser_schedule,
+    display_state,
+    expected_pipeline_id,
+    precedence_state,
+    validate_attempt,
+    validate_expected_pipelines,
+    validate_status_catalog,
+)
 from pulse.datasets import DatasetError, discover_datasets
+from pulse.sources import SourceDeclarationError, discover_sources
 
 
+ROOT = Path(__file__).resolve().parents[2]
 BROWSER_DATA_SCHEMA_ID = "pulse.browser-data"
 BROWSER_DATA_SCHEMA_VERSION = "1.0.0"
 REPORT_CATALOG_SCHEMA_ID = "pulse.reports"
@@ -213,3 +238,290 @@ def write_report_catalog(
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(catalog, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return output
+
+
+def _discovered(sources_root: Path | None, datasets_root: Path | None) -> tuple[dict[str, Any], dict[str, Any]]:
+    try:
+        sources = discover_sources(sources_root) if sources_root is not None else discover_sources()
+        datasets = discover_datasets(datasets_root) if datasets_root is not None else discover_datasets()
+    except (SourceDeclarationError, DatasetError) as error:
+        raise ContractError(f"invalid committed pipeline declarations: {error}") from error
+    return sources, datasets
+
+
+def compile_expected_pipelines(
+    *, sources_root: Path | None = None, datasets_root: Path | None = None
+) -> dict[str, Any]:
+    """Compile the catalog of pipelines that must exist, from declarations alone.
+
+    Nothing about a *run* enters here. The catalog is the yardstick a status
+    artifact is measured against, so an undeclared runtime job and a declared
+    pipeline that never reported are both detectable.
+    """
+    sources, datasets = _discovered(sources_root, datasets_root)
+    pipelines: dict[str, Any] = {}
+    for declaration in sources.values():
+        pipeline_id = expected_pipeline_id("source", declaration.source_id)
+        pipelines[pipeline_id] = {"pipelineId": pipeline_id, "kind": "source", "name": declaration.name}
+    for declaration in datasets.values():
+        pipeline_id = expected_pipeline_id("dataset", declaration.dataset_id)
+        pipelines[pipeline_id] = {"pipelineId": pipeline_id, "kind": "dataset", "name": declaration.name}
+    catalog = {
+        "schemaId": EXPECTED_PIPELINES_SCHEMA_ID,
+        "schemaVersion": EXPECTED_PIPELINES_SCHEMA_VERSION,
+        "pipelines": dict(sorted(pipelines.items())),
+    }
+    return validate_expected_pipelines(catalog)
+
+
+def _stage(
+    name: str, state: str, attempted_at: str | None = None, failure: dict[str, Any] | None = None
+) -> dict[str, Any]:
+    return {"stage": name, "state": state, "attemptedAt": attempted_at, "diagnostic": failure}
+
+
+def _period(day: str | None) -> dict[str, str] | None:
+    return None if day is None else {"start": day, "end": day}
+
+
+def _read_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Path) -> dict[str, Any]:
+    manifests = []
+    rejected = False
+    for path in sorted((archive_root / declaration.source_id).glob("*/snapshot.json")):
+        try:
+            manifests.append(validate_snapshot_manifest(_read_json(path)))
+        except (OSError, json.JSONDecodeError, ValueError):
+            # Upstream and filesystem text never reaches the public artifact; that
+            # a snapshot was rejected is all a reader can safely be told.
+            rejected = True
+    latest = max(
+        manifests,
+        key=lambda item: (item.source_data_date or "", item.acquired_at, item.snapshot_id),
+        default=None,
+    )
+    period = _period(latest.source_data_date) if latest is not None else None
+    failure = (
+        diagnostic(
+            "snapshot",
+            "snapshot_rejected",
+            "an archived snapshot does not satisfy its committed contract; "
+            "the last valid snapshot is retained",
+            retryable=True,
+        )
+        if rejected
+        else None
+    )
+    if latest is None and not rejected:
+        stages = [_stage(name, "not-run") for name in SOURCE_STAGES]
+        attempted_at = None
+    else:
+        attempted_at = latest.acquired_at if latest is not None else None
+        stages = [
+            _stage("acquire", "succeeded", attempted_at),
+            _stage("snapshot", "failed" if rejected else "succeeded", attempted_at, failure),
+        ]
+    return {
+        "pipelineId": declared["pipelineId"],
+        "kind": "source",
+        "name": declared["name"],
+        "stages": stages,
+        "state": precedence_state([item["state"] for item in stages]),
+        "lastAttemptAt": attempted_at,
+        "representedPeriod": period,
+        "schedule": browser_schedule(declaration.publication_schedule),
+        "latestUsableOutput": None
+        if latest is None
+        else {
+            "artifactKind": "snapshot",
+            "identity": latest.snapshot_id,
+            "representedPeriod": period,
+        },
+        "assertions": [],
+        "diagnostic": failure,
+    }
+
+
+def _manifest_assertions(status: Any, dataset_id: str) -> list[dict[str, Any]]:
+    if not isinstance(status, dict) or not isinstance(status.get("assertions"), list):
+        raise ContractError(f"published dataset '{dataset_id}' has an invalid status object")
+    assertions = []
+    for item in status["assertions"]:
+        if not isinstance(item, dict) or not isinstance(item.get("check"), str) or not item["check"].strip():
+            raise ContractError(f"published dataset '{dataset_id}' has an unnamed assertion")
+        columns = item.get("affected_columns", [])
+        if not isinstance(columns, list) or not all(
+            isinstance(name, str) and name.strip() for name in columns
+        ):
+            raise ContractError(f"published dataset '{dataset_id}' has invalid assertion column lineage")
+        # An assertion without columns keeps empty lineage so a reader says the
+        # impact is unknown instead of silently narrowing it.
+        assertions.append({"check": item["check"], "affectedColumns": list(columns)})
+    return assertions
+
+
+def _dataset_status(
+    declared: dict[str, Any], declaration: Any, publish_root: Path, schedule: dict[str, Any]
+) -> dict[str, Any]:
+    directory = publish_root / "data" / declaration.dataset_id
+    manifest = None
+    failure = None
+    attempted_at = None
+    try:
+        if (directory / "dataset.json").is_file():
+            manifest = validate_dataset_manifest(
+                _read_json(directory / "dataset.json"), declaration.contract
+            )
+        if (directory / "diagnostic.json").is_file():
+            failure = validate_diagnostic(_read_json(directory / "diagnostic.json"))
+        if (directory / "attempt.json").is_file():
+            attempted_at = validate_attempt(_read_json(directory / "attempt.json"))["attempted_at"]
+    except (OSError, json.JSONDecodeError, ValueError) as error:
+        raise ContractError(
+            f"published dataset '{declaration.dataset_id}' has an unreadable status artifact: {error}"
+        ) from error
+    if failure is not None:
+        if failure["stage"] not in DATASET_STAGES:
+            raise ContractError(
+                f"published dataset '{declaration.dataset_id}' blames a stage outside its pipeline"
+            )
+        index = DATASET_STAGES.index(failure["stage"])
+        stages = [
+            _stage(name, "succeeded", attempted_at)
+            if position < index
+            else _stage(name, "failed", attempted_at, failure)
+            if position == index
+            else _stage(name, "not-run")
+            for position, name in enumerate(DATASET_STAGES)
+        ]
+    elif manifest is not None:
+        state = manifest.status.get("state") if isinstance(manifest.status, dict) else None
+        if state not in {"succeeded", "suspect"}:
+            raise ContractError(
+                f"published dataset '{declaration.dataset_id}' may only publish succeeded or suspect; "
+                "a failure is recorded as a diagnostic and staleness is derived from the clock"
+            )
+        stages = [
+            _stage("transform", "succeeded", attempted_at),
+            _stage("test", state, attempted_at),
+            _stage("publish-data", "succeeded", attempted_at),
+        ]
+    else:
+        stages = [_stage(name, "not-run") for name in DATASET_STAGES]
+        attempted_at = None
+    # Freshness always follows the retained dataset: a failed observation never
+    # presents itself as the latest usable output.
+    period = dict(manifest.represented_period) if manifest is not None else None
+    return {
+        "pipelineId": declared["pipelineId"],
+        "kind": "dataset",
+        "name": declared["name"],
+        "stages": stages,
+        "state": precedence_state([item["state"] for item in stages]),
+        "lastAttemptAt": attempted_at,
+        "representedPeriod": period,
+        "schedule": schedule,
+        "latestUsableOutput": None
+        if manifest is None
+        else {
+            "artifactKind": "dataset",
+            "identity": manifest.content_sha256,
+            "representedPeriod": period,
+        },
+        "assertions": []
+        if manifest is None
+        else _manifest_assertions(manifest.status, declaration.dataset_id),
+        "diagnostic": failure,
+    }
+
+
+def _reject_undeclared(root: Path, kind: str, expected: dict[str, Any], activity: str) -> None:
+    if not root.is_dir():
+        return
+    for child in sorted(root.iterdir()):
+        if child.is_dir() and f"{kind}:{child.name}" not in expected:
+            raise ContractError(f"undeclared {kind} pipeline '{child.name}' is {activity}")
+
+
+def compile_status_catalog(
+    *,
+    sources_root: Path | None = None,
+    datasets_root: Path | None = None,
+    archive_root: Path = ROOT / "snapshots/public",
+    publish_root: Path = ROOT / "publish/public",
+    generated_at: str | None = None,
+    expected: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Compile one status artifact for every expected source and dataset pipeline.
+
+    Everything published here is an observation. `stale` is absent by design:
+    the reader derives it from the declared schedule against its own clock, so
+    an artifact frozen at build time still reports overdue data.
+    """
+    sources, datasets = _discovered(sources_root, datasets_root)
+    catalog_expected = compile_expected_pipelines(
+        sources_root=sources_root, datasets_root=datasets_root
+    )
+    if expected is not None:
+        validate_expected_pipelines(expected)
+        if set(expected["pipelines"]) != set(catalog_expected["pipelines"]):
+            raise ContractError("expected-pipeline catalog disagrees with the committed declarations")
+    _reject_undeclared(archive_root, "source", catalog_expected["pipelines"], "archiving snapshots")
+    _reject_undeclared(
+        publish_root / "data", "dataset", catalog_expected["pipelines"], "publishing datasets"
+    )
+    pipelines: dict[str, Any] = {}
+    for pipeline_id, declared in catalog_expected["pipelines"].items():
+        declared_id = pipeline_id.split(":", 1)[1]
+        if declared["kind"] == "source":
+            pipelines[pipeline_id] = _source_status(declared, sources[declared_id], archive_root)
+            continue
+        declaration = datasets[declared_id]
+        source = sources.get(declaration.source_id)
+        if source is None:
+            raise ContractError(
+                f"dataset pipeline '{pipeline_id}' references an undeclared snapshot source"
+            )
+        pipelines[pipeline_id] = _dataset_status(
+            declared, declaration, publish_root, browser_schedule(source.publication_schedule)
+        )
+    catalog = {
+        "schemaId": STATUS_SCHEMA_ID,
+        "schemaVersion": STATUS_SCHEMA_VERSION,
+        "generatedAt": generated_at or _utc_now(),
+        "pipelines": pipelines,
+    }
+    validate_status_catalog(catalog, catalog_expected)
+    return catalog
+
+
+def _utc_now() -> str:
+    return datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def write_status_catalog(output: Path, **options: Any) -> Path:
+    catalog = compile_status_catalog(**options)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(catalog, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    return output
+
+
+def status_report(catalog: dict[str, Any], now: datetime) -> list[str]:
+    """Render one line per expected pipeline, with staleness resolved at read time."""
+    lines = []
+    for pipeline_id, entry in sorted(catalog["pipelines"].items()):
+        period = entry["representedPeriod"]
+        lines.append(
+            "  ".join(
+                (
+                    pipeline_id.ljust(34),
+                    display_state(entry, now).ljust(9),
+                    ("data through " + (period["end"] if period else "none")).ljust(26),
+                    "last attempt " + (entry["lastAttemptAt"] or "none"),
+                )
+            )
+        )
+    return lines

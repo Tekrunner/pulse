@@ -2,8 +2,20 @@ import assert from "node:assert/strict";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { extname, join } from "node:path";
 
-const required = ["dist/index.html", "dist/reports/report.html", "dist/_import/data/duckdb-browser-eh.worker.js", "dist/_import/data/duckdb-eh.wasm", "dist/_import/data/parquet.duckdb_extension.wasm", "dist/_import/data/browser-data.json", "dist/_import/data/datasets/insee-cpi-monthly/dataset.parquet", "dist/_import/data/datasets/insee-cpi-category-analysis/dataset.parquet"];
+const required = ["dist/index.html", "dist/reports/report.html", "dist/_import/data/duckdb-browser-eh.worker.js", "dist/_import/data/duckdb-eh.wasm", "dist/_import/data/parquet.duckdb_extension.wasm", "dist/_import/data/browser-data.json", "dist/_import/data/reports.json", "dist/_import/data/status.json", "dist/_import/data/datasets/insee-cpi-monthly/dataset.parquet", "dist/_import/data/datasets/insee-cpi-category-analysis/dataset.parquet"];
 for (const file of required) assert((await stat(file)).isFile(), `missing public artifact: ${file}`);
+// Staleness is a reader-side derivation; a baked state string would make a
+// frozen artifact claim freshness it cannot know.
+const publishedStatus = JSON.parse(await readFile("dist/_import/data/status.json", "utf8"));
+assert.equal(publishedStatus.schemaId, "pulse.status");
+for (const [pipelineId, entry] of Object.entries(publishedStatus.pipelines)) {
+  assert(!/^stale$/.test(entry.state), `status for ${pipelineId} bakes a staleness state`);
+  for (const stage of entry.stages) assert.notEqual(stage.state, "stale", `stage ${stage.stage} of ${pipelineId} bakes a staleness state`);
+  const diagnostics = [entry.diagnostic, ...entry.stages.map((stage) => stage.diagnostic)].filter(Boolean);
+  for (const diagnostic of diagnostics) {
+    assert.doesNotMatch(diagnostic.message, /Traceback|at [A-Za-z]+ \(|(?:\/home\/|\/Users\/)|[A-Z]:\\/, `unsafe diagnostic text for ${pipelineId}`);
+  }
+}
 const textExtensions = new Set([".html", ".js", ".css", ".json", ".txt", ".xml"]);
 const privatePath = /(?:\/home\/|\/Users\/)[a-z0-9._-]+(?:\/|\\)|[A-Z]:\\Users\\[a-z0-9._-]+\\/i;
 const credential = /(?:password|secret|api[_-]?key|authorization)\s*[:=]\s*["'][^"']+/i;

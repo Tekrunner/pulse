@@ -6,6 +6,7 @@ from dataclasses import asdict, dataclass
 from typing import Any
 
 from pulse.contracts.snapshot import ContractError
+from pulse.contracts.status import CANONICAL_STAGES
 
 
 DATASET_SCHEMA_ID = "pulse.dataset"
@@ -64,6 +65,7 @@ def validate_dataset_manifest(value: dict[str, Any], contract: Any | None = None
 
 
 def diagnostic(stage: str, code: str, message: str, *, retryable: bool) -> dict[str, Any]:
+    """Build a safe diagnostic attributed to the canonical stage that failed."""
     value = {"schema_id": DIAGNOSTIC_SCHEMA_ID, "schema_version": DIAGNOSTIC_SCHEMA_VERSION,
              "stage": stage, "code": code, "message": message, "retryable": retryable}
     validate_diagnostic(value)
@@ -72,12 +74,18 @@ def diagnostic(stage: str, code: str, message: str, *, retryable: bool) -> dict[
 
 def validate_diagnostic(value: dict[str, Any]) -> dict[str, Any]:
     required = {"schema_id", "schema_version", "stage", "code", "message", "retryable"}
-    if set(value) != required:
+    if not isinstance(value, dict) or set(value) != required:
         raise ContractError("diagnostic fields are not exact")
     if value["schema_id"] != DIAGNOSTIC_SCHEMA_ID or not str(value["schema_version"]).startswith("1."):
         raise ContractError("diagnostic has unsupported contract version")
     if not all(isinstance(value[key], str) and value[key] for key in ("stage", "code", "message")):
         raise ContractError("diagnostic text fields are invalid")
+    # A diagnostic that cannot be attributed to a canonical stage cannot be
+    # displayed against a pipeline, so an uncanonical stage is a contract error.
+    if value["stage"] not in CANONICAL_STAGES:
+        raise ContractError(
+            "diagnostic stage must be one of " + ", ".join(CANONICAL_STAGES)
+        )
     if not isinstance(value["retryable"], bool):
         raise ContractError("diagnostic retryable must be boolean")
     return value

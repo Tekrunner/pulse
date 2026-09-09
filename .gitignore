@@ -236,6 +236,7 @@ node_modules/
 site/.observablehq/
 site/data/browser-data.json
 site/data/reports.json
+site/data/status.json
 site/data/datasets/
 site/dist/
 test-results/

@@ -141,7 +141,10 @@ def build_monthly(context: DatasetBuildContext) -> DatasetBuildResult:
     finally:
         connection.close()
     if rows < 24 or rows != distinct or nulls or gaps:
-        raise DatasetError("monthly candidate has invalid grain, nullability, or represented periods")
+        raise DatasetError(
+            "monthly candidate has invalid grain, nullability, or represented periods",
+            stage="test",
+        )
     return DatasetBuildResult(
         snapshot,
         {"start": start, "end": end},
@@ -187,13 +190,16 @@ def build_category_analysis(context: DatasetBuildContext) -> DatasetBuildResult:
     finally:
         connection.close()
     if rows < 24 or rows != distinct or missing:
-        raise DatasetError("category-analysis candidate lacks complete comparable category and annual-weight coverage")
+        raise DatasetError(
+            "category-analysis candidate lacks complete comparable category and annual-weight coverage",
+            stage="test",
+        )
     if gaps:
-        raise DatasetError("category-analysis candidate periods are not contiguous")
+        raise DatasetError("category-analysis candidate periods are not contiguous", stage="test")
     if future_weights:
-        raise DatasetError("category-analysis candidate uses a future annual basket weight")
+        raise DatasetError("category-analysis candidate uses a future annual basket weight", stage="test")
     if bad_formula:
-        raise DatasetError("category-analysis rent contribution formula is invalid")
+        raise DatasetError("category-analysis rent contribution formula is invalid", stage="test")
     return DatasetBuildResult(
         snapshot,
         {"start": start, "end": end},
