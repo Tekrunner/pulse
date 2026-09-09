@@ -21,6 +21,11 @@ const el = (name, text) => {
 };
 
 const KIND_LABELS = { source: "Source pipeline", dataset: "Dataset pipeline" };
+// A glance has to answer one question: did everything run without issue. The
+// marker is deliberately coarse so a healthy set reads as one repeated shape
+// and anything else breaks the column; the adjacent word carries the precise
+// state, and screen readers get the word rather than the glyph.
+const STATE_MARKERS = { succeeded: "✓", "not-run": "–", suspect: "!", stale: "!", failed: "✕" };
 const monthFormat = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 const dayFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const timeFormat = new Intl.DateTimeFormat("en-GB", {
@@ -84,17 +89,35 @@ function usableOutput(entry) {
   return `${output.artifactKind === "snapshot" ? "Snapshot" : "Dataset"} ${identity}${through}`;
 }
 
+function suspectWarning(entry) {
+  if (!entry.assertions.length) return "";
+  return `Suspect data — ${assertionSummary(entry)}`;
+}
+
 function pipelineItem(entry, now) {
   const resolved = derivePipelineState(entry, now);
   const item = el("li");
   item.dataset.pipeline = entry.pipelineId;
   item.dataset.state = resolved.state;
+  // Compact by default: name, status and execution date, with the evidence
+  // behind a disclosure. `details` is the pattern the report already uses, so
+  // keyboard operation and the expand affordance come from the platform.
+  const disclosure = el("details");
+  const summary = el("summary");
+  const compact = el("div");
+  compact.className = "pipeline-summary";
+  const marker = el("span", STATE_MARKERS[resolved.state]);
+  marker.className = "pipeline-marker";
+  marker.setAttribute("aria-hidden", "true");
+  // The state is carried by text, so nothing here depends on colour alone.
+  const state = el("span", STATE_LABELS[resolved.state]);
+  state.className = "pipeline-state";
   const heading = el("h3", entry.name);
+  heading.className = "pipeline-name";
   const kind = el("span", KIND_LABELS[entry.kind]);
   kind.className = "pipeline-kind";
-  // The state is carried by text, so nothing here depends on colour alone.
-  const state = el("p", STATE_LABELS[resolved.state]);
-  state.className = "pipeline-state";
+  const when = el("span", entry.lastAttemptAt ? instantLabel(entry.lastAttemptAt) : "Never run");
+  when.className = "pipeline-when";
   const details = el("dl");
   details.append(
     row("Freshness", freshness(entry, resolved)),
@@ -115,7 +138,18 @@ function pipelineItem(entry, now) {
   }
   if (resolved.state !== "succeeded" && resolved.state !== "not-run") item.classList.add("pipeline-degraded");
   heading.append(" ", kind);
-  item.append(heading, state, details);
+  compact.append(marker, state, heading, when);
+  // Suspect data is never hidden behind the disclosure: the compact status has
+  // to say the numbers are qualified even when nobody expands the row.
+  const warning = suspectWarning(entry);
+  if (warning) {
+    const note = el("span", warning);
+    note.className = "pipeline-warning";
+    compact.append(note);
+  }
+  summary.append(compact);
+  disclosure.append(summary, details);
+  item.append(disclosure);
   return item;
 }
 

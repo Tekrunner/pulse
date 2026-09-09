@@ -663,6 +663,61 @@ for (const [scenario, state, expectations] of [
   });
 }
 
+test("homepage health is compact by default and expands for evidence", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-failed");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  const item = health.locator('[data-state="failed"]').first();
+  // Compact row: name, status and execution date without expanding anything.
+  await expect(item.locator(".pipeline-state")).toBeVisible();
+  await expect(item.locator(".pipeline-name")).toBeVisible();
+  await expect(item.locator(".pipeline-when")).toBeVisible();
+  // The failure evidence exists in the DOM but is not shown until asked for.
+  // Asserted on the `open` property because textContent matching cannot tell
+  // a collapsed disclosure from a visible one.
+  const disclosure = item.locator("details");
+  expect(await disclosure.evaluate((node) => node.open)).toBe(false);
+  await expect(item.locator("dl")).toBeHidden();
+  await item.locator("summary").click();
+  expect(await disclosure.evaluate((node) => node.open)).toBe(true);
+  await expect(item.locator("dl")).toBeVisible();
+  await expect(item.locator("dl")).toContainText("candidate_rejected at transform");
+});
+
+test("homepage marks pipeline state with a glanceable non-colour cue", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-failed");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  // Every row carries a marker, so the column can be scanned rather than read.
+  const total = await health.locator("[data-pipeline]").count();
+  expect(total).toBeGreaterThan(1);
+  await expect(health.locator(".pipeline-marker")).toHaveCount(total);
+  const failing = health.locator('[data-state="failed"]').first().locator(".pipeline-marker");
+  await expect(failing).toHaveText("✕");
+  // Decorative: the adjacent state word is what assistive technology reads.
+  await expect(failing).toHaveAttribute("aria-hidden", "true");
+  // A healthy set reads as one repeated shape.
+  await page.goto("./");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  const markers = await health.locator(".pipeline-marker").allTextContents();
+  expect(new Set(markers)).toEqual(new Set(["✓"]));
+});
+
+test("homepage shows a suspect-data warning without expanding", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-suspect");
+  const item = page.locator('[data-pipeline-health] [data-state="suspect"]').first();
+  expect(await item.locator("details").evaluate((node) => node.open)).toBe(false);
+  const warning = item.locator(".pipeline-warning");
+  await expect(warning).toBeVisible();
+  await expect(warning).toContainText("provider_annual_change");
+});
+
 test("homepage keeps navigation and reports usable when status cannot be read", async ({
   page,
 }) => {
