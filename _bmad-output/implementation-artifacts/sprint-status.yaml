@@ -41,10 +41,10 @@ development_status:
   1-3-select-acquire-and-archive-the-first-insee-dataset: done
   1-4-transform-and-publish-the-first-insee-dataset: done
   1-5-render-real-data-through-the-visual-contract: done
-  1-5a-expand-the-insee-cpi-dataset-for-category-analysis: review
+  1-5a-expand-the-insee-cpi-dataset-for-category-analysis: done
   1-5b-establish-independent-source-and-dataset-package-boundaries: done
   1-6-compose-and-explore-the-french-macroeconomic-report: done
-  1-7-see-pipeline-health-and-data-freshness: review
+  1-7-see-pipeline-health-and-data-freshness: done
   1-8-run-the-insee-pipeline-automatically-and-on-demand: backlog
   1-9-build-and-deploy-a-reproducible-public-site: backlog
   epic-1-retrospective: optional
