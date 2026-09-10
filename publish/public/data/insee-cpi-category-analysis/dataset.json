@@ -442,7 +442,7 @@
       "DATE_JO",
       "LAST_UPDATE"
     ],
-    "snapshot_id": "acq-cd64f5f9e5bb443c94b6fb004a534b8a-8106c9fd4a1e",
+    "snapshot_id": "acq-6ffb3d2dbb740aaeebb8f5c45b4a6aec-8106c9fd4a1e",
     "snapshot_sha256": "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
   },
   "logical_table": "insee_cpi_category_analysis",
