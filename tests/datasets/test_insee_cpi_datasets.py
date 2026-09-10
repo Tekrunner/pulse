@@ -34,6 +34,20 @@ def _build(dataset_id: str, tmp_path: Path):
     )
 
 
+def _latest_snapshot_id() -> str:
+    snapshots = []
+    for path in (ARCHIVE / "insee-cpi").glob("*/snapshot.json"):
+        manifest = json.loads(path.read_text(encoding="utf-8"))
+        snapshots.append(
+            (
+                manifest["source_data_date"] or "",
+                manifest["acquired_at"],
+                path.parent.name,
+            )
+        )
+    return max(snapshots)[2]
+
+
 def test_dataset_packages_are_discovered_independently() -> None:
     declarations = discover_datasets()
     assert set(declarations) == {"insee-cpi-monthly", "insee-cpi-category-analysis"}
@@ -68,7 +82,7 @@ def test_monthly_build_preserves_analytical_rows_schema_and_bytes(tmp_path: Path
         "monthly_change_pct": "DECIMAL(8,1)",
         "annual_change_pct": "DECIMAL(8,1)",
     }
-    assert manifest.lineage["snapshot_id"].startswith("acq-cd64f5f9e5bb443c94b6fb004a534b8a-")
+    assert manifest.lineage["snapshot_id"] == _latest_snapshot_id()
 
 
 def test_category_build_preserves_rows_and_documents_calculated_rent(tmp_path: Path) -> None:
@@ -94,7 +108,7 @@ def test_category_build_preserves_rows_and_documents_calculated_rent(tmp_path: P
     rent = indicators["actual_rent_pulse_contribution_pct_points"]
     assert rent["source"] == "Pulse calculation from INSEE series"
     assert "not an official INSEE contribution" in rent["definition"]
-    assert manifest.lineage["snapshot_id"].startswith("acq-cd64f5f9e5bb443c94b6fb004a534b8a-")
+    assert manifest.lineage["snapshot_id"] == _latest_snapshot_id()
 
 
 def test_generated_manifest_must_equal_committed_contract(tmp_path: Path) -> None:

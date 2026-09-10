@@ -10,6 +10,12 @@ from pulse import verify
 ROOT = Path(__file__).parents[2]
 
 
+def test_verify_workflow_materializes_lfs_before_reading_public_parquet() -> None:
+    workflow = (ROOT / ".github/workflows/verify.yml").read_text(encoding="utf-8")
+
+    assert "uses: actions/checkout@v4\n        with:\n          lfs: true" in workflow
+
+
 def test_insee_workflow_satisfies_the_offline_writer_contract() -> None:
     verify._workflow_smoke()
 
