@@ -291,6 +291,7 @@ def _read_json(path: Path) -> Any:
 def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Path) -> dict[str, Any]:
     manifests = []
     rejected = False
+    source_root = archive_root / declaration.source_id
     for path in sorted((archive_root / declaration.source_id).glob("*/snapshot.json")):
         try:
             manifests.append(validate_snapshot_manifest(_read_json(path)))
@@ -315,14 +316,39 @@ def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Pat
         if rejected
         else None
     )
-    if latest is None and not rejected:
+    attempted_at = None
+    try:
+        if (source_root / "attempt.json").is_file():
+            attempted_at = validate_attempt(_read_json(source_root / "attempt.json"))["attempted_at"]
+        if (source_root / "diagnostic.json").is_file():
+            recorded = validate_diagnostic(_read_json(source_root / "diagnostic.json"))
+            if recorded["stage"] not in SOURCE_STAGES:
+                raise ContractError(
+                    f"published source '{declaration.source_id}' blames a stage outside its pipeline"
+                )
+            failure = recorded
+    except (OSError, json.JSONDecodeError, ValueError) as error:
+        raise ContractError(
+            f"published source '{declaration.source_id}' has an unreadable status artifact: {error}"
+        ) from error
+    attempted_at = attempted_at or (latest.acquired_at if latest is not None else None)
+    if latest is None and failure is None and not rejected:
         stages = [_stage(name, "not-run") for name in SOURCE_STAGES]
         attempted_at = None
+    elif failure is not None:
+        index = SOURCE_STAGES.index(failure["stage"])
+        stages = [
+            _stage(name, "succeeded", attempted_at)
+            if position < index
+            else _stage(name, "failed", attempted_at, failure)
+            if position == index
+            else _stage(name, "not-run")
+            for position, name in enumerate(SOURCE_STAGES)
+        ]
     else:
-        attempted_at = latest.acquired_at if latest is not None else None
         stages = [
             _stage("acquire", "succeeded", attempted_at),
-            _stage("snapshot", "failed" if rejected else "succeeded", attempted_at, failure),
+            _stage("snapshot", "succeeded", attempted_at),
         ]
     return {
         "pipelineId": declared["pipelineId"],

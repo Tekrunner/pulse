@@ -26,6 +26,14 @@ class SourceDeclarationError(ValueError):
     """A source declaration cannot participate in a Pulse run."""
 
 
+class SourceAcquisitionError(ValueError):
+    """A sanitized adapter failure with an explicit retry classification."""
+
+    def __init__(self, message: str, *, retryable: bool = False) -> None:
+        super().__init__(message)
+        self.retryable = retryable
+
+
 @dataclass(frozen=True)
 class SourceDeclaration:
     source_id: str

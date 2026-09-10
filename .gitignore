@@ -229,6 +229,11 @@ publish/public/data/*
 !publish/public/data/*/
 !publish/public/data/*/dataset.json
 !publish/public/data/*/dataset.parquet
+!publish/public/data/*/attempt.json
+!publish/public/data/*/diagnostic.json
+# Source refresh outcome sidecars are public, safe status inputs.
+!snapshots/public/*/attempt.json
+!snapshots/public/*/diagnostic.json
 sources/*/dbt/.user.yml
 snapshots/private/
 private/inbox/

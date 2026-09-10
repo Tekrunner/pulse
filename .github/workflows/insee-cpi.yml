@@ -1,0 +1,54 @@
+name: Refresh INSEE CPI
+
+on:
+  schedule:
+    - cron: "17 6 23 * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out current main without bulk LFS download
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - name: Materialize only INSEE source inputs
+        run: git lfs pull --include="snapshots/public/insee-cpi/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - name: Refresh source and declared dependents
+        id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh insee-cpi --live --logical-run-key "${{ github.run_id }}"
+      - name: Validate safe publication state
+        run: uv run --no-sync pulse status
+      - name: Commit one scoped publication change
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication insee-cpi
+          if git diff --cached --quiet; then
+            echo "No publication changes to commit"
+          else
+            git commit -m "data(insee-cpi): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - name: Propagate refresh failure after safe state is published
+        if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

@@ -7,6 +7,12 @@ from datetime import datetime, timezone
 import sys
 from pathlib import Path
 
+from pulse.automation import (
+    PublicationStagingError,
+    RefreshError,
+    refresh_source,
+    stage_refresh_artifacts,
+)
 from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows, issue_acquisition_id, utc_now
 from pulse.datasets import DatasetError, build_all_datasets, build_dataset, discover_datasets
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
@@ -57,6 +63,21 @@ def build_parser() -> argparse.ArgumentParser:
     )
     acquire.add_argument("--acquisition-id", help="reuse an opaque ID on a logical retry")
     acquire.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    refresh = source_subcommands.add_parser(
+        "refresh", help="acquire one source and build its declared dependents"
+    )
+    refresh.add_argument("source_id", help="declared source ID")
+    refresh.add_argument("--logical-run-key", required=True, help="stable identity shared by retries")
+    refresh_mode = refresh.add_mutually_exclusive_group()
+    refresh_mode.add_argument("--fixture", type=Path, help="recorded response; never contacts the provider")
+    refresh_mode.add_argument("--live", action="store_true", help="explicitly contact the declared provider URL")
+    refresh.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    refresh.add_argument("--build-root", type=Path, default=Path("build/datasets/public"), help=argparse.SUPPRESS)
+    refresh.add_argument("--publish-root", type=Path, default=Path("publish/public/data"), help=argparse.SUPPRESS)
+    stage_publication = source_subcommands.add_parser(
+        "stage-publication", help="stage one source and its declared dependent artifacts"
+    )
+    stage_publication.add_argument("source_id", help="declared source ID")
     dataset = subcommands.add_parser("dataset", help="build declared datasets from snapshots")
     dataset_subcommands = dataset.add_subparsers(dest="dataset_command", required=True)
     dataset_build = dataset_subcommands.add_parser("build", help="build one dataset or all datasets")
@@ -148,6 +169,56 @@ def main(argv: list[str] | None = None) -> int:
         print(f"pulse dataset build published {published}")
         return 0
     if args.command == "source":
+        if args.source_command == "stage-publication":
+            try:
+                paths = stage_refresh_artifacts(args.source_id)
+            except PublicationStagingError as error:
+                print(f"pulse source stage-publication failed: {error}", file=sys.stderr)
+                return 1
+            print(
+                "pulse source stage-publication staged "
+                + ", ".join(path.as_posix() for path in paths)
+            )
+            return 0
+        if args.source_command == "refresh":
+            try:
+                outcome = refresh_source(
+                    args.source_id,
+                    logical_run_key=args.logical_run_key,
+                    fixture=args.fixture,
+                    live=args.live,
+                    archive_root=args.archive_root.resolve(),
+                    build_root=args.build_root.resolve(),
+                    publish_root=args.publish_root.resolve(),
+                )
+            except (RefreshError, ValueError, OSError) as error:
+                print(f"pulse source refresh failed: {error}", file=sys.stderr)
+                return 1
+            if outcome.source_error:
+                print(f"pulse source refresh failed: {outcome.source_error}", file=sys.stderr)
+                return 1
+            if outcome.orchestration_error:
+                print(f"pulse source refresh failed: {outcome.orchestration_error}", file=sys.stderr)
+                return 1
+            failures = [item for item in outcome.datasets if item.error]
+            action = "no-op; retained" if outcome.no_op else "archived"
+            built = ", ".join(
+                f"{item.dataset_id} ({item.manifest.status['state']})"
+                for item in outcome.datasets
+                if item.manifest is not None
+            )
+            print(
+                f"pulse source refresh {action} snapshot {outcome.snapshot}"
+                + (f"; built {built}" if built else "")
+            )
+            if failures:
+                print(
+                    "pulse source refresh failed datasets: "
+                    + ", ".join(item.dataset_id for item in failures),
+                    file=sys.stderr,
+                )
+                return 1
+            return 0
         try:
             declaration = discover_sources().get(args.source_id)
             if declaration is None:

@@ -142,17 +142,28 @@ def test_fixture_path_never_calls_network(monkeypatch: pytest.MonkeyPatch) -> No
     assert result.rows
 
 
-def test_http_failure_is_distinguishable_and_sanitized(monkeypatch: pytest.MonkeyPatch) -> None:
+@pytest.mark.parametrize(
+    ("status", "retryable"),
+    ((503, True), (408, True), (425, True), (429, True), (404, False), (403, False)),
+)
+def test_http_failure_is_distinguishable_sanitized_and_classified(
+    monkeypatch: pytest.MonkeyPatch, status: int, retryable: bool
+) -> None:
     declaration = discover_sources()["insee-cpi"]
     adapter = load_source_adapter(declaration)
 
     def fail(*args, **kwargs):
-        raise HTTPError("https://example.invalid/private", 503, "unsafe upstream text", {}, None)
+        raise HTTPError(
+            "https://example.invalid/private", status, "unsafe upstream text", {}, None
+        )
 
     monkeypatch.setattr(adapter, "urlopen", fail)
-    with pytest.raises(adapter.InseeResponseError, match="HTTP request failed with status 503") as raised:
+    with pytest.raises(
+        adapter.InseeResponseError, match=f"HTTP request failed with status {status}"
+    ) as raised:
         adapter.acquire(declaration.configuration, fixture=None, live=True)
     assert "unsafe upstream text" not in str(raised.value)
+    assert raised.value.retryable is retryable
 
 
 def test_compatible_attribute_addition_is_preserved_and_changes_schema_hash(tmp_path: Path) -> None:
@@ -201,8 +212,9 @@ def test_contract_failures_accept_no_rows(tmp_path: Path, old: str, new: str, me
 def test_malformed_xml_is_rejected(tmp_path: Path) -> None:
     broken = tmp_path / "broken.xml"
     broken.write_text("<not-closed>", encoding="utf-8")
-    with pytest.raises(ValueError, match="malformed SDMX-ML"):
+    with pytest.raises(ValueError, match="malformed SDMX-ML") as raised:
         acquire_from_adapter(discover_sources()["insee-cpi"], fixture=broken, live=False)
+    assert raised.value.retryable is False
 
 
 def test_invalid_non_latest_period_is_rejected(tmp_path: Path) -> None:

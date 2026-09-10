@@ -21,12 +21,16 @@ def test_live_insee_contract_and_temporary_archive(tmp_path: Path) -> None:
     assert main(
         [
             "source",
-            "acquire",
+            "refresh",
             declaration.source_id,
             "--live",
             "--archive-root",
             str(tmp_path),
-            "--acquisition-id",
+            "--build-root",
+            str(tmp_path / "build"),
+            "--publish-root",
+            str(tmp_path / "publish"),
+            "--logical-run-key",
             "acq-live-smoke",
         ]
     ) == 0

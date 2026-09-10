@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 08-26-2026 14:16
-last_updated: 09-09-2026
+last_updated: 09-10-2026
 project: pulse
 project_key: NOKEY
 tracking_system: file-system
@@ -45,7 +45,7 @@ development_status:
   1-5b-establish-independent-source-and-dataset-package-boundaries: done
   1-6-compose-and-explore-the-french-macroeconomic-report: done
   1-7-see-pipeline-health-and-data-freshness: done
-  1-8-run-the-insee-pipeline-automatically-and-on-demand: backlog
+  1-8-run-the-insee-pipeline-automatically-and-on-demand: review
   1-9-build-and-deploy-a-reproducible-public-site: backlog
   epic-1-retrospective: optional
 

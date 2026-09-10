@@ -129,7 +129,77 @@ def _status_smoke() -> None:
         ) from error
 
 
-SMOKE_STAGES: tuple[Callable[[], None], ...] = (_status_smoke, _python_smoke, _node_smoke)
+def _workflow_smoke() -> None:
+    """Enforce the source workflow's writer and offline-verification boundaries."""
+    try:
+        workflows = [
+            path
+            for path in (ROOT / ".github/workflows").glob("*.yml")
+            if "pulse source refresh" in path.read_text(encoding="utf-8")
+        ]
+    except OSError as error:
+        raise VerificationError("stage 'workflow contract' could not read source workflows") from error
+    if len(workflows) != 1:
+        raise VerificationError("stage 'workflow contract' requires exactly one source refresh workflow")
+    content = workflows[0].read_text(encoding="utf-8")
+    push_command = "git" + " push origin HEAD:main"
+    required = (
+        'cron: "17 6 23 * *"',
+        "workflow_dispatch:",
+        "contents: write",
+        "group: pulse-repository-writer",
+        "cancel-in-progress: false",
+        "ref: main",
+        "lfs: false",
+        'version: "0.12.1"',
+        "python-version: \"3.13\"",
+        "uv sync --frozen",
+        "git lfs pull --include=\"snapshots/public/",
+        "pulse source refresh ",
+        "github.run_id",
+        "continue-on-error: true",
+        "pulse source stage-publication ",
+        "git diff --cached --quiet",
+        push_command,
+        "if: always()",
+    )
+    missing = [token for token in required if token not in content]
+    if missing:
+        raise VerificationError(
+            "stage 'workflow contract' rejected the INSEE workflow: missing " + ", ".join(missing)
+        )
+    from pulse.datasets import discover_datasets
+
+    if any(dataset_id in content for dataset_id in discover_datasets()):
+        raise VerificationError(
+            "stage 'workflow contract' rejects dataset knowledge in source workflow YAML"
+        )
+    dataset_publication_path = "publish/public" + "/data"
+    if dataset_publication_path in content:
+        raise VerificationError(
+            "stage 'workflow contract' rejects dataset publication paths in source workflow YAML"
+        )
+    if "github.run_attempt" in content:
+        raise VerificationError(
+            "stage 'workflow contract' requires reruns to reuse one logical identity"
+        )
+    forbidden_runtime_operation = "git" + " push"
+    if any(
+        forbidden_runtime_operation in path.read_text(encoding="utf-8")
+        for path in (ROOT / "runtime/pulse").rglob("*.py")
+    ):
+        raise VerificationError("stage 'workflow contract' forbids runtime code from pushing")
+    verify_workflow = (ROOT / ".github/workflows/verify.yml").read_text(encoding="utf-8")
+    if "--live" in verify_workflow or "PULSE_LIVE_INSEE" in verify_workflow:
+        raise VerificationError("stage 'workflow contract' requires pull-request verification to stay offline")
+
+
+SMOKE_STAGES: tuple[Callable[[], None], ...] = (
+    _status_smoke,
+    _workflow_smoke,
+    _python_smoke,
+    _node_smoke,
+)
 
 
 def verify_workspace() -> None:

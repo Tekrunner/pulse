@@ -12,7 +12,7 @@ import xml.etree.ElementTree as ET
 
 import dlt
 
-from pulse.sources import AdapterAcquisition, SourceDeclarationError
+from pulse.sources import AdapterAcquisition, SourceAcquisitionError, SourceDeclarationError
 
 
 DECODER_VERSION = "insee-bdm-structurespecific-sdmxml-v1"
@@ -21,7 +21,7 @@ _MONTH = re.compile(r"^(\d{4})-(0[1-9]|1[0-2])$")
 _YEAR = re.compile(r"^\d{4}$")
 
 
-class InseeResponseError(ValueError):
+class InseeResponseError(SourceAcquisitionError):
     """The provider response cannot be faithfully decoded."""
 
 
@@ -61,9 +61,12 @@ def load_response(*, fixture: Path | None, url: str, live: bool) -> bytes:
         with urlopen(request, timeout=30) as response:  # nosec B310: declared public HTTPS URL
             return response.read()
     except HTTPError as error:
-        raise InseeResponseError(f"INSEE HTTP request failed with status {error.code}") from error
+        retryable = error.code in {408, 425, 429} or 500 <= error.code <= 599
+        raise InseeResponseError(
+            f"INSEE HTTP request failed with status {error.code}", retryable=retryable
+        ) from error
     except (URLError, TimeoutError, OSError) as error:
-        raise InseeResponseError("INSEE transport failed; retry later") from error
+        raise InseeResponseError("INSEE transport failed; retry later", retryable=True) from error
 
 
 def _local_name(tag: str) -> str:

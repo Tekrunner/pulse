@@ -75,8 +75,29 @@ temporary directory:
 PULSE_LIVE_INSEE=1 uv run pytest -m live tests/sources/test_insee_cpi_live.py -q
 ```
 
-Story 1.8 will schedule this same proven live adapter path; scheduling and repository
-publication remain outside the source package and outside ordinary verification.
+Refresh a source and every dataset that declares it as a dependency through one
+source-neutral command:
+
+```sh
+LOGICAL_RUN_KEY="manual-2026-09-10T14-37-52Z-7f3a9c"
+uv run pulse source refresh insee-cpi --live --logical-run-key "$LOGICAL_RUN_KEY"
+```
+
+Choose and record one unique key once for each manual observation (for example, a
+UTC timestamp through seconds plus a random suffix, as above). Reuse that exact
+stored value for every retry; do not regenerate it when rerunning the command. The
+key is hashed into an opaque acquisition ID. Matching retry bytes produce no
+duplicate snapshot, rebuild, or empty commit; different bytes under the same key
+fail without replacing prior artifacts. A distinct observation needs a new unique
+key even when its bytes happen to match an earlier one.
+
+The INSEE workflow runs automatically at 06:17 UTC on day 23 of each month and is
+also available from GitHub Actions via **Run workflow**. It serializes all writes
+through the shared `pulse-repository-writer` concurrency group, starts from current
+`main`, materializes only the INSEE snapshot LFS inputs, and commits at most one
+scoped source/dataset status update. On acquisition or build failure it commits a
+sanitized diagnostic first and then reports the job failure; retained snapshots
+and usable dataset publications remain intact.
 
 ## Independent dataset build and publication
 

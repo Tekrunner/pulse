@@ -35,6 +35,7 @@ from pulse.contracts.status import (
     validate_expected_pipelines,
     validate_publication_schedule,
     validate_status_catalog,
+    attempt,
 )
 from pulse.contracts.dataset import diagnostic
 from pulse.datasets import DatasetError, build_dataset, discover_datasets
@@ -223,6 +224,35 @@ def test_rejected_snapshot_fails_the_snapshot_stage_and_retains_the_last_valid_o
     assert entry["latestUsableOutput"] is not None
     assert "schema_id" not in entry["diagnostic"]["message"]
     assert str(tmp_path) not in entry["diagnostic"]["message"]
+
+
+@pytest.mark.parametrize("stage", SOURCE_STAGES)
+def test_recorded_source_failure_uses_the_attempt_and_retains_usable_snapshot(
+    tmp_path: Path, stage: str
+) -> None:
+    archive_root = _archive(tmp_path)
+    source_root = archive_root / "insee-cpi"
+    (source_root / "attempt.json").write_text(
+        json.dumps(attempt("2026-09-09T06:17:00Z")), encoding="utf-8"
+    )
+    (source_root / "diagnostic.json").write_text(
+        json.dumps(
+            diagnostic(stage, "safe_failure", "source refresh failed safely", retryable=True)
+        ),
+        encoding="utf-8",
+    )
+
+    entry = compile_status_catalog(
+        archive_root=archive_root, publish_root=_publish(tmp_path)
+    )["pipelines"][SOURCE]
+
+    index = SOURCE_STAGES.index(stage)
+    assert _stages(entry) == {
+        name: "succeeded" if position < index else "failed" if position == index else "not-run"
+        for position, name in enumerate(SOURCE_STAGES)
+    }
+    assert entry["lastAttemptAt"] == "2026-09-09T06:17:00Z"
+    assert entry["latestUsableOutput"] is not None
 
 
 def test_published_diagnostics_never_leak_paths_or_upstream_text(tmp_path: Path) -> None:
