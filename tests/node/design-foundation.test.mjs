@@ -15,6 +15,7 @@ const contract = await read("docs/visual-contract-v1.md");
 
 for (const role of ["--color-background", "--color-panel", "--color-text", "--color-muted", "--color-accent", "--color-focus", "--color-error", "--color-ok", "--color-warn", "--font-body", "--space-1", "--motion-reduced-duration"]) assert.match(tokens, new RegExp(role));
 assert.match(style, /@import url\("\.\/design\/tokens\.css"\)/);
+assert.match(style, /@import url\("\.\/workflows\/add-visual\/template\/styles\.css"\)/);
 assert.match(tokens, /body \{ font:16px\/1\.5 var\(--font-body\); \}/);
 assert.match(tokens, /:where\(a,button,input\):focus-visible/);
 assert.match(tokens, /prefers-reduced-motion:reduce/);

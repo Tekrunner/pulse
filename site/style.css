@@ -1,4 +1,5 @@
 @import url("./design/tokens.css");
+@import url("./workflows/add-visual/template/styles.css");
 
 :root {
   --color-bg:#161826;

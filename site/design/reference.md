@@ -5,8 +5,6 @@ title: Design foundation reference
 ```js
 import { FIXTURE_ROWS } from "../workflows/add-visual/template/fixture.js";
 import { renderVisualTemplate } from "../workflows/add-visual/template/visual.js";
-import "../workflows/add-visual/template/styles.css";
-
 display(renderVisualTemplate({
   rows: FIXTURE_ROWS,
   display: { title: "Reference indicator", description: "Synthetic interactive renderer reference" },
