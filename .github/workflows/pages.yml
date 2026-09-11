@@ -1,0 +1,52 @@
+name: Publish verified public site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pulse-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: uv sync --frozen
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox
+      - name: Build and verify the immutable public artifact
+        run: uv run --no-sync pulse public build --output dist
+      - name: Verify production behavior, accessibility, failures, and performance
+        run: npm run public:verify
+      - name: Confirm the build did not mutate the checkout
+        run: git diff --exit-code
+      - uses: actions/configure-pages@v5
+      - name: Upload the verified bytes
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - name: Deploy the uploaded bytes
+        id: deployment
+        uses: actions/deploy-pages@v4

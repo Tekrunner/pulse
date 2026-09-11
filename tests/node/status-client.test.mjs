@@ -42,6 +42,20 @@ const catalogOf = (entries) => ({
   pipelines: Object.fromEntries(entries.map((entry) => [entry.pipelineId, entry])),
 });
 
+const systemSite = {
+  pipelineId: "system:site",
+  kind: "system",
+  name: "Public site",
+  stages: ["generation", "validity", "build", "deploy-site"].map((stage) => ({ stage, state: "succeeded", attemptedAt: "2026-09-10T14:00:00Z", diagnostic: null })),
+  state: "succeeded",
+  lastAttemptAt: "2026-09-10T14:00:00Z",
+  representedPeriod: { start: "2026-09-22", end: "2026-09-22" },
+  schedule: null,
+  latestUsableOutput: null,
+  assertions: [],
+  diagnostic: null,
+};
+
 const reportCatalog = {
   schemaId: "pulse.reports",
   schemaVersion: "1.0.0",
@@ -68,6 +82,13 @@ assert.throws(() => validateStatusCatalog({ schemaId: "pulse.status", schemaVers
 assert.throws(() => validateStatusCatalog(catalogOf([])), (error) => error.code === "contract");
 assert.throws(() => validateReportCatalog({ schemaId: "pulse.reports", schemaVersion: "2.0.0" }), (error) => error.code === "compatibility");
 assert.equal(validateReportCatalog(reportCatalog), reportCatalog);
+const siteCatalog = catalogOf([systemSite]);
+assert.equal(validateStatusCatalog(siteCatalog), siteCatalog);
+assert.equal(derivePipelineState(systemSite, at("2026-09-22T00:00:01Z")).state, "stale");
+assert.throws(
+  () => validateStatusCatalog({ ...siteCatalog, pipelines: { "system:site": { ...systemSite, representedPeriod: null } } }),
+  (error) => error.code === "contract" && /validity window/.test(error.safeMessage),
+);
 
 // A precomputed staleness state would let a frozen artifact claim freshness.
 assert.throws(

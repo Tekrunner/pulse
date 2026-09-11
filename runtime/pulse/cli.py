@@ -18,9 +18,11 @@ from pulse.datasets import DatasetError, build_all_datasets, build_dataset, disc
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
+from pulse.public import PublicBuildError, build_public_site
 from pulse.catalog import (
     compile_browser_catalog,
     compile_status_catalog,
+    public_dataset_closure,
     status_report,
     write_browser_catalog,
     write_report_catalog,
@@ -33,6 +35,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pulse", description="Pulse workspace automation")
     subcommands = parser.add_subparsers(dest="command", required=True)
     subcommands.add_parser("verify", help="run all reproducible workspace smoke checks")
+    public = subcommands.add_parser("public", help="build the complete offline public artifact")
+    public.add_argument("public_command", nargs="?", choices=("build",), default="build")
+    public.add_argument("--output", type=Path, default=Path("dist"), help="verified site directory")
     site = subcommands.add_parser("site", help="build or locally serve the report site")
     site_subcommands = site.add_subparsers(dest="site_command", required=True)
     site_subcommands.add_parser("build", help="build the static site artifact")
@@ -47,6 +52,9 @@ def build_parser() -> argparse.ArgumentParser:
     catalog_build.add_argument("--reports-root", type=Path, default=Path("site/reports"), help=argparse.SUPPRESS)
     catalog_build.add_argument("--status-output", type=Path, help=argparse.SUPPRESS)
     catalog_build.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
+    catalog_build.add_argument("--generated-at", help=argparse.SUPPRESS)
+    catalog_build.add_argument("--site-attempted-at", help=argparse.SUPPRESS)
+    catalog_build.add_argument("--public-closure", action="store_true", help=argparse.SUPPRESS)
     status = subcommands.add_parser("status", help="print the derived state of every expected pipeline")
     status.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
     status.add_argument("--publish-root", type=Path, default=Path("publish/public"), help=argparse.SUPPRESS)
@@ -98,6 +106,14 @@ def main(argv: list[str] | None = None) -> int:
             return 1
         print("pulse verify passed")
         return 0
+    if args.command == "public":
+        try:
+            output = build_public_site(output=args.output)
+        except PublicBuildError as error:
+            print(f"pulse public failed: {error}", file=sys.stderr)
+            return 1
+        print(f"pulse public wrote verified artifact {output}")
+        return 0
     if args.command == "site":
         try:
             run_site(args.site_command)
@@ -107,18 +123,32 @@ def main(argv: list[str] | None = None) -> int:
         return 0
     if args.command == "catalog":
         try:
-            output = write_browser_catalog(args.output, publish_root=args.publish_root, parquet_prefix=args.parquet_prefix)
+            output = write_browser_catalog(
+                args.output,
+                publish_root=args.publish_root,
+                parquet_prefix=args.parquet_prefix,
+                reports_root=args.reports_root,
+            )
             if args.reports_output:
                 write_report_catalog(
                     args.reports_output,
                     reports_root=args.reports_root,
-                    browser_catalog=compile_browser_catalog(args.publish_root, parquet_prefix=args.parquet_prefix),
+                    browser_catalog=compile_browser_catalog(
+                        args.publish_root,
+                        parquet_prefix=args.parquet_prefix,
+                        reports_root=args.reports_root,
+                    ),
                 )
             if args.status_output:
                 write_status_catalog(
                     args.status_output,
                     archive_root=args.archive_root,
                     publish_root=args.publish_root,
+                    generated_at=args.generated_at,
+                    site_attempted_at=args.site_attempted_at,
+                    dataset_ids=public_dataset_closure(args.reports_root)
+                    if args.public_closure
+                    else None,
                 )
         except (ContractError, OSError) as error:
             print(f"pulse catalog build failed: {error}", file=sys.stderr)

@@ -26,10 +26,13 @@ ATTEMPT_SCHEMA_VERSION = "1.0.0"
 
 SOURCE_STAGES = ("acquire", "snapshot")
 DATASET_STAGES = ("transform", "test", "publish-data")
-CANONICAL_STAGES = SOURCE_STAGES + DATASET_STAGES
-# The repository writer is part of publication, not a user-facing pipeline, so
-# `publish-data` is the last stage anyone sees. There is no site pipeline.
-PIPELINE_STAGES = {"source": SOURCE_STAGES, "dataset": DATASET_STAGES}
+SYSTEM_STAGES = ("generation", "validity", "build", "deploy-site")
+CANONICAL_STAGES = SOURCE_STAGES + DATASET_STAGES + SYSTEM_STAGES
+PIPELINE_STAGES = {
+    "source": SOURCE_STAGES,
+    "dataset": DATASET_STAGES,
+    "system": SYSTEM_STAGES,
+}
 PIPELINE_KINDS = tuple(PIPELINE_STAGES)
 
 STATES = ("not-run", "succeeded", "suspect", "stale", "failed")
@@ -41,7 +44,7 @@ PUBLISHED_STATES = ("not-run", "succeeded", "suspect", "failed")
 SCHEDULE_PERIODS = ("monthly",)
 _DECLARED_SCHEDULE_FIELDS = {"period", "expected_by_day_of_following_month", "grace_days"}
 _BROWSER_SCHEDULE_FIELDS = {"period", "expectedByDayOfFollowingMonth", "graceDays"}
-_PIPELINE_ID = re.compile(r"^(source|dataset):[a-z0-9][a-z0-9-]*$")
+_PIPELINE_ID = re.compile(r"^(source|dataset|system):[a-z0-9][a-z0-9-]*$")
 _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
 
@@ -117,6 +120,9 @@ def publication_deadline(represented_period_end: str, schedule: dict[str, Any]) 
 
 def is_overdue(entry: dict[str, Any], now: datetime) -> bool:
     period, schedule = entry.get("representedPeriod"), entry.get("schedule")
+    if entry.get("kind") == "system" and isinstance(period, dict) and schedule is None:
+        deadline = datetime.fromisoformat(period["end"] + "T00:00:00+00:00")
+        return now > deadline
     if not isinstance(period, dict) or not isinstance(schedule, dict):
         return False
     return now > publication_deadline(period["end"], schedule)
@@ -196,7 +202,7 @@ def _validate_latest_usable(value: Any) -> None:
         return
     if not isinstance(value, dict) or set(value) != {"artifactKind", "identity", "representedPeriod"}:
         raise ContractError("latest usable output fields are not exact")
-    if value["artifactKind"] not in {"snapshot", "dataset"}:
+    if value["artifactKind"] not in {"snapshot", "dataset", "site"}:
         raise ContractError("latest usable output artifact kind is invalid")
     if not isinstance(value["identity"], str) or not value["identity"].strip():
         raise ContractError("latest usable output must carry an artifact identity")
@@ -334,6 +340,11 @@ def _validate_status_entry(pipeline_id: object, entry: Any) -> None:
     _validate_period(entry["representedPeriod"], f"status entry '{pipeline_id}' representedPeriod")
     if entry["schedule"] is not None:
         validate_browser_schedule(entry["schedule"])
+    if kind == "system" and entry["state"] == "succeeded":
+        if entry["representedPeriod"] is None or entry["schedule"] is not None:
+            raise ContractError(
+                "a successful system pipeline requires a represented validity window and no publication schedule"
+            )
     _validate_latest_usable(entry["latestUsableOutput"])
     _validate_assertions(entry["assertions"])
     _validate_diagnostic_slot(entry["diagnostic"], PIPELINE_STAGES[kind], "status entry diagnostic")

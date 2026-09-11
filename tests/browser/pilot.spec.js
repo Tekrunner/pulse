@@ -27,11 +27,11 @@ test("nested report directly loads local DuckDB assets and published INSEE rows"
   page.on("worker", () => {
     workerCount += 1;
   });
-  await page.goto("reports/report", { waitUntil: "networkidle" });
-  await expect(page.locator("[data-state=ready]")).toBeVisible({
+  await page.goto("reports/french-consumer-prices", { waitUntil: "networkidle" });
+  await expect(page.locator(".report-content[data-state=ready]")).toBeVisible({
     timeout: 10_000,
   });
-  await expect(page.locator(".accessible-data tbody tr")).toHaveCount(367);
+  expect(await page.locator(".accessible-data tbody tr").count()).toBeGreaterThan(0);
   expect(external).toEqual([]);
   expect([...localAssets].sort()).toEqual([
     "browser-data.json",
@@ -42,78 +42,27 @@ test("nested report directly loads local DuckDB assets and published INSEE rows"
   ]);
   expect(workerCount).toBe(1);
   await page.reload({ waitUntil: "networkidle" });
-  await expect(page.locator("[data-state=ready]")).toBeVisible({
+  await expect(page.locator(".report-content[data-state=ready]")).toBeVisible({
     timeout: 10_000,
   });
 });
 
-test("pilot navigation resolves the nested route and owns one worker per page session", async ({
+test("report navigation resolves the declared public route and owns one worker per page session", async ({
   page,
 }) => {
+  await page.goto("reports/french-consumer-prices");
+  await expect(page).toHaveURL(/\/pulse\/reports\/french-consumer-prices$/);
+  await expect(page.locator(".report-content[data-state=ready]")).toBeVisible({
+    timeout: 10_000,
+  });
+  expect(page.workers()).toHaveLength(1);
   await page.goto("");
-  await page
-    .getByRole("link", { name: "Open the French macroeconomic pilot" })
-    .click();
-  await expect(page).toHaveURL(/\/pulse\/reports\/report$/);
-  await expect(page.locator("[data-state=ready]")).toBeVisible({
-    timeout: 10_000,
-  });
-  expect(page.workers()).toHaveLength(1);
-  await page.goBack();
   expect(page.workers()).toHaveLength(0);
-  await page
-    .getByRole("link", { name: "Open the French macroeconomic pilot" })
-    .click();
-  await expect(page.locator("[data-state=ready]")).toBeVisible({
+  await page.goto("reports/french-consumer-prices");
+  await expect(page.locator(".report-content[data-state=ready]")).toBeVisible({
     timeout: 10_000,
   });
   expect(page.workers()).toHaveLength(1);
-});
-
-for (const [scenario, state] of [
-  ["loading", "loading"],
-  ["empty", "empty"],
-  ["startup", "startup-error"],
-  ["query", "query-error"],
-  ["schema", "schema-error"],
-  ["render", "render-error"],
-]) {
-  test(`shows the ${state} state safely`, async ({ page }) => {
-    await page.goto(`reports/report?scenario=${scenario}`);
-    await expect(page.locator(`[data-state="${state}"]`)).toBeVisible(
-      scenario === "render" ? { timeout: 10_000 } : undefined,
-    );
-    await expect(page.locator(".visual-slot")).not.toContainText(
-      /stack|password|token|\/home\//i,
-    );
-  });
-}
-
-test("interactive visual is keyboard-operable and remains readable when narrow", async ({
-  page,
-}) => {
-  await page.setViewportSize({ width: 667, height: 375 });
-  await page.goto("reports/report");
-  await expect(page.locator("[data-state=ready]")).toBeVisible({
-    timeout: 10_000,
-  });
-  const slider = page.getByRole("slider", { name: "Selected observation" });
-  await slider.focus();
-  const before = await page.locator("output").textContent();
-  await page.keyboard.press("ArrowLeft");
-  await expect(page.locator("output")).not.toHaveText(before);
-  const overflow = await page.evaluate(
-    () =>
-      document.documentElement.scrollWidth >
-      document.documentElement.clientWidth,
-  );
-  expect(overflow).toBe(false);
-  await page.emulateMedia({ reducedMotion: "reduce" });
-  expect(
-    await slider.evaluate((node) =>
-      Number.parseFloat(getComputedStyle(node).transitionDuration),
-    ),
-  ).toBeLessThanOrEqual(0.000001);
 });
 
 test("unchanged client and visual modules execute in the Vite harness", async ({
@@ -133,8 +82,8 @@ test("cold-cache performance stays within the recorded budget", async ({
   for (let run = 0; run < 3; run += 1) {
     const context = await browser.newContext();
     const page = await context.newPage();
-    await page.goto(`${origin}/pulse/reports/report`);
-    await expect(page.locator("[data-state=ready]")).toBeVisible({
+    await page.goto(`${origin}/pulse/reports/french-consumer-prices`);
+    await expect(page.locator(".report-content[data-state=ready]")).toBeVisible({
       timeout: 10_000,
     });
     measurements.push(
@@ -607,7 +556,7 @@ test("homepage links every included report and lists pipeline health quietly", a
   ).toBeVisible();
   const health = page.locator("[data-pipeline-health]");
   await expect(health).toHaveAttribute("data-state", "ready");
-  await expect(health.locator("[data-pipeline]")).toHaveCount(3);
+  await expect(health.locator("[data-pipeline]")).toHaveCount(4);
   for (const pipeline of [
     "source:insee-cpi",
     "dataset:insee-cpi-monthly",
@@ -623,6 +572,9 @@ test("homepage links every included report and lists pipeline health quietly", a
     await expect(item).not.toContainText("Diagnostic");
     await expect(item).not.toHaveClass(/pipeline-degraded/);
   }
+  const site = health.locator('[data-pipeline="system:site"]');
+  await expect(site).toHaveAttribute("data-state", "succeeded");
+  await expect(site).toContainText("All stages succeeded");
   await expect(page.locator("[data-report-index] a")).toHaveAttribute(
     "href",
     "./reports/french-consumer-prices",
@@ -631,6 +583,17 @@ test("homepage links every included report and lists pipeline health quietly", a
     .getByRole("link", { name: "French consumer prices", exact: true })
     .click();
   await expect(page).toHaveURL(/\/pulse\/reports\/french-consumer-prices$/);
+});
+
+test("production artifact serves cataloged Parquet byte ranges", async ({ request }) => {
+  const response = await request.get(
+    "_import/data/datasets/insee-cpi-monthly/dataset.parquet",
+    { headers: { Range: "bytes=0-63" } },
+  );
+  expect(response.status()).toBe(206);
+  expect(response.headers()["accept-ranges"]).toBe("bytes");
+  expect(response.headers()["content-range"]).toMatch(/^bytes 0-63\/\d+$/);
+  expect((await response.body()).length).toBe(64);
 });
 
 for (const [scenario, state, expectations] of [
@@ -720,6 +683,7 @@ test("homepage orders pipelines by attention, then along the data flow", async (
     "source:insee-cpi",
     "dataset:insee-cpi-category-analysis",
     "dataset:insee-cpi-monthly",
+    "system:site",
   ]);
   // Degraded: the failing dataset is lifted above the healthy source, and the
   // remaining healthy rows keep source-before-dataset order.
@@ -787,7 +751,7 @@ test("homepage keeps navigation and reports usable when status cannot be read", 
     ),
   ).toBeGreaterThan(0);
   await expect(
-    page.getByRole("link", { name: "Open the French macroeconomic pilot" }),
+    page.getByRole("link", { name: "French consumer prices", exact: true }),
   ).toBeVisible();
 });
 

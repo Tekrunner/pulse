@@ -313,6 +313,7 @@ def build_dataset(
     build_root: Path = ROOT / "build/datasets/public",
     publish_root: Path | None = None,
     sources_root: Path = ROOT / "sources",
+    attempted_at: str | None = None,
 ) -> DatasetManifest:
     """Build and atomically publish one declared dataset from snapshots only."""
     target = publish_root or ROOT / "publish/public/data" / declaration.dataset_id
@@ -323,7 +324,7 @@ def build_dataset(
     # Record the attempt before anything can fail. A dataset build has no other
     # trace of when it ran, and status must report a last attempt even when the
     # attempt produced nothing publishable.
-    _write_json(target / "attempt.json", attempt(utc_now()))
+    _write_json(target / "attempt.json", attempt(attempted_at or utc_now()))
     try:
         from pulse.sources import discover_sources
 

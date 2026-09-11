@@ -20,7 +20,7 @@ const el = (name, text) => {
   return node;
 };
 
-const KIND_LABELS = { source: "Source pipeline", dataset: "Dataset pipeline" };
+const KIND_LABELS = { source: "Source pipeline", dataset: "Dataset pipeline", system: "System pipeline" };
 // A glance has to answer one question: did everything run without issue. The
 // marker is deliberately coarse so a healthy set reads as one repeated shape
 // and anything else breaks the column; the adjacent word carries the precise
@@ -32,7 +32,7 @@ const STATE_MARKERS = { succeeded: "✓", "not-run": "–", suspect: "!", stale:
 const STATE_ORDER = { failed: 0, suspect: 1, stale: 2, "not-run": 3, succeeded: 4 };
 // Sources before the datasets derived from them: when a source breaks, its
 // datasets break as a consequence, and the cause should not render below them.
-const KIND_ORDER = { source: 0, dataset: 1 };
+const KIND_ORDER = { source: 0, dataset: 1, system: 2 };
 const monthFormat = new Intl.DateTimeFormat("en-GB", { month: "long", year: "numeric", timeZone: "UTC" });
 const dayFormat = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
 const timeFormat = new Intl.DateTimeFormat("en-GB", {
@@ -58,6 +58,12 @@ function row(term, description) {
 function freshness(entry, resolved) {
   const period = entry.representedPeriod;
   if (!period) return "No observation published yet";
+  if (entry.kind === "system" && entry.schedule === null) {
+    const deadline = new Date(`${period.end}T00:00:00Z`);
+    return resolved.overdue
+      ? `Deployment validity expired ${dayLabel(deadline)}`
+      : `Deployment valid until ${dayLabel(deadline)}`;
+  }
   const through = `Data through ${monthLabel(period.end)}`;
   const deadline = publicationDeadline(period.end, entry.schedule);
   if (!deadline) return through;
@@ -93,7 +99,8 @@ function usableOutput(entry) {
   if (!output) return "None yet";
   const identity = output.identity.length > 20 ? `${output.identity.slice(0, 12)}…` : output.identity;
   const through = output.representedPeriod ? `, through ${monthLabel(output.representedPeriod.end)}` : "";
-  return `${output.artifactKind === "snapshot" ? "Snapshot" : "Dataset"} ${identity}${through}`;
+  const label = { snapshot: "Snapshot", dataset: "Dataset", site: "Site" }[output.artifactKind] ?? "Artifact";
+  return `${label} ${identity}${through}`;
 }
 
 function suspectWarning(entry) {

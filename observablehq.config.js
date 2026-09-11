@@ -1,6 +1,6 @@
 export default {
-  root: "site",
-  output: "dist",
+  root: process.env.PULSE_SITE_ROOT || "site",
+  output: process.env.PULSE_SITE_OUTPUT || "dist",
   base: "/pulse/",
   title: "Pulse report pilot",
   style: "style.css",

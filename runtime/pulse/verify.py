@@ -192,6 +192,52 @@ def _workflow_smoke() -> None:
     verify_workflow = (ROOT / ".github/workflows/verify.yml").read_text(encoding="utf-8")
     if "--live" in verify_workflow or "PULSE_LIVE_INSEE" in verify_workflow:
         raise VerificationError("stage 'workflow contract' requires pull-request verification to stay offline")
+    pages_path = ROOT / ".github/workflows/pages.yml"
+    try:
+        pages = pages_path.read_text(encoding="utf-8")
+    except OSError as error:
+        raise VerificationError("stage 'workflow contract' requires a Pages deployment workflow") from error
+    required_pages = (
+        "contents: read",
+        "pages: write",
+        "id-token: write",
+        "group: pulse-pages",
+        "cancel-in-progress: true",
+        "lfs: true",
+        'version: "0.12.1"',
+        'python-version: "3.13"',
+        'node-version: "24"',
+        "uv sync --frozen",
+        "npm ci",
+        "playwright install --with-deps chromium firefox",
+        "pulse public build --output dist",
+        "npm run public:verify",
+        "actions/upload-pages-artifact@v3",
+        "path: dist",
+        "actions/deploy-pages@v4",
+    )
+    missing_pages = [token for token in required_pages if token not in pages]
+    if missing_pages:
+        raise VerificationError(
+            "stage 'workflow contract' rejected the Pages workflow: missing "
+            + ", ".join(missing_pages)
+        )
+    if not (
+        pages.index("pulse public build --output dist")
+        < pages.index("npm run public:verify")
+        < pages.index("actions/upload-pages-artifact@v3")
+        < pages.index("actions/deploy-pages@v4")
+    ):
+        raise VerificationError(
+            "stage 'workflow contract' requires build and verification before the exact Pages handoff"
+        )
+    pages_push = "git" + " push"
+    if pages_push in pages or "contents: write" in pages:
+        raise VerificationError("stage 'workflow contract' forbids repository writes during Pages deployment")
+    from pulse.datasets import discover_datasets
+
+    if any(dataset_id in pages for dataset_id in discover_datasets()):
+        raise VerificationError("stage 'workflow contract' rejects dataset knowledge in Pages YAML")
 
 
 SMOKE_STAGES: tuple[Callable[[], None], ...] = (

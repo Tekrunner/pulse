@@ -46,6 +46,7 @@ ROOT = Path(__file__).parents[2]
 MONTHLY = "dataset:insee-cpi-monthly"
 CATEGORY = "dataset:insee-cpi-category-analysis"
 SOURCE = "source:insee-cpi"
+SITE = "system:site"
 SCHEDULE = {"period": "monthly", "expectedByDayOfFollowingMonth": 15, "graceDays": 7}
 
 
@@ -81,7 +82,7 @@ def _stages(entry: dict) -> dict[str, str]:
 def test_expected_catalog_holds_every_declared_source_and_dataset_pipeline() -> None:
     catalog = compile_expected_pipelines()
 
-    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY}
+    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY, SITE}
     assert catalog["pipelines"][SOURCE]["kind"] == "source"
     assert catalog["pipelines"][MONTHLY]["kind"] == "dataset"
     assert catalog["pipelines"][SOURCE]["name"] == discover_sources()["insee-cpi"].name
@@ -89,8 +90,13 @@ def test_expected_catalog_holds_every_declared_source_and_dataset_pipeline() -> 
         catalog["pipelines"][MONTHLY]["name"] == discover_datasets()["insee-cpi-monthly"].name
     )
     assert validate_expected_pipelines(catalog) == catalog
-    # The repository writer is part of publication, never a listed pipeline.
-    assert not any("site" in pipeline_id for pipeline_id in catalog["pipelines"])
+    assert catalog["pipelines"][SITE]["kind"] == "system"
+
+
+def test_public_expected_catalog_is_limited_to_explicit_dataset_closure() -> None:
+    catalog = compile_expected_pipelines(dataset_ids=("insee-cpi-monthly",))
+
+    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, SITE}
 
 
 def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_output(
@@ -98,7 +104,7 @@ def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_out
 ) -> None:
     catalog = _compile(tmp_path)
 
-    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY}
+    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY, SITE}
     monthly = catalog["pipelines"][MONTHLY]
     assert _stages(monthly) == {"transform": "succeeded", "test": "succeeded", "publish-data": "succeeded"}
     assert monthly["state"] == "succeeded"
@@ -112,11 +118,35 @@ def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_out
     assert list(_stages(source)) == list(SOURCE_STAGES)
     assert source["latestUsableOutput"]["artifactKind"] == "snapshot"
     assert source["representedPeriod"] == {"start": "2026-08-01", "end": "2026-08-01"}
+    site = catalog["pipelines"][SITE]
+    assert site["state"] == "not-run"
+    assert [stage["stage"] for stage in site["stages"]] == [
+        "generation", "validity", "build", "deploy-site"
+    ]
     # Nothing published carries a derived staleness string.
     assert all(
         entry["state"] != "stale" and all(stage["state"] != "stale" for stage in entry["stages"])
         for entry in catalog["pipelines"].values()
     )
+
+
+def test_public_build_status_records_site_preparation_before_hashing(tmp_path: Path) -> None:
+    timestamp = "2026-09-10T13:30:40Z"
+    catalog = compile_status_catalog(
+        archive_root=_archive(tmp_path),
+        publish_root=_publish(tmp_path),
+        generated_at=timestamp,
+        site_attempted_at=timestamp,
+    )
+
+    site = catalog["pipelines"][SITE]
+    assert site["state"] == "succeeded"
+    assert site["lastAttemptAt"] == timestamp
+    assert [stage["state"] for stage in site["stages"]] == ["succeeded"] * 4
+    assert site["representedPeriod"] == {"start": "2026-09-22", "end": "2026-09-22"}
+    assert site["schedule"] is None
+    assert display_state(site, datetime(2026, 9, 22, tzinfo=timezone.utc)) == "succeeded"
+    assert display_state(site, datetime(2026, 9, 22, 0, 0, 1, tzinfo=timezone.utc)) == "stale"
 
 
 def test_first_run_is_not_run_without_a_diagnostic(tmp_path: Path) -> None:
@@ -541,8 +571,10 @@ def test_status_report_resolves_staleness_against_the_given_clock(tmp_path: Path
     fresh = status_report(catalog, datetime(2026, 9, 9, tzinfo=timezone.utc))
     overdue = status_report(catalog, datetime(2029, 1, 1, tzinfo=timezone.utc))
 
-    assert all("succeeded" in line for line in fresh)
-    assert all("stale" in line for line in overdue)
+    assert all("succeeded" in line for line in fresh if SITE not in line)
+    assert any(line.startswith(SITE) and "not-run" in line for line in fresh)
+    assert all("stale" in line for line in overdue if SITE not in line)
+    assert any(line.startswith(SITE) and "not-run" in line for line in overdue)
 
 
 def test_verify_registers_the_status_contract_stage() -> None:

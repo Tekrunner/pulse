@@ -13,7 +13,8 @@ const REPORT_CATALOG_SCHEMA_ID = "pulse.reports";
 
 export const SOURCE_STAGES = ["acquire", "snapshot"];
 export const DATASET_STAGES = ["transform", "test", "publish-data"];
-export const PIPELINE_STAGES = { source: SOURCE_STAGES, dataset: DATASET_STAGES };
+export const SYSTEM_STAGES = ["generation", "validity", "build", "deploy-site"];
+export const PIPELINE_STAGES = { source: SOURCE_STAGES, dataset: DATASET_STAGES, system: SYSTEM_STAGES };
 /** States a published artifact may carry. `stale` is deliberately absent. */
 export const PUBLISHED_STATES = ["not-run", "succeeded", "suspect", "failed"];
 export const STATE_PRECEDENCE = ["failed", "suspect", "stale", "succeeded"];
@@ -100,6 +101,9 @@ function validateEntry(pipelineId, entry) {
     throw malformed(`Pipeline '${pipelineId}' reports an unreadable period or assertion list.`);
   }
   validateSchedule(entry.schedule ?? null);
+  if (entry.kind === "system" && entry.state === "succeeded" && (!entry.representedPeriod || entry.schedule !== null)) {
+    throw malformed(`Pipeline '${pipelineId}' does not report its v1 validity window.`);
+  }
   return entry;
 }
 
@@ -157,7 +161,9 @@ export function publicationDeadline(representedPeriodEnd, schedule) {
 
 /** Resolve the state a reader sees, deriving `stale` from the given clock. */
 export function derivePipelineState(entry, now = new Date()) {
-  const deadline = publicationDeadline(entry.representedPeriod?.end, entry.schedule);
+  const deadline = entry.kind === "system" && entry.representedPeriod && entry.schedule === null
+    ? new Date(`${entry.representedPeriod.end}T00:00:00Z`)
+    : publicationDeadline(entry.representedPeriod?.end, entry.schedule);
   const overdue = Boolean(deadline) && now.getTime() > deadline.getTime();
   // Display precedence: failed > suspect > stale > succeeded, and `not-run`
   // describes a pipeline before any attempt rather than a degradation.

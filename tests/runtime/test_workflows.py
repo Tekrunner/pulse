@@ -30,6 +30,20 @@ def test_insee_workflow_satisfies_the_offline_writer_contract() -> None:
     assert "github.run_attempt" not in workflow
 
 
+def test_pages_workflow_uploads_only_the_verified_latest_wins_artifact() -> None:
+    verify._workflow_smoke()
+    workflow = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
+
+    assert "pulse public build --output dist" in workflow
+    assert workflow.index("pulse public build --output dist") < workflow.index("actions/upload-pages-artifact@v3")
+    assert workflow.index("npm run public:verify") < workflow.index("actions/upload-pages-artifact@v3")
+    assert workflow.index("actions/upload-pages-artifact@v3") < workflow.index("actions/deploy-pages@v4")
+    assert "group: pulse-pages" in workflow
+    assert "cancel-in-progress: true" in workflow
+    assert "contents: write" not in workflow
+    assert "git push" not in workflow
+
+
 def _git(repository: Path, *arguments: str, check: bool = True) -> subprocess.CompletedProcess[str]:
     return subprocess.run(
         ["git", *arguments],

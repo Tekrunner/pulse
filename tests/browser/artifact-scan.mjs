@@ -1,13 +1,44 @@
 import assert from "node:assert/strict";
-import { readdir, readFile, stat } from "node:fs/promises";
-import { extname, join } from "node:path";
+import { readFile, readdir, stat } from "node:fs/promises";
+import { join, relative, resolve } from "node:path";
+import { scanArtifactSafety, verifyArtifactInventory } from "../../scripts/public-data-assets.mjs";
 
-const required = ["dist/index.html", "dist/reports/report.html", "dist/_import/data/duckdb-browser-eh.worker.js", "dist/_import/data/duckdb-eh.wasm", "dist/_import/data/parquet.duckdb_extension.wasm", "dist/_import/data/browser-data.json", "dist/_import/data/reports.json", "dist/_import/data/status.json", "dist/_import/data/datasets/insee-cpi-monthly/dataset.parquet", "dist/_import/data/datasets/insee-cpi-category-analysis/dataset.parquet"];
-for (const file of required) assert((await stat(file)).isFile(), `missing public artifact: ${file}`);
+const rootArgument = process.argv.indexOf("--root");
+const root = resolve(rootArgument === -1 ? "dist" : process.argv[rootArgument + 1]);
+const required = ["index.html", "reports/index.html", "_import/data/duckdb-browser-eh.worker.js", "_import/data/duckdb-eh.wasm", "_import/data/parquet.duckdb_extension.wasm", "_import/data/browser-data.json", "_import/data/reports.json", "_import/data/status.json", "artifact-inventory.json", ".nojekyll"];
+for (const file of required) assert((await stat(join(root, file))).isFile(), `missing public artifact: ${file}`);
+const inventory = await verifyArtifactInventory(root);
+assert.equal(inventory.base, "/pulse/", "public artifact inventory must preserve the Pages base route");
 // Staleness is a reader-side derivation; a baked state string would make a
 // frozen artifact claim freshness it cannot know.
-const publishedStatus = JSON.parse(await readFile("dist/_import/data/status.json", "utf8"));
+const publishedStatus = JSON.parse(await readFile(join(root, "_import/data/status.json"), "utf8"));
 assert.equal(publishedStatus.schemaId, "pulse.status");
+const site = publishedStatus.pipelines["system:site"];
+assert(site, "status must include the system:site pipeline");
+const reportCatalog = JSON.parse(await readFile(join(root, "_import/data/reports.json"), "utf8"));
+for (const report of Object.values(reportCatalog.reports)) {
+  assert.equal(report.resolvedVisibility, "public", `non-public report leaked into the artifact: ${report.id}`);
+  assert((await stat(join(root, `${report.route}.html`))).isFile(), `report route does not resolve: ${report.route}`);
+}
+if (process.argv.includes("--public")) {
+  const allowedPages = new Set(["reports/index.html", ...Object.values(reportCatalog.reports).map((report) => `${report.route}.html`)]);
+  const foundPages = [];
+  async function collectHtml(directory) {
+    for (const entry of await readdir(directory, { withFileTypes: true })) {
+      const path = join(directory, entry.name);
+      if (entry.isDirectory()) await collectHtml(path);
+      else if (entry.name.endsWith(".html")) foundPages.push(relative(root, path).replaceAll("\\", "/"));
+    }
+  }
+  await collectHtml(join(root, "reports"));
+  assert.deepEqual(foundPages.sort(), [...allowedPages].sort(), "public artifact contains an undeclared report route");
+
+  const allowedModuleRoots = new Set(Object.values(reportCatalog.reports).map((report) => report.route.replace(/^reports\//, "")));
+  const importsRoot = join(root, "_import/reports");
+  for (const entry of await readdir(importsRoot, { withFileTypes: true })) {
+    assert(entry.isDirectory() && allowedModuleRoots.has(entry.name), `public artifact contains an undeclared report module: ${entry.name}`);
+  }
+}
 for (const [pipelineId, entry] of Object.entries(publishedStatus.pipelines)) {
   assert(!/^stale$/.test(entry.state), `status for ${pipelineId} bakes a staleness state`);
   for (const stage of entry.stages) assert.notEqual(stage.state, "stale", `stage ${stage.stage} of ${pipelineId} bakes a staleness state`);
@@ -16,27 +47,5 @@ for (const [pipelineId, entry] of Object.entries(publishedStatus.pipelines)) {
     assert.doesNotMatch(diagnostic.message, /Traceback|at [A-Za-z]+ \(|(?:\/home\/|\/Users\/)|[A-Z]:\\/, `unsafe diagnostic text for ${pipelineId}`);
   }
 }
-const textExtensions = new Set([".html", ".js", ".css", ".json", ".txt", ".xml"]);
-const privatePath = /(?:\/home\/|\/Users\/)[a-z0-9._-]+(?:\/|\\)|[A-Z]:\\Users\\[a-z0-9._-]+\\/i;
-const credential = /(?:password|secret|api[_-]?key|authorization)\s*[:=]\s*["'][^"']+/i;
-let totalBytes = 0;
-async function scan(directory) {
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const path = join(directory, entry.name);
-    if (entry.isDirectory()) await scan(path);
-    else {
-      const info = await stat(path); totalBytes += info.size;
-      assert(!path.endsWith(".map"), `public source map is not allowed: ${path}`);
-      if (textExtensions.has(extname(path))) {
-        const content = await readFile(path, "utf8");
-        assert(!privatePath.test(content), `private filesystem path in ${path}`);
-        const vendored = path.includes("dist/_node/") || path.includes("dist/_observablehq/") || path.endsWith("duckdb-browser-eh.worker.js");
-        if (!vendored) assert(!credential.test(content), `credential-shaped value in ${path}`);
-        if (extname(path) === ".html" || extname(path) === ".css") assert(!/https?:\/\//i.test(content), `remote browser dependency in ${path}`);
-      }
-    }
-  }
-}
-await scan("dist");
-assert(totalBytes < 1_000_000_000, "public artifact exceeds the 1 GB Pages limit");
+const totalBytes = await scanArtifactSafety(root);
 console.log(`Public artifact scan passed (${totalBytes} bytes).`);

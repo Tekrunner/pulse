@@ -39,6 +39,33 @@ npm run verify
 
 The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 
+## Reproducible public site and GitHub Pages
+
+After a frozen install and `git lfs pull`, rebuild the complete public report
+closure from committed snapshots, validate it, package it under the fixed
+`/pulse/` base, and verify its SHA-256 inventory with one offline command:
+
+```sh
+uv sync --frozen
+npm ci
+git lfs pull
+uv run --no-sync pulse public build --output dist
+node scripts/serve-site.mjs
+```
+
+The public build command never acquires data or reads a private publication root. It
+rebuilds only datasets reachable from explicit public report declarations in
+disposable directories, then atomically replaces `dist/` only after
+`artifact-inventory.json` and the safety scan agree. Repeating it from the same
+commit produces byte-equivalent substantive files; timestamps that describe a
+build or pipeline attempt are the only documented metadata exception.
+
+The public site is deployed from `main` at
+[https://tekrunner.github.io/pulse/](https://tekrunner.github.io/pulse/). The
+latest-wins Pages workflow has no repository write permission: it uploads the
+already verified `dist/` directory and deploys those exact bytes. A cancelled
+or failed run therefore leaves the preceding deployment available.
+
 ## Public source acquisition
 
 Every `sources/<source-id>/` package declares provider-native acquisition scope,

@@ -4,7 +4,4 @@ title: Reports
 
 # Reports
 
-```js
-import { reportLink } from "./report.js";
-display(reportLink("./report"));
-```
+Return to the Pulse homepage to browse the compiled public report catalog.
