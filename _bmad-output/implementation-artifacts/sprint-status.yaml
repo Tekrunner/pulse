@@ -46,7 +46,7 @@ development_status:
   1-6-compose-and-explore-the-french-macroeconomic-report: done
   1-7-see-pipeline-health-and-data-freshness: done
   1-8-run-the-insee-pipeline-automatically-and-on-demand: done
-  1-9-build-and-deploy-a-reproducible-public-site: review
+  1-9-build-and-deploy-a-reproducible-public-site: done
   epic-1-retrospective: optional
 
   epic-2: backlog
