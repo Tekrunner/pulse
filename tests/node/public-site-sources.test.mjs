@@ -26,15 +26,13 @@ await write("reports/public/report.js", 'import { shared } from "../../visuals/s
 await write("visuals/shared.js", "export const shared = 'PUBLIC_MODULE';\n");
 await write("reports/private.md", 'import "./private/sentinel.js"; PRIVATE_ROUTE_SENTINEL\n');
 await write("reports/private/sentinel.js", "export const sentinel = 'PRIVATE_MODULE_SENTINEL';\n");
-await mkdir(join(root, "workflows/add-visual/template"), { recursive: true });
-await writeFile(join(root, "workflows/add-visual/template/fixture.js"), "export const fixture = true;\n");
-await writeFile(join(root, "workflows/add-visual/template/styles.css"), ".template {}\n");
-await writeFile(join(root, "workflows/add-visual/template/visual.js"), "export const visual = true;\n");
+await write("workflows/add-visual/template/fixture.js", "export const fixture = true;\n");
+await write("workflows/add-visual/template/styles.css", ".template {}\n");
+await write("workflows/add-visual/template/visual.js", "export const visual = true;\n");
 
 const copied = await stagePublicSiteSources({
   siteRoot: site,
   outputRoot: output,
-  templateRoot: root,
   reportCatalog: {
     reports: {
       public: { route: "reports/public", resolvedVisibility: "public" },
@@ -47,10 +45,6 @@ assert(copied.includes("reports/public/report.js"));
 assert(copied.includes("visuals/shared.js"));
 assert(copied.includes("design/tokens.css"));
 assert(copied.includes("workflows/add-visual/template/visual.js"));
-await assert.rejects(
-  () => stagePublicSiteSources({ siteRoot: site, outputRoot: join(root, "missing-workflow-root"), reportCatalog: { reports: {} } }),
-  /requires the canonical workflow root/,
-);
 await assert.rejects(() => stat(join(output, "reports/private.md")), /ENOENT/);
 await assert.rejects(() => stat(join(output, "reports/private/sentinel.js")), /ENOENT/);
 

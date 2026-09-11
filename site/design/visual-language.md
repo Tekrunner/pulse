@@ -12,7 +12,7 @@ non-colour cue. Respect `prefers-reduced-motion`; do not use motion as the only
 signal.
 
 The `docs/visual-contract-v1.md` Visual Contract v1 is the renderer boundary.
-Start new work from `workflows/add-visual/template/`, whose synthetic
+Start new work from `site/workflows/add-visual/template/`, whose synthetic
 fixture is intentionally not an exemplar visual. This guidance does not select
 chart types, impose a report layout, prescribe content, or create a component
 catalogue.

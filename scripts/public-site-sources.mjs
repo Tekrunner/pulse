@@ -32,13 +32,11 @@ function safeRelative(root, path) {
   return value;
 }
 
-export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatalog, templateRoot }) {
+export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatalog }) {
   const sourceRoot = resolve(siteRoot);
   const targetRoot = resolve(outputRoot);
-  if (!templateRoot) throw new Error("public source staging requires the canonical workflow root");
-  const workflowRoot = resolve(templateRoot);
-  const templateSource = resolve(workflowRoot, "workflows/add-visual/template");
-  safeRelative(workflowRoot, templateSource);
+  const templateSource = resolve(sourceRoot, "workflows/add-visual/template");
+  safeRelative(sourceRoot, templateSource);
   const routes = Object.values(reportCatalog?.reports ?? {}).map((report) => {
     if (report.resolvedVisibility !== "public" || typeof report.route !== "string") {
       throw new Error("public source staging received a non-public report route");
@@ -48,7 +46,7 @@ export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatal
   // Design and template inputs are public authoring contracts, not examples.
   // Stage them explicitly so a public artifact can validate their canonical
   // paths without walking an existing report or visual.
-  const queue = ["index.md", "reports/index.md", "style.css", "design/tokens.css", "design/visual-language.md", "design/reference.md", ...routes];
+  const queue = ["index.md", "reports/index.md", "style.css", "design/tokens.css", "design/visual-language.md", "design/reference.md", "workflows/add-visual/template/fixture.js", "workflows/add-visual/template/styles.css", "workflows/add-visual/template/visual.js", ...routes];
   const copied = new Set();
 
   while (queue.length) {
@@ -77,18 +75,12 @@ export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatal
     }
     for (const dependency of dependencies) {
       const resolved = resolve(dirname(source), dependency);
-      if (resolved === templateSource || resolved.startsWith(`${templateSource}${sep}`)) continue;
       queue.push(safeRelative(sourceRoot, resolved));
     }
     for (const match of content.matchAll(/["'](?:\.\.\/)+assets\/([^"'?#)]+)["']/g)) {
       queue.push(`assets/${match[1]}`);
     }
   }
-  // Keep ../../workflows imports from staged design pages on their canonical
-  // application-owned path while normal site traversal remains contained.
-  const templateTarget = resolve(targetRoot, "..", "workflows/add-visual/template");
-  await cp(templateSource, templateTarget, { recursive: true });
-  for (const path of ["fixture.js", "styles.css", "visual.js"]) copied.add(`workflows/add-visual/template/${path}`);
   return [...copied].sort();
 }
 

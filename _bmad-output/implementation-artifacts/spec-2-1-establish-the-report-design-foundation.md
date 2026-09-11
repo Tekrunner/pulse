@@ -53,7 +53,7 @@ context:
 **Execution:**
 - [x] `site/design/tokens.css`, `site/style.css`, `site/visuals/report-shared.js` -- centralized and consumed shared roles without restyling CPI.
 - [x] `site/design/visual-language.md`, `docs/visual-contract-v1.md` -- documented current rules, non-scope, shared-role review, and canonical paths.
-- [x] `workflows/add-visual/template/` -- added an independent renderer, schema fixture, inputs, styles, states, responsive accessible output, and cleanup.
+- [x] `site/workflows/add-visual/template/` -- added an independent renderer, schema fixture, inputs, styles, states, responsive accessible output, and cleanup.
 - [x] `site/design/reference.md` -- independently renders canonical roles and every required state.
 - [x] `scripts/public-site-sources.mjs`, `tests/node/public-site-sources.test.mjs` -- publish exact design/template inputs without exemplar dependencies.
 - [x] `tests/node/design-foundation.test.mjs`, `package.json` -- enforce ownership, independence, forbidden content, and normal/public verification.
@@ -70,7 +70,7 @@ context:
 
 ## Design Notes
 
-Use `workflows/add-visual/template/` for the architecture-owned scaffold and `site/design/reference.md` for executable evidence. Tokens may alias current values: canonical ownership does not require redesign.
+Use `site/workflows/add-visual/template/` for the application-owned scaffold and `site/design/reference.md` for executable evidence. Tokens may alias current values: canonical ownership does not require redesign.
 
 ## Verification
 
@@ -89,7 +89,7 @@ Use `workflows/add-visual/template/` for the architecture-owned scaffold and `si
   [`tokens.css:3`](../../site/design/tokens.css#L3)
 
 - Neutral renderer accepts only declared rows, display, provenance, and state.
-  [`visual.js:35`](../../workflows/add-visual/template/visual.js#L35)
+  [`visual.js:35`](../../site/workflows/add-visual/template/visual.js#L35)
 
 - Executable reference imports the template without relying on an existing visual.
   [`reference.md:5`](../../site/design/reference.md#L5)

@@ -1,14 +1,14 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
-import { CONSUMER_SCHEMA, FIXTURE_ROWS } from "../../workflows/add-visual/template/fixture.js";
-import { VISUAL_TEMPLATE_CONTRACT, validateTemplateRows } from "../../workflows/add-visual/template/visual.js";
+import { CONSUMER_SCHEMA, FIXTURE_ROWS } from "../../site/workflows/add-visual/template/fixture.js";
+import { VISUAL_TEMPLATE_CONTRACT, validateTemplateRows } from "../../site/workflows/add-visual/template/visual.js";
 
 const root = resolve(import.meta.dirname, "../..");
 const read = (path) => readFile(resolve(root, path), "utf8");
 const tokens = await read("site/design/tokens.css");
 const style = await read("site/style.css");
-const template = await read("workflows/add-visual/template/visual.js");
+const template = await read("site/workflows/add-visual/template/visual.js");
 const guidance = await read("site/design/visual-language.md");
 const reference = await read("site/design/reference.md");
 const contract = await read("docs/visual-contract-v1.md");
@@ -30,6 +30,6 @@ assert.match(template, /ArrowRight/);
 assert.match(guidance, /does not select\s+chart types/i);
 assert.match(reference, /Synthetic fixture/);
 assert.match(reference, /renderVisualTemplate/);
-assert.match(reference, /\.\.\/\.\.\/workflows\/add-visual\/template/);
-assert.match(contract, /workflows\/add-visual\/template/);
+assert.match(reference, /\.\.\/workflows\/add-visual\/template/);
+assert.match(contract, /site\/workflows\/add-visual\/template/);
 console.log("Design foundation owns semantic roles and a source-neutral visual template.");

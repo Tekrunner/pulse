@@ -1,9 +1,9 @@
 import { createDataClient } from "../../../site/data/client.js";
 import { renderLineVisual } from "../../../site/visuals/line.js";
-import { FIXTURE_ROWS } from "../../../workflows/add-visual/template/fixture.js";
-import { renderVisualTemplate } from "../../../workflows/add-visual/template/visual.js";
+import { FIXTURE_ROWS } from "../../../site/workflows/add-visual/template/fixture.js";
+import { renderVisualTemplate } from "../../../site/workflows/add-visual/template/visual.js";
 import "../../../site/design/tokens.css";
-import "../../../workflows/add-visual/template/styles.css";
+import "../../../site/workflows/add-visual/template/styles.css";
 
 if (new URLSearchParams(location.search).has("design-foundation")) {
   window.renderDesignFoundationVisual = renderVisualTemplate;
