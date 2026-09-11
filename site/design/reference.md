@@ -2,6 +2,15 @@
 title: Design foundation reference
 ---
 
+# Design foundation reference
+
+This is a developer-facing conformance reference, not a public report page and
+not a prescribed visual design. It is intentionally absent from report
+navigation. Use it when authoring or reviewing a visual to confirm the neutral
+baseline: an indicator, provenance, keyboard interaction, visible focus, and
+an accessible data equivalent. Automated conformance checks exercise the same
+template's loading, empty, warning, and error states.
+
 ```js
 import { FIXTURE_ROWS } from "../workflows/add-visual/template/fixture.js";
 import { renderVisualTemplate } from "../workflows/add-visual/template/visual.js";
