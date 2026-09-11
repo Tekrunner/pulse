@@ -15,3 +15,9 @@ authored against fixtures and receives real CPI rows through the report adapter
 without a renderer change. A breaking major requires an atomic consumer migration
 or an application-owned compatibility adapter; individual visuals cannot introduce
 one.
+
+For new work, use `workflows/add-visual/template/`. It is source-neutral and
+independent of the line example; it demonstrates the required fixture, inputs,
+states, accessible data equivalent, responsiveness, and focused cleanup. Shared
+design roles and current authoring conventions live at `site/design/tokens.css`
+and `site/design/visual-language.md` respectively.

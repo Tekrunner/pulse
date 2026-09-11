@@ -49,8 +49,8 @@ development_status:
   1-9-build-and-deploy-a-reproducible-public-site: done
   epic-1-retrospective: optional
 
-  epic-2: backlog
-  2-1-establish-the-report-design-foundation: backlog
+  epic-2: in-progress
+  2-1-establish-the-report-design-foundation: review
   2-2-add-a-public-source-through-a-source-neutral-workflow: backlog
   2-3-add-indicators-and-change-dataset-schemas-safely: backlog
   2-4-author-and-register-a-purpose-built-visual: backlog

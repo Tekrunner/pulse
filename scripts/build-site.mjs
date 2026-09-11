@@ -90,6 +90,7 @@ try {
     await stagePublicSiteSources({
       siteRoot: resolve(root, "site"),
       outputRoot: publicSiteRoot,
+      templateRoot: root,
       reportCatalog: JSON.parse(await readFile(reportCatalog, "utf8")),
     });
     await seedObservableNpmVersionIndex(publicSiteRoot);

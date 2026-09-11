@@ -1,5 +1,18 @@
 import { createDataClient } from "../../../site/data/client.js";
 import { renderLineVisual } from "../../../site/visuals/line.js";
+import { FIXTURE_ROWS } from "../../../workflows/add-visual/template/fixture.js";
+import { renderVisualTemplate } from "../../../workflows/add-visual/template/visual.js";
+import "../../../site/design/tokens.css";
+import "../../../workflows/add-visual/template/styles.css";
+
+if (new URLSearchParams(location.search).has("design-foundation")) {
+  window.renderDesignFoundationVisual = renderVisualTemplate;
+  document.querySelector("#app").append(renderVisualTemplate({
+    rows: FIXTURE_ROWS,
+    display: { title: "Foundation indicator" },
+    provenance: { label: "Synthetic source", updatedAt: "2026-09-11" },
+  }));
+} else {
 
 const rows = [{ period: "2024-Q1", value: 101.2 }, { period: "2024-Q4", value: 104.4 }];
 class WorkerStub { terminate() {} }
@@ -20,3 +33,4 @@ const result = await client.query("fixture/macro", "SELECT period, value FROM fi
 const visual = renderLineVisual(result, { label: "Portable fixture", unit: "index points" });
 visual.querySelector("output").dataset.portableReady = "";
 document.querySelector("#app").append(visual);
+}

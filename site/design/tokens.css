@@ -1,0 +1,21 @@
+/* Canonical dark-default semantic design roles.  Visual-specific palettes stay
+   with their visual; consumers should use these roles rather than literals. */
+:root {
+  color-scheme: dark;
+  --color-background: #111318;
+  --color-panel: #1b1f29;
+  --color-text: #f0f3f8;
+  --color-muted: #abb5c5;
+  --color-accent: #73d6c2;
+  --color-focus: #ffd166;
+  --color-error: #ff8a80;
+  --color-ok: #6ee7a0;
+  --color-warn: #f2994a;
+  --space-1: .5rem;
+  --space-2: 1rem;
+  --font-body: Inter, system-ui, sans-serif;
+  --motion-reduced-duration: .001ms;
+}
+body { font:16px/1.5 var(--font-body); }
+:where(a,button,input):focus-visible { outline:3px solid var(--color-focus); outline-offset:4px; }
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition-duration:var(--motion-reduced-duration) !important; animation-duration:var(--motion-reduced-duration) !important; } }

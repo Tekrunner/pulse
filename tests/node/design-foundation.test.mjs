@@ -1,0 +1,35 @@
+import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
+import { resolve } from "node:path";
+import { CONSUMER_SCHEMA, FIXTURE_ROWS } from "../../workflows/add-visual/template/fixture.js";
+import { VISUAL_TEMPLATE_CONTRACT, validateTemplateRows } from "../../workflows/add-visual/template/visual.js";
+
+const root = resolve(import.meta.dirname, "../..");
+const read = (path) => readFile(resolve(root, path), "utf8");
+const tokens = await read("site/design/tokens.css");
+const style = await read("site/style.css");
+const template = await read("workflows/add-visual/template/visual.js");
+const guidance = await read("site/design/visual-language.md");
+const reference = await read("site/design/reference.md");
+const contract = await read("docs/visual-contract-v1.md");
+
+for (const role of ["--color-background", "--color-panel", "--color-text", "--color-muted", "--color-accent", "--color-focus", "--color-error", "--color-ok", "--color-warn", "--font-body", "--space-1", "--motion-reduced-duration"]) assert.match(tokens, new RegExp(role));
+assert.match(style, /@import url\("\.\/design\/tokens\.css"\)/);
+assert.match(tokens, /body \{ font:16px\/1\.5 var\(--font-body\); \}/);
+assert.match(tokens, /:where\(a,button,input\):focus-visible/);
+assert.match(tokens, /prefers-reduced-motion:reduce/);
+assert.doesNotMatch(style, /a:focus-visible,button:focus-visible/);
+assert.deepEqual(CONSUMER_SCHEMA, { label: "string", value: "number" });
+assert.deepEqual(validateTemplateRows(FIXTURE_ROWS), FIXTURE_ROWS);
+assert.throws(() => validateTemplateRows([{ label: 4, value: "no" }]), /string label/);
+assert.deepEqual(VISUAL_TEMPLATE_CONTRACT.inputs, ["rows", "display", "provenance"]);
+for (const forbidden of ["duckdb", "sql", "parquet", "french-consumer", "line.contract", "report-shared", "from \"../../site/"]) assert.doesNotMatch(template.toLowerCase(), new RegExp(forbidden));
+assert.match(template, /cleanup/);
+assert.match(template, /aria-live/);
+assert.match(template, /ArrowRight/);
+assert.match(guidance, /does not select\s+chart types/i);
+assert.match(reference, /Synthetic fixture/);
+assert.match(reference, /renderVisualTemplate/);
+assert.match(reference, /\.\.\/\.\.\/workflows\/add-visual\/template/);
+assert.match(contract, /workflows\/add-visual\/template/);
+console.log("Design foundation owns semantic roles and a source-neutral visual template.");

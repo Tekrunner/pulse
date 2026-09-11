@@ -6,7 +6,7 @@ import { seedObservableNpmVersionIndex, stagePublicSiteSources } from "../../scr
 
 const root = await mkdtemp(join(tmpdir(), "pulse-public-sources-"));
 const site = join(root, "site");
-const output = join(root, "output");
+const output = join(root, "stage/output");
 
 async function write(relative, content) {
   const path = join(site, relative);
@@ -17,16 +17,24 @@ async function write(relative, content) {
 await write("index.md", 'import { home } from "./data/home.js";\n');
 await write("reports/index.md", "# Reports\n");
 await write("style.css", "body { color: white; }\n");
+await write("design/tokens.css", ":root { --color-text: white; }\n");
+await write("design/visual-language.md", "# Guidance\n");
+await write("design/reference.md", "# Reference\n");
 await write("data/home.js", "export const home = true;\n");
 await write("reports/public.md", 'import { report } from "./public/report.js";\n');
 await write("reports/public/report.js", 'import { shared } from "../../visuals/shared.js"; export const report = shared;\n');
 await write("visuals/shared.js", "export const shared = 'PUBLIC_MODULE';\n");
 await write("reports/private.md", 'import "./private/sentinel.js"; PRIVATE_ROUTE_SENTINEL\n');
 await write("reports/private/sentinel.js", "export const sentinel = 'PRIVATE_MODULE_SENTINEL';\n");
+await mkdir(join(root, "workflows/add-visual/template"), { recursive: true });
+await writeFile(join(root, "workflows/add-visual/template/fixture.js"), "export const fixture = true;\n");
+await writeFile(join(root, "workflows/add-visual/template/styles.css"), ".template {}\n");
+await writeFile(join(root, "workflows/add-visual/template/visual.js"), "export const visual = true;\n");
 
 const copied = await stagePublicSiteSources({
   siteRoot: site,
   outputRoot: output,
+  templateRoot: root,
   reportCatalog: {
     reports: {
       public: { route: "reports/public", resolvedVisibility: "public" },
@@ -37,6 +45,12 @@ const copied = await stagePublicSiteSources({
 assert(copied.includes("reports/public.md"));
 assert(copied.includes("reports/public/report.js"));
 assert(copied.includes("visuals/shared.js"));
+assert(copied.includes("design/tokens.css"));
+assert(copied.includes("workflows/add-visual/template/visual.js"));
+await assert.rejects(
+  () => stagePublicSiteSources({ siteRoot: site, outputRoot: join(root, "missing-workflow-root"), reportCatalog: { reports: {} } }),
+  /requires the canonical workflow root/,
+);
 await assert.rejects(() => stat(join(output, "reports/private.md")), /ENOENT/);
 await assert.rejects(() => stat(join(output, "reports/private/sentinel.js")), /ENOENT/);
 

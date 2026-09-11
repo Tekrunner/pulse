@@ -1,5 +1,6 @@
+@import url("./design/tokens.css");
+
 :root {
-  color-scheme: dark;
   --color-bg:#161826;
   --color-surface:#232532;
   --color-neutral-300:#cfd3e5;
@@ -12,27 +13,9 @@
   --color-accent-300:#d2cefd;
   --color-accent-400:#b5abfc;
   --color-divider:color-mix(in srgb,#e9e9ed 16%,transparent);
-  --font-body:Inter,system-ui,sans-serif;
-  --color-background: #111318;
-  --color-panel: #1b1f29;
-  --color-text: #f0f3f8;
-  --color-muted: #abb5c5;
-  --color-accent: #73d6c2;
-  --color-focus: #ffd166;
-  --color-error: #ff8a80;
-  /* Severity colours for pipeline health. Deliberately not --color-focus
-     (#ffd166), which is reserved for focus rings: two meanings on one hue
-     would be ambiguous. Both clear WCAG AA on --color-panel (ok 10.67:1,
-     warn 7.40:1) and never carry state on their own -- the marker glyph and
-     the state word do that. */
-  --color-ok: #6ee7a0;
-  --color-warn: #f2994a;
-  --space-1: .5rem;
-  --space-2: 1rem;
 }
-body { background:var(--color-background); color:var(--color-text); font:16px/1.5 system-ui,sans-serif; }
+body { background:var(--color-background); color:var(--color-text); }
 a { color:var(--color-accent); }
-a:focus-visible,button:focus-visible,input:focus-visible { outline:3px solid var(--color-focus); outline-offset:4px; }
 .pilot-report { max-width:900px; margin:auto; padding:clamp(1rem,4vw,3rem); }
 .eyebrow { color:var(--color-accent); text-transform:uppercase; letter-spacing:.12em; font-size:.8rem; }
 .provenance { color:var(--color-muted); }
@@ -47,7 +30,6 @@ svg { width:100%; min-width:320px; min-height:220px; color:var(--color-accent); 
 th,td { text-align:left; padding:.45rem; border-bottom:1px solid #566172; }
 button { min-height:44px; padding:.5rem 1rem; }
 @media (max-width:600px) { .pilot-report { padding:var(--space-2); } svg { min-height:160px; } }
-@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto !important; transition-duration:.001ms !important; animation-duration:.001ms !important; } }
 
 .cpi-report { --color-accent:#9184d9; max-width:1180px; margin:0 auto; padding:22.4px 16.8px 44px; display:flex; flex-direction:column; gap:22.4px; font:15px/1.6 var(--font-body); color:#e9e9ed; background:var(--color-bg); }
 .cpi-report * { box-sizing:border-box; }
