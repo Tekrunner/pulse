@@ -1,0 +1,18 @@
+contract_version: 1.0.0
+dataset: example-dataset
+classification: breaking-consumer-change
+previous_contract_version: 1.1.0
+strategy: adapter
+consumers:
+  - path: site/reports/example/report.js
+    kind: sql-or-exploration-query
+    columns: [old_value]
+    resolution: adapted
+adapter:
+  version: 1.0.0
+  owner: Example report owner
+  removal_condition: Remove after every declared consumer uses example_value and the old query fixture is retired.
+  logical_table: example_dataset_v1
+  column_mapping:
+    period: period
+    old_value: example_value

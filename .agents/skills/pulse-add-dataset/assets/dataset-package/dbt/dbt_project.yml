@@ -1,0 +1,10 @@
+name: example_dataset
+version: 1.0.0
+config-version: 2
+profile: pulse_dataset
+model-paths: [models]
+models:
+  example_dataset:
+    +materialized: external
+    +location: "{{ var('external_location') }}"
+    +format: parquet

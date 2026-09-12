@@ -2,15 +2,12 @@
 
 from __future__ import annotations
 
-import json
-import os
 from pathlib import Path
-import subprocess
-import sys
 
 import duckdb
 
 from pulse.datasets import DatasetBuildContext, DatasetBuildResult, DatasetError, SnapshotInput
+from pulse.dbt import run_dbt as run_dataset_dbt
 
 
 REQUIRED_FIELDS = {"IDBANK", "TITLE_FR", "TIME_PERIOD", "OBS_VALUE", "FREQ", "REF_AREA", "UNIT_MULT"}
@@ -66,29 +63,13 @@ def select_snapshot(context: DatasetBuildContext, required_series: set[str]) -> 
 
 
 def run_dbt(project: Path, snapshot: Path, output: Path, warehouse: Path, model: str) -> None:
-    executable = str(Path(sys.executable).with_name("dbt.exe" if os.name == "nt" else "dbt"))
-    environment = {key: value for key, value in os.environ.items() if not key.startswith("DBT_")}
-    environment.update(
-        {
-            "DBT_PROFILES_DIR": str(project),
-            "PULSE_DBT_DATABASE": str(warehouse),
-            "DBT_SEND_ANONYMOUS_USAGE_STATS": "false",
-        }
+    run_dataset_dbt(
+        project,
+        output=output,
+        warehouse=warehouse,
+        model=model,
+        variables={"snapshot_path": str(snapshot)},
     )
-    variables = json.dumps({"snapshot_path": str(snapshot), "external_location": str(output)})
-    completed = subprocess.run(
-        [executable, "build", "--select", "+" + model, "--vars", variables],
-        cwd=project,
-        env=environment,
-        text=True,
-        capture_output=True,
-        check=False,
-        timeout=120,
-    )
-    if completed.returncode:
-        raise DatasetError("dbt could not materialize the declared analytical candidate")
-    if not output.is_file():
-        raise DatasetError("dbt external publication did not create Parquet")
 
 
 def _periods(connection: duckdb.DuckDBPyConnection, parquet: Path) -> tuple[int, int, str, str]:

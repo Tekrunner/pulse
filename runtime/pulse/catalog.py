@@ -87,7 +87,14 @@ def _entry(manifest: DatasetManifest, *, parquet: str) -> dict[str, Any]:
         "schema": [{"name": column["name"], "type": column["type"]} for column in manifest.columns],
         "contentSha256": manifest.content_sha256,
         "representedPeriod": manifest.represented_period,
-        "semanticMetadata": {"model": manifest.model, "indicators": manifest.indicators},
+        "semanticMetadata": {
+            "model": manifest.model,
+            "indicators": manifest.indicators,
+            "questions": manifest.questions,
+            "temporal": manifest.temporal,
+            "validations": manifest.validations,
+        },
+        "adapters": manifest.adapters,
         "visibility": manifest.visibility,
         "parquet": parquet,
     }
@@ -187,9 +194,10 @@ def validate_browser_catalog(value: dict[str, Any]) -> dict[str, Any]:
     if not isinstance(value["datasets"], dict) or not value["datasets"]:
         raise ContractError("browser catalog datasets are invalid")
     tables: set[str] = set()
-    fields = {"datasetId", "logicalTable", "datasetContractVersion", "schema", "contentSha256", "representedPeriod", "semanticMetadata", "visibility", "parquet"}
+    legacy_fields = {"datasetId", "logicalTable", "datasetContractVersion", "schema", "contentSha256", "representedPeriod", "semanticMetadata", "visibility", "parquet"}
+    fields_with_adapters = legacy_fields | {"adapters"}
     for dataset_id, entry in value["datasets"].items():
-        if set(entry) != fields or entry["datasetId"] != dataset_id:
+        if set(entry) not in {frozenset(legacy_fields), frozenset(fields_with_adapters)} or entry["datasetId"] != dataset_id:
             raise ContractError("browser catalog dataset entry is invalid")
         if not str(entry["datasetContractVersion"]).startswith("1."):
             raise ContractError(f"browser catalog dataset '{dataset_id}' has unsupported contract major")
@@ -205,6 +213,18 @@ def validate_browser_catalog(value: dict[str, Any]) -> dict[str, Any]:
             raise ContractError("browser catalog represented period is invalid")
         if not isinstance(entry["semanticMetadata"], dict):
             raise ContractError("browser catalog semantic metadata is invalid")
+        adapters = entry.get("adapters", [])
+        if not isinstance(adapters, list):
+            raise ContractError("browser catalog adapters are invalid")
+        for adapter in adapters:
+            if (
+                not isinstance(adapter, dict)
+                or set(adapter) != {"version", "owner", "removal_condition", "logical_table", "column_mapping"}
+                or not str(adapter["version"]).startswith("1.")
+                or not isinstance(adapter["column_mapping"], dict)
+                or not adapter["column_mapping"]
+            ):
+                raise ContractError("browser catalog compatibility adapter is invalid")
         tables.add(entry["logicalTable"])
     return value
 

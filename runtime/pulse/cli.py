@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 from datetime import datetime, timezone
+import json
 import sys
 from pathlib import Path
 
@@ -14,7 +15,15 @@ from pulse.automation import (
     stage_refresh_artifacts,
 )
 from pulse.archive import AcquisitionIntegrityError, ArchiveError, archive_rows, issue_acquisition_id, utc_now
-from pulse.datasets import DatasetError, build_all_datasets, build_dataset, discover_datasets
+from pulse.datasets import (
+    DatasetError,
+    build_all_datasets,
+    build_dataset,
+    classify_schema_change,
+    discover_datasets,
+    inventory_dataset_consumers,
+    load_dataset_contract,
+)
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
 from pulse.verify import VerificationError, verify_workspace
 from pulse.site import run_site
@@ -29,6 +38,7 @@ from pulse.catalog import (
     write_status_catalog,
 )
 from pulse.contracts.snapshot import ContractError
+from pulse.contracts.dataset import validate_dataset_manifest
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -93,6 +103,14 @@ def build_parser() -> argparse.ArgumentParser:
     dataset_build.add_argument("--archive-root", type=Path, default=Path("snapshots/public"), help=argparse.SUPPRESS)
     dataset_build.add_argument("--build-root", type=Path, default=Path("build/datasets/public"), help=argparse.SUPPRESS)
     dataset_build.add_argument("--publish-root", type=Path, default=Path("publish/public/data"), help=argparse.SUPPRESS)
+    dataset_impact = dataset_subcommands.add_parser(
+        "impact", help="inventory and classify consumers before a dataset schema edit"
+    )
+    dataset_impact.add_argument("dataset_id", help="declared dataset ID")
+    dataset_impact.add_argument("--contract", type=Path, required=True, help="proposed dataset contract")
+    dataset_impact.add_argument("--publish-root", type=Path, default=Path("publish/public/data"), help=argparse.SUPPRESS)
+    dataset_impact.add_argument("--root", type=Path, default=Path("."), help=argparse.SUPPRESS)
+    dataset_impact.add_argument("--output", type=Path)
     return parser
 
 
@@ -171,6 +189,39 @@ def main(argv: list[str] | None = None) -> int:
             print(line)
         return 0
     if args.command == "dataset":
+        if args.dataset_command == "impact":
+            try:
+                declaration = discover_datasets().get(args.dataset_id)
+                if declaration is None:
+                    raise DatasetError(f"declared dataset '{args.dataset_id}' was not found")
+                previous_path = args.publish_root / args.dataset_id / "dataset.json"
+                previous = validate_dataset_manifest(json.loads(previous_path.read_text(encoding="utf-8")))
+                proposed = load_dataset_contract(args.contract)
+                change = classify_schema_change(previous.columns, proposed.columns)
+                inventory = inventory_dataset_consumers(
+                    args.dataset_id,
+                    logical_table=previous.logical_table,
+                    columns=sorted({item["name"] for item in previous.columns + proposed.columns}),
+                    root=args.root.resolve(),
+                )
+                result = {
+                    "dataset": args.dataset_id,
+                    "previous_contract_version": previous.schema_version,
+                    "proposed_contract_version": proposed.contract_version,
+                    **change,
+                    "consumers": inventory,
+                }
+                rendered = json.dumps(result, indent=2, sort_keys=True) + "\n"
+                if args.output:
+                    args.output.parent.mkdir(parents=True, exist_ok=True)
+                    args.output.write_text(rendered, encoding="utf-8")
+                    print(f"pulse dataset impact wrote {args.output}")
+                else:
+                    print(rendered, end="")
+            except (DatasetError, ContractError, OSError, json.JSONDecodeError) as error:
+                print(f"pulse dataset impact failed: {error}", file=sys.stderr)
+                return 1
+            return 0
         try:
             if args.dataset_id == "all":
                 manifests = build_all_datasets(

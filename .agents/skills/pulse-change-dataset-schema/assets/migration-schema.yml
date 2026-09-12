@@ -1,0 +1,10 @@
+version: 2
+models:
+  - name: example_dataset_v_next
+    columns:
+      - name: period
+        data_tests: [not_null, unique]
+      - name: example_value
+        data_tests: [not_null]
+      - name: example_value_minor_units
+        data_tests: [not_null]

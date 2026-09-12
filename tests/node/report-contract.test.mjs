@@ -11,6 +11,9 @@ assert.match(report,/selP/);
 assert.match(report,/ResizeObserver/);
 assert.match(report,/setInterval\([^;]*,\s*500\)/);
 assert.match(report,/Provenance, query and data table/);
+assert.match(report,/expectedColumns/);
+assert.match(report,/requireRows: true/);
+assert.match(report,/non-empty query rows mapped to an empty visual result/);
 assert.match(declaration,/default_period: five-years/);
 assert.equal((declaration.match(/^- id: /gm)||[]).length,0);
 for(const name of ["headline-trend","contribution-stack","divergence-multiples","index-level-paths"]){

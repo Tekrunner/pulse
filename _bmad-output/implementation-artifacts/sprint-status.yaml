@@ -52,7 +52,7 @@ development_status:
   epic-2: in-progress
   2-1-establish-the-report-design-foundation: done
   2-2-add-a-public-source-through-a-source-neutral-workflow: review
-  2-3-add-indicators-and-change-dataset-schemas-safely: backlog
+  2-3-add-indicators-and-change-dataset-schemas-safely: review
   2-4-author-and-register-a-purpose-built-visual: backlog
   2-5-build-a-report-from-questions-sources-visuals-and-annotation: backlog
   epic-2-retrospective: optional

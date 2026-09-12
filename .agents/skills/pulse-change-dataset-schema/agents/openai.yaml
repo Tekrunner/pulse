@@ -1,0 +1,4 @@
+interface:
+  display_name: Change Pulse dataset schema
+  short_description: Inventory and safely migrate dataset consumers
+  default_prompt: Evolve the requested dataset schema with a complete impact plan and verified migration or adapter.

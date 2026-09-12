@@ -212,6 +212,19 @@ test("complete report isolates a schema contract failure and retains its table",
   ).toBeVisible();
 });
 
+test("non-empty query rows cannot silently map to an empty visual and siblings remain usable", async ({
+  page,
+}) => {
+  await page.goto("reports/french-consumer-prices?scenario=mapped-empty");
+  await expect(page.locator('.report-content[data-state="ready"]')).toBeVisible({ timeout: 10_000 });
+  const failed = page.locator('figure[data-state="schema-error"]');
+  await expect(failed).toHaveCount(1);
+  await expect(failed.getByRole("alert")).toContainText("non-empty query rows mapped to an empty visual result");
+  await expect(failed.locator("table.accessible-data")).toHaveCount(1);
+  await expect(page.locator('figure[data-state="ready"]')).toHaveCount(3);
+  await expect(page.locator('figure[data-state="ready"] .chart-wrapper')).toHaveCount(3);
+});
+
 test("complete report isolates a render failure and retains its table", async ({
   page,
 }) => {

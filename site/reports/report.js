@@ -64,7 +64,11 @@ export function renderReport({ client = getPageDataClient(), scenario } = {}) {
     messageState(slot, "loading", "Loading observations…");
     Promise.resolve().then(async () => {
       const dataset = await activeClient.getDataset(REPORT_DATASET_ID);
-      const result = await activeClient.query(REPORT_DATASET_ID, REPORT_SQL, { params: reportParams(dataset) });
+      const result = await activeClient.query(REPORT_DATASET_ID, REPORT_SQL, {
+        params: reportParams(dataset),
+        expectedColumns: ["period", "value"],
+        mapRow: (row) => validateRows([row])[0],
+      });
       return [result, dataset];
     }).then(([result, dataset]) => {
       const rows = validateRows(result);

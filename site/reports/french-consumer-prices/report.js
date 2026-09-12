@@ -6,13 +6,20 @@ import {
   qualifyReport,
 } from "../../data/status-client.js";
 import { scenarioStatusClient } from "../../data/status-scenarios.js";
-import { renderHeadlineTrend } from "../../visuals/headline-trend.js";
+import {
+  renderHeadlineTrend,
+  validateHeadlineTrendRows,
+} from "../../visuals/headline-trend.js";
 import {
   renderContributionStack,
   validateContributionStackRows,
 } from "../../visuals/contribution-stack.js";
 import { renderDivergenceMultiples } from "../../visuals/divergence-multiples.js";
-import { renderIndexLevelPaths } from "../../visuals/index-level-paths.js";
+import { validateDivergenceRows } from "../../visuals/divergence-multiples.js";
+import {
+  renderIndexLevelPaths,
+  validateIndexLevelRows,
+} from "../../visuals/index-level-paths.js";
 
 const interFontUrl = new URL("../../../assets/fonts/InterVariable.woff2", import.meta.url);
 if (!document.querySelector("style[data-pulse-inter]")) {
@@ -77,6 +84,38 @@ const CATS = ["food", "services", "manufactured", "energy", "rent"],
     rent: "#9dc0ae",
   };
 const PERIOD_SQL = { monthly: MONTHLY_SQL, category: CATEGORY_SQL };
+const MONTHLY_QUERY_COLUMNS = [
+  "period", "cpi_index", "monthly_change_pct", "annual_change_pct",
+];
+const CATEGORY_QUERY_COLUMNS = [
+  "period", "food_index", "food_annual_change_pct", "food_monthly_change_pct",
+  "services_index", "services_annual_change_pct", "services_monthly_change_pct",
+  "manufactured_products_index", "manufactured_products_annual_change_pct",
+  "manufactured_products_monthly_change_pct", "energy_index", "energy_annual_change_pct",
+  "actual_rent_index", "actual_rent_annual_change_pct", "actual_rent_monthly_change_pct",
+  "food_official_contribution_pct_points", "services_official_contribution_pct_points",
+  "manufactured_products_official_contribution_pct_points", "energy_official_contribution_pct_points",
+  "actual_rent_pulse_contribution_pct_points", "food_weight", "food_weight_reference_year",
+  "services_weight", "services_weight_reference_year", "manufactured_products_weight",
+  "manufactured_products_weight_reference_year", "energy_weight", "energy_weight_reference_year",
+  "actual_rent_weight", "actual_rent_weight_reference_year",
+];
+function checkedQuery(params, columns, { requireRows = false } = {}) {
+  return {
+    params,
+    expectedColumns: columns,
+    requireRows,
+    mapRow(row) {
+      if (typeof row.period !== "string")
+        throw new DataClientError("schema", "The report data has an incompatible period field.");
+      for (const column of columns.slice(1)) {
+        if (!Number.isFinite(Number(row[column])))
+          throw new DataClientError("schema", `The report data has an incompatible '${column}' field.`);
+      }
+      return row;
+    },
+  };
+}
 const el = (name, text) => {
   const item = document.createElement(name);
   if (text !== undefined) item.textContent = text;
@@ -247,6 +286,8 @@ function figureCard(
   forceError,
   control,
   initialWidth,
+  validateRows,
+  sourceRowCount,
 ) {
   const figure = el("figure"),
     caption = el("figcaption"),
@@ -263,6 +304,7 @@ function figureCard(
   if (control) figure.append(control);
   figure.append(wrapper);
   let cleanup = () => {};
+  let phase = "schema-error";
   const fail = (kind, error) => {
     figure.dataset.state = kind;
     const message = el("div");
@@ -276,17 +318,22 @@ function figureCard(
     wrapper.replaceChildren(message);
   };
   try {
+    if (forceError === "mapped-empty" && number === 2) rows = [];
+    if (sourceRowCount > 0 && rows.length === 0)
+      throw new TypeError("non-empty query rows mapped to an empty visual result");
+    rows = validateRows(rows);
     if (forceError === "schema" && number === 2) {
       rows = rows.map((r) => ({ ...r, services_pp: undefined }));
       validateContributionStackRows(rows);
     } else {
+      phase = "render-error";
       if (forceError === "render" && number === 3)
         throw new Error("render fixture");
       cleanup = measured(
         wrapper,
         (width) => {
           try {
-            const visual = draw(width);
+            const visual = draw(width, rows);
             visual.addEventListener("pulse-select", (event) =>
               onSelect(event.detail.index),
             );
@@ -300,7 +347,7 @@ function figureCard(
       );
     }
   } catch (error) {
-    fail(forceError === "schema" ? "schema-error" : "render-error", error);
+    fail(phase, error);
   }
   figure.append(tableDetails(title, provenance, sql, rows, columns.table));
   figure._cleanup = cleanup;
@@ -712,9 +759,9 @@ export function renderFrenchConsumerPricesReport({
       },
       lead === "headline" ? PERIOD_SQL.monthly : PERIOD_SQL.category,
       provenance,
-      (w) =>
+      (w, safeRows) =>
         renderHeadlineTrend(
-          leadRows,
+          safeRows,
           {
             width: w,
             selectedIndex: selected,
@@ -728,6 +775,8 @@ export function renderFrenchConsumerPricesReport({
       scenario,
       leadControl,
       initialWidth,
+      validateHeadlineTrendRows,
+      lead === "headline" ? monthly.length : category.length,
     );
     const contribution = category.map((r, i) => ({
       period: isoMonth(r.period),
@@ -761,9 +810,9 @@ export function renderFrenchConsumerPricesReport({
       },
       PERIOD_SQL.category,
       provenance,
-      (w) =>
+      (w, safeRows) =>
         renderContributionStack(
-          contribution,
+          safeRows,
           { width: w, selectedIndex: selected, showRentLane: cats.rent },
           { summary: provenance },
         ),
@@ -771,6 +820,8 @@ export function renderFrenchConsumerPricesReport({
       scenario,
       null,
       initialWidth,
+      validateContributionStackRows,
+      category.length,
     );
     const enabled = CATS.filter((k) => cats[k]),
       divergence = enabled.flatMap((key) =>
@@ -811,10 +862,10 @@ export function renderFrenchConsumerPricesReport({
       },
       PERIOD_SQL.category,
       provenance,
-      (w) =>
+      (w, safeRows) =>
         enabled.length
           ? renderDivergenceMultiples(
-              divergence,
+              safeRows,
               { width: w, selectedIndex: selected, sharedDomain: true },
               { summary: provenance },
             )
@@ -826,6 +877,8 @@ export function renderFrenchConsumerPricesReport({
       scenario,
       null,
       initialWidth,
+      validateDivergenceRows,
+      enabled.length ? category.length : 0,
     );
     const levels = ["headline", ...enabled].flatMap((key) =>
       (key === "headline" ? monthly : category).map((r) => ({
@@ -854,9 +907,9 @@ export function renderFrenchConsumerPricesReport({
       },
       PERIOD_SQL.category,
       provenance,
-      (w) =>
+      (w, safeRows) =>
         renderIndexLevelPaths(
-          levels,
+          safeRows,
           { width: w, selectedIndex: selected, referenceValue: 100 },
           { summary: provenance },
         ),
@@ -864,6 +917,8 @@ export function renderFrenchConsumerPricesReport({
       scenario,
       null,
       initialWidth,
+      validateIndexLevelRows,
+      monthly.length + category.length,
     );
     content.append(f1, f2, f3, f4);
     cleanups = [f1._cleanup, f2._cleanup, f3._cleanup, f4._cleanup];
@@ -996,14 +1051,12 @@ export function renderFrenchConsumerPricesReport({
       }
       const [mr, cr, hr] = await Promise.all([
         active.query(MONTHLY_DATASET_ID, MONTHLY_SQL, {
-          params: [`${startP}-01`, `${endP}-01`],
+          ...checkedQuery([`${startP}-01`, `${endP}-01`], MONTHLY_QUERY_COLUMNS),
         }),
-        active.query(CATEGORY_DATASET_ID, CATEGORY_SQL, {
-          params: [`${startP}-01`, `${endP}-01`],
-        }),
-        active.query(MONTHLY_DATASET_ID, MONTHLY_SQL, {
-          params: [`${minP}-01`, `${maxP}-01`],
-        }),
+        active.query(CATEGORY_DATASET_ID, CATEGORY_SQL,
+          checkedQuery([`${startP}-01`, `${endP}-01`], CATEGORY_QUERY_COLUMNS)),
+        active.query(MONTHLY_DATASET_ID, MONTHLY_SQL,
+          checkedQuery([`${minP}-01`, `${maxP}-01`], MONTHLY_QUERY_COLUMNS, { requireRows: true })),
       ]);
       if (id !== request) return;
       monthly = mr;

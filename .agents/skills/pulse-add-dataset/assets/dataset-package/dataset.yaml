@@ -1,0 +1,6 @@
+id: example-dataset
+name: Example analytical dataset
+source: example-public-source
+visibility: public
+logical_table: example_dataset
+contract: dataset-contract.yaml

@@ -80,6 +80,14 @@ def test_rejects_unsupported_catalog_or_dataset_contract_major(tmp_path: Path) -
         compile_browser_catalog(root)
 
 
+def test_legacy_v1_browser_catalog_without_adapters_remains_valid(tmp_path: Path) -> None:
+    catalog = compile_browser_catalog(_publication(tmp_path))
+    for entry in catalog["datasets"].values():
+        entry.pop("adapters")
+
+    assert validate_browser_catalog(catalog) == catalog
+
+
 def test_rejects_duplicate_dataset_identity_and_logical_table(tmp_path: Path) -> None:
     root = _publication(tmp_path)
     duplicate = root / "data/duplicate/monthly"

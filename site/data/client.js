@@ -33,7 +33,15 @@ function validateDataset(datasetId, entry) {
       entry.visibility !== "public" || typeof entry.parquet !== "string") {
     throw new DataClientError("manifest", `Dataset '${datasetId}' is not available.`);
   }
-  return { ...entry, table: entry.logicalTable };
+  if (entry.adapters !== undefined && !Array.isArray(entry.adapters)) {
+    throw new DataClientError("manifest", `Dataset '${datasetId}' has invalid compatibility adapters.`);
+  }
+  return { ...entry, adapters: entry.adapters || [], table: entry.logicalTable };
+}
+
+function quoteIdentifier(value) {
+  if (!/^[a-z][a-z0-9_]*$/.test(value)) throw compatibilityError("A dataset adapter uses an unsafe column or table name.");
+  return `"${value}"`;
 }
 
 export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Worker, DuckDB = duckdb, fetch = globalThis.fetch } = {}) {
@@ -111,6 +119,17 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
     const fileName = `${entry.table}.parquet`;
     await database.registerFileURL(fileName, parquetUrl, DuckDB.DuckDBDataProtocol.HTTP, false);
     await connection.query(`CREATE OR REPLACE VIEW "${entry.table}" AS SELECT * FROM read_parquet('${fileName}')`);
+    for (const adapter of entry.adapters) {
+      if (!adapter || !String(adapter.version).startsWith("1.") || typeof adapter.owner !== "string" ||
+          typeof adapter.removal_condition !== "string" || !adapter.column_mapping ||
+          adapter.logical_table === entry.table) {
+        throw compatibilityError(`Dataset '${datasetId}' has an invalid compatibility adapter.`);
+      }
+      const projection = Object.entries(adapter.column_mapping).map(([oldName, newName]) =>
+        `${quoteIdentifier(newName)} AS ${quoteIdentifier(oldName)}`).join(", ");
+      if (!projection) throw compatibilityError(`Dataset '${datasetId}' has an empty compatibility adapter.`);
+      await connection.query(`CREATE OR REPLACE VIEW ${quoteIdentifier(adapter.logical_table)} AS SELECT ${projection} FROM ${quoteIdentifier(entry.table)}`);
+    }
     registered.add(datasetId);
     return entry;
   }
@@ -120,7 +139,7 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
       try { await initialize(); }
       catch { /* Query surfaces the normalized startup failure in its slot. */ }
     },
-    async query(datasetId, sql, { params = [], signal } = {}) {
+    async query(datasetId, sql, { params = [], signal, expectedColumns = [], requireRows = false, mapRow } = {}) {
       await initialize();
       try {
         await registerDataset(datasetId);
@@ -131,7 +150,22 @@ export function createDataClient({ bundle, manifestUrl, Worker = globalThis.Work
           const statement = await connection.prepare(sql);
           try {
             const result = await statement.query(...params);
-            return result.toArray().map((row) => Object.fromEntries(Object.entries(row)));
+            const rows = result.toArray().map((row) => Object.fromEntries(Object.entries(row)));
+            if (requireRows && rows.length === 0) {
+              throw new DataClientError("empty", "The report data returned no rows.");
+            }
+            if (!Array.isArray(expectedColumns) || rows.some((row) => expectedColumns.some((column) => !Object.hasOwn(row, column)))) {
+              throw compatibilityError("The report data does not match its declared visual schema.");
+            }
+            if (mapRow !== undefined && typeof mapRow !== "function") throw new TypeError("mapRow must be a function");
+            const mapped = mapRow ? rows.map((row, index) => mapRow(row, index)) : rows;
+            if (mapped.some((row) => !row || typeof row !== "object" || expectedColumns.some((column) => !Object.hasOwn(row, column)))) {
+              throw compatibilityError("The mapped report data does not match its declared visual schema.");
+            }
+            if (rows.length && mapped.length === 0) {
+              throw compatibilityError("Non-empty report data was mapped to an empty visual result.");
+            }
+            return mapped;
           } finally { await statement.close(); }
         } finally { signal?.removeEventListener("abort", cancel); }
       } catch (error) {
