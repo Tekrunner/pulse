@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from datetime import datetime
 import re
 from typing import Any
 
 
 SNAPSHOT_SCHEMA_ID = "pulse.snapshot"
-SNAPSHOT_SCHEMA_VERSION = "1.0.0"
+SNAPSHOT_SCHEMA_VERSION = "1.1.0"
 _ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 _SHA256 = re.compile(r"^[0-9a-f]{64}$")
 
@@ -34,6 +34,8 @@ class SnapshotManifest:
     tool_versions: dict[str, str]
     licence: str
     attribution: str
+    format: str = "parquet"
+    assertions: list[dict[str, Any]] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -50,9 +52,14 @@ def utc_timestamp(value: str, field: str) -> None:
 
 
 def validate_snapshot_manifest(value: dict[str, Any]) -> SnapshotManifest:
+    # ``format`` and ``assertions`` are additive v1 fields. Manifests written
+    # before source-neutral file ingestion was introduced remain readable.
+    normalized = dict(value)
+    normalized.setdefault("format", "parquet")
+    normalized.setdefault("assertions", [])
     required = set(SnapshotManifest.__annotations__)
-    unknown = set(value) - required
-    missing = required - set(value)
+    unknown = set(normalized) - required
+    missing = required - set(normalized)
     if missing or unknown:
         parts = []
         if missing:
@@ -60,6 +67,7 @@ def validate_snapshot_manifest(value: dict[str, Any]) -> SnapshotManifest:
         if unknown:
             parts.append("unknown " + ", ".join(sorted(unknown)))
         raise ContractError("snapshot manifest has " + "; ".join(parts))
+    value = normalized
     if value["schema_id"] != SNAPSHOT_SCHEMA_ID:
         raise ContractError("snapshot manifest has unsupported schema ID")
     if value["schema_version"].split(".", 1)[0] != "1":
@@ -81,8 +89,19 @@ def validate_snapshot_manifest(value: dict[str, Any]) -> SnapshotManifest:
         raise ContractError("snapshot manifest source_urls must contain HTTPS URLs")
     if not isinstance(value["artifacts"], list) or len(value["artifacts"]) != 1:
         raise ContractError("snapshot manifest must identify exactly one raw artifact")
+    if value["format"] not in {"parquet", "original-file"}:
+        raise ContractError("snapshot manifest format is unsupported")
     artifact = value["artifacts"][0]
-    if set(artifact) != {"path", "sha256"} or artifact["path"] != "raw.parquet" or not _SHA256.fullmatch(artifact["sha256"]):
+    artifact_path = artifact.get("path") if isinstance(artifact, dict) else None
+    if (
+        not isinstance(artifact, dict)
+        or set(artifact) != {"path", "sha256"}
+        or not isinstance(artifact_path, str)
+        or not re.fullmatch(r"raw(?:\.[A-Za-z0-9][A-Za-z0-9._-]*)?", artifact_path)
+        or (value["format"] == "parquet" and artifact_path != "raw.parquet")
+        or (value["format"] == "original-file" and "." not in artifact_path)
+        or not _SHA256.fullmatch(str(artifact.get("sha256", "")))
+    ):
         raise ContractError("snapshot manifest raw artifact is invalid")
     if not _SHA256.fullmatch(value["observed_schema_sha256"]):
         raise ContractError("snapshot manifest observed_schema_sha256 must be SHA-256")
@@ -91,4 +110,18 @@ def validate_snapshot_manifest(value: dict[str, Any]) -> SnapshotManifest:
             raise ContractError(f"snapshot manifest {field} must be non-empty")
     if not isinstance(value["tool_versions"], dict) or not all(isinstance(k, str) and isinstance(v, str) for k, v in value["tool_versions"].items()):
         raise ContractError("snapshot manifest tool_versions must be a string map")
+    if not isinstance(value["assertions"], list):
+        raise ContractError("snapshot manifest assertions must be a list")
+    checks: set[str] = set()
+    for assertion in value["assertions"]:
+        if (
+            not isinstance(assertion, dict)
+            or set(assertion) != {"check", "passed"}
+            or not isinstance(assertion["check"], str)
+            or not assertion["check"].strip()
+            or not isinstance(assertion["passed"], bool)
+            or assertion["check"] in checks
+        ):
+            raise ContractError("snapshot manifest assertions are invalid")
+        checks.add(assertion["check"])
     return SnapshotManifest(**value)

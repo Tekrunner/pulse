@@ -1,0 +1,6 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+required_fields:
+  period: string
+  value: string

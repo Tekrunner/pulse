@@ -258,7 +258,9 @@ def main(argv: list[str] | None = None) -> int:
                 root=args.archive_root, source_id=declaration.source_id,
                 acquisition_id=args.acquisition_id or issue_acquisition_id(), acquired_at=utc_now(),
                 source_data_date=acquired.source_data_date, source_urls=acquired.source_urls,
-                rows=acquired.rows, decoder_version=acquired.decoder_version,
+                rows=acquired.rows, original_bytes=acquired.original_bytes,
+                original_filename=acquired.original_filename, assertions=acquired.assertions,
+                decoder_version=acquired.decoder_version,
                 licence=declaration.licence, attribution=declaration.attribution,
             )
         except (SourceDeclarationError, ArchiveError, AcquisitionIntegrityError, ValueError) as error:

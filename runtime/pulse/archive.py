@@ -6,6 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 from pathlib import Path
+import re
 import shutil
 import tempfile
 from typing import Any
@@ -124,15 +125,32 @@ def _write_parquet(rows: list[dict[str, Any]], destination: Path) -> None:
         shutil.rmtree(staging, ignore_errors=True)
 
 
-def archive_rows(*, root: Path, source_id: str, acquisition_id: str, acquired_at: str, source_data_date: str | None, source_urls: list[str], rows: list[dict[str, Any]], decoder_version: str, licence: str, attribution: str) -> tuple[Path, bool]:
-    if not rows:
-        raise ArchiveError("cannot archive an empty provider response")
+def archive_rows(*, root: Path, source_id: str, acquisition_id: str, acquired_at: str, source_data_date: str | None, source_urls: list[str], rows: list[dict[str, Any]] | None, decoder_version: str, licence: str, attribution: str, original_bytes: bytes | None = None, original_filename: str | None = None, assertions: tuple[dict[str, Any], ...] | list[dict[str, Any]] = ()) -> tuple[Path, bool]:
+    if bool(rows) == bool(original_bytes):
+        raise ArchiveError("acquisition must contain either faithful rows or one original file")
     archive_root = root / source_id
     archive_root.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix=".snapshot-", dir=archive_root))
     try:
-        raw = staging / "raw.parquet"
-        _write_parquet(rows, raw)
+        snapshot_format = "parquet" if rows else "original-file"
+        if rows:
+            raw = staging / "raw.parquet"
+            _write_parquet(rows, raw)
+            observed_schema = _schema_hash(rows)
+        else:
+            if not isinstance(original_filename, str):
+                raise ArchiveError("original file name is unavailable")
+            suffix = "".join(Path(original_filename).suffixes)
+            if not suffix or not re.fullmatch(r"(?:\.[A-Za-z0-9][A-Za-z0-9_-]*)+", suffix):
+                raise ArchiveError("original file extension is unsafe or unavailable")
+            raw = staging / f"raw{suffix.lower()}"
+            assert original_bytes is not None
+            if original_bytes.startswith(b"version https://git-lfs.github.com/spec/v1"):
+                raise ArchiveError("raw snapshot is an unresolved Git LFS pointer; materialize LFS objects first")
+            raw.write_bytes(original_bytes)
+            observed_schema = hashlib.sha256(
+                json.dumps({"format": "original-file", "suffix": suffix.lower()}, sort_keys=True).encode()
+            ).hexdigest()
         raw_hash = _sha256(raw)
         snapshot_id = f"{acquisition_id}-{raw_hash[:12]}"
         target = archive_root / snapshot_id
@@ -140,17 +158,32 @@ def archive_rows(*, root: Path, source_id: str, acquisition_id: str, acquired_at
             schema_id=SNAPSHOT_SCHEMA_ID, schema_version=SNAPSHOT_SCHEMA_VERSION, source_id=source_id,
             acquisition_id=acquisition_id, snapshot_id=snapshot_id, acquired_at=acquired_at,
             source_data_date=source_data_date, source_urls=source_urls,
-            artifacts=[{"path": "raw.parquet", "sha256": raw_hash}], observed_schema_sha256=_schema_hash(rows),
+            artifacts=[{"path": raw.name, "sha256": raw_hash}], observed_schema_sha256=observed_schema,
             decoder_version=decoder_version, tool_versions={"dlt": dlt.__version__, "duckdb": duckdb.__version__},
-            licence=licence, attribution=attribution,
+            licence=licence, attribution=attribution, format=snapshot_format,
+            assertions=list(assertions),
         )
         validate_snapshot_manifest(manifest.to_dict())
         for existing in archive_root.glob("*/snapshot.json"):
             existing_manifest = validate_snapshot_manifest(json.loads(existing.read_text(encoding="utf-8")))
+            existing_artifact = existing.parent / existing_manifest.artifacts[0]["path"]
+            reject_lfs_pointer(existing_artifact)
+            if _sha256(existing_artifact) != existing_manifest.artifacts[0]["sha256"]:
+                raise ArchiveError("archived raw snapshot does not match its manifest")
             if existing_manifest.acquisition_id == acquisition_id:
-                if existing_manifest.artifacts[0]["sha256"] == raw_hash:
+                existing_retry = existing_manifest.to_dict()
+                candidate_retry = manifest.to_dict()
+                # Attempt time and a compatible v1 minor writer version may
+                # differ on a retry. Everything describing the observation
+                # itself must remain exact.
+                for ignored in ("acquired_at", "schema_version"):
+                    existing_retry.pop(ignored)
+                    candidate_retry.pop(ignored)
+                if existing_retry == candidate_retry:
                     return existing.parent, True
-                raise AcquisitionIntegrityError("acquisition-integrity conflict: acquisition ID has different content")
+                raise AcquisitionIntegrityError(
+                    "acquisition-integrity conflict: acquisition ID has different content or evidence"
+                )
         (staging / "snapshot.json").write_text(json.dumps(manifest.to_dict(), indent=2, sort_keys=True) + "\n", encoding="utf-8")
         try:
             staging.replace(target)

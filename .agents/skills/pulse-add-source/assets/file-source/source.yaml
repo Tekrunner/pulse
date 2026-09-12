@@ -1,0 +1,15 @@
+id: example-public-file
+snapshot_contract: snapshot-contract.yaml
+name: Example public file
+visibility: public
+acquisition:
+  method: Public downloadable file
+  url: https://example.test/data.csv
+fetch_cadence: __DOCUMENTED_FETCH_CADENCE__
+expected_publication_advance: __DOCUMENTED_EXPECTED_ADVANCE__
+publication_schedule:
+  period: __DOCUMENTED_PERIOD__
+  expected_by_day_of_following_month: __DOCUMENTED_DEADLINE_DAY__
+  grace_days: __EVIDENCED_GRACE_DAYS__
+licence: Example open licence
+attribution: "Source: Example provider."

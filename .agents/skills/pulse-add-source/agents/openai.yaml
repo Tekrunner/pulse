@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Pulse Source"
+  short_description: "Add a public source through immutable snapshots"
+  default_prompt: "Use $pulse-add-source to add a public data source through snapshot completion."

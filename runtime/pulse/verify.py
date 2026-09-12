@@ -5,6 +5,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -139,12 +140,9 @@ def _workflow_smoke() -> None:
         ]
     except OSError as error:
         raise VerificationError("stage 'workflow contract' could not read source workflows") from error
-    if len(workflows) != 1:
-        raise VerificationError("stage 'workflow contract' requires exactly one source refresh workflow")
-    content = workflows[0].read_text(encoding="utf-8")
     push_command = "git" + " push origin HEAD:main"
     required = (
-        'cron: "17 6 23 * *"',
+        "cron:",
         "workflow_dispatch:",
         "contents: write",
         "group: pulse-repository-writer",
@@ -163,25 +161,66 @@ def _workflow_smoke() -> None:
         push_command,
         "if: always()",
     )
-    missing = [token for token in required if token not in content]
-    if missing:
-        raise VerificationError(
-            "stage 'workflow contract' rejected the INSEE workflow: missing " + ", ".join(missing)
-        )
     from pulse.datasets import discover_datasets
+    from pulse.sources import discover_sources
 
-    if any(dataset_id in content for dataset_id in discover_datasets()):
+    source_root = ROOT / "sources"
+    declared_sources = discover_sources(source_root) if source_root.is_dir() else {}
+    seen: set[str] = set()
+    for workflow in workflows:
+        content = workflow.read_text(encoding="utf-8")
+        if re.search(r"__[A-Z0-9_]+__", content):
+            raise VerificationError(
+                f"stage 'workflow contract' rejected {workflow.name}: unresolved placeholder"
+            )
+        missing = [token for token in required if token not in content]
+        if missing:
+            raise VerificationError(
+                f"stage 'workflow contract' rejected {workflow.name}: missing "
+                + ", ".join(missing)
+            )
+        matching = [
+            source_id
+            for source_id in declared_sources
+            if f"pulse source refresh {source_id} " in content
+        ]
+        if declared_sources and len(matching) != 1:
+            raise VerificationError(
+                f"stage 'workflow contract' requires {workflow.name} to refresh one declared source"
+            )
+        if matching:
+            source_id = matching[0]
+            if source_id in seen or f"pulse source stage-publication {source_id}" not in content:
+                raise VerificationError(
+                    f"stage 'workflow contract' requires one independent workflow for '{source_id}'"
+                )
+            if f'git lfs pull --include="snapshots/public/{source_id}/**"' not in content:
+                raise VerificationError(
+                    f"stage 'workflow contract' requires source-scoped LFS for '{source_id}'"
+                )
+            seen.add(source_id)
+        datasets_root = ROOT / "datasets"
+        datasets = discover_datasets(datasets_root) if datasets_root.is_dir() else {}
+        if any(dataset_id in content for dataset_id in datasets):
+            raise VerificationError(
+                "stage 'workflow contract' rejects dataset knowledge in source workflow YAML"
+            )
+        if "publish/public/data" in content:
+            raise VerificationError(
+                "stage 'workflow contract' rejects dataset publication paths in source workflow YAML"
+            )
+        if "github.run_attempt" in content:
+            raise VerificationError(
+                "stage 'workflow contract' requires reruns to reuse one logical identity"
+            )
+    scheduled = {
+        source_id
+        for source_id, declaration in declared_sources.items()
+        if declaration.visibility == "public"
+    }
+    if scheduled != seen:
         raise VerificationError(
-            "stage 'workflow contract' rejects dataset knowledge in source workflow YAML"
-        )
-    dataset_publication_path = "publish/public" + "/data"
-    if dataset_publication_path in content:
-        raise VerificationError(
-            "stage 'workflow contract' rejects dataset publication paths in source workflow YAML"
-        )
-    if "github.run_attempt" in content:
-        raise VerificationError(
-            "stage 'workflow contract' requires reruns to reuse one logical identity"
+            "stage 'workflow contract' requires one independent schedule per public source"
         )
     forbidden_runtime_operation = "git" + " push"
     if any(

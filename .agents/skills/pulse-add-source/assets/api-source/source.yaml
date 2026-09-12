@@ -1,0 +1,15 @@
+id: example-public-source
+snapshot_contract: snapshot-contract.yaml
+name: Example public source
+visibility: public
+acquisition:
+  method: Public JSON API
+  url: https://example.test/observations.json
+fetch_cadence: __DOCUMENTED_FETCH_CADENCE__
+expected_publication_advance: __DOCUMENTED_EXPECTED_ADVANCE__
+publication_schedule:
+  period: __DOCUMENTED_PERIOD__
+  expected_by_day_of_following_month: __DOCUMENTED_DEADLINE_DAY__
+  grace_days: __EVIDENCED_GRACE_DAYS__
+licence: Example open licence
+attribution: "Source: Example provider."

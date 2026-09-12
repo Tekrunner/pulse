@@ -374,6 +374,13 @@ def compile_expected_pipelines(
             + ", ".join(sorted(missing))
         )
     source_ids = {datasets[dataset_id].source_id for dataset_id in selected}
+    # Public sources are independently useful and visible even before a dataset
+    # chooses to consume their snapshots.
+    source_ids.update(
+        declaration.source_id
+        for declaration in sources.values()
+        if declaration.visibility == "public"
+    )
     pipelines: dict[str, Any] = {}
     for declaration in sources.values():
         if declaration.source_id not in source_ids:
@@ -426,8 +433,15 @@ def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Pat
     source_root = archive_root / declaration.source_id
     for path in sorted((archive_root / declaration.source_id).glob("*/snapshot.json")):
         try:
-            manifests.append(validate_snapshot_manifest(_read_json(path)))
-        except (OSError, json.JSONDecodeError, ValueError):
+            manifest = validate_snapshot_manifest(_read_json(path))
+            artifact = path.parent / manifest.artifacts[0]["path"]
+            if not artifact.is_file():
+                raise ContractError("snapshot artifact is missing")
+            reject_lfs_pointer(artifact)
+            if _sha256(artifact) != manifest.artifacts[0]["sha256"]:
+                raise ContractError("snapshot artifact hash disagrees with its manifest")
+            manifests.append(manifest)
+        except (OSError, json.JSONDecodeError, ValueError, ArchiveError):
             # Upstream and filesystem text never reaches the public artifact; that
             # a snapshot was rejected is all a reader can safely be told.
             rejected = True
@@ -478,9 +492,10 @@ def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Pat
             for position, name in enumerate(SOURCE_STAGES)
         ]
     else:
+        suspect = any(not assertion["passed"] for assertion in latest.assertions)
         stages = [
             _stage("acquire", "succeeded", attempted_at),
-            _stage("snapshot", "succeeded", attempted_at),
+            _stage("snapshot", "suspect" if suspect else "succeeded", attempted_at),
         ]
     schedule = browser_schedule(declaration.publication_schedule)
     return {
@@ -499,7 +514,13 @@ def _source_status(declared: dict[str, Any], declaration: Any, archive_root: Pat
             "identity": latest.snapshot_id,
             "representedPeriod": period,
         },
-        "assertions": [],
+        "assertions": []
+        if latest is None
+        else [
+            {"check": assertion["check"], "affectedColumns": []}
+            for assertion in latest.assertions
+            if not assertion["passed"]
+        ],
         "diagnostic": failure,
     }
 

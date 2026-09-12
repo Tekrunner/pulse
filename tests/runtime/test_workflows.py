@@ -1,4 +1,5 @@
 from pathlib import Path
+import shutil
 import subprocess
 
 import pytest
@@ -28,6 +29,42 @@ def test_insee_workflow_satisfies_the_offline_writer_contract() -> None:
     assert "git add" not in workflow
     assert "--force" not in workflow
     assert "github.run_attempt" not in workflow
+
+
+def test_workflow_contract_accepts_one_independent_schedule_per_public_source(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    shutil.copytree(ROOT / ".github/workflows", tmp_path / ".github/workflows")
+    shutil.copytree(ROOT / "sources", tmp_path / "sources")
+    shutil.copytree(ROOT / "datasets", tmp_path / "datasets")
+    package = tmp_path / "sources/another-source"
+    package.mkdir()
+    (package / "source.yaml").write_text(
+        """id: another-source
+name: Another source
+visibility: public
+snapshot_contract: snapshot-contract.yaml
+acquisition: {url: https://example.test/data}
+fetch_cadence: monthly
+expected_publication_advance: monthly
+publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}
+licence: Open
+attribution: Example
+""",
+        encoding="utf-8",
+    )
+    (package / "snapshot-contract.yaml").write_text(
+        "contract_version: 1.0.0\nformat: parquet\ncompatible_additions: true\n"
+        "required_fields:\n  value: string\n",
+        encoding="utf-8",
+    )
+    insee = (ROOT / ".github/workflows/insee-cpi.yml").read_text(encoding="utf-8")
+    another = insee.replace("INSEE CPI", "another source").replace("insee-cpi", "another-source")
+    another = another.replace('cron: "17 6 23 * *"', 'cron: "31 7 24 * *"')
+    (tmp_path / ".github/workflows/another-source.yml").write_text(another, encoding="utf-8")
+    monkeypatch.setattr(verify, "ROOT", tmp_path)
+
+    verify._workflow_smoke()
 
 
 def test_pages_workflow_uploads_only_the_verified_latest_wins_artifact() -> None:
@@ -202,4 +239,20 @@ def test_workflow_contract_rejects_literal_dataset_publication_path(
     monkeypatch.setattr(verify, "ROOT", tmp_path)
 
     with pytest.raises(verify.VerificationError, match="dataset publication paths"):
+        verify._workflow_smoke()
+
+
+def test_workflow_contract_rejects_an_unresolved_schedule_placeholder(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    workflows = tmp_path / ".github/workflows"
+    workflows.mkdir(parents=True)
+    refresh = (ROOT / ".github/workflows/insee-cpi.yml").read_text(encoding="utf-8")
+    (workflows / "refresh.yml").write_text(
+        refresh.replace('cron: "17 6 23 * *"', 'cron: "__DERIVED_UTC_CRON__"'),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(verify, "ROOT", tmp_path)
+
+    with pytest.raises(verify.VerificationError, match="unresolved placeholder"):
         verify._workflow_smoke()
