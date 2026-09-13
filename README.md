@@ -30,14 +30,14 @@ uv run pulse site serve
 
 Open `http://127.0.0.1:3000/pulse/` or the direct nested route at `http://127.0.0.1:3000/pulse/reports/report`. The pilot uses the committed public INSEE CPI publication, a local single-threaded DuckDB-WASM EH bundle, and framework-neutral DOM/SVG modules. Reproducible measurements and budgets are recorded in `docs/report-pilot-performance.md`.
 
-The verification command is the repository-local automation API used by both local development and CI. It reports the failing stage and its command output. The underlying suites can also be run directly while developing:
+The verification command is the repository-local automation API used by both local development and CI. It reports the failing stage and its command output. During development, run only the smallest relevant underlying suite, for example:
 
 ```sh
-uv run pytest
-npm run verify
+uv run pytest tests/runtime/test_reports.py -q
+node tests/node/report-workflow.test.mjs
 ```
 
-The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
+Use `npm run verify:frontend` only when intentionally running the complete frontend gate without Python, status, or workflow checks. Do not run it alongside `pulse verify`: the aggregate command already invokes it. After the final code change, run `uv run --no-sync pulse verify` once. The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 
 ## Reproducible public site and GitHub Pages
 
@@ -174,7 +174,5 @@ site inputs: its manifest-relative URL is resolved from the catalog, never the r
 route. Verify this whole offline path with:
 
 ```sh
-uv run pytest tests/runtime tests/sources tests/datasets -q
-npm run verify
-uv run pulse verify
+uv run --no-sync pulse verify
 ```

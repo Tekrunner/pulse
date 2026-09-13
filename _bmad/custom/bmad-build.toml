@@ -3,7 +3,12 @@
 activation_steps_append = [
   """
 Quota guard for review: store complete diffs in a temporary file and inspect changed files selectively. Do not print generated lockfile contents into model context; validate lockfiles through frozen installs and inspect only dependency-manifest changes.
+Use the repository verification ladder from AGENTS.md: focused tests during implementation, then affected subsystem tests after stabilization, then one `uv run --no-sync pulse verify` after the final code change and consolidated review fixes. `pulse verify` already runs the full Python and frontend suites; never run those full suites immediately before or after it. Rerun the aggregate gate only after failure or a subsequent invalidating change.
 """
+]
+
+persistent_facts = [
+  "file:{project-root}/AGENTS.md",
 ]
 
 [[workflow.review_layers]]

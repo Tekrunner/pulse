@@ -133,6 +133,21 @@ def test_incompatible_npm_is_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
         verify._node_smoke()
 
 
+def test_node_smoke_runs_the_explicit_frontend_suite(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[tuple[str, list[str]]] = []
+    monkeypatch.setattr(verify.shutil, "which", lambda name: f"/tool/bin/{name}")
+    monkeypatch.setattr(
+        verify,
+        "_probe",
+        lambda name, _command: "v24.0.0" if name == "Node" else "11.0.0",
+    )
+    monkeypatch.setattr(verify, "_run", lambda name, command: calls.append((name, command)))
+
+    verify._node_smoke()
+
+    assert calls == [("node smoke", ["/tool/bin/npm", "run", "verify:frontend"])]
+
+
 def test_mismatched_node_and_npm_installations_are_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(verify.shutil, "which", lambda name: f"/{name}-installation/bin/{name}")
 

@@ -195,7 +195,7 @@ async function completeRecord({ mismatchedApproval = false, unverifiedDependency
     }],
     dependencies: dependency, artifacts: [real, handoff, infrastructure], approval,
     visuals: [{ id: "trend", handoffSection: "Figure 1", implementation, numericEvidence: numeric, fidelityEvidence: fidelity, verified: true }],
-    verification: { commands: [{ command: "npm run verify", status: "passed", evidence: verificationEvidence }], complete: true },
+    verification: { commands: [{ command: "uv run --no-sync pulse verify", status: "passed", evidence: verificationEvidence }], complete: true },
     resume: { firstIncomplete: "verification", checkedAt: null },
   };
 }

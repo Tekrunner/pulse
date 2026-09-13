@@ -21,7 +21,6 @@ Before completion:
 ```bash
 python3 .agents/skills/pulse-add-visual/scripts/fidelity_gate.py <completed-fidelity-checklist.md>
 python3 /home/yfontana/.codex/skills/.system/skill-creator/scripts/quick_validate.py .agents/skills/pulse-add-visual
-npm run verify
 uv run --no-sync pulse verify
 git diff --check
 ```

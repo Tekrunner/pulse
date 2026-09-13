@@ -14,7 +14,6 @@ For atomic migration, commit the dbt model/tests, contract, `schema-change.yaml`
 
 ```sh
 uv run --no-sync pytest tests/datasets tests/runtime -q
-npm run verify
 uv run --no-sync pulse verify
 git diff --check
 ```

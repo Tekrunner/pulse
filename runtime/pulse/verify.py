@@ -107,7 +107,7 @@ def _node_smoke() -> None:
             "stage 'node smoke' requires npm 11 bundled with Node 24 (found "
             f"{npm_version or 'unavailable'}); reinstall the documented Node 24 prerequisite."
         )
-    _run("node smoke", [npm, "run", "verify"])
+    _run("node smoke", [npm, "run", "verify:frontend"])
 
 
 def _status_smoke() -> None:

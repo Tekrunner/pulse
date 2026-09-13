@@ -24,3 +24,5 @@ Provide questions, report and dataset contracts, actual representative rows incl
 ## Evidence
 
 For each visual, compare the same pinned observations across stored Parquet, browser query output, mapped JavaScript values, and displayed text. Test distinct numeric conversion paths. Exercise interactions at left/middle/right observations and verify focus, viewport, partial input, selections, and open disclosures survive asynchronous refresh. Capture ready and failure states at desktop, narrow landscape, and 400% zoom/reflow and reconcile differences with the approved handoff.
+
+Use focused tests while implementing. After the final code change and consolidated review fixes, run `uv run --no-sync pulse verify` once as the complete repository gate; it already includes the full Python and frontend suites. Do not run those full suites separately before or after it.
