@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "__REPORT_ID__",
+  "visual_ids": ["__VISUAL_ID_1__", "__VISUAL_ID_2__", "__VISUAL_ID_3__"],
+  "prototype": ["design/__PROTOTYPE__.html"],
+  "decisions": ["design/__DECISIONS__.html"],
+  "contracts": [
+    "contracts/__VISUAL_ID_1__.contract.js",
+    "contracts/__VISUAL_ID_2__.contract.js",
+    "contracts/__VISUAL_ID_3__.contract.js"
+  ],
+  "fixtures": ["fixtures/__REAL_ROWS__.json"],
+  "rationale": ["README.md"],
+  "assets": [],
+  "design_only_support": [],
+  "remote_assets": [],
+  "states": [
+    "ready",
+    "loading",
+    "empty",
+    "suspect",
+    "stale",
+    "query-error",
+    "schema-incompatibility",
+    "render-error",
+    "shared-engine-failure"
+  ],
+  "views": ["desktop", "narrow-smartphone-landscape", "400%-zoom-reflow"]
+}

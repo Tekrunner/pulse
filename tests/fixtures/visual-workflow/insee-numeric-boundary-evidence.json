@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_revision": "insee-cpi-monthly@sha256:39e166e9ee601157f50977183bb18c46cb2b7cbe5e1f77925e829453f22680bf;insee-cpi-category-analysis@sha256:a86b88c65c79ca17dd68eb5748e82667e78ce709fbbdc06fd6cd0e4c99849fca",
+  "conversion_paths": ["monthly-query-row", "category-query-row"],
+  "cases": [
+    {
+      "id": "july-2026-headline-index",
+      "path": "monthly-query-row",
+      "concerns": ["decimal-scale", "precision"],
+      "stored": "102.67",
+      "query": 102.67,
+      "displayed": "Headline 102.67",
+      "expected_query": 102.67,
+      "expected_display": "Headline 102.67"
+    },
+    {
+      "id": "july-2026-manufactured-annual-change",
+      "path": "category-query-row",
+      "concerns": ["negative", "precision"],
+      "stored": "-0.7",
+      "query": -0.7,
+      "displayed": "−0.7% y/y",
+      "expected_query": -0.7,
+      "expected_display": "−0.7% y/y"
+    },
+    {
+      "id": "category-null-boundary-fixture",
+      "path": "category-query-row",
+      "concerns": ["null"],
+      "stored": null,
+      "query": null,
+      "displayed": "—",
+      "expected_query": null,
+      "expected_display": "—"
+    }
+  ]
+}

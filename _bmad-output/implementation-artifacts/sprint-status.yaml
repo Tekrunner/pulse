@@ -29,7 +29,7 @@
 # - Dev moves story to 'review', then runs code-review (fresh context, different LLM recommended)
 # - Retrospective appends its action items to action_items; the status view surfaces open ones
 generated: 08-26-2026 14:16
-last_updated: 09-12-2026
+last_updated: 09-13-2026
 project: pulse
 project_key: NOKEY
 tracking_system: file-system
@@ -53,7 +53,7 @@ development_status:
   2-1-establish-the-report-design-foundation: done
   2-2-add-a-public-source-through-a-source-neutral-workflow: review
   2-3-add-indicators-and-change-dataset-schemas-safely: review
-  2-4-author-and-register-a-purpose-built-visual: backlog
+  2-4-author-and-register-a-purpose-built-visual: review
   2-5-build-a-report-from-questions-sources-visuals-and-annotation: backlog
   epic-2-retrospective: optional
 
