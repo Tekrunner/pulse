@@ -313,7 +313,9 @@ def inventory_dataset_consumers(
         if not dataset_match and not referenced:
             continue
         relative = path.relative_to(root).as_posix()
-        if path.name == "report.yml":
+        if path.name == "annotations.json" and "reports" in path.parts:
+            kind = "report-annotation-dependency"
+        elif path.name == "report.yml":
             kind = "report-declaration"
         elif "visuals" in path.parts and ("contract" in path.name or "fixture" in path.name):
             kind = "visual-contract-or-fixture"

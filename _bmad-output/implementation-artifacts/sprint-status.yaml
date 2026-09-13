@@ -54,7 +54,7 @@ development_status:
   2-2-add-a-public-source-through-a-source-neutral-workflow: review
   2-3-add-indicators-and-change-dataset-schemas-safely: review
   2-4-author-and-register-a-purpose-built-visual: review
-  2-5-build-a-report-from-questions-sources-visuals-and-annotation: backlog
+  2-5-build-a-report-from-questions-sources-visuals-and-annotation: review
   epic-2-retrospective: optional
 
   epic-3: backlog

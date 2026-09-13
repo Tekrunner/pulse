@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "1.0.0",
+  "annotations": [
+    {
+      "id": "synthetic-event",
+      "anchor": "2025-01-01",
+      "body": "A documented event associated with this observation.",
+      "provenance": "Synthetic fixture evidence",
+      "dependencies": [{"dataset": "synthetic-dataset", "column": "value"}],
+      "visibility": "private"
+    }
+  ]
+}

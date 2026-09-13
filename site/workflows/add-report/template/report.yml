@@ -1,0 +1,50 @@
+contract_version: 1.0.0
+id: synthetic-report
+title: Synthetic report
+route: reports/synthetic-report
+visibility: private
+questions:
+  - id: primary-question
+    question: What does the declared measure show over time?
+datasets: [synthetic-dataset]
+queries:
+  - id: primary-query
+    dataset: synthetic-dataset
+    sql: SELECT period, CAST(value AS DOUBLE) AS value FROM synthetic_table WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, value]
+schemas:
+  primary-schema:
+    - {name: period, type: date, nullable: false}
+    - {name: value, type: number, nullable: false}
+visuals:
+  - id: primary-visual
+    contract: 1.0.0
+    dataset: synthetic-dataset
+    question: primary-question
+    query: primary-query
+    schema: primary-schema
+    columns: [period, value]
+lineage:
+  synthetic-dataset: [period, value]
+annotations:
+  path: annotations.json
+  version: 1.0.0
+  query: primary-query
+  identity: id
+  anchor: period
+  dependencies:
+    - dataset: synthetic-dataset
+      columns: [period, value]
+state_topology:
+  report: [ready, loading, empty, query-error, engine-error]
+  slot: [ready, loading, empty, suspect, stale, query-error, schema-error, render-error, engine-error]
+  failure_scope: slot-local
+  retry: safe
+exploration:
+  enabled: false
+  default_period: all
+  controls: [represented-period]
+change:
+  version: 1.0.0
+  summary: Initial report declaration

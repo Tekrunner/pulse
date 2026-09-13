@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Pulse Report"
+  short_description: "Coordinate, design, implement, and verify a complete report"
+  default_prompt: "Use $pulse-add-report to build or resume the requested report from questions through verified implementation."

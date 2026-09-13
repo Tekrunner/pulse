@@ -11,6 +11,7 @@ import subprocess
 import pytest
 
 from pulse import public
+from pulse import catalog
 from pulse.catalog import public_dataset_closure
 from pulse.datasets import DatasetError
 
@@ -78,15 +79,53 @@ def test_public_closure_includes_only_explicit_public_report_datasets(tmp_path: 
     public_report.parent.mkdir(parents=True)
     private_report.parent.mkdir(parents=True)
     public_report.write_text(
-        "visibility: public\ndatasets: [public-dataset, shared-dataset]\n",
+        """id: public-report
+title: Public report
+route: reports/public-report
+visibility: public
+datasets: [public-dataset, shared-dataset]
+visuals:
+  - {id: public-visual, contract: 1.0.0, dataset: public-dataset, columns: [value]}
+lineage:
+  public-dataset: [value]
+  shared-dataset: [value]
+exploration: {enabled: false, default_period: all, controls: [represented-period]}
+""",
         encoding="utf-8",
     )
     private_report.write_text(
-        "visibility: private\ndatasets: [private-dataset, shared-dataset]\n",
+        """id: private-report
+title: Private report
+route: reports/private-report
+visibility: private
+datasets: [private-dataset, shared-dataset]
+visuals:
+  - {id: private-visual, contract: 1.0.0, dataset: private-dataset, columns: [value]}
+lineage:
+  private-dataset: [value]
+  shared-dataset: [value]
+exploration: {enabled: false, default_period: all, controls: [represented-period]}
+""",
         encoding="utf-8",
     )
+    monkeypatch = pytest.MonkeyPatch()
+    monkeypatch.setattr(
+        catalog,
+        "discover_datasets",
+        lambda: {
+            item: SimpleNamespace(
+                logical_table=item.replace("-", "_"),
+                visibility="public",
+                contract=SimpleNamespace(columns=[{"name": "value"}]),
+            )
+            for item in ("public-dataset", "shared-dataset", "private-dataset")
+        },
+    )
 
-    assert public_dataset_closure(reports) == ("public-dataset", "shared-dataset")
+    try:
+        assert public_dataset_closure(reports) == ("public-dataset", "shared-dataset")
+    finally:
+        monkeypatch.undo()
 
 
 def test_public_boundary_accepts_complete_positive_public_lineage(

@@ -1,6 +1,6 @@
 /** Materialize only the source graph reachable from positively public routes. */
 import { cp, mkdir, readFile, stat } from "node:fs/promises";
-import { dirname, relative, resolve, sep } from "node:path";
+import { basename, dirname, relative, resolve, sep } from "node:path";
 
 // Framework's client contains lazy imports for its recommended libraries. The
 // public site does not ship those optional modules, but Framework still needs
@@ -37,7 +37,8 @@ export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatal
   const targetRoot = resolve(outputRoot);
   const templateSource = resolve(sourceRoot, "workflows/add-visual/template");
   safeRelative(sourceRoot, templateSource);
-  const routes = Object.values(reportCatalog?.reports ?? {}).map((report) => {
+  const publicReports = Object.values(reportCatalog?.reports ?? {});
+  const routes = publicReports.map((report) => {
     if (report.resolvedVisibility !== "public" || typeof report.route !== "string") {
       throw new Error("public source staging received a non-public report route");
     }
@@ -46,7 +47,12 @@ export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatal
   // Design and template inputs are public authoring contracts, not examples.
   // Stage them explicitly so a public artifact can validate their canonical
   // paths without walking an existing report or visual.
-  const queue = ["index.md", "reports/index.md", "style.css", "design/tokens.css", "design/visual-language.md", "design/reference.md", "workflows/add-visual/template/fixture.js", "workflows/add-visual/template/styles.css", "workflows/add-visual/template/visual.js", ...routes];
+  const queue = ["index.md", "reports/index.md", "style.css", "design/tokens.css", "design/visual-language.md", "design/reference.md", "workflows/add-visual/template/fixture.js", "workflows/add-visual/template/styles.css", "workflows/add-visual/template/visual.js", "workflows/add-report/template/report.yml", "workflows/add-report/template/report.js", "workflows/add-report/template/annotations.json", "workflows/add-report/template/state.js", "workflows/add-report/template/test.js", ...routes];
+  for (const report of publicReports) {
+    if (report.annotations?.path) {
+      queue.push(`${dirname(report.route)}/${basename(report.route)}/${report.annotations.path}`);
+    }
+  }
   const copied = new Set();
 
   while (queue.length) {

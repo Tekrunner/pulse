@@ -9,8 +9,6 @@ from pathlib import Path
 import re
 from typing import Any
 
-import yaml
-
 from pulse.contracts.dataset import (
     ContractError,
     DatasetManifest,
@@ -39,6 +37,7 @@ from pulse.contracts.status import (
 from pulse.archive import ArchiveError, reject_lfs_pointer
 from pulse.datasets import DatasetError, discover_datasets
 from pulse.sources import SourceDeclarationError, discover_sources
+from pulse.reports import ReportError, discover_reports, resolve_report_visibility
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -50,29 +49,67 @@ _REPORT_ID = re.compile(r"^[a-z0-9][a-z0-9-]*$")
 _REPORT_ROUTE = re.compile(r"^[a-z0-9][a-z0-9/-]*$")
 
 
-def public_dataset_closure(reports_root: Path = ROOT / "site/reports") -> tuple[str, ...]:
-    """Return the datasets explicitly reachable from public report declarations."""
+def _resolved_report_declarations(
+    reports_root: Path, dataset_declarations: dict[str, Any]
+) -> list[tuple[Any, str, list[dict[str, Any]]]]:
+    logical_tables = {
+        dataset_id: declaration.logical_table
+        for dataset_id, declaration in dataset_declarations.items()
+    }
+    visibility = {
+        dataset_id: declaration.visibility
+        for dataset_id, declaration in dataset_declarations.items()
+    }
+    reports = discover_reports(reports_root, logical_tables=logical_tables)
+    resolved = []
+    for report in reports.values():
+        unknown_columns: dict[str, list[str]] = {}
+        for dataset_id, columns in report.dependency_columns.items():
+            declaration = dataset_declarations.get(dataset_id)
+            contract_columns = {
+                item["name"] for item in getattr(getattr(declaration, "contract", None), "columns", [])
+            }
+            missing = sorted(set(columns) - contract_columns)
+            if missing:
+                unknown_columns[dataset_id] = missing
+        if unknown_columns:
+            detail = "; ".join(
+                f"{dataset}: {', '.join(columns)}"
+                for dataset, columns in sorted(unknown_columns.items())
+            )
+            raise ReportError(f"report '{report.report_id}' references unknown column lineage: {detail}")
+        resolved.append(
+            (report, *resolve_report_visibility(report, dataset_visibility=visibility))
+        )
+    return resolved
+
+
+def _public_dataset_closure(
+    reports_root: Path, dataset_declarations: dict[str, Any]
+) -> tuple[str, ...]:
     dataset_ids: set[str] = set()
     reports = 0
-    for path in sorted(reports_root.glob("**/report.yml")):
-        try:
-            raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-        except (OSError, yaml.YAMLError) as error:
-            raise ContractError(f"invalid report declaration at {path}") from error
-        if not isinstance(raw, dict) or raw.get("visibility") not in {"public", "private"}:
-            raise ContractError(f"report declaration visibility is invalid at {path}")
-        if raw["visibility"] != "public":
+    try:
+        resolved = _resolved_report_declarations(reports_root, dataset_declarations)
+    except ReportError as error:
+        raise ContractError(str(error)) from error
+    for declaration, visibility, _annotations in resolved:
+        if visibility != "public":
             continue
         reports += 1
-        declared = raw.get("datasets")
-        if not isinstance(declared, list) or not declared or not all(
-            isinstance(item, str) and _REPORT_ID.fullmatch(item) for item in declared
-        ) or len(declared) != len(set(declared)):
-            raise ContractError(f"public report datasets are invalid at {path}")
-        dataset_ids.update(declared)
+        dataset_ids.update(declaration.datasets)
     if not reports or not dataset_ids:
         raise ContractError("public closure has no report-facing datasets")
     return tuple(sorted(dataset_ids))
+
+
+def public_dataset_closure(reports_root: Path = ROOT / "site/reports") -> tuple[str, ...]:
+    """Return datasets reachable through fully validated, resolved-public reports."""
+    try:
+        datasets = discover_datasets()
+    except DatasetError as error:
+        raise ContractError(f"invalid committed dataset declarations: {error}") from error
+    return _public_dataset_closure(reports_root, datasets)
 
 
 def _sha256(path: Path) -> str:
@@ -113,7 +150,7 @@ def compile_browser_catalog(
         declarations = discover_datasets()
     except DatasetError as error:
         raise ContractError(f"invalid committed dataset declarations: {error}") from error
-    closure = public_dataset_closure(reports_root)
+    closure = _public_dataset_closure(reports_root, declarations)
     expected_manifests = {
         (publish_root / "data" / dataset_id / "dataset.json").resolve()
         for dataset_id in closure
@@ -252,51 +289,23 @@ def compile_report_catalog(
     """Compile strict report declarations with resolved visibility and stable change ids."""
     reports: dict[str, dict[str, Any]] = {}
     routes: set[str] = set()
-    required = {"id", "title", "route", "visibility", "datasets", "visuals", "lineage", "exploration"}
-    for path in sorted(reports_root.glob("**/report.yml")):
-        try:
-            raw = yaml.safe_load(path.read_text(encoding="utf-8"))
-        except (OSError, yaml.YAMLError) as error:
-            raise ContractError(f"invalid report declaration at {path}") from error
-        if not isinstance(raw, dict) or set(raw) != required:
-            raise ContractError(f"report declaration fields are not exact at {path}")
-        report_id, route = raw["id"], raw["route"]
-        if not isinstance(report_id, str) or not _REPORT_ID.fullmatch(report_id):
-            raise ContractError("report IDs must be lowercase kebab-case")
-        if not isinstance(raw["title"], str) or not raw["title"].strip():
-            raise ContractError(f"report '{report_id}' title is invalid")
-        if not isinstance(route, str) or not _REPORT_ROUTE.fullmatch(route) or ".." in Path(route).parts:
-            raise ContractError("report routes must be safe nested routes")
-        if raw["visibility"] not in {"public", "private"}:
-            raise ContractError(f"report '{report_id}' visibility is invalid")
-        if raw["visibility"] != "public":
+    try:
+        dataset_declarations = discover_datasets()
+        declarations = _resolved_report_declarations(reports_root, dataset_declarations)
+    except (DatasetError, ReportError) as error:
+        raise ContractError(str(error)) from error
+    for declaration, resolved_visibility, annotation_rows in declarations:
+        raw = declaration.raw
+        path = declaration.path
+        report_id, route = declaration.report_id, declaration.route
+        dataset_ids = list(declaration.datasets)
+        if resolved_visibility != "public":
             continue
-        if report_id in reports or route in routes:
-            raise ContractError("report catalog has duplicate report identity or route")
-        dataset_ids = raw["datasets"]
-        if not isinstance(dataset_ids, list) or not dataset_ids or len(set(dataset_ids)) != len(dataset_ids):
-            raise ContractError(f"report '{report_id}' datasets are invalid")
         missing = [item for item in dataset_ids if item not in browser_catalog["datasets"]]
         if missing:
-            raise ContractError(f"report '{report_id}' references unavailable datasets")
-        if not all(browser_catalog["datasets"][item]["visibility"] == "public" for item in dataset_ids):
-            raise ContractError(f"report '{report_id}' cannot weaken dataset visibility")
-        resolved_visibility = "public"
-        if not isinstance(raw["visuals"], list) or not raw["visuals"]:
-            raise ContractError(f"report '{report_id}' visual slots are invalid")
+            raise ContractError(f"report '{report_id}' references unavailable public datasets")
         visual_ids: set[str] = set()
         for visual in raw["visuals"]:
-            if not isinstance(visual, dict) or set(visual) != {"id", "contract", "dataset", "columns"}:
-                raise ContractError(f"report '{report_id}' visual slot is invalid")
-            if (
-                not isinstance(visual["id"], str)
-                or not _REPORT_ID.fullmatch(visual["id"])
-                or visual["id"] in visual_ids
-                or visual["dataset"] not in dataset_ids
-                or not isinstance(visual["contract"], str)
-                or not visual["contract"].startswith("1.")
-            ):
-                raise ContractError(f"report '{report_id}' visual identity or dataset is invalid")
             available = {column["name"] for column in browser_catalog["datasets"][visual["dataset"]]["schema"]}
             if (
                 not isinstance(visual["columns"], list)
@@ -333,6 +342,7 @@ def compile_report_catalog(
             raise ContractError(f"report '{report_id}' exploration declaration is invalid")
         substantive = {
             "declaration": raw,
+            "annotations": annotation_rows,
             "datasetContent": {
                 item: browser_catalog["datasets"][item]["contentSha256"] for item in sorted(dataset_ids)
             },
