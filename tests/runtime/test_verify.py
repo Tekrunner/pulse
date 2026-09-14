@@ -19,6 +19,15 @@ def test_registered_smoke_stages_run_in_order(monkeypatch: pytest.MonkeyPatch) -
     assert calls == ["python", "node"]
 
 
+def test_skill_mirror_gate_precedes_full_language_suites() -> None:
+    assert verify.SMOKE_STAGES.index(verify._skill_mirror_smoke) < verify.SMOKE_STAGES.index(
+        verify._python_smoke
+    )
+    assert verify.SMOKE_STAGES.index(verify._skill_mirror_smoke) < verify.SMOKE_STAGES.index(
+        verify._node_smoke
+    )
+
+
 @pytest.mark.parametrize(
     ("failure", "expected"),
     (
@@ -146,6 +155,20 @@ def test_node_smoke_runs_the_explicit_frontend_suite(monkeypatch: pytest.MonkeyP
     verify._node_smoke()
 
     assert calls == [("node smoke", ["/tool/bin/npm", "run", "verify:frontend"])]
+
+
+def test_skill_mirror_smoke_uses_project_interpreter(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[tuple[str, list[str]]] = []
+    monkeypatch.setattr(verify, "_run", lambda name, command: calls.append((name, command)))
+
+    verify._skill_mirror_smoke()
+
+    assert calls == [
+        (
+            "skill mirrors",
+            [verify.sys.executable, str(verify.ROOT / "scripts" / "sync_agent_skills.py"), "--check"],
+        )
+    ]
 
 
 def test_mismatched_node_and_npm_installations_are_rejected(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -79,6 +79,13 @@ def _python_smoke() -> None:
     _run("python smoke", [sys.executable, "-m", "pytest", "-q"])
 
 
+def _skill_mirror_smoke() -> None:
+    _run(
+        "skill mirrors",
+        [sys.executable, str(ROOT / "scripts" / "sync_agent_skills.py"), "--check"],
+    )
+
+
 def _node_smoke() -> None:
     npm = shutil.which("npm")
     if npm is None:
@@ -282,6 +289,7 @@ def _workflow_smoke() -> None:
 SMOKE_STAGES: tuple[Callable[[], None], ...] = (
     _status_smoke,
     _workflow_smoke,
+    _skill_mirror_smoke,
     _python_smoke,
     _node_smoke,
 )

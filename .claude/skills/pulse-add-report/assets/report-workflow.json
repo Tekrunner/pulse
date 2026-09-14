@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pulse.local/contracts/report-workflow-1.schema.json",
+  "title": "Pulse report workflow record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "reportId", "phase", "discovery", "sourceDecisions", "dependencies", "artifacts", "approval", "visuals", "verification", "resume"],
+  "properties": {
+    "schemaVersion": {"const": "1.0.0"},
+    "reportId": {"$ref": "#/$defs/id"},
+    "phase": {"enum": ["questions", "source-selection", "dependencies", "real-data", "design-handoff", "design-approval", "infrastructure", "visual-implementation", "verification", "complete"]},
+    "discovery": {
+      "type": "object", "additionalProperties": false,
+      "required": ["standingQuestions", "indicators", "context", "readingBehavior", "privacyExpectation", "explorationNeeded"],
+      "properties": {
+        "standingQuestions": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "question"], "properties": {"id": {"$ref": "#/$defs/id"}, "question": {"type": "string", "minLength": 1}}}},
+        "indicators": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "context": {"type": "string"},
+        "readingBehavior": {"type": "string"},
+        "privacyExpectation": {"enum": ["public", "private", "undecided"]},
+        "explorationNeeded": {"type": ["boolean", "null"]}
+      }
+    },
+    "sourceDecisions": {
+      "type": "array",
+      "items": {"type": "object", "additionalProperties": false, "required": ["need", "candidates", "selected", "rationale", "defaultProvider"],
+        "properties": {
+          "need": {"type": "string", "minLength": 1},
+          "candidates": {"type": "array", "items": {"$ref": "#/$defs/sourceCandidate"}},
+          "selected": {"type": ["string", "null"]},
+          "rationale": {"type": "string"},
+          "defaultProvider": {"const": false}
+        }}
+    },
+    "dependencies": {"type": "array", "items": {"$ref": "#/$defs/dependency"}},
+    "artifacts": {"type": "array", "items": {"$ref": "#/$defs/artifact"}},
+    "approval": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/approvalArtifact"}]},
+    "visuals": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["id", "handoffSection", "implementation", "numericEvidence", "fidelityEvidence", "verified"], "properties": {"id": {"$ref": "#/$defs/id"}, "handoffSection": {"type": "string", "minLength": 1}, "implementation": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/implementationArtifact"}]}, "numericEvidence": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/numericArtifact"}]}, "fidelityEvidence": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/fidelityArtifact"}]}, "verified": {"type": "boolean"}}}},
+    "verification": {"type": "object", "additionalProperties": false, "required": ["commands", "complete"], "properties": {"commands": {"type": "array", "items": {"type": "object", "additionalProperties": false, "required": ["command", "status", "evidence"], "properties": {"command": {"type": "string", "minLength": 1}, "status": {"enum": ["pending", "passed", "failed"]}, "evidence": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/verificationArtifact"}]}}}}, "complete": {"type": "boolean"}}},
+    "resume": {"type": "object", "additionalProperties": false, "required": ["firstIncomplete", "checkedAt"], "properties": {"firstIncomplete": {"type": ["string", "null"]}, "checkedAt": {"type": ["string", "null"], "format": "date-time"}}}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "artifact": {"type": "object", "additionalProperties": false, "required": ["phase", "kind", "path", "sha256"], "properties": {"phase": {"type": "string", "minLength": 1}, "kind": {"type": "string", "minLength": 1}, "path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "dependencyArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "dependencies"}, "kind": {"enum": ["source-output", "dataset-output"]}}}]},
+    "approvalArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "design-approval"}, "kind": {"const": "human-approval"}}}]},
+    "implementationArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "visual-implementation"}, "kind": {"const": "implementation"}}}]},
+    "numericArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "visual-implementation"}, "kind": {"const": "numeric-evidence"}}}]},
+    "fidelityArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "visual-implementation"}, "kind": {"const": "fidelity-evidence"}}}]},
+    "verificationArtifact": {"allOf": [{"$ref": "#/$defs/artifact"}, {"properties": {"phase": {"const": "verification"}, "kind": {"const": "test-evidence"}}}]},
+    "dependency": {
+      "type": "object", "additionalProperties": false,
+      "required": ["kind", "id", "skill", "artifact", "verified"],
+      "properties": {"kind": {"enum": ["source", "dataset"]}, "id": {"$ref": "#/$defs/id"}, "skill": {"enum": ["pulse-add-source", "pulse-add-dataset"]}, "artifact": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/dependencyArtifact"}]}, "verified": {"type": "boolean"}},
+      "allOf": [
+        {"if": {"properties": {"verified": {"const": true}}}, "then": {"properties": {"artifact": {"$ref": "#/$defs/dependencyArtifact"}}}},
+        {
+          "if": {"properties": {"kind": {"const": "source"}}},
+          "then": {"properties": {
+            "skill": {"const": "pulse-add-source"},
+            "artifact": {"oneOf": [
+              {"type": "null"},
+              {"allOf": [{"$ref": "#/$defs/dependencyArtifact"}, {"properties": {"kind": {"const": "source-output"}}}]}
+            ]}
+          }}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "dataset"}}},
+          "then": {"properties": {
+            "skill": {"const": "pulse-add-dataset"},
+            "artifact": {"oneOf": [
+              {"type": "null"},
+              {"allOf": [{"$ref": "#/$defs/dependencyArtifact"}, {"properties": {"kind": {"const": "dataset-output"}}}]}
+            ]}
+          }}
+        }
+      ]
+    },
+    "sourceCandidate": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "authority", "coverage", "granularity", "stability", "accessMethod", "format", "licence", "attribution", "cadence", "publicationSchedule", "redistributionConstraints"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"}, "authority": {"type": "string", "minLength": 1}, "coverage": {"type": "string", "minLength": 1}, "granularity": {"type": "string", "minLength": 1}, "stability": {"type": "string", "minLength": 1}, "accessMethod": {"type": "string", "minLength": 1}, "format": {"type": "string", "minLength": 1}, "licence": {"type": "string", "minLength": 1}, "attribution": {"type": "string", "minLength": 1}, "cadence": {"type": "string", "minLength": 1}, "publicationSchedule": {"type": "string", "minLength": 1}, "redistributionConstraints": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}

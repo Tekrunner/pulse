@@ -1,0 +1,4 @@
+interface:
+  display_name: "Add Pulse Visual"
+  short_description: "Design, approve, register, and verify a purpose-built visual"
+  default_prompt: "Use $pulse-add-visual to author and register the requested visual through the external design and fidelity workflow."

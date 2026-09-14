@@ -39,6 +39,16 @@ node tests/node/report-workflow.test.mjs
 
 Use `npm run verify:frontend` only when intentionally running the complete frontend gate without Python, status, or workflow checks. Do not run it alongside `pulse verify`: the aggregate command already invokes it. After the final code change, run `uv run --no-sync pulse verify` once. The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 
+## Agent skills across Codex and Claude Code
+
+Project-owned `pulse-*` skills use `.agents/skills/` as their canonical source and are mirrored into `.claude/skills/` for Claude Code. Edit only the canonical copy, then update the committed mirrors with:
+
+```sh
+uv run --no-sync python scripts/sync_agent_skills.py --write
+```
+
+`pulse verify` checks that the two trees are byte-identical. BMad-installed skills are maintained separately by the BMad installer for both configured clients.
+
 ## Reproducible public site and GitHub Pages
 
 After a frozen install and `git lfs pull`, rebuild the complete public report

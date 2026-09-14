@@ -1,0 +1,9 @@
+# Dataset package contract
+
+A package is independently discovered at `datasets/<dataset-id>/dataset.yaml`. Its directory and `id` agree; `logical_table` is unique lowercase snake_case; the source already exists. Copy the neutral asset and adapt only its package-local files.
+
+`dataset-contract.yaml` is authoritative. Keep all top-level fields exact. `questions` records stable IDs, user-facing questions, derivations, and required columns. `temporal` records grain, period column, and what a row's period means. `validations` names executable dbt tests and their affected columns. Every indicator identifies its output column, definition, unit, source/provenance, licence, and attribution. Every output column has an exact DuckDB type and description.
+
+The builder receives `DatasetBuildContext`. Each `SnapshotInput` exposes `artifact`, `format`, and its validated immutable `manifest`. For original files, decode explicitly in package-owned dbt SQL: declare fields/types and reject incompatible bytes; never use silent type inference as the contract. For Parquet, select required provider-native fields without changing the archive. Return `DatasetBuildResult` only after dbt models and tests succeed and the candidate is non-empty.
+
+Use `pulse dataset build <dataset-id>` as the sole build command. Publication validates exact schema and manifest semantics and swaps the manifest/Parquet pair as one recoverable unit. Any failure must leave the last usable pair in place.

@@ -1,0 +1,5 @@
+# Compatibility adapters
+
+Use an adapter only when an atomic consumer migration is not currently possible. It belongs in `schema-change.yaml`, is projected into the browser dataset entry, and is instantiated by the shared data client as an application-boundary DuckDB view. It may rename/project typed analytical columns; it must not reinterpret provider bytes, implement visual semantics, hide missing columns, or silently cast incompatible values.
+
+Set a v1 adapter version, accountable owner, objective removal condition, distinct old logical table, and an old-to-new `column_mapping`. Cover every removed or retyped consumed column. Mark inventoried consumers `adapted`. Tests must query both canonical and compatibility table names from non-empty rows, compare expected values and types, verify missing mappings fail, and prove canonical consumers remain unchanged. Remove the adapter declaration and its tests only in the same change that satisfies the recorded removal condition and migrates the last old consumer.

@@ -10,18 +10,18 @@ import { verifyNumericBoundary } from "../../.agents/skills/pulse-add-visual/ass
 const root = resolve(import.meta.dirname, "../..");
 const skillRoot = resolve(root, ".agents/skills/pulse-add-visual");
 const read = (path) => readFile(resolve(root, path), "utf8");
+const pythonExecutable = resolve(
+  root,
+  process.platform === "win32" ? ".venv/Scripts/python.exe" : ".venv/bin/python3",
+);
 const python = (args) => {
-  const result = spawnSync("python3", args, { cwd: root, encoding: "utf8" });
+  const result = spawnSync(pythonExecutable, args, { cwd: root, encoding: "utf8" });
   if (result.status !== 0) throw new Error(result.stderr || result.stdout || String(result.error));
   return result.stdout;
 };
 const pythonResult = (args) =>
-  spawnSync("python3", args, { cwd: root, encoding: "utf8" });
-const venvPython = (args) => {
-  const result = spawnSync(resolve(root, ".venv/bin/python3"), args, { cwd: root, encoding: "utf8" });
-  if (result.status !== 0) throw new Error(result.stderr || result.stdout || String(result.error));
-  return result.stdout;
-};
+  spawnSync(pythonExecutable, args, { cwd: root, encoding: "utf8" });
+const venvPython = python;
 const gate = resolve(skillRoot, "scripts/handoff_gate.py");
 const fidelityGate = resolve(skillRoot, "scripts/fidelity_gate.py");
 
@@ -29,7 +29,6 @@ const skill = await read(".agents/skills/pulse-add-visual/SKILL.md");
 const workflow = await read(".agents/skills/pulse-add-visual/references/workflow.md");
 const registration = await read(".agents/skills/pulse-add-visual/references/registration.md");
 const verification = await read(".agents/skills/pulse-add-visual/references/verification.md");
-const story = await read("_bmad-output/implementation-artifacts/spec-2-4-author-and-register-a-purpose-built-visual.md");
 const prompt = await read(".agents/skills/pulse-add-visual/assets/claude-design-prompt.md");
 const brief = await read(".agents/skills/pulse-add-visual/assets/implementation-brief.md");
 const checklist = await read(".agents/skills/pulse-add-visual/assets/fidelity-checklist.md");
@@ -51,14 +50,10 @@ assert.match(registration, /lineage/);
 assert.match(registration, /no chart library, SQL, DuckDB, Parquet\/storage URL, route/);
 assert.match(verification, /left, middle, and right/);
 assert.match(verification, /viewport, keyboard focus, partial input/);
-for (const documentedCommands of [workflow, verification, story]) {
-  assert.doesNotMatch(documentedCommands, /^python\s/m,
-    "Story 2.4 commands must use the available python3 executable");
-}
-assert.match(workflow, /^python3 .*handoff_gate\.py inspect/m);
-assert.match(workflow, /^python3 .*handoff_gate\.py approve/m);
-assert.match(verification, /^python3 .*fidelity_gate\.py/m);
-assert.match(story, /`python3 .*quick_validate\.py/);
+assert.match(workflow, /^uv run --no-sync python .*handoff_gate\.py inspect/m);
+assert.match(workflow, /^uv run --no-sync python .*handoff_gate\.py approve/m);
+assert.match(verification, /^uv run --no-sync python .*fidelity_gate\.py/m);
+assert.doesNotMatch(workflow + verification, /\/home\/yfontana|quick_validate\.py/);
 assert.match(checklist, /Approved capture \| Implementation capture/);
 assert.match(checklist, /400% zoom\/reflow/);
 const checklistPath = join(await mkdtemp(join(tmpdir(), "pulse-fidelity-")), "checklist.md");
@@ -71,7 +66,7 @@ await writeFile(
     .replace(/Verdict: OPEN.*$/m, "Verdict: COMPLETE"),
 );
 assert.match(python([fidelityGate, checklistPath]), /Fidelity checklist complete/);
-assert.notEqual(spawnSync("python3", [fidelityGate, resolve(skillRoot, "assets/fidelity-checklist.md")]).status, 0,
+assert.notEqual(spawnSync(pythonExecutable, [fidelityGate, resolve(skillRoot, "assets/fidelity-checklist.md")]).status, 0,
   "the blank fidelity template must keep completion open");
 
 const evidence = {
@@ -146,10 +141,10 @@ assert.notEqual(changedDecision.status, 0);
 assert.match(changedDecision.stdout, /human approval decision changed/);
 await writeFile(approvalPath, JSON.stringify(lockedApproval));
 assert.match(python([gate, "verify", "--root", handoff, "--manifest", manifestPath, "--approval", approvalPath]), /approved-locked/);
-assert.notEqual(spawnSync("python3", [gate, "approve", "--root", handoff, "--manifest", manifestPath, "--approval", approvalPath, "--approved-by", "Another reviewer"]).status, 0,
+assert.notEqual(spawnSync(pythonExecutable, [gate, "approve", "--root", handoff, "--manifest", manifestPath, "--approval", approvalPath, "--approved-by", "Another reviewer"]).status, 0,
   "an approval record must never be overwritten");
 await writeFile(join(handoff, "prototype.html"), "changed after approval\n");
-assert.notEqual(spawnSync("python3", [gate, "verify", "--root", handoff, "--manifest", manifestPath, "--approval", approvalPath]).status, 0,
+assert.notEqual(spawnSync(pythonExecutable, [gate, "verify", "--root", handoff, "--manifest", manifestPath, "--approval", approvalPath]).status, 0,
   "a changed approved handoff must relock implementation");
 
 const inseeManifest = {

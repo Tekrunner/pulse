@@ -1,0 +1,4 @@
+interface:
+  display_name: Add Pulse dataset
+  short_description: Build a typed dataset from immutable snapshots
+  default_prompt: Add the requested Pulse dataset using the neutral dbt-on-DuckDB workflow.

@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_revision": "__PINNED_DATASET_HASH_OR_REVISION__",
+  "conversion_paths": ["__QUERY_ROW_MAPPING_PATH__"],
+  "cases": [
+    {
+      "id": "decimal-scale-and-precision",
+      "path": "__QUERY_ROW_MAPPING_PATH__",
+      "concerns": ["decimal-scale", "precision"],
+      "stored": "102.67",
+      "query": 102.67,
+      "displayed": "102.67",
+      "expected_query": 102.67,
+      "expected_display": "102.67"
+    },
+    {
+      "id": "negative",
+      "path": "__QUERY_ROW_MAPPING_PATH__",
+      "concerns": ["negative"],
+      "stored": "-0.2",
+      "query": -0.2,
+      "displayed": "−0.2",
+      "expected_query": -0.2,
+      "expected_display": "−0.2"
+    },
+    {
+      "id": "null",
+      "path": "__QUERY_ROW_MAPPING_PATH__",
+      "concerns": ["null"],
+      "stored": null,
+      "query": null,
+      "displayed": "—",
+      "expected_query": null,
+      "expected_display": "—"
+    }
+  ]
+}
