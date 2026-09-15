@@ -31,7 +31,7 @@ A report query may select only from its own declared dataset's table, and the en
 
 Where the report's families publish on different calendars, the represented period is a reader-facing window, not a single provider's edge. Bind each family's query to its own published end while the window is open to the latest, and pull every family back together only when the reader sets an explicit end. Cutting a monthly series back to the last complete quarter of a slower family hides months that are published, and the header must state each family's own edge so the difference is legible without interaction.
 
-A report is the only layer that may know what it draws, and it inherits the guarantees that make that safe: a dataset asserts that every entity it classifies is present, so any choice of entities is covered without the dataset knowing the choice. Where a report joins two datasets, the join's own invariants — every keyed row on one side has a match on the other — are the report's to assert, because dbt cannot express them across packages and copying either side's contents into the other creates a second source of truth. If satisfying a presentation decision seems to require editing a source or a dataset, that is the signal a guarantee below has been written around one consumer; fix the guarantee rather than propagate the change.
+A report is the only layer that may know what it draws, and under the layer contract in `AGENTS.md` it inherits the guarantees that make that safe. The invariants of any join it performs are its own to assert, in its tests.
 
 ## Evidence
 
