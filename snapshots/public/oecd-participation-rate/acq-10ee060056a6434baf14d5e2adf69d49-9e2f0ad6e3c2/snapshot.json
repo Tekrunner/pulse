@@ -1,0 +1,53 @@
+{
+  "acquired_at": "2026-09-14T12:39:40Z",
+  "acquisition_id": "acq-10ee060056a6434baf14d5e2adf69d49",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "9e2f0ad6e3c2b397e18b3842e3463db2d5584727b4f848bbc9f1aa318fa02574"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_rate_lies_within_zero_and_one_hundred",
+      "passed": true
+    },
+    {
+      "check": "every_period_is_a_calendar_quarter",
+      "passed": true
+    },
+    {
+      "check": "required_reference_areas_are_within_two_quarters_of_the_publication_edge",
+      "passed": true
+    },
+    {
+      "check": "every_reference_area_carries_both_a_code_and_a_label",
+      "passed": true
+    },
+    {
+      "check": "men_and_women_are_reported_wherever_a_total_is",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: OECD, Labour force participation rate. This is an adaptation of an original work by the OECD.",
+  "decoder_version": "oecd-sdmx-csv2-quarterly-v1",
+  "format": "parquet",
+  "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "observed_schema_sha256": "471ba623b171b7c8a7f0d1c0ecd9ec3c47bf84c9315b69b8f191c5f1484fb7c3",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-10ee060056a6434baf14d5e2adf69d49-9e2f0ad6e3c2",
+  "source_data_date": "2026-06-30",
+  "source_id": "oecd-participation-rate",
+  "source_urls": [
+    "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_LF_WAP_Q,1.0/.LF_WAP.PT_WAP_SUB._Z.Y._T+M+F.Y_GE15._Z.Q?startPeriod=2000-Q1"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

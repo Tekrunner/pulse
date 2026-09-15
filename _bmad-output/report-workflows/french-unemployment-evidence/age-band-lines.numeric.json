@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "age-band-lines",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "age-bands",
+  "parameters": [
+    "2016-10-01",
+    "2026-04-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2026-04-01",
+      "column": "unemployment_rate_under_25_pct",
+      "storedParquet": "21.6",
+      "queryOutput": 21.6,
+      "mappedJavaScript": 21.6,
+      "displayedText": "21.6"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployment_rate_25_to_49_pct",
+      "storedParquet": "7.5",
+      "queryOutput": 7.5,
+      "mappedJavaScript": 7.5,
+      "displayedText": "7.5"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployment_rate_50_and_over_pct",
+      "storedParquet": "5.5",
+      "queryOutput": 5.5,
+      "mappedJavaScript": 5.5,
+      "displayedText": "5.5"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployed_under_25_thousands",
+      "storedParquet": "740.0",
+      "queryOutput": 740.0,
+      "mappedJavaScript": 740.0,
+      "displayedText": "0.74M"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployed_25_to_49_thousands",
+      "storedParquet": "1381.0",
+      "queryOutput": 1381.0,
+      "mappedJavaScript": 1381.0,
+      "displayedText": "1.38M"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployed_50_and_over_thousands",
+      "storedParquet": "555.0",
+      "queryOutput": 555.0,
+      "mappedJavaScript": 555.0,
+      "displayedText": "0.56M"
+    }
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "Under 25 21.6%",
+      "25 to 49 7.5%",
+      "50 or over 5.5%"
+    ],
+    "lastTableRow": [
+      "Q2 2026",
+      "21.6",
+      "0.74",
+      "7.5",
+      "1.38",
+      "5.5",
+      "0.56"
+    ]
+  }
+}

@@ -567,9 +567,15 @@ test("homepage links every included report and lists pipeline health quietly", a
   await expect(
     reportIndex.getByRole("link", { name: "French consumer prices" }),
   ).toBeVisible();
+  await expect(
+    reportIndex.getByRole("link", { name: "Unemployment in France" }),
+  ).toBeVisible();
   const health = page.locator("[data-pipeline-health]");
   await expect(health).toHaveAttribute("data-state", "ready");
-  await expect(health.locator("[data-pipeline]")).toHaveCount(4);
+  // Every published source and dataset appears, plus the site itself. The count
+  // is a lower bound, not an equality: this test is about how the homepage
+  // presents pipeline health, not about how many pipelines the repository has.
+  expect(await health.locator("[data-pipeline]").count()).toBeGreaterThanOrEqual(4);
   for (const pipeline of [
     "source:insee-cpi",
     "dataset:insee-cpi-monthly",
@@ -588,10 +594,9 @@ test("homepage links every included report and lists pipeline health quietly", a
   const site = health.locator('[data-pipeline="system:site"]');
   await expect(site).toHaveAttribute("data-state", "succeeded");
   await expect(site).toContainText("All stages succeeded");
-  await expect(page.locator("[data-report-index] a")).toHaveAttribute(
-    "href",
-    "./reports/french-consumer-prices",
-  );
+  await expect(
+    reportIndex.getByRole("link", { name: "French consumer prices", exact: true }),
+  ).toHaveAttribute("href", "./reports/french-consumer-prices");
   await page
     .getByRole("link", { name: "French consumer prices", exact: true })
     .click();
@@ -688,11 +693,16 @@ test("homepage orders pipelines by attention, then along the data flow", async (
 }) => {
   const ids = (locator) =>
     locator.evaluateAll((nodes) => nodes.map((node) => node.dataset.pipeline));
+  // The ordering rule is asserted on one family, as a subsequence of the whole
+  // list: adding a pipeline elsewhere in the repository must not rewrite this
+  // test, but it must not be allowed to reorder this family either.
+  const family = ["source:insee-cpi", "dataset:insee-cpi-category-analysis", "dataset:insee-cpi-monthly", "system:site"];
+  const ordered = async (locator) => (await ids(locator)).filter((id) => family.includes(id));
   // Healthy: nothing needs attention, so the source leads its two datasets.
   await page.goto("./");
   const health = page.locator("[data-pipeline-health]");
   await expect(health).toHaveAttribute("data-state", "ready");
-  expect(await ids(health.locator("[data-pipeline]"))).toEqual([
+  expect(await ordered(health.locator("[data-pipeline]"))).toEqual([
     "source:insee-cpi",
     "dataset:insee-cpi-category-analysis",
     "dataset:insee-cpi-monthly",
@@ -702,7 +712,7 @@ test("homepage orders pipelines by attention, then along the data flow", async (
   // remaining healthy rows keep source-before-dataset order.
   await page.goto("?scenario=status-failed");
   await expect(health).toHaveAttribute("data-state", "ready");
-  expect(await ids(health.locator("[data-pipeline]"))).toEqual([
+  expect(await ordered(health.locator("[data-pipeline]"))).toEqual([
     "dataset:insee-cpi-category-analysis",
     "source:insee-cpi",
     "dataset:insee-cpi-monthly",

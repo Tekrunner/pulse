@@ -1,0 +1,36 @@
+id: ign-departement-boundaries
+snapshot_contract: snapshot-contract.yaml
+name: IGN departement administrative boundaries, ADMIN EXPRESS COG CARTO
+visibility: public
+acquisition:
+  method: IGN Geoplateforme WFS 2.0.0 GetFeature returning GeoJSON
+  url: https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=ADMINEXPRESS-COG-CARTO-PE.2026%3Adepartement&OUTPUTFORMAT=application%2Fjson&COUNT=200&SRSNAME=EPSG%3A4326
+  # The dated edition is pinned rather than tracking the moving LATEST alias, so
+  # the represented year is a declared fact rather than a guess about whatever
+  # the provider happened to be serving at acquisition time. Bumping this is an
+  # explicit human decision; see source-contract.md.
+  edition: '2026'
+  layer: ADMINEXPRESS-COG-CARTO-PE.2026:departement
+  # Petite Echelle rather than full detail: identical coverage and identical
+  # keys at 1.78 MB instead of 20.3 MB, measured on 2026-09-14.
+  generalisation: petite-echelle
+  coordinate_reference_system: EPSG:4326
+  expected_feature_count: 101
+  # Every territory carrying a localised unemployment rate must have geometry,
+  # or the choropleth has holes. Mayotte is present here although it has no
+  # localised rate, which is a coverage surplus rather than a mismatch.
+  required_departement_codes:
+    ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19',
+     '21','22','23','24','25','26','27','28','29','2A','2B','30','31','32','33','34','35','36','37',
+     '38','39','40','41','42','43','44','45','46','47','48','49','50','51','52','53','54','55','56',
+     '57','58','59','60','61','62','63','64','65','66','67','68','69','70','71','72','73','74','75',
+     '76','77','78','79','80','81','82','83','84','85','86','87','88','89','90','91','92','93','94',
+     '95','971','972','973','974','976']
+fetch_cadence: annual, following the IGN edition of the official geographic code
+expected_publication_advance: annual; ADMIN EXPRESS COG editions are published per reference year, and a pinned edition does not advance at all until it is deliberately bumped
+publication_schedule:
+  period: annual
+  expected_within_days: 0
+  grace_days: 60
+licence: Licence Ouverte / Open Licence 2.0
+attribution: "Source: IGN, ADMIN EXPRESS COG CARTO, edition 2026."

@@ -1,0 +1,6 @@
+id: french-departement-unemployment
+name: French localised unemployment rates by territory
+source: insee-local-unemployment
+visibility: public
+logical_table: french_departement_unemployment
+contract: dataset-contract.yaml

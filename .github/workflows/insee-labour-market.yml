@@ -1,0 +1,50 @@
+name: Refresh INSEE quarterly ILO labour-market indicators
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Quarters end 31 Mar, 30 Jun, 30 Sep and 31 Dec, so the 22nd of May, Aug,
+    # Nov and Feb is +52 to +53 days after the quarter end: after the largest
+    # observed release lag (+43 days) and before the declared deadline plus
+    # grace expires at +59 days. 08:00 UTC is safely after the 07:30
+    # Europe/Paris release under both CET and CEST.
+    - cron: "0 8 22 2,5,8,11 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/insee-labour-market/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh insee-labour-market --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication insee-labour-market
+          if ! git diff --cached --quiet; then
+            git commit -m "data(insee-labour-market): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

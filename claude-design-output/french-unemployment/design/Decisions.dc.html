@@ -1,0 +1,133 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #161826; color: #e9e9ed;
+    font: 15px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #b5abfc; } a:hover { color: #d2cefd; }
+  h1, h2, h3 { margin: 0; font-weight: 500; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch; }
+  h2 { font-size: 25px; letter-spacing: -.015em; }
+  h3 { font-size: 20px; }
+  p { margin: 0; }
+  .eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .standfirst { max-width: 62ch; color: #cfd3e5; font-size: 16px; }
+  .muted { color: #b2b6ca; font-size: 13px; }
+  .tiny { color: #9397ab; font-size: 12px; }
+  figure { margin: 0; padding: 16.8px; border-radius: 8px; background: #232532;
+    box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8.4px; }
+  figcaption { display: flex; flex-direction: column; gap: 2.8px; }
+  figcaption p { max-width: 74ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #3f424d;
+    font-variant-numeric: tabular-nums; }
+  th { color: #b2b6ca; font-weight: 500; }
+  td.n, th.n { text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5.6px 16.8px; font-size: 12px; color: #cfd3e5; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .provenance { color: #9397ab; font-size: 12px; }
+</style>
+</helmet>
+<div style="width: 820px; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px">
+<header style="display:flex;flex-direction:column;gap:5.6px">
+  <p class="eyebrow">Pulse · French unemployment</p>
+  <h2>Design decisions and rationale</h2>
+  <p class="standfirst" style="font-size:15px">What was decided, why, and what it costs. Everything
+    below becomes binding on approval.</p>
+</header>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>The reading order is the narrative</h3>
+<p class="muted">Headline → slack → age → participation → territory → international. It follows the
+  recorded reading behaviour rather than dataset convenience: a reader arrives with a number in mind,
+  tests it against the wider measures, then looks for themselves, and compares outward last. The
+  territorial and international sections are the two that most reward a second visit, so they sit
+  where a returning reader can reach them by scrolling past a headline they have already read.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>The rate and the headcount are two plots, never one</h3>
+<p class="muted">A dual axis would invent a relationship between a percentage and a headcount whose
+  alignment is arbitrary. They are stacked, sharing an x-axis and a quarter, on separate scales. The
+  cost is vertical space; the alternative is a chart that lies about correlation.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>The four slack measures are small multiples, not a stack</h3>
+<p class="muted">They overlap — a long-term unemployed person is also unemployed — so they are not
+  parts of a whole and must never be stacked. Their published rates have four different denominators
+  (labour force, labour force, population 15–64, employment), so those rates must never share an
+  axis either. Four panels, each with its own scale, its own headcount and its own rate with the
+  denominator spelled out in words. A standing caution says so in the figure, not in a footnote.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Colour was computed, not chosen</h3>
+<p class="muted">Series colours are the documented categorical order, validated against this
+  report's own surface (#232532) rather than a default: three slots pass all-pairs (worst CVD ΔE
+  9.4), eight pass adjacent (worst 8.4). An earlier hand-picked palette failed on four of five
+  checks — too light, too grey, and two pairs indistinguishable — which is why the validator ran
+  before anything was drawn.</p>
+<p class="muted">The map ramp is one hue, five classes, ascending lightness with ascending rate
+  because the surface is dark; it passes monotonicity, a ΔL floor of 0.06 between steps, and 2.29:1
+  at the recessive end. A six-step version failed the ΔL gate and was cut to five.</p>
+<p class="muted">Age bands were tried as an ordinal single-hue ramp, which would have encoded their
+  natural order. It failed: the darkest step reached only 1.87:1 against this surface. They use
+  three categorical slots instead, assigned in band order, with every line directly labelled at its
+  end so identity never rests on hue.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Colour follows the country, not its rank</h3>
+<p class="muted">France is fixed in slot 1 and cannot be removed. Every other comparator claims a
+  slot when it is added and releases it only when removed, so taking Spain off the chart never
+  repaints Germany. Eight concurrent series is a hard cap: past eight the palette has no ninth
+  colour a colour-blind reader can separate, so a ninth is refused with an explanation rather than
+  served with a colour that lies. The cost is real — a reader cannot put all 38 members on one chart
+  — and the ranked table is the answer for that question instead.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Gaps are shown, never smoothed</h3>
+<p class="muted">Three separate absences, three deliberate treatments, none of them zero:</p>
+<ul class="muted" style="margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px">
+  <li><b>Mayotte</b> has a boundary but no localised rate: it renders in the not-published fill with
+    a dashed edge, and the legend names that class.</li>
+  <li><b>The four overseas départements before 2014</b> switch to the same treatment, with the period
+    control stating why.</li>
+  <li><b>Switzerland and New Zealand</b> stay in the comparator list and render an explicit
+    "not published monthly" chip. They were not quietly removed.</li>
+</ul></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Periods are stated, never implied</h3>
+<p class="muted">The three data families reach different dates — national Q2 2026, départements
+  Q1 2026, international August 2026 — so every figure carries its own represented period and the
+  header states all three. The map explicitly contrasts its own national reference (7.9%
+  metropolitan France, Q1) with the national headline (8.3%, France including Mayotte, Q2) so the
+  two are never read as a discrepancy.</p>
+<p class="muted">The international chart draws each country to its own latest month and labels it,
+  rather than cutting every line back to the slowest reporter. The United Kingdom therefore ends
+  about three months short, which the caption explains as the provider's calendar.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Every figure has a text equivalent</h3>
+<p class="muted">Not a summary — the same values. The map's equivalent is the full sortable ranking
+  of all 100 départements; at phone width that table replaces the map outright, because 100 shapes
+  are unreadable at that size. Tooltips never gate a value: direct labels carry the endpoints, the
+  table carries everything, and keyboard focus shows what hover shows.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>What is design-only and must not be ported</h3>
+<p class="muted" style="color:#f0e3c8">The map outlines on these artboards are decimated to roughly
+  30 vertices per département so the review canvas stays light. <b>Production renders the published
+  IGN geometry unchanged.</b> Nothing else here is representative: every number on every artboard
+  was read from the published Parquet.</p></section>
+
+<section style="display:flex;flex-direction:column;gap:5.6px"><h3>Open questions for the approver</h3>
+<ul class="muted" style="margin:0;padding-left:1.1rem;display:flex;flex-direction:column;gap:4px">
+  <li>The eight-series cap on the international chart is a judgement. If a reader must compare more,
+    the answer is the ranked table, not more colours — confirm that trade is acceptable.</li>
+  <li>The headline section shows ten years by default. Five would emphasise the recent rise; all 23
+    would put the 2015 peak of 10.5% on screen. Ten is the compromise.</li>
+  <li>Class breaks on the map are round numbers (6, 7, 8, 10) rather than quintiles, so the legend is
+    memorable. Quintiles would spread the colours more evenly across départements.</li>
+</ul></section>
+</div>
+</x-dc>
+</body>
+</html>

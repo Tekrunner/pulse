@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "headline-trend-pair",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "headline-trend",
+  "parameters": [
+    "2016-10-01",
+    "2026-04-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2016-10-01",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "10.1",
+      "queryOutput": 10.1,
+      "mappedJavaScript": 10.1,
+      "displayedText": "10.1"
+    },
+    {
+      "observation": "2016-10-01",
+      "column": "unemployed_thousands",
+      "storedParquet": "2995.0",
+      "queryOutput": 2995.0,
+      "mappedJavaScript": 2995.0,
+      "displayedText": "3.00M"
+    },
+    {
+      "observation": "2021-07-01",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "7.9",
+      "queryOutput": 7.9,
+      "mappedJavaScript": 7.9,
+      "displayedText": "7.9"
+    },
+    {
+      "observation": "2021-07-01",
+      "column": "unemployed_thousands",
+      "storedParquet": "2429.0",
+      "queryOutput": 2429.0,
+      "mappedJavaScript": 2429.0,
+      "displayedText": "2.43M"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "8.3",
+      "queryOutput": 8.3,
+      "mappedJavaScript": 8.3,
+      "displayedText": "8.3"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployed_thousands",
+      "storedParquet": "2677.0",
+      "queryOutput": 2677.0,
+      "mappedJavaScript": 2677.0,
+      "displayedText": "2.68M"
+    }
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "Q2 2026 · 8.3% · 2.68M"
+    ],
+    "aria": "ILO unemployment rate, Q4 2016 to Q2 2026, between 7.2 and 10.1 percent of the labour force. Selected observation Q2 2026: 8.3 percent, 2.68 million people. Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT · Licence Ouverte / Open Licence 2.0",
+    "lastTableRow": [
+      "Q2 2026",
+      "8.3",
+      "2.68"
+    ]
+  },
+  "conversionPaths": [
+    "DECIMAL(10,1) → DOUBLE → Number() → toFixed(1) for the rate",
+    "DECIMAL(10,1) thousands → DOUBLE → Number() → Math.round(v/10)/100 → toFixed(2) millions for the headcount"
+  ]
+}

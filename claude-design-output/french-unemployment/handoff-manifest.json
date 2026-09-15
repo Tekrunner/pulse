@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-unemployment",
+  "visual_ids": [
+    "headline-trend-pair",
+    "slack-multiples",
+    "age-band-lines",
+    "participation-gap-band",
+    "departement-choropleth",
+    "international-lines"
+  ],
+  "prototype": [
+    "design/Main.dc.html",
+    "design/Map.dc.html",
+    "design/International.dc.html",
+    "design/States.dc.html",
+    "design/Narrow.dc.html",
+    "design/Zoom.dc.html",
+    "design/canvas.json"
+  ],
+  "decisions": [
+    "design/Decisions.dc.html"
+  ],
+  "contracts": [
+    "contracts/headline-trend-pair.contract.js",
+    "contracts/slack-multiples.contract.js",
+    "contracts/age-band-lines.contract.js",
+    "contracts/participation-gap-band.contract.js",
+    "contracts/departement-choropleth.contract.js",
+    "contracts/international-lines.contract.js"
+  ],
+  "fixtures": [
+    "fixtures/french_labour_market_quarterly.json",
+    "fixtures/french_departement_unemployment.json",
+    "fixtures/french_departement_geometry.json",
+    "fixtures/oecd_unemployment_comparison.json",
+    "fixtures/oecd_participation_comparison.json"
+  ],
+  "rationale": [
+    "README.md"
+  ],
+  "assets": [],
+  "design_only_support": [
+    "unemployment-in-france.html"
+  ],
+  "remote_assets": [],
+  "states": [
+    "ready",
+    "loading",
+    "empty",
+    "suspect",
+    "stale",
+    "query-error",
+    "schema-incompatibility",
+    "render-error",
+    "shared-engine-failure"
+  ],
+  "views": [
+    "desktop",
+    "narrow-smartphone-landscape",
+    "400%-zoom-reflow"
+  ]
+}

@@ -1,0 +1,6 @@
+id: french-departement-geometry
+name: French departement boundary geometry
+source: ign-departement-boundaries
+visibility: public
+logical_table: french_departement_geometry
+contract: dataset-contract.yaml

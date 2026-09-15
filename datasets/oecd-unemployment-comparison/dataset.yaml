@@ -1,0 +1,6 @@
+id: oecd-unemployment-comparison
+name: OECD unemployment rate international comparison
+source: oecd-unemployment-rate
+visibility: public
+logical_table: oecd_unemployment_comparison
+contract: dataset-contract.yaml

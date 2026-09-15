@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "slack-multiples",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "labour-slack",
+  "parameters": [
+    "2016-10-01",
+    "2026-04-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2020-04-01",
+      "column": "unemployed_thousands",
+      "storedParquet": "2096.0",
+      "queryOutput": 2096.0,
+      "mappedJavaScript": 2096.0,
+      "displayedText": "2.10M",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "7.2",
+      "queryOutput": 7.2,
+      "mappedJavaScript": 7.2,
+      "displayedText": "7.2",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "long_term_unemployed_thousands",
+      "storedParquet": "455.0",
+      "queryOutput": 455.0,
+      "mappedJavaScript": 455.0,
+      "displayedText": "0.46M",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "long_term_unemployment_rate_pct",
+      "storedParquet": "1.6",
+      "queryOutput": 1.6,
+      "mappedJavaScript": 1.6,
+      "displayedText": "1.6",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "halo_15_to_64_thousands",
+      "storedParquet": "2832.0",
+      "queryOutput": 2832.0,
+      "mappedJavaScript": 2832.0,
+      "displayedText": "2.83M",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "halo_share_of_population_15_to_64_pct",
+      "storedParquet": "6.9",
+      "queryOutput": 6.9,
+      "mappedJavaScript": 6.9,
+      "displayedText": "6.9",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "underemployed_thousands",
+      "storedParquet": "4221.0",
+      "queryOutput": 4221.0,
+      "mappedJavaScript": 4221.0,
+      "displayedText": "4.22M",
+      "inWindow": true
+    },
+    {
+      "observation": "2020-04-01",
+      "column": "underemployment_rate_pct",
+      "storedParquet": "15.6",
+      "queryOutput": 15.6,
+      "mappedJavaScript": 15.6,
+      "displayedText": "15.6",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployed_thousands",
+      "storedParquet": "2677.0",
+      "queryOutput": 2677.0,
+      "mappedJavaScript": 2677.0,
+      "displayedText": "2.68M",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "8.3",
+      "queryOutput": 8.3,
+      "mappedJavaScript": 8.3,
+      "displayedText": "8.3",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "long_term_unemployed_thousands",
+      "storedParquet": "671.0",
+      "queryOutput": 671.0,
+      "mappedJavaScript": 671.0,
+      "displayedText": "0.67M",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "long_term_unemployment_rate_pct",
+      "storedParquet": "2.1",
+      "queryOutput": 2.1,
+      "mappedJavaScript": 2.1,
+      "displayedText": "2.1",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "halo_15_to_64_thousands",
+      "storedParquet": "1825.0",
+      "queryOutput": 1825.0,
+      "mappedJavaScript": 1825.0,
+      "displayedText": "1.82M",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "halo_share_of_population_15_to_64_pct",
+      "storedParquet": "4.4",
+      "queryOutput": 4.4,
+      "mappedJavaScript": 4.4,
+      "displayedText": "4.4",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "underemployed_thousands",
+      "storedParquet": "1296.0",
+      "queryOutput": 1296.0,
+      "mappedJavaScript": 1296.0,
+      "displayedText": "1.30M",
+      "inWindow": true
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "underemployment_rate_pct",
+      "storedParquet": "4.4",
+      "queryOutput": 4.4,
+      "mappedJavaScript": 4.4,
+      "displayedText": "4.4",
+      "inWindow": true
+    }
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "Unemployed 2.68M",
+      "Long-term 0.67M",
+      "Halo 1.83M",
+      "Underemployment 1.30M"
+    ],
+    "lastTableRow": [
+      "Q2 2026",
+      "2.68",
+      "8.3",
+      "0.67",
+      "2.1",
+      "1.83",
+      "4.4",
+      "1.30",
+      "4.4"
+    ]
+  },
+  "note": "2020-Q2 is the sharpest divergence between the four measures and is outside the ten-year default window; it is pinned against the stored value so the widened window can be checked against the same numbers."
+}

@@ -1,0 +1,7 @@
+pulse_dataset:
+  target: local
+  outputs:
+    local:
+      type: duckdb
+      path: "{{ env_var('PULSE_DBT_DATABASE') }}"
+      threads: 1

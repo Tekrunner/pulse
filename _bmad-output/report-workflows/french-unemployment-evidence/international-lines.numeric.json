@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "international-lines",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "international-unemployment",
+  "parameters": [
+    "2016-10-01",
+    "the monthly dataset's own published edge"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2026-07-01 / FRA",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "8.3",
+      "queryOutput": 8.3,
+      "mappedJavaScript": 8.3,
+      "displayedText": "8.3",
+      "publicationEdge": "2026-07-01"
+    },
+    {
+      "observation": "2026-07-01 / DEU",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "4.0",
+      "queryOutput": 4.0,
+      "mappedJavaScript": 4.0,
+      "displayedText": "4.0",
+      "publicationEdge": "2026-07-01"
+    },
+    {
+      "observation": "2026-05-01 / GBR",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "4.9",
+      "queryOutput": 4.9,
+      "mappedJavaScript": 4.9,
+      "displayedText": "4.9",
+      "publicationEdge": "2026-05-01"
+    },
+    {
+      "observation": "2026-08-01 / USA",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "4.1",
+      "queryOutput": 4.1,
+      "mappedJavaScript": 4.1,
+      "displayedText": "4.1",
+      "publicationEdge": "2026-08-01"
+    },
+    {
+      "observation": "2026-07-01 / EU",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "6.1",
+      "queryOutput": 6.1,
+      "mappedJavaScript": 6.1,
+      "displayedText": "6.1",
+      "publicationEdge": "2026-07-01"
+    }
+  ],
+  "raggedEdge": "each area is drawn to its own latest published month; the United Kingdom's rolling-quarter survey publishes later, so its line stops earlier and is labelled with its own month",
+  "absentFromThisSeries": [
+    "CHE",
+    "NZL"
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "France 8.3%",
+      "European Union 6.1%",
+      "United Kingdom — to May 26",
+      "United States 4.2%",
+      "Germany 4.0%"
+    ],
+    "tableRows": [
+      [
+        "France",
+        "FRA",
+        "8.3",
+        "Jun 2026",
+        "member"
+      ],
+      [
+        "Germany",
+        "DEU",
+        "4.0",
+        "Jun 2026",
+        "member"
+      ],
+      [
+        "United Kingdom",
+        "GBR",
+        "4.9",
+        "May 2026",
+        "member"
+      ],
+      [
+        "United States",
+        "USA",
+        "4.2",
+        "Jun 2026",
+        "member"
+      ],
+      [
+        "European Union",
+        "EU",
+        "6.1",
+        "Jun 2026",
+        "aggregate"
+      ]
+    ]
+  }
+}

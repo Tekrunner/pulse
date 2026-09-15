@@ -1,0 +1,1802 @@
+[
+  {
+    "period": "2013-10-01",
+    "territory_kind": "country",
+    "territory_code": "FM",
+    "territory_name": "France métropolitaine",
+    "provider_ref_area": "FM",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "01",
+    "territory_name": "Ain",
+    "provider_ref_area": "D01",
+    "unemployment_rate_pct": 7.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "02",
+    "territory_name": "Aisne",
+    "provider_ref_area": "D02",
+    "unemployment_rate_pct": 13.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "03",
+    "territory_name": "Allier",
+    "provider_ref_area": "D03",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "04",
+    "territory_name": "Alpes-de-Haute-Provence",
+    "provider_ref_area": "D04",
+    "unemployment_rate_pct": 11.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "05",
+    "territory_name": "Hautes-Alpes",
+    "provider_ref_area": "D05",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "06",
+    "territory_name": "Alpes-Maritimes",
+    "provider_ref_area": "D06",
+    "unemployment_rate_pct": 10.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "07",
+    "territory_name": "Ardèche",
+    "provider_ref_area": "D07",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "08",
+    "territory_name": "Ardennes",
+    "provider_ref_area": "D08",
+    "unemployment_rate_pct": 12.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "09",
+    "territory_name": "Ariège",
+    "provider_ref_area": "D09",
+    "unemployment_rate_pct": 12.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "10",
+    "territory_name": "Aube",
+    "provider_ref_area": "D10",
+    "unemployment_rate_pct": 11.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "11",
+    "territory_name": "Aude",
+    "provider_ref_area": "D11",
+    "unemployment_rate_pct": 13.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "12",
+    "territory_name": "Aveyron",
+    "provider_ref_area": "D12",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "13",
+    "territory_name": "Bouches-du-Rhône",
+    "provider_ref_area": "D13",
+    "unemployment_rate_pct": 11.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "14",
+    "territory_name": "Calvados",
+    "provider_ref_area": "D14",
+    "unemployment_rate_pct": 9.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "15",
+    "territory_name": "Cantal",
+    "provider_ref_area": "D15",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "16",
+    "territory_name": "Charente",
+    "provider_ref_area": "D16",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "17",
+    "territory_name": "Charente-Maritime",
+    "provider_ref_area": "D17",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "18",
+    "territory_name": "Cher",
+    "provider_ref_area": "D18",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "19",
+    "territory_name": "Corrèze",
+    "provider_ref_area": "D19",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "21",
+    "territory_name": "Côte-d'Or",
+    "provider_ref_area": "D21",
+    "unemployment_rate_pct": 8.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "22",
+    "territory_name": "Côtes-d'Armor",
+    "provider_ref_area": "D22",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "23",
+    "territory_name": "Creuse",
+    "provider_ref_area": "D23",
+    "unemployment_rate_pct": 9.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "24",
+    "territory_name": "Dordogne",
+    "provider_ref_area": "D24",
+    "unemployment_rate_pct": 10.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "25",
+    "territory_name": "Doubs",
+    "provider_ref_area": "D25",
+    "unemployment_rate_pct": 9.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "26",
+    "territory_name": "Drôme",
+    "provider_ref_area": "D26",
+    "unemployment_rate_pct": 10.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "27",
+    "territory_name": "Eure",
+    "provider_ref_area": "D27",
+    "unemployment_rate_pct": 10.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "28",
+    "territory_name": "Eure-et-Loir",
+    "provider_ref_area": "D28",
+    "unemployment_rate_pct": 9.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "29",
+    "territory_name": "Finistère",
+    "provider_ref_area": "D29",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "2A",
+    "territory_name": "Corse-du-Sud",
+    "provider_ref_area": "D2A",
+    "unemployment_rate_pct": 9.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "2B",
+    "territory_name": "Haute-Corse",
+    "provider_ref_area": "D2B",
+    "unemployment_rate_pct": 10.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "30",
+    "territory_name": "Gard",
+    "provider_ref_area": "D30",
+    "unemployment_rate_pct": 13.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "31",
+    "territory_name": "Haute-Garonne",
+    "provider_ref_area": "D31",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "32",
+    "territory_name": "Gers",
+    "provider_ref_area": "D32",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "33",
+    "territory_name": "Gironde",
+    "provider_ref_area": "D33",
+    "unemployment_rate_pct": 9.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "34",
+    "territory_name": "Hérault",
+    "provider_ref_area": "D34",
+    "unemployment_rate_pct": 14.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "35",
+    "territory_name": "Ille-et-Vilaine",
+    "provider_ref_area": "D35",
+    "unemployment_rate_pct": 8.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "36",
+    "territory_name": "Indre",
+    "provider_ref_area": "D36",
+    "unemployment_rate_pct": 9.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "37",
+    "territory_name": "Indre-et-Loire",
+    "provider_ref_area": "D37",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "38",
+    "territory_name": "Isère",
+    "provider_ref_area": "D38",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "39",
+    "territory_name": "Jura",
+    "provider_ref_area": "D39",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "40",
+    "territory_name": "Landes",
+    "provider_ref_area": "D40",
+    "unemployment_rate_pct": 9.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "41",
+    "territory_name": "Loir-et-Cher",
+    "provider_ref_area": "D41",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "42",
+    "territory_name": "Loire",
+    "provider_ref_area": "D42",
+    "unemployment_rate_pct": 9.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "43",
+    "territory_name": "Haute-Loire",
+    "provider_ref_area": "D43",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "44",
+    "territory_name": "Loire-Atlantique",
+    "provider_ref_area": "D44",
+    "unemployment_rate_pct": 8.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "45",
+    "territory_name": "Loiret",
+    "provider_ref_area": "D45",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "46",
+    "territory_name": "Lot",
+    "provider_ref_area": "D46",
+    "unemployment_rate_pct": 9.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "47",
+    "territory_name": "Lot-et-Garonne",
+    "provider_ref_area": "D47",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "48",
+    "territory_name": "Lozère",
+    "provider_ref_area": "D48",
+    "unemployment_rate_pct": 6.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "49",
+    "territory_name": "Maine-et-Loire",
+    "provider_ref_area": "D49",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "50",
+    "territory_name": "Manche",
+    "provider_ref_area": "D50",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "51",
+    "territory_name": "Marne",
+    "provider_ref_area": "D51",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "52",
+    "territory_name": "Haute-Marne",
+    "provider_ref_area": "D52",
+    "unemployment_rate_pct": 9.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "53",
+    "territory_name": "Mayenne",
+    "provider_ref_area": "D53",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "54",
+    "territory_name": "Meurthe-et-Moselle",
+    "provider_ref_area": "D54",
+    "unemployment_rate_pct": 9.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "55",
+    "territory_name": "Meuse",
+    "provider_ref_area": "D55",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "56",
+    "territory_name": "Morbihan",
+    "provider_ref_area": "D56",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "57",
+    "territory_name": "Moselle",
+    "provider_ref_area": "D57",
+    "unemployment_rate_pct": 10.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "58",
+    "territory_name": "Nièvre",
+    "provider_ref_area": "D58",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "59",
+    "territory_name": "Nord",
+    "provider_ref_area": "D59",
+    "unemployment_rate_pct": 13.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "60",
+    "territory_name": "Oise",
+    "provider_ref_area": "D60",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "61",
+    "territory_name": "Orne",
+    "provider_ref_area": "D61",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "62",
+    "territory_name": "Pas-de-Calais",
+    "provider_ref_area": "D62",
+    "unemployment_rate_pct": 13.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "63",
+    "territory_name": "Puy-de-Dôme",
+    "provider_ref_area": "D63",
+    "unemployment_rate_pct": 8.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "64",
+    "territory_name": "Pyrénées-Atlantiques",
+    "provider_ref_area": "D64",
+    "unemployment_rate_pct": 8.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "65",
+    "territory_name": "Hautes-Pyrénées",
+    "provider_ref_area": "D65",
+    "unemployment_rate_pct": 11.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "66",
+    "territory_name": "Pyrénées-Orientales",
+    "provider_ref_area": "D66",
+    "unemployment_rate_pct": 14.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "67",
+    "territory_name": "Bas-Rhin",
+    "provider_ref_area": "D67",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "68",
+    "territory_name": "Haut-Rhin",
+    "provider_ref_area": "D68",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "69",
+    "territory_name": "Rhône",
+    "provider_ref_area": "D69",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "70",
+    "territory_name": "Haute-Saône",
+    "provider_ref_area": "D70",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "71",
+    "territory_name": "Saône-et-Loire",
+    "provider_ref_area": "D71",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "72",
+    "territory_name": "Sarthe",
+    "provider_ref_area": "D72",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "73",
+    "territory_name": "Savoie",
+    "provider_ref_area": "D73",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "74",
+    "territory_name": "Haute-Savoie",
+    "provider_ref_area": "D74",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "75",
+    "territory_name": "Paris",
+    "provider_ref_area": "D75",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "76",
+    "territory_name": "Seine-Maritime",
+    "provider_ref_area": "D76",
+    "unemployment_rate_pct": 11.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "77",
+    "territory_name": "Seine-et-Marne",
+    "provider_ref_area": "D77",
+    "unemployment_rate_pct": 8.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "78",
+    "territory_name": "Yvelines",
+    "provider_ref_area": "D78",
+    "unemployment_rate_pct": 7.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "79",
+    "territory_name": "Deux-Sèvres",
+    "provider_ref_area": "D79",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "80",
+    "territory_name": "Somme",
+    "provider_ref_area": "D80",
+    "unemployment_rate_pct": 12.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "81",
+    "territory_name": "Tarn",
+    "provider_ref_area": "D81",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "82",
+    "territory_name": "Tarn-et-Garonne",
+    "provider_ref_area": "D82",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "83",
+    "territory_name": "Var",
+    "provider_ref_area": "D83",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "84",
+    "territory_name": "Vaucluse",
+    "provider_ref_area": "D84",
+    "unemployment_rate_pct": 12.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "85",
+    "territory_name": "Vendée",
+    "provider_ref_area": "D85",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "86",
+    "territory_name": "Vienne",
+    "provider_ref_area": "D86",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "87",
+    "territory_name": "Haute-Vienne",
+    "provider_ref_area": "D87",
+    "unemployment_rate_pct": 9.5
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "88",
+    "territory_name": "Vosges",
+    "provider_ref_area": "D88",
+    "unemployment_rate_pct": 11.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "89",
+    "territory_name": "Yonne",
+    "provider_ref_area": "D89",
+    "unemployment_rate_pct": 9.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "90",
+    "territory_name": "Territoire de Belfort",
+    "provider_ref_area": "D90",
+    "unemployment_rate_pct": 11.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "91",
+    "territory_name": "Essonne",
+    "provider_ref_area": "D91",
+    "unemployment_rate_pct": 7.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "92",
+    "territory_name": "Hauts-de-Seine",
+    "provider_ref_area": "D92",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "93",
+    "territory_name": "Seine-Saint-Denis",
+    "provider_ref_area": "D93",
+    "unemployment_rate_pct": 12.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "94",
+    "territory_name": "Val-de-Marne",
+    "provider_ref_area": "D94",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "departement",
+    "territory_code": "95",
+    "territory_name": "Val-d'Oise",
+    "provider_ref_area": "D95",
+    "unemployment_rate_pct": 9.9
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R11",
+    "territory_name": "Île-de-France",
+    "provider_ref_area": "R11",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R24",
+    "territory_name": "Centre-Val de Loire",
+    "provider_ref_area": "R24",
+    "unemployment_rate_pct": 9.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R27",
+    "territory_name": "Bourgogne-Franche-Comté",
+    "provider_ref_area": "R27",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R28",
+    "territory_name": "Normandie",
+    "provider_ref_area": "R28",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R32",
+    "territory_name": "Hauts-de-France",
+    "provider_ref_area": "R32",
+    "unemployment_rate_pct": 12.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R44",
+    "territory_name": "Grand Est",
+    "provider_ref_area": "R44",
+    "unemployment_rate_pct": 10.0
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R52",
+    "territory_name": "Pays de la Loire",
+    "provider_ref_area": "R52",
+    "unemployment_rate_pct": 8.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R53",
+    "territory_name": "Bretagne",
+    "provider_ref_area": "R53",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R75",
+    "territory_name": "Nouvelle-Aquitaine",
+    "provider_ref_area": "R75",
+    "unemployment_rate_pct": 9.4
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R76",
+    "territory_name": "Occitanie",
+    "provider_ref_area": "R76",
+    "unemployment_rate_pct": 11.8
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R84",
+    "territory_name": "Auvergne-Rhône-Alpes",
+    "provider_ref_area": "R84",
+    "unemployment_rate_pct": 8.6
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R93",
+    "territory_name": "Provence-Alpes-Côte d'Azur",
+    "provider_ref_area": "R93",
+    "unemployment_rate_pct": 11.2
+  },
+  {
+    "period": "2013-10-01",
+    "territory_kind": "region",
+    "territory_code": "R94",
+    "territory_name": "Corse",
+    "provider_ref_area": "R94",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "country",
+    "territory_code": "FM",
+    "territory_name": "France métropolitaine",
+    "provider_ref_area": "FM",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "country",
+    "territory_code": "FR-D976",
+    "territory_name": "France entière (hors Mayotte)",
+    "provider_ref_area": "FR-D976",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "01",
+    "territory_name": "Ain",
+    "provider_ref_area": "D01",
+    "unemployment_rate_pct": 6.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "02",
+    "territory_name": "Aisne",
+    "provider_ref_area": "D02",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "03",
+    "territory_name": "Allier",
+    "provider_ref_area": "D03",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "04",
+    "territory_name": "Alpes-de-Haute-Provence",
+    "provider_ref_area": "D04",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "05",
+    "territory_name": "Hautes-Alpes",
+    "provider_ref_area": "D05",
+    "unemployment_rate_pct": 6.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "06",
+    "territory_name": "Alpes-Maritimes",
+    "provider_ref_area": "D06",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "07",
+    "territory_name": "Ardèche",
+    "provider_ref_area": "D07",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "08",
+    "territory_name": "Ardennes",
+    "provider_ref_area": "D08",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "09",
+    "territory_name": "Ariège",
+    "provider_ref_area": "D09",
+    "unemployment_rate_pct": 9.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "10",
+    "territory_name": "Aube",
+    "provider_ref_area": "D10",
+    "unemployment_rate_pct": 9.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "11",
+    "territory_name": "Aude",
+    "provider_ref_area": "D11",
+    "unemployment_rate_pct": 10.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "12",
+    "territory_name": "Aveyron",
+    "provider_ref_area": "D12",
+    "unemployment_rate_pct": 5.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "13",
+    "territory_name": "Bouches-du-Rhône",
+    "provider_ref_area": "D13",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "14",
+    "territory_name": "Calvados",
+    "provider_ref_area": "D14",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "15",
+    "territory_name": "Cantal",
+    "provider_ref_area": "D15",
+    "unemployment_rate_pct": 4.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "16",
+    "territory_name": "Charente",
+    "provider_ref_area": "D16",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "17",
+    "territory_name": "Charente-Maritime",
+    "provider_ref_area": "D17",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "18",
+    "territory_name": "Cher",
+    "provider_ref_area": "D18",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "19",
+    "territory_name": "Corrèze",
+    "provider_ref_area": "D19",
+    "unemployment_rate_pct": 6.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "21",
+    "territory_name": "Côte-d'Or",
+    "provider_ref_area": "D21",
+    "unemployment_rate_pct": 6.4
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "22",
+    "territory_name": "Côtes-d'Armor",
+    "provider_ref_area": "D22",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "23",
+    "territory_name": "Creuse",
+    "provider_ref_area": "D23",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "24",
+    "territory_name": "Dordogne",
+    "provider_ref_area": "D24",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "25",
+    "territory_name": "Doubs",
+    "provider_ref_area": "D25",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "26",
+    "territory_name": "Drôme",
+    "provider_ref_area": "D26",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "27",
+    "territory_name": "Eure",
+    "provider_ref_area": "D27",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "28",
+    "territory_name": "Eure-et-Loir",
+    "provider_ref_area": "D28",
+    "unemployment_rate_pct": 7.4
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "29",
+    "territory_name": "Finistère",
+    "provider_ref_area": "D29",
+    "unemployment_rate_pct": 6.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "2A",
+    "territory_name": "Corse-du-Sud",
+    "provider_ref_area": "D2A",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "2B",
+    "territory_name": "Haute-Corse",
+    "provider_ref_area": "D2B",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "30",
+    "territory_name": "Gard",
+    "provider_ref_area": "D30",
+    "unemployment_rate_pct": 10.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "31",
+    "territory_name": "Haute-Garonne",
+    "provider_ref_area": "D31",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "32",
+    "territory_name": "Gers",
+    "provider_ref_area": "D32",
+    "unemployment_rate_pct": 6.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "33",
+    "territory_name": "Gironde",
+    "provider_ref_area": "D33",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "34",
+    "territory_name": "Hérault",
+    "provider_ref_area": "D34",
+    "unemployment_rate_pct": 10.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "35",
+    "territory_name": "Ille-et-Vilaine",
+    "provider_ref_area": "D35",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "36",
+    "territory_name": "Indre",
+    "provider_ref_area": "D36",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "37",
+    "territory_name": "Indre-et-Loire",
+    "provider_ref_area": "D37",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "38",
+    "territory_name": "Isère",
+    "provider_ref_area": "D38",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "39",
+    "territory_name": "Jura",
+    "provider_ref_area": "D39",
+    "unemployment_rate_pct": 5.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "40",
+    "territory_name": "Landes",
+    "provider_ref_area": "D40",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "41",
+    "territory_name": "Loir-et-Cher",
+    "provider_ref_area": "D41",
+    "unemployment_rate_pct": 6.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "42",
+    "territory_name": "Loire",
+    "provider_ref_area": "D42",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "43",
+    "territory_name": "Haute-Loire",
+    "provider_ref_area": "D43",
+    "unemployment_rate_pct": 5.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "44",
+    "territory_name": "Loire-Atlantique",
+    "provider_ref_area": "D44",
+    "unemployment_rate_pct": 6.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "45",
+    "territory_name": "Loiret",
+    "provider_ref_area": "D45",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "46",
+    "territory_name": "Lot",
+    "provider_ref_area": "D46",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "47",
+    "territory_name": "Lot-et-Garonne",
+    "provider_ref_area": "D47",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "48",
+    "territory_name": "Lozère",
+    "provider_ref_area": "D48",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "49",
+    "territory_name": "Maine-et-Loire",
+    "provider_ref_area": "D49",
+    "unemployment_rate_pct": 7.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "50",
+    "territory_name": "Manche",
+    "provider_ref_area": "D50",
+    "unemployment_rate_pct": 5.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "51",
+    "territory_name": "Marne",
+    "provider_ref_area": "D51",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "52",
+    "territory_name": "Haute-Marne",
+    "provider_ref_area": "D52",
+    "unemployment_rate_pct": 6.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "53",
+    "territory_name": "Mayenne",
+    "provider_ref_area": "D53",
+    "unemployment_rate_pct": 5.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "54",
+    "territory_name": "Meurthe-et-Moselle",
+    "provider_ref_area": "D54",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "55",
+    "territory_name": "Meuse",
+    "provider_ref_area": "D55",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "56",
+    "territory_name": "Morbihan",
+    "provider_ref_area": "D56",
+    "unemployment_rate_pct": 6.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "57",
+    "territory_name": "Moselle",
+    "provider_ref_area": "D57",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "58",
+    "territory_name": "Nièvre",
+    "provider_ref_area": "D58",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "59",
+    "territory_name": "Nord",
+    "provider_ref_area": "D59",
+    "unemployment_rate_pct": 10.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "60",
+    "territory_name": "Oise",
+    "provider_ref_area": "D60",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "61",
+    "territory_name": "Orne",
+    "provider_ref_area": "D61",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "62",
+    "territory_name": "Pas-de-Calais",
+    "provider_ref_area": "D62",
+    "unemployment_rate_pct": 9.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "63",
+    "territory_name": "Puy-de-Dôme",
+    "provider_ref_area": "D63",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "64",
+    "territory_name": "Pyrénées-Atlantiques",
+    "provider_ref_area": "D64",
+    "unemployment_rate_pct": 6.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "65",
+    "territory_name": "Hautes-Pyrénées",
+    "provider_ref_area": "D65",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "66",
+    "territory_name": "Pyrénées-Orientales",
+    "provider_ref_area": "D66",
+    "unemployment_rate_pct": 12.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "67",
+    "territory_name": "Bas-Rhin",
+    "provider_ref_area": "D67",
+    "unemployment_rate_pct": 7.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "68",
+    "territory_name": "Haut-Rhin",
+    "provider_ref_area": "D68",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "69",
+    "territory_name": "Rhône",
+    "provider_ref_area": "D69",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "70",
+    "territory_name": "Haute-Saône",
+    "provider_ref_area": "D70",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "71",
+    "territory_name": "Saône-et-Loire",
+    "provider_ref_area": "D71",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "72",
+    "territory_name": "Sarthe",
+    "provider_ref_area": "D72",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "73",
+    "territory_name": "Savoie",
+    "provider_ref_area": "D73",
+    "unemployment_rate_pct": 5.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "74",
+    "territory_name": "Haute-Savoie",
+    "provider_ref_area": "D74",
+    "unemployment_rate_pct": 5.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "75",
+    "territory_name": "Paris",
+    "provider_ref_area": "D75",
+    "unemployment_rate_pct": 6.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "76",
+    "territory_name": "Seine-Maritime",
+    "provider_ref_area": "D76",
+    "unemployment_rate_pct": 8.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "77",
+    "territory_name": "Seine-et-Marne",
+    "provider_ref_area": "D77",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "78",
+    "territory_name": "Yvelines",
+    "provider_ref_area": "D78",
+    "unemployment_rate_pct": 7.4
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "79",
+    "territory_name": "Deux-Sèvres",
+    "provider_ref_area": "D79",
+    "unemployment_rate_pct": 6.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "80",
+    "territory_name": "Somme",
+    "provider_ref_area": "D80",
+    "unemployment_rate_pct": 8.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "81",
+    "territory_name": "Tarn",
+    "provider_ref_area": "D81",
+    "unemployment_rate_pct": 8.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "82",
+    "territory_name": "Tarn-et-Garonne",
+    "provider_ref_area": "D82",
+    "unemployment_rate_pct": 9.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "83",
+    "territory_name": "Var",
+    "provider_ref_area": "D83",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "84",
+    "territory_name": "Vaucluse",
+    "provider_ref_area": "D84",
+    "unemployment_rate_pct": 10.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "85",
+    "territory_name": "Vendée",
+    "provider_ref_area": "D85",
+    "unemployment_rate_pct": 6.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "86",
+    "territory_name": "Vienne",
+    "provider_ref_area": "D86",
+    "unemployment_rate_pct": 7.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "87",
+    "territory_name": "Haute-Vienne",
+    "provider_ref_area": "D87",
+    "unemployment_rate_pct": 7.4
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "88",
+    "territory_name": "Vosges",
+    "provider_ref_area": "D88",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "89",
+    "territory_name": "Yonne",
+    "provider_ref_area": "D89",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "90",
+    "territory_name": "Territoire de Belfort",
+    "provider_ref_area": "D90",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "91",
+    "territory_name": "Essonne",
+    "provider_ref_area": "D91",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "92",
+    "territory_name": "Hauts-de-Seine",
+    "provider_ref_area": "D92",
+    "unemployment_rate_pct": 7.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "93",
+    "territory_name": "Seine-Saint-Denis",
+    "provider_ref_area": "D93",
+    "unemployment_rate_pct": 11.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "94",
+    "territory_name": "Val-de-Marne",
+    "provider_ref_area": "D94",
+    "unemployment_rate_pct": 8.4
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "95",
+    "territory_name": "Val-d'Oise",
+    "provider_ref_area": "D95",
+    "unemployment_rate_pct": 9.1
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "971",
+    "territory_name": "Guadeloupe",
+    "provider_ref_area": "D971",
+    "unemployment_rate_pct": 15.2
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "972",
+    "territory_name": "Martinique",
+    "provider_ref_area": "D972",
+    "unemployment_rate_pct": 13.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "973",
+    "territory_name": "Guyane",
+    "provider_ref_area": "D973",
+    "unemployment_rate_pct": 19.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "departement",
+    "territory_code": "974",
+    "territory_name": "La Réunion",
+    "provider_ref_area": "D974",
+    "unemployment_rate_pct": 19.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R11",
+    "territory_name": "Île-de-France",
+    "provider_ref_area": "R11",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R24",
+    "territory_name": "Centre-Val de Loire",
+    "provider_ref_area": "R24",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R27",
+    "territory_name": "Bourgogne-Franche-Comté",
+    "provider_ref_area": "R27",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R28",
+    "territory_name": "Normandie",
+    "provider_ref_area": "R28",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R32",
+    "territory_name": "Hauts-de-France",
+    "provider_ref_area": "R32",
+    "unemployment_rate_pct": 9.8
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R44",
+    "territory_name": "Grand Est",
+    "provider_ref_area": "R44",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R52",
+    "territory_name": "Pays de la Loire",
+    "provider_ref_area": "R52",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R53",
+    "territory_name": "Bretagne",
+    "provider_ref_area": "R53",
+    "unemployment_rate_pct": 6.6
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R75",
+    "territory_name": "Nouvelle-Aquitaine",
+    "provider_ref_area": "R75",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R76",
+    "territory_name": "Occitanie",
+    "provider_ref_area": "R76",
+    "unemployment_rate_pct": 9.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R84",
+    "territory_name": "Auvergne-Rhône-Alpes",
+    "provider_ref_area": "R84",
+    "unemployment_rate_pct": 7.0
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R93",
+    "territory_name": "Provence-Alpes-Côte d'Azur",
+    "provider_ref_area": "R93",
+    "unemployment_rate_pct": 8.5
+  },
+  {
+    "period": "2026-01-01",
+    "territory_kind": "region",
+    "territory_code": "R94",
+    "territory_name": "Corse",
+    "provider_ref_area": "R94",
+    "unemployment_rate_pct": 6.8
+  }
+]

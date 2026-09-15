@@ -1,0 +1,157 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the calendar month the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "The OECD reference-area code, an ISO-3166 alpha-3 country code or an aggregate code such as EA, EU, G7 or OECD.",
+      "name": "reference_area_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The area name exactly as the OECD publishes it, so no consumer has to invent country labels.",
+      "name": "reference_area_name",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Whether the area is an OECD member, a computed aggregate, or a non-member the OECD publishes alongside members.",
+      "name": "reference_area_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Harmonised unemployment rate as a percentage of the labour force aged 15 or over in the same area.",
+      "name": "unemployment_rate_pct",
+      "type": "DECIMAL(10,1)"
+    }
+  ],
+  "content_sha256": "0779ab7e5c146e56a0f0b54341026ba595cd2cdfd722cb4f0136e3a053d27138",
+  "dataset_id": "oecd-unemployment-comparison",
+  "indicators": [
+    {
+      "attribution": "Source: OECD, Monthly unemployment rates. This is an adaptation of an original work by the OECD.",
+      "column": "unemployment_rate_pct",
+      "definition": "OECD harmonised monthly unemployment rate for people aged 15 or over, both sexes, seasonally and calendar adjusted, expressed as a percentage of the labour force in the same subgroup. Harmonised means adjusted by the OECD for cross-country comparability, so it can differ from the figure a national statistical institute announces for the same country and month.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "OECD, Monthly unemployment rates, dataflow DSD_LFS@DF_IALFS_UNE_M",
+      "unit": "Percent"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "observations": 13249,
+    "snapshot_id": "acq-d9a04313c9394fe9ac55a3a4be081295-41bdf40db72b",
+    "snapshot_sha256": "41bdf40db72b02f7fc544ab3874aa6e99936bc5de93de7c5ed0a4be091eafa19"
+  },
+  "logical_table": "oecd_unemployment_comparison",
+  "model": {
+    "description": "One row per month and OECD reference area carrying the harmonised unemployment rate for people aged 15 or over, both sexes, seasonally and calendar adjusted, with each area classified as an OECD member, a computed aggregate or a non-member the OECD also publishes.",
+    "name": "oecd_unemployment_comparison"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "reference_area_code",
+        "reference_area_name",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Select the five default reference areas and compare their rates over time. Read the comparison as relative position, not as the national headline each country announces, which can differ after harmonisation.",
+      "id": "france-against-its-usual-peers",
+      "question": "Does France's unemployment rate sit above or below Germany, the United Kingdom, Italy and Spain?"
+    },
+    {
+      "columns": [
+        "period",
+        "reference_area_code",
+        "reference_area_name",
+        "reference_area_kind",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Filter to rows whose reference_area_kind is member and select the areas the reader picked.",
+      "id": "france-against-any-oecd-member",
+      "question": "How does France compare with any other OECD economy the reader chooses?"
+    },
+    {
+      "columns": [
+        "period",
+        "reference_area_code",
+        "reference_area_kind",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Compare the FRA rows with the OECD aggregate rows for the same month. The aggregate is a computed area and must never be ranked among the member countries.",
+      "id": "france-against-the-oecd-average",
+      "question": "Is France above or below the OECD as a whole?"
+    }
+  ],
+  "represented_period": {
+    "end": "2026-08-31",
+    "start": "2000-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "oecd-unemployment-rate",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "month by reference area",
+    "meaning": "Each period is the first day of the calendar month the observation describes. The grain is one row per period and reference_area_code. Areas reach the publication edge at different speeds, so the latest month present differs by country; the United Kingdom's rolling-quarter survey runs about three months behind the others, and any consumer must handle a ragged edge rather than assume a rectangle.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "reference_area_code"
+      ],
+      "description": "The compound key of period and reference_area_code is unique.",
+      "name": "one-row-per-area-and-month"
+    },
+    {
+      "columns": [
+        "period",
+        "reference_area_code",
+        "reference_area_name",
+        "reference_area_kind",
+        "unemployment_rate_pct"
+      ],
+      "description": "No published column is ever null.",
+      "name": "required-values"
+    },
+    {
+      "columns": [
+        "unemployment_rate_pct"
+      ],
+      "description": "Every rate lies between 0 and 100.",
+      "name": "rates-within-zero-and-one-hundred"
+    },
+    {
+      "columns": [
+        "reference_area_kind"
+      ],
+      "description": "Every area is a member, an aggregate or a non-member.",
+      "name": "area-kinds-are-known"
+    },
+    {
+      "columns": [
+        "reference_area_code"
+      ],
+      "description": "Every aggregate the package classifies appears, so a report comparing a country with the euro area, the European Union, the G7 or the OECD can never silently lose one.",
+      "name": "every-declared-aggregate-is-present"
+    },
+    {
+      "columns": [
+        "reference_area_code",
+        "reference_area_kind"
+      ],
+      "description": "Every OECD member on the package's membership list appears in the data, except Switzerland and New Zealand, which this monthly dataflow is known not to carry.",
+      "name": "membership-list-matches-the-provider"
+    }
+  ],
+  "visibility": "public"
+}

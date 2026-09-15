@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "participation-gap-band",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "participation-rates",
+  "parameters": [
+    "2016-10-01",
+    "2026-04-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2026-04-01",
+      "column": "participation_rate_men_15_to_64_pct",
+      "storedParquet": "78.0",
+      "queryOutput": 78.0,
+      "mappedJavaScript": 78.0,
+      "displayedText": "78.0"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "participation_rate_women_15_to_64_pct",
+      "storedParquet": "72.8",
+      "queryOutput": 72.8,
+      "mappedJavaScript": 72.8,
+      "displayedText": "72.8"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "participation_rate_15_to_64_pct",
+      "storedParquet": "75.4",
+      "queryOutput": 75.4,
+      "mappedJavaScript": 75.4,
+      "displayedText": "75.4"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "participation_rate_pct",
+      "storedParquet": "56.9",
+      "queryOutput": 56.9,
+      "mappedJavaScript": 56.9,
+      "displayedText": "56.9"
+    },
+    {
+      "observation": "2026-04-01",
+      "column": "gap (derived, men minus women)",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": 5.2,
+      "displayedText": "5.2 points",
+      "derivation": "men − women, computed in the report from the two published rates and labelled derived wherever it appears"
+    }
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "Men 78.0%",
+      "Gap 5.2 pt",
+      "Women 72.8%"
+    ],
+    "lastTableRow": [
+      "Q2 2026",
+      "78.0",
+      "72.8",
+      "75.4",
+      "56.9"
+    ]
+  }
+}

@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #161826; color: #e9e9ed;
+    font: 15px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #b5abfc; } a:hover { color: #d2cefd; }
+  h1, h2, h3 { margin: 0; font-weight: 500; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch; }
+  h2 { font-size: 25px; letter-spacing: -.015em; }
+  h3 { font-size: 20px; }
+  p { margin: 0; }
+  .eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .standfirst { max-width: 62ch; color: #cfd3e5; font-size: 16px; }
+  .muted { color: #b2b6ca; font-size: 13px; }
+  .tiny { color: #9397ab; font-size: 12px; }
+  figure { margin: 0; padding: 16.8px; border-radius: 8px; background: #232532;
+    box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8.4px; }
+  figcaption { display: flex; flex-direction: column; gap: 2.8px; }
+  figcaption p { max-width: 74ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #3f424d;
+    font-variant-numeric: tabular-nums; }
+  th { color: #b2b6ca; font-weight: 500; }
+  td.n, th.n { text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5.6px 16.8px; font-size: 12px; color: #cfd3e5; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .provenance { color: #9397ab; font-size: 12px; }
+</style>
+</helmet>
+<div style="width: 320px; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px">
+<header style="display:flex;flex-direction:column;gap:5.6px">
+  <p class="eyebrow">Pulse · Labour market</p>
+  <h1 style="font-size:24px;max-width:none">Unemployment in France</h1>
+</header>
+<p class="muted">Equivalent to a 1280px viewport at 400% zoom: 320 CSS pixels wide. Everything is one
+  column, nothing is clipped, and there is no horizontal scroll on the page.</p>
+<article style="padding:11.2px;border-radius:8px;background:#232532;box-shadow:0 0 0 1px #3f424d">
+  <span class="eyebrow">Unemployment rate</span><br>
+  <strong style="font-size:32px;font-weight:500;font-variant-numeric:tabular-nums">8.3%</strong><br>
+  <small class="tiny">▲ 0.2 pt on the quarter · Q2 2026</small>
+</article>
+<div style="display:flex;flex-direction:column;gap:8.4px;padding:8.4px;border-radius:8px;
+  background:#161826;box-shadow:0 0 0 1px #3f424d">
+  <span class="tiny">Period shown</span>
+  <div style="display:flex;flex-direction:column;border:1px solid #595d6c;border-radius:8px;overflow:hidden">
+    <span style="min-height:44px;display:flex;align-items:center;padding:0 12px;font-size:13px">5 years</span>
+    <span style="min-height:44px;display:flex;align-items:center;padding:0 12px;font-size:13px;
+      border-top:1px solid #595d6c;background:#2c3040">10 years</span>
+    <span style="min-height:44px;display:flex;align-items:center;padding:0 12px;font-size:13px;
+      border-top:1px solid #595d6c">All since 2003</span>
+  </div>
+</div>
+<figure style="padding:11.2px">
+  <figcaption><h3 style="font-size:15px">ILO unemployment rate</h3></figcaption>
+  <div style="overflow-x:auto">
+    <svg viewBox="0 0 420 150" width="420" height="150" role="img"
+      aria-label="ILO unemployment rate, last 12 quarters, ending 8.3 percent.">
+      <title>ILO unemployment rate</title>
+      <line x1="38" x2="408" y1="130.0" y2="130.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="134.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7%</text><line x1="38" x2="408" y1="109.7" y2="109.7" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="113.7" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7.25%</text><line x1="38" x2="408" y1="89.3" y2="89.3" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="93.3" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7.5%</text><line x1="38" x2="408" y1="69.0" y2="69.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="73.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7.75%</text><line x1="38" x2="408" y1="48.7" y2="48.7" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="52.7" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8%</text><line x1="38" x2="408" y1="28.3" y2="28.3" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="32.3" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8.25%</text><line x1="38" x2="408" y1="8.0" y2="8.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="12.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8.5%</text><text x="38.0" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q3 23</text><text x="172.5" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q3 24</text><text x="307.1" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q3 25</text><text x="408.0" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text><polyline points="38.0,97.5 71.6,81.2 105.3,89.3 138.9,97.5 172.5,97.5 206.2,97.5 239.8,89.3 273.5,81.2 307.1,64.9 340.7,48.7 374.4,40.5 408.0,24.3" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" />
+    </svg>
+  </div>
+  <p class="tiny">The plot alone may scroll sideways inside its own container — the WCAG 1.4.10
+    exception for data figures. The page around it never does, and the table below carries every
+    value without scrolling at all.</p>
+  <table style="font-size:13px">
+    <thead><tr><th scope="col">Quarter</th><th scope="col" class="n">Rate</th></tr></thead>
+    <tbody><tr><th scope="row">Q2 2026</th><td class="n">8.3%</td></tr><tr><th scope="row">Q1 2026</th><td class="n">8.1%</td></tr><tr><th scope="row">Q4 2025</th><td class="n">8.0%</td></tr><tr><th scope="row">Q3 2025</th><td class="n">7.8%</td></tr></tbody>
+  </table>
+  <p class="provenance">INSEE · Licence Ouverte 2.0</p>
+</figure>
+</div>
+</x-dc>
+</body>
+</html>

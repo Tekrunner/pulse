@@ -1,0 +1,957 @@
+{
+  "generatedFrom": "publish/public/data",
+  "datasets": {
+    "french-labour-market-quarterly": {
+      "manifest": {
+        "contentSha256": "8d984b3ecae6373d58c9f9f2ce361a2b31cbb8869bcd564eeabc0c1837cbb883",
+        "representedPeriod": {
+          "end": "2026-06-30",
+          "start": "2003-01-01"
+        },
+        "logicalTable": "french_labour_market_quarterly",
+        "sourceId": "insee-labour-market",
+        "columnCount": 26
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "unemployment_rate_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployment_rate_under_25_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployment_rate_25_to_49_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployment_rate_50_and_over_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployment_rate_men_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployment_rate_women_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_under_25_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_25_to_49_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_50_and_over_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_men_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "unemployed_women_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "long_term_unemployed_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "long_term_unemployment_rate_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "halo_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "halo_15_to_64_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "halo_share_of_population_15_to_64_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "underemployed_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "underemployment_rate_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_men_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_women_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_15_to_64_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_men_15_to_64_pct",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "participation_rate_women_15_to_64_pct",
+          "type": "DECIMAL(10,1)"
+        }
+      ],
+      "latestQuarters": [
+        {
+          "period": "2026-04-01",
+          "unemployment_rate_pct": "8.3",
+          "unemployed_thousands": "2677.0",
+          "unemployment_rate_under_25_pct": "21.6",
+          "unemployment_rate_25_to_49_pct": "7.5",
+          "unemployment_rate_50_and_over_pct": "5.5",
+          "long_term_unemployment_rate_pct": "2.1",
+          "halo_15_to_64_thousands": "1825.0",
+          "halo_share_of_population_15_to_64_pct": "4.4",
+          "underemployment_rate_pct": "4.4",
+          "participation_rate_15_to_64_pct": "75.4",
+          "participation_rate_men_15_to_64_pct": "78.0",
+          "participation_rate_women_15_to_64_pct": "72.8"
+        },
+        {
+          "period": "2026-01-01",
+          "unemployment_rate_pct": "8.1",
+          "unemployed_thousands": "2615.0",
+          "unemployment_rate_under_25_pct": "21.2",
+          "unemployment_rate_25_to_49_pct": "7.3",
+          "unemployment_rate_50_and_over_pct": "5.2",
+          "long_term_unemployment_rate_pct": "2.0",
+          "halo_15_to_64_thousands": "1822.0",
+          "halo_share_of_population_15_to_64_pct": "4.4",
+          "underemployment_rate_pct": "4.4",
+          "participation_rate_15_to_64_pct": "75.5",
+          "participation_rate_men_15_to_64_pct": "78.2",
+          "participation_rate_women_15_to_64_pct": "72.8"
+        },
+        {
+          "period": "2025-10-01",
+          "unemployment_rate_pct": "8.0",
+          "unemployed_thousands": "2552.0",
+          "unemployment_rate_under_25_pct": "21.6",
+          "unemployment_rate_25_to_49_pct": "7.0",
+          "unemployment_rate_50_and_over_pct": "5.1",
+          "long_term_unemployment_rate_pct": "1.9",
+          "halo_15_to_64_thousands": "1879.0",
+          "halo_share_of_population_15_to_64_pct": "4.5",
+          "underemployment_rate_pct": "4.4",
+          "participation_rate_15_to_64_pct": "75.3",
+          "participation_rate_men_15_to_64_pct": "78.2",
+          "participation_rate_women_15_to_64_pct": "72.5"
+        },
+        {
+          "period": "2025-07-01",
+          "unemployment_rate_pct": "7.8",
+          "unemployed_thousands": "2484.0",
+          "unemployment_rate_under_25_pct": "19.3",
+          "unemployment_rate_25_to_49_pct": "7.1",
+          "unemployment_rate_50_and_over_pct": "5.1",
+          "long_term_unemployment_rate_pct": "1.9",
+          "halo_15_to_64_thousands": "1883.0",
+          "halo_share_of_population_15_to_64_pct": "4.5",
+          "underemployment_rate_pct": "4.4",
+          "participation_rate_15_to_64_pct": "75.2",
+          "participation_rate_men_15_to_64_pct": "78.0",
+          "participation_rate_women_15_to_64_pct": "72.4"
+        }
+      ],
+      "earliestQuarter": [
+        {
+          "period": "2003-01-01",
+          "unemployment_rate_pct": "8.4",
+          "unemployment_rate_under_25_pct": "19.1",
+          "unemployment_rate_25_to_49_pct": "7.8",
+          "unemployment_rate_50_and_over_pct": "4.8",
+          "unemployment_rate_men_pct": "7.6",
+          "unemployment_rate_women_pct": "9.3",
+          "unemployed_thousands": "2327.0",
+          "unemployed_under_25_thousands": "572.0",
+          "unemployed_25_to_49_thousands": "1462.0",
+          "unemployed_50_and_over_thousands": "293.0",
+          "long_term_unemployed_thousands": "604.0",
+          "long_term_unemployment_rate_pct": "2.2",
+          "halo_thousands": "1521.0",
+          "halo_15_to_64_thousands": "1501.0",
+          "halo_share_of_population_15_to_64_pct": "3.8",
+          "underemployed_thousands": "1335.0",
+          "underemployment_rate_pct": "5.2",
+          "participation_rate_pct": "57.1",
+          "participation_rate_men_pct": "63.3",
+          "participation_rate_women_pct": "51.5",
+          "participation_rate_15_to_64_pct": "70.6",
+          "participation_rate_men_15_to_64_pct": "75.7",
+          "participation_rate_women_15_to_64_pct": "65.6"
+        }
+      ],
+      "boundaryCases": {
+        "headlineRateExtremes": [
+          {
+            "period": "2008-01-01",
+            "unemployment_rate_pct": "7.2"
+          },
+          {
+            "period": "2020-04-01",
+            "unemployment_rate_pct": "7.2"
+          },
+          {
+            "period": "2022-07-01",
+            "unemployment_rate_pct": "7.2"
+          },
+          {
+            "period": "2022-10-01",
+            "unemployment_rate_pct": "7.2"
+          },
+          {
+            "period": "2023-01-01",
+            "unemployment_rate_pct": "7.2"
+          },
+          {
+            "period": "2013-04-01",
+            "unemployment_rate_pct": "10.5"
+          },
+          {
+            "period": "2014-10-01",
+            "unemployment_rate_pct": "10.5"
+          },
+          {
+            "period": "2015-04-01",
+            "unemployment_rate_pct": "10.5"
+          }
+        ],
+        "youthRateExtremes": [
+          {
+            "period": "2012-10-01",
+            "unemployment_rate_under_25_pct": "28.0"
+          }
+        ],
+        "largestQuarterOnQuarterMove": [
+          {
+            "period": "2020-07-01",
+            "unemployment_rate_pct": "9.0",
+            "change": "1.8"
+          },
+          {
+            "period": "2020-10-01",
+            "unemployment_rate_pct": "8.1",
+            "change": "-0.9"
+          }
+        ],
+        "participationGapExtremes": [
+          {
+            "period": "2003-10-01",
+            "participation_rate_men_15_to_64_pct": "75.7",
+            "participation_rate_women_15_to_64_pct": "65.1",
+            "gap_points": "10.6"
+          },
+          {
+            "period": "2020-10-01",
+            "participation_rate_men_15_to_64_pct": "75.0",
+            "participation_rate_women_15_to_64_pct": "69.9",
+            "gap_points": "5.1"
+          }
+        ],
+        "nullCount": [
+          {
+            "rows": 94,
+            "null_rates": 0
+          }
+        ]
+      }
+    },
+    "french-departement-unemployment": {
+      "manifest": {
+        "contentSha256": "4c4ce328448ad9d8e22ceceea4ac1788c26b88f0e0517f8f2753fcbab3802799",
+        "representedPeriod": {
+          "end": "2026-03-31",
+          "start": "1982-01-01"
+        },
+        "logicalTable": "french_departement_unemployment",
+        "sourceId": "insee-local-unemployment",
+        "columnCount": 6
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "territory_kind",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "territory_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "territory_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "provider_ref_area",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "unemployment_rate_pct",
+          "type": "DECIMAL(10,1)"
+        }
+      ],
+      "latestQuarterExtremes": [
+        {
+          "period": "2026-01-01",
+          "territory_code": "973",
+          "territory_name": "Guyane",
+          "unemployment_rate_pct": "19.3"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "974",
+          "territory_name": "La Réunion",
+          "unemployment_rate_pct": "19.0"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "971",
+          "territory_name": "Guadeloupe",
+          "unemployment_rate_pct": "15.2"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "15",
+          "territory_name": "Cantal",
+          "unemployment_rate_pct": "4.7"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "48",
+          "territory_name": "Lozère",
+          "unemployment_rate_pct": "4.9"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "50",
+          "territory_name": "Manche",
+          "unemployment_rate_pct": "5.5"
+        }
+      ],
+      "nationalReferences": [
+        {
+          "period": "2026-01-01",
+          "territory_code": "FM",
+          "territory_name": "France métropolitaine",
+          "unemployment_rate_pct": "7.9"
+        },
+        {
+          "period": "2026-01-01",
+          "territory_code": "FR-D976",
+          "territory_name": "France entière (hors Mayotte)",
+          "unemployment_rate_pct": "8.1"
+        }
+      ],
+      "boundaryCases": {
+        "coverageByEra": [
+          {
+            "era": "before 2014-Q1",
+            "quarters": 128,
+            "territories": 96
+          },
+          {
+            "era": "from 2014-Q1",
+            "quarters": 49,
+            "territories": 100
+          }
+        ],
+        "overseasFirstQuarter": [
+          {
+            "territory_code": "971",
+            "territory_name": "Guadeloupe",
+            "first_period": "2014-01-01",
+            "last_period": "2026-01-01"
+          },
+          {
+            "territory_code": "972",
+            "territory_name": "Martinique",
+            "first_period": "2014-01-01",
+            "last_period": "2026-01-01"
+          },
+          {
+            "territory_code": "973",
+            "territory_name": "Guyane",
+            "first_period": "2014-01-01",
+            "last_period": "2026-01-01"
+          },
+          {
+            "territory_code": "974",
+            "territory_name": "La Réunion",
+            "first_period": "2014-01-01",
+            "last_period": "2026-01-01"
+          }
+        ],
+        "quarterBeforeOverseasCoverage": [
+          {
+            "period": "2013-10-01",
+            "departements": 96
+          }
+        ]
+      }
+    },
+    "french-departement-geometry": {
+      "manifest": {
+        "contentSha256": "5fde9f7a26ab8796f8a0076e302ea16709b8fd039e49fede82591c2b82db4861",
+        "representedPeriod": {
+          "end": "2026-12-31",
+          "start": "2026-12-31"
+        },
+        "logicalTable": "french_departement_geometry",
+        "sourceId": "ign-departement-boundaries",
+        "columnCount": 9
+      },
+      "schema": [
+        {
+          "name": "departement_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "departement_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "region_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "geometry_type",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "geometry_geojson",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "bbox_west",
+          "type": "DECIMAL(9,6)"
+        },
+        {
+          "name": "bbox_south",
+          "type": "DECIMAL(9,6)"
+        },
+        {
+          "name": "bbox_east",
+          "type": "DECIMAL(9,6)"
+        },
+        {
+          "name": "bbox_north",
+          "type": "DECIMAL(9,6)"
+        }
+      ],
+      "representativeRows": [
+        {
+          "departement_code": "2A",
+          "departement_name": "Corse-du-Sud",
+          "region_code": "94",
+          "geometry_type": "MultiPolygon",
+          "geojson_characters": 16603,
+          "bbox_west": "8.540151",
+          "bbox_south": "41.366165",
+          "bbox_east": "9.406959",
+          "bbox_north": "42.381567"
+        },
+        {
+          "departement_code": "59",
+          "departement_name": "Nord",
+          "region_code": "32",
+          "geometry_type": "MultiPolygon",
+          "geojson_characters": 25471,
+          "bbox_west": "2.089322",
+          "bbox_south": "49.970869",
+          "bbox_east": "4.231260",
+          "bbox_north": "51.089152"
+        },
+        {
+          "departement_code": "75",
+          "departement_name": "Paris",
+          "region_code": "11",
+          "geometry_type": "MultiPolygon",
+          "geojson_characters": 4461,
+          "bbox_west": "2.224219",
+          "bbox_south": "48.815604",
+          "bbox_east": "2.469803",
+          "bbox_north": "48.902077"
+        },
+        {
+          "departement_code": "973",
+          "departement_name": "Guyane",
+          "region_code": "03",
+          "geometry_type": "MultiPolygon",
+          "geojson_characters": 42928,
+          "bbox_west": "-54.602361",
+          "bbox_south": "2.112678",
+          "bbox_east": "-51.619066",
+          "bbox_north": "5.748682"
+        },
+        {
+          "departement_code": "976",
+          "departement_name": "Mayotte",
+          "region_code": "06",
+          "geometry_type": "MultiPolygon",
+          "geojson_characters": 8536,
+          "bbox_west": "45.022008",
+          "bbox_south": "-12.999953",
+          "bbox_east": "45.298044",
+          "bbox_north": "-12.636590"
+        }
+      ],
+      "boundaryCases": {
+        "payloadSize": [
+          {
+            "departements": 101,
+            "total_geojson_characters": 1750698,
+            "largest_geometry_characters": 42928
+          }
+        ],
+        "unratedShape": [
+          {
+            "departement_code": "976",
+            "departement_name": "Mayotte"
+          }
+        ],
+        "extentOfAllShapes": [
+          {
+            "west": "-61.805893",
+            "south": "-21.387120",
+            "east": "55.834584",
+            "north": "51.089152"
+          }
+        ],
+        "extentOfMetropolitanShapes": [
+          {
+            "west": "-5.141257",
+            "south": "41.366165",
+            "east": "9.559987",
+            "north": "51.089152"
+          }
+        ]
+      }
+    },
+    "oecd-unemployment-comparison": {
+      "manifest": {
+        "contentSha256": "0779ab7e5c146e56a0f0b54341026ba595cd2cdfd722cb4f0136e3a053d27138",
+        "representedPeriod": {
+          "end": "2026-08-31",
+          "start": "2000-01-01"
+        },
+        "logicalTable": "oecd_unemployment_comparison",
+        "sourceId": "oecd-unemployment-rate",
+        "columnCount": 5
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "reference_area_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_kind",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "unemployment_rate_pct",
+          "type": "DECIMAL(10,1)"
+        }
+      ],
+      "defaultComparatorsAtTheirOwnLatest": [
+        {
+          "reference_area_code": "DEU",
+          "reference_area_name": "Germany",
+          "period": "2026-07-01",
+          "unemployment_rate_pct": "4.0"
+        },
+        {
+          "reference_area_code": "ESP",
+          "reference_area_name": "Spain",
+          "period": "2026-07-01",
+          "unemployment_rate_pct": "10.0"
+        },
+        {
+          "reference_area_code": "FRA",
+          "reference_area_name": "France",
+          "period": "2026-07-01",
+          "unemployment_rate_pct": "8.3"
+        },
+        {
+          "reference_area_code": "GBR",
+          "reference_area_name": "United Kingdom",
+          "period": "2026-05-01",
+          "unemployment_rate_pct": "4.9"
+        },
+        {
+          "reference_area_code": "ITA",
+          "reference_area_name": "Italy",
+          "period": "2026-07-01",
+          "unemployment_rate_pct": "5.8"
+        }
+      ],
+      "boundaryCases": {
+        "publicationEdgeByArea": [
+          {
+            "edge_period": "2026-08-01",
+            "areas_at_edge": 2
+          },
+          {
+            "edge_period": "2026-07-01",
+            "areas_at_edge": 38
+          },
+          {
+            "edge_period": "2026-06-01",
+            "areas_at_edge": 2
+          },
+          {
+            "edge_period": "2026-05-01",
+            "areas_at_edge": 1
+          }
+        ],
+        "raggedEdgeSpread": [
+          {
+            "reference_area_code": "GBR",
+            "reference_area_name": "United Kingdom",
+            "latest_period": "2026-05-01"
+          },
+          {
+            "reference_area_code": "CRI",
+            "reference_area_name": "Costa Rica",
+            "latest_period": "2026-06-01"
+          },
+          {
+            "reference_area_code": "CHL",
+            "reference_area_name": "Chile",
+            "latest_period": "2026-06-01"
+          },
+          {
+            "reference_area_code": "HRV",
+            "reference_area_name": "Croatia",
+            "latest_period": "2026-07-01"
+          }
+        ],
+        "areaKinds": [
+          {
+            "reference_area_kind": "aggregate",
+            "areas": 4
+          },
+          {
+            "reference_area_kind": "member",
+            "areas": 36
+          },
+          {
+            "reference_area_kind": "non-member",
+            "areas": 3
+          }
+        ],
+        "rateExtremes": [
+          {
+            "reference_area_code": "GRC",
+            "reference_area_name": "Greece",
+            "period": "2013-07-01",
+            "unemployment_rate_pct": "28.3"
+          },
+          {
+            "reference_area_code": "GRC",
+            "reference_area_name": "Greece",
+            "period": "2013-09-01",
+            "unemployment_rate_pct": "28.2"
+          }
+        ],
+        "lowestMemberRate": [
+          {
+            "reference_area_code": "CZE",
+            "reference_area_name": "Czechia",
+            "period": "2019-02-01",
+            "unemployment_rate_pct": "1.7"
+          },
+          {
+            "reference_area_code": "CZE",
+            "reference_area_name": "Czechia",
+            "period": "2019-06-01",
+            "unemployment_rate_pct": "1.7"
+          }
+        ]
+      }
+    },
+    "oecd-participation-comparison": {
+      "manifest": {
+        "contentSha256": "e65bee2ba5c955a41f6a842f24a9956d186b9e73333b56926289f54119c0c870",
+        "representedPeriod": {
+          "end": "2026-06-30",
+          "start": "2000-01-01"
+        },
+        "logicalTable": "oecd_participation_comparison",
+        "sourceId": "oecd-participation-rate",
+        "columnCount": 6
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "reference_area_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_kind",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "sex",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "participation_rate_pct",
+          "type": "DECIMAL(10,1)"
+        }
+      ],
+      "defaultComparatorsLatest": [
+        {
+          "reference_area_code": "DEU",
+          "reference_area_name": "Germany",
+          "period": "2026-04-01",
+          "sex": "all",
+          "participation_rate_pct": "61.5"
+        },
+        {
+          "reference_area_code": "DEU",
+          "reference_area_name": "Germany",
+          "period": "2026-04-01",
+          "sex": "men",
+          "participation_rate_pct": "66.4"
+        },
+        {
+          "reference_area_code": "DEU",
+          "reference_area_name": "Germany",
+          "period": "2026-04-01",
+          "sex": "women",
+          "participation_rate_pct": "56.8"
+        },
+        {
+          "reference_area_code": "ESP",
+          "reference_area_name": "Spain",
+          "period": "2026-04-01",
+          "sex": "all",
+          "participation_rate_pct": "58.4"
+        },
+        {
+          "reference_area_code": "ESP",
+          "reference_area_name": "Spain",
+          "period": "2026-04-01",
+          "sex": "men",
+          "participation_rate_pct": "63.2"
+        },
+        {
+          "reference_area_code": "ESP",
+          "reference_area_name": "Spain",
+          "period": "2026-04-01",
+          "sex": "women",
+          "participation_rate_pct": "53.8"
+        },
+        {
+          "reference_area_code": "FRA",
+          "reference_area_name": "France",
+          "period": "2026-04-01",
+          "sex": "all",
+          "participation_rate_pct": "56.9"
+        },
+        {
+          "reference_area_code": "FRA",
+          "reference_area_name": "France",
+          "period": "2026-04-01",
+          "sex": "men",
+          "participation_rate_pct": "60.4"
+        },
+        {
+          "reference_area_code": "FRA",
+          "reference_area_name": "France",
+          "period": "2026-04-01",
+          "sex": "women",
+          "participation_rate_pct": "53.6"
+        },
+        {
+          "reference_area_code": "GBR",
+          "reference_area_name": "United Kingdom",
+          "period": "2026-04-01",
+          "sex": "all",
+          "participation_rate_pct": "63.9"
+        },
+        {
+          "reference_area_code": "GBR",
+          "reference_area_name": "United Kingdom",
+          "period": "2026-04-01",
+          "sex": "men",
+          "participation_rate_pct": "67.9"
+        },
+        {
+          "reference_area_code": "GBR",
+          "reference_area_name": "United Kingdom",
+          "period": "2026-04-01",
+          "sex": "women",
+          "participation_rate_pct": "60.1"
+        },
+        {
+          "reference_area_code": "ITA",
+          "reference_area_name": "Italy",
+          "period": "2026-01-01",
+          "sex": "all",
+          "participation_rate_pct": "49.5"
+        },
+        {
+          "reference_area_code": "ITA",
+          "reference_area_name": "Italy",
+          "period": "2026-01-01",
+          "sex": "men",
+          "participation_rate_pct": "58.1"
+        },
+        {
+          "reference_area_code": "ITA",
+          "reference_area_name": "Italy",
+          "period": "2026-01-01",
+          "sex": "women",
+          "participation_rate_pct": "41.3"
+        }
+      ],
+      "boundaryCases": {
+        "membersAbsentFromTheMonthlyTable": [
+          {
+            "reference_area_code": "CHE",
+            "reference_area_name": "Switzerland"
+          },
+          {
+            "reference_area_code": "NZL",
+            "reference_area_name": "New Zealand"
+          }
+        ],
+        "widestParticipationGapAmongDefaults": [
+          {
+            "period": "2000-01-01",
+            "reference_area_code": "ITA",
+            "reference_area_name": "Italy",
+            "men": "61.9",
+            "women": "35.4",
+            "gap_points": "26.5"
+          },
+          {
+            "period": "2000-04-01",
+            "reference_area_code": "ITA",
+            "reference_area_name": "Italy",
+            "men": "61.9",
+            "women": "35.7",
+            "gap_points": "26.2"
+          }
+        ],
+        "narrowestParticipationGapAmongDefaults": [
+          {
+            "period": "2026-04-01",
+            "reference_area_code": "FRA",
+            "reference_area_name": "France",
+            "men": "60.4",
+            "women": "53.6",
+            "gap_points": "6.8"
+          }
+        ],
+        "areaKinds": [
+          {
+            "reference_area_kind": "aggregate",
+            "areas": 3
+          },
+          {
+            "reference_area_kind": "member",
+            "areas": 38
+          },
+          {
+            "reference_area_kind": "non-member",
+            "areas": 4
+          }
+        ]
+      }
+    }
+  },
+  "crossDatasetFacts": {
+    "frenchNationalRateIsNotTheLocalisedNationalReference": [
+      {
+        "series": "french-labour-market-quarterly (France incl. Mayotte)",
+        "period": "2026-04-01",
+        "rate": "8.3"
+      },
+      {
+        "series": "french-departement-unemployment (France métropolitaine)",
+        "period": "2026-01-01",
+        "rate": "7.9"
+      },
+      {
+        "series": "french-departement-unemployment (France entière (hors Mayotte))",
+        "period": "2026-01-01",
+        "rate": "8.1"
+      }
+    ],
+    "frenchParticipationBasesAreNotInterchangeable": [
+      {
+        "period": "2026-04-01",
+        "french_all_ages": "56.9",
+        "french_15_to_64": "75.4"
+      }
+    ],
+    "howFarOecdFranceDivergesFromTheFrenchHeadline": [
+      {
+        "shared_quarters": 94,
+        "max_unemployment_gap_points": "0.4",
+        "mean_unemployment_gap_points": 0.08
+      }
+    ],
+    "howFarOecdFranceParticipationDivergesFromTheFrenchAllAgesRate": [
+      {
+        "shared_quarters": 94,
+        "max_gap_points": "0.7",
+        "mean_gap_points": 0.489,
+        "identical_quarters": 4
+      }
+    ],
+    "oecdFranceParticipationIsTheSameBasisAsFrenchAllAges": [
+      {
+        "period": "2026-04-01",
+        "oecd_france_15_and_over": "56.9"
+      }
+    ]
+  }
+}

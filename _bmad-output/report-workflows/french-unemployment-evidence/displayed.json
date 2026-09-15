@@ -1,0 +1,1235 @@
+{
+  "latest": {
+    "observation": "Q2 2026 · 8.3% · 2.68M people · participation 75.4%",
+    "scorecards": [
+      [
+        "Unemployment rate",
+        "8.3%",
+        "▲ 0.2 pt on the quarter · Q2 2026"
+      ],
+      [
+        "Participation, 15–64",
+        "75.4%",
+        "men 78.0% · women 72.8% · Q2 2026"
+      ],
+      [
+        "Halo around unemployment",
+        "1.83M",
+        "4.4% of the 15–64 population · Q2 2026"
+      ],
+      [
+        "Underemployment",
+        "4.4%",
+        "1.30 million people · Q2 2026"
+      ]
+    ],
+    "headline-trend-pair": {
+      "chips": [
+        "Q2 2026 · 8.3% · 2.68M"
+      ],
+      "aria": "ILO unemployment rate, Q4 2016 to Q2 2026, between 7.2 and 10.1 percent of the labour force. Selected observation Q2 2026: 8.3 percent, 2.68 million people. Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT · Licence Ouverte / Open Licence 2.0",
+      "lastTableRow": [
+        "Q2 2026",
+        "8.3",
+        "2.68"
+      ]
+    },
+    "slack-multiples": {
+      "chips": [
+        "Unemployed 2.68M",
+        "Long-term 0.67M",
+        "Halo 1.83M",
+        "Underemployment 1.30M"
+      ],
+      "lastTableRow": [
+        "Q2 2026",
+        "2.68",
+        "8.3",
+        "0.67",
+        "2.1",
+        "1.83",
+        "4.4",
+        "1.30",
+        "4.4"
+      ]
+    },
+    "age-band-lines": {
+      "chips": [
+        "Under 25 21.6%",
+        "25 to 49 7.5%",
+        "50 or over 5.5%"
+      ],
+      "lastTableRow": [
+        "Q2 2026",
+        "21.6",
+        "0.74",
+        "7.5",
+        "1.38",
+        "5.5",
+        "0.56"
+      ]
+    },
+    "participation-gap-band": {
+      "chips": [
+        "Men 78.0%",
+        "Gap 5.2 pt",
+        "Women 72.8%"
+      ],
+      "lastTableRow": [
+        "Q2 2026",
+        "78.0",
+        "72.8",
+        "75.4",
+        "56.9"
+      ]
+    },
+    "departement-choropleth": {
+      "title": "Localised unemployment rate by département, Q1 2026",
+      "readout": "Selected: Guyane (973) · 19.3% · Q1 2026 — click or focus any département to select it",
+      "nationalReference": "National reference, same quarter and same source: France métropolitaine 7.9%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead.",
+      "shapes": 101,
+      "pinned": {
+        "15": "Cantal, 15: 4.7 percent",
+        "59": "Nord, 59: 10.5 percent",
+        "75": "Paris, 75: 6.3 percent",
+        "973": "Guyane, 973: 19.3 percent",
+        "976": "Mayotte, 976: no rate published",
+        "2A": "Corse-du-Sud, 2A: 6.6 percent"
+      },
+      "tableRows": [
+        [
+          "Guyane",
+          "973",
+          "19.3",
+          "5 of 5"
+        ],
+        [
+          "Nord",
+          "59",
+          "10.5",
+          "5 of 5"
+        ],
+        [
+          "Corse-du-Sud",
+          "2A",
+          "6.6",
+          "2 of 5"
+        ],
+        [
+          "Paris",
+          "75",
+          "6.3",
+          "2 of 5"
+        ],
+        [
+          "Cantal",
+          "15",
+          "4.7",
+          "1 of 5"
+        ],
+        [
+          "Mayotte",
+          "976",
+          "not published",
+          "not published"
+        ]
+      ]
+    },
+    "international-lines": {
+      "chips": [
+        "France 8.3%",
+        "European Union 6.1%",
+        "United Kingdom — to May 26",
+        "United States 4.2%",
+        "Germany 4.0%"
+      ],
+      "tableRows": [
+        [
+          "France",
+          "FRA",
+          "8.3",
+          "Jun 2026",
+          "member"
+        ],
+        [
+          "Germany",
+          "DEU",
+          "4.0",
+          "Jun 2026",
+          "member"
+        ],
+        [
+          "United Kingdom",
+          "GBR",
+          "4.9",
+          "May 2026",
+          "member"
+        ],
+        [
+          "United States",
+          "USA",
+          "4.2",
+          "Jun 2026",
+          "member"
+        ],
+        [
+          "European Union",
+          "EU",
+          "6.1",
+          "Jun 2026",
+          "aggregate"
+        ]
+      ]
+    },
+    "international-participation": {
+      "chips": [
+        "United Kingdom 63.9%",
+        "United States 61.7%",
+        "Germany 61.5%",
+        "European Union 58.2%",
+        "France 56.9%"
+      ],
+      "tableRows": [
+        [
+          "Germany",
+          "DEU",
+          "61.5",
+          "66.4",
+          "56.8",
+          "9.6",
+          "Q2 2026"
+        ],
+        [
+          "European Union",
+          "EU",
+          "58.2",
+          "63.9",
+          "52.9",
+          "11.0",
+          "Q2 2026"
+        ],
+        [
+          "France",
+          "FRA",
+          "56.9",
+          "60.4",
+          "53.6",
+          "6.8",
+          "Q2 2026"
+        ],
+        [
+          "United Kingdom",
+          "GBR",
+          "63.9",
+          "67.9",
+          "60.1",
+          "7.8",
+          "Q2 2026"
+        ],
+        [
+          "United States",
+          "USA",
+          "61.7",
+          "67.0",
+          "56.8",
+          "10.2",
+          "Q2 2026"
+        ]
+      ]
+    },
+    "states": [
+      [
+        "headline-trend-pair",
+        "ready"
+      ],
+      [
+        "slack-multiples",
+        "ready"
+      ],
+      [
+        "age-band-lines",
+        "ready"
+      ],
+      [
+        "participation-gap-band",
+        "ready"
+      ],
+      [
+        "departement-choropleth",
+        "ready"
+      ],
+      [
+        "international-lines",
+        "ready"
+      ],
+      [
+        "international-participation",
+        "ready"
+      ]
+    ]
+  },
+  "observations": {
+    "left": {
+      "observation": "Q4 2016 · 10.1% · 3.00M people · participation 72.2%",
+      "scorecards": [
+        [
+          "Unemployment rate",
+          "10.1%",
+          "Q4 2016"
+        ],
+        [
+          "Participation, 15–64",
+          "72.2%",
+          "men 75.6% · women 68.9% · Q4 2016"
+        ],
+        [
+          "Halo around unemployment",
+          "1.86M",
+          "4.5% of the 15–64 population · Q4 2016"
+        ],
+        [
+          "Underemployment",
+          "7.0%",
+          "1.88 million people · Q4 2016"
+        ]
+      ],
+      "headline-trend-pair": {
+        "chips": [
+          "Q4 2016 · 10.1% · 3.00M"
+        ],
+        "aria": "ILO unemployment rate, Q4 2016 to Q2 2026, between 7.2 and 10.1 percent of the labour force. Selected observation Q4 2016: 10.1 percent, 3.00 million people. Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT · Licence Ouverte / Open Licence 2.0",
+        "lastTableRow": [
+          "Q2 2026",
+          "8.3",
+          "2.68"
+        ]
+      },
+      "slack-multiples": {
+        "chips": [
+          "Unemployed 3.00M",
+          "Long-term 0.97M",
+          "Underemployment 1.88M",
+          "Halo 1.86M"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "2.68",
+          "8.3",
+          "0.67",
+          "2.1",
+          "1.83",
+          "4.4",
+          "1.30",
+          "4.4"
+        ]
+      },
+      "age-band-lines": {
+        "chips": [
+          "Under 25 25.3%",
+          "25 to 49 9.2%",
+          "50 or over 6.9%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "21.6",
+          "0.74",
+          "7.5",
+          "1.38",
+          "5.5",
+          "0.56"
+        ]
+      },
+      "participation-gap-band": {
+        "chips": [
+          "Men 75.6%",
+          "Gap 6.7 pt",
+          "Women 68.9%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "78.0",
+          "72.8",
+          "75.4",
+          "56.9"
+        ]
+      },
+      "departement-choropleth": {
+        "title": "Localised unemployment rate by département, Q4 2016",
+        "readout": "Selected: La Réunion (974) · 22.0% · Q4 2016 — click or focus any département to select it",
+        "nationalReference": "National reference, same quarter and same source: France métropolitaine 9.7%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead.",
+        "shapes": 101,
+        "pinned": {
+          "15": "Cantal, 15: 6.2 percent",
+          "59": "Nord, 59: 12.6 percent",
+          "75": "Paris, 75: 7.9 percent",
+          "973": "Guyane, 973: 21.7 percent",
+          "976": "Mayotte, 976: no rate published",
+          "2A": "Corse-du-Sud, 2A: 9.5 percent"
+        },
+        "tableRows": [
+          [
+            "Guyane",
+            "973",
+            "21.7",
+            "5 of 5"
+          ],
+          [
+            "Nord",
+            "59",
+            "12.6",
+            "5 of 5"
+          ],
+          [
+            "Corse-du-Sud",
+            "2A",
+            "9.5",
+            "4 of 5"
+          ],
+          [
+            "Paris",
+            "75",
+            "7.9",
+            "3 of 5"
+          ],
+          [
+            "Cantal",
+            "15",
+            "6.2",
+            "2 of 5"
+          ],
+          [
+            "Mayotte",
+            "976",
+            "not published",
+            "not published"
+          ]
+        ]
+      },
+      "international-lines": {
+        "chips": [
+          "France 10.0%",
+          "European Union 8.9%",
+          "United Kingdom 4.7%",
+          "United States 4.7%",
+          "Germany 3.7%"
+        ],
+        "tableRows": [
+          [
+            "France",
+            "FRA",
+            "10.0",
+            "Dec 2016",
+            "member"
+          ],
+          [
+            "Germany",
+            "DEU",
+            "3.7",
+            "Dec 2016",
+            "member"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "4.7",
+            "Dec 2016",
+            "member"
+          ],
+          [
+            "United States",
+            "USA",
+            "4.7",
+            "Dec 2016",
+            "member"
+          ],
+          [
+            "European Union",
+            "EU",
+            "8.9",
+            "Dec 2016",
+            "aggregate"
+          ]
+        ]
+      },
+      "international-participation": {
+        "chips": [
+          "United Kingdom 63.6%",
+          "United States 62.7%",
+          "Germany 61.0%",
+          "European Union 57.0%",
+          "France 55.7%"
+        ],
+        "tableRows": [
+          [
+            "Germany",
+            "DEU",
+            "61.5",
+            "66.4",
+            "56.8",
+            "9.6",
+            "Q2 2026"
+          ],
+          [
+            "European Union",
+            "EU",
+            "58.2",
+            "63.9",
+            "52.9",
+            "11.0",
+            "Q2 2026"
+          ],
+          [
+            "France",
+            "FRA",
+            "56.9",
+            "60.4",
+            "53.6",
+            "6.8",
+            "Q2 2026"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "63.9",
+            "67.9",
+            "60.1",
+            "7.8",
+            "Q2 2026"
+          ],
+          [
+            "United States",
+            "USA",
+            "61.7",
+            "67.0",
+            "56.8",
+            "10.2",
+            "Q2 2026"
+          ]
+        ]
+      },
+      "states": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    },
+    "middle": {
+      "observation": "Q3 2021 · 7.9% · 2.43M people · participation 73.3%",
+      "scorecards": [
+        [
+          "Unemployment rate",
+          "7.9%",
+          "▼ 0.1 pt on the quarter · Q3 2021"
+        ],
+        [
+          "Participation, 15–64",
+          "73.3%",
+          "men 76.4% · women 70.5% · Q3 2021"
+        ],
+        [
+          "Halo around unemployment",
+          "1.84M",
+          "4.5% of the 15–64 population · Q3 2021"
+        ],
+        [
+          "Underemployment",
+          "5.4%",
+          "1.52 million people · Q3 2021"
+        ]
+      ],
+      "headline-trend-pair": {
+        "chips": [
+          "Q3 2021 · 7.9% · 2.43M"
+        ],
+        "aria": "ILO unemployment rate, Q4 2016 to Q2 2026, between 7.2 and 10.1 percent of the labour force. Selected observation Q3 2021: 7.9 percent, 2.43 million people. Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT · Licence Ouverte / Open Licence 2.0",
+        "lastTableRow": [
+          "Q2 2026",
+          "8.3",
+          "2.68"
+        ]
+      },
+      "slack-multiples": {
+        "chips": [
+          "Unemployed 2.43M",
+          "Long-term 0.74M",
+          "Halo 1.84M",
+          "Underemployment 1.52M"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "2.68",
+          "8.3",
+          "0.67",
+          "2.1",
+          "1.83",
+          "4.4",
+          "1.30",
+          "4.4"
+        ]
+      },
+      "age-band-lines": {
+        "chips": [
+          "Under 25 18.7%",
+          "25 to 49 7.1%",
+          "50 or over 5.8%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "21.6",
+          "0.74",
+          "7.5",
+          "1.38",
+          "5.5",
+          "0.56"
+        ]
+      },
+      "participation-gap-band": {
+        "chips": [
+          "Men 76.4%",
+          "Gap 5.9 pt",
+          "Women 70.5%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "78.0",
+          "72.8",
+          "75.4",
+          "56.9"
+        ]
+      },
+      "departement-choropleth": {
+        "title": "Localised unemployment rate by département, Q3 2021",
+        "readout": "Selected: La Réunion (974) · 18.5% · Q3 2021 — click or focus any département to select it",
+        "nationalReference": "National reference, same quarter and same source: France métropolitaine 7.7%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead.",
+        "shapes": 101,
+        "pinned": {
+          "15": "Cantal, 15: 4.2 percent",
+          "59": "Nord, 59: 9.8 percent",
+          "75": "Paris, 75: 6.4 percent",
+          "973": "Guyane, 973: 16.4 percent",
+          "976": "Mayotte, 976: no rate published",
+          "2A": "Corse-du-Sud, 2A: 6.5 percent"
+        },
+        "tableRows": [
+          [
+            "Guyane",
+            "973",
+            "16.4",
+            "5 of 5"
+          ],
+          [
+            "Nord",
+            "59",
+            "9.8",
+            "4 of 5"
+          ],
+          [
+            "Corse-du-Sud",
+            "2A",
+            "6.5",
+            "2 of 5"
+          ],
+          [
+            "Paris",
+            "75",
+            "6.4",
+            "2 of 5"
+          ],
+          [
+            "Cantal",
+            "15",
+            "4.2",
+            "1 of 5"
+          ],
+          [
+            "Mayotte",
+            "976",
+            "not published",
+            "not published"
+          ]
+        ]
+      },
+      "international-lines": {
+        "chips": [
+          "France 7.7%",
+          "European Union 6.7%",
+          "United States 4.7%",
+          "United Kingdom 4.3%",
+          "Germany 3.4%"
+        ],
+        "tableRows": [
+          [
+            "France",
+            "FRA",
+            "7.7",
+            "Sep 2021",
+            "member"
+          ],
+          [
+            "Germany",
+            "DEU",
+            "3.4",
+            "Sep 2021",
+            "member"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "4.3",
+            "Sep 2021",
+            "member"
+          ],
+          [
+            "United States",
+            "USA",
+            "4.7",
+            "Sep 2021",
+            "member"
+          ],
+          [
+            "European Union",
+            "EU",
+            "6.7",
+            "Sep 2021",
+            "aggregate"
+          ]
+        ]
+      },
+      "international-participation": {
+        "chips": [
+          "United Kingdom 63.4%",
+          "United States 61.7%",
+          "Germany 60.8%",
+          "European Union 57.4%",
+          "France 56.2%"
+        ],
+        "tableRows": [
+          [
+            "Germany",
+            "DEU",
+            "61.5",
+            "66.4",
+            "56.8",
+            "9.6",
+            "Q2 2026"
+          ],
+          [
+            "European Union",
+            "EU",
+            "58.2",
+            "63.9",
+            "52.9",
+            "11.0",
+            "Q2 2026"
+          ],
+          [
+            "France",
+            "FRA",
+            "56.9",
+            "60.4",
+            "53.6",
+            "6.8",
+            "Q2 2026"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "63.9",
+            "67.9",
+            "60.1",
+            "7.8",
+            "Q2 2026"
+          ],
+          [
+            "United States",
+            "USA",
+            "61.7",
+            "67.0",
+            "56.8",
+            "10.2",
+            "Q2 2026"
+          ]
+        ]
+      },
+      "states": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    },
+    "right": {
+      "observation": "Q2 2026 · 8.3% · 2.68M people · participation 75.4%",
+      "scorecards": [
+        [
+          "Unemployment rate",
+          "8.3%",
+          "▲ 0.2 pt on the quarter · Q2 2026"
+        ],
+        [
+          "Participation, 15–64",
+          "75.4%",
+          "men 78.0% · women 72.8% · Q2 2026"
+        ],
+        [
+          "Halo around unemployment",
+          "1.83M",
+          "4.4% of the 15–64 population · Q2 2026"
+        ],
+        [
+          "Underemployment",
+          "4.4%",
+          "1.30 million people · Q2 2026"
+        ]
+      ],
+      "headline-trend-pair": {
+        "chips": [
+          "Q2 2026 · 8.3% · 2.68M"
+        ],
+        "aria": "ILO unemployment rate, Q4 2016 to Q2 2026, between 7.2 and 10.1 percent of the labour force. Selected observation Q2 2026: 8.3 percent, 2.68 million people. Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT · Licence Ouverte / Open Licence 2.0",
+        "lastTableRow": [
+          "Q2 2026",
+          "8.3",
+          "2.68"
+        ]
+      },
+      "slack-multiples": {
+        "chips": [
+          "Unemployed 2.68M",
+          "Long-term 0.67M",
+          "Halo 1.83M",
+          "Underemployment 1.30M"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "2.68",
+          "8.3",
+          "0.67",
+          "2.1",
+          "1.83",
+          "4.4",
+          "1.30",
+          "4.4"
+        ]
+      },
+      "age-band-lines": {
+        "chips": [
+          "Under 25 21.6%",
+          "25 to 49 7.5%",
+          "50 or over 5.5%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "21.6",
+          "0.74",
+          "7.5",
+          "1.38",
+          "5.5",
+          "0.56"
+        ]
+      },
+      "participation-gap-band": {
+        "chips": [
+          "Men 78.0%",
+          "Gap 5.2 pt",
+          "Women 72.8%"
+        ],
+        "lastTableRow": [
+          "Q2 2026",
+          "78.0",
+          "72.8",
+          "75.4",
+          "56.9"
+        ]
+      },
+      "departement-choropleth": {
+        "title": "Localised unemployment rate by département, Q1 2026",
+        "readout": "Selected: Guyane (973) · 19.3% · Q1 2026 — click or focus any département to select it",
+        "nationalReference": "National reference, same quarter and same source: France métropolitaine 7.9%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead.",
+        "shapes": 101,
+        "pinned": {
+          "15": "Cantal, 15: 4.7 percent",
+          "59": "Nord, 59: 10.5 percent",
+          "75": "Paris, 75: 6.3 percent",
+          "973": "Guyane, 973: 19.3 percent",
+          "976": "Mayotte, 976: no rate published",
+          "2A": "Corse-du-Sud, 2A: 6.6 percent"
+        },
+        "tableRows": [
+          [
+            "Guyane",
+            "973",
+            "19.3",
+            "5 of 5"
+          ],
+          [
+            "Nord",
+            "59",
+            "10.5",
+            "5 of 5"
+          ],
+          [
+            "Corse-du-Sud",
+            "2A",
+            "6.6",
+            "2 of 5"
+          ],
+          [
+            "Paris",
+            "75",
+            "6.3",
+            "2 of 5"
+          ],
+          [
+            "Cantal",
+            "15",
+            "4.7",
+            "1 of 5"
+          ],
+          [
+            "Mayotte",
+            "976",
+            "not published",
+            "not published"
+          ]
+        ]
+      },
+      "international-lines": {
+        "chips": [
+          "France 8.3%",
+          "European Union 6.1%",
+          "United Kingdom — to May 26",
+          "United States 4.2%",
+          "Germany 4.0%"
+        ],
+        "tableRows": [
+          [
+            "France",
+            "FRA",
+            "8.3",
+            "Jun 2026",
+            "member"
+          ],
+          [
+            "Germany",
+            "DEU",
+            "4.0",
+            "Jun 2026",
+            "member"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "4.9",
+            "May 2026",
+            "member"
+          ],
+          [
+            "United States",
+            "USA",
+            "4.2",
+            "Jun 2026",
+            "member"
+          ],
+          [
+            "European Union",
+            "EU",
+            "6.1",
+            "Jun 2026",
+            "aggregate"
+          ]
+        ]
+      },
+      "international-participation": {
+        "chips": [
+          "United Kingdom 63.9%",
+          "United States 61.7%",
+          "Germany 61.5%",
+          "European Union 58.2%",
+          "France 56.9%"
+        ],
+        "tableRows": [
+          [
+            "Germany",
+            "DEU",
+            "61.5",
+            "66.4",
+            "56.8",
+            "9.6",
+            "Q2 2026"
+          ],
+          [
+            "European Union",
+            "EU",
+            "58.2",
+            "63.9",
+            "52.9",
+            "11.0",
+            "Q2 2026"
+          ],
+          [
+            "France",
+            "FRA",
+            "56.9",
+            "60.4",
+            "53.6",
+            "6.8",
+            "Q2 2026"
+          ],
+          [
+            "United Kingdom",
+            "GBR",
+            "63.9",
+            "67.9",
+            "60.1",
+            "7.8",
+            "Q2 2026"
+          ],
+          [
+            "United States",
+            "USA",
+            "61.7",
+            "67.0",
+            "56.8",
+            "10.2",
+            "Q2 2026"
+          ]
+        ]
+      },
+      "states": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    }
+  },
+  "views": {
+    "desktop": {
+      "file": "view-desktop.png",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "documentOverflowPx": 0,
+      "figureStates": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    },
+    "narrow-smartphone-landscape": {
+      "file": "view-narrow-smartphone-landscape.png",
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "documentOverflowPx": 0,
+      "figureStates": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    },
+    "zoom-400": {
+      "file": "view-zoom-400.png",
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "documentOverflowPx": 0,
+      "figureStates": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "departement-choropleth",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ]
+    }
+  },
+  "isolation": {
+    "failedSections": [
+      [
+        "How many people are out of work",
+        "ready"
+      ],
+      [
+        "Where people are out of work",
+        "query-error"
+      ]
+    ],
+    "readyFigures": [
+      [
+        "headline-trend-pair",
+        "ready"
+      ],
+      [
+        "slack-multiples",
+        "ready"
+      ],
+      [
+        "age-band-lines",
+        "ready"
+      ],
+      [
+        "participation-gap-band",
+        "ready"
+      ],
+      [
+        "international-lines",
+        "ready"
+      ],
+      [
+        "international-participation",
+        "ready"
+      ]
+    ],
+    "retryOffered": true
+  }
+}

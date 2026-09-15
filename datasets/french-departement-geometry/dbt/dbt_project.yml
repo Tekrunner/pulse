@@ -1,0 +1,10 @@
+name: french_departement_geometry
+version: 1.0.0
+config-version: 2
+profile: pulse_dataset
+model-paths: [models]
+models:
+  french_departement_geometry:
+    +materialized: external
+    +location: "{{ var('external_location') }}"
+    +format: parquet

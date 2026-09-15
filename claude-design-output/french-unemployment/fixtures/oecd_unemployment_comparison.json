@@ -1,0 +1,779 @@
+[
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.5
+  },
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.3
+  },
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.5
+  },
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.5
+  },
+  {
+    "period": "2025-01-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.6
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.6
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.1
+  },
+  {
+    "period": "2025-02-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.6
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.8
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.6
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.3
+  },
+  {
+    "period": "2025-03-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.7
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.6
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.5
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.7
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.2
+  },
+  {
+    "period": "2025-04-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.7
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.6
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.6
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.7
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.4
+  },
+  {
+    "period": "2025-05-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.7
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.5
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.7
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.9
+  },
+  {
+    "period": "2025-06-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.8
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.6
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.7
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.8
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.9
+  },
+  {
+    "period": "2025-07-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.8
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.5
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.8
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.9
+  },
+  {
+    "period": "2025-08-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.8
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.4
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 7.9
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.1
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 6.0
+  },
+  {
+    "period": "2025-09-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.1
+  },
+  {
+    "period": "2025-10-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.8
+  },
+  {
+    "period": "2025-10-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.2
+  },
+  {
+    "period": "2025-10-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.0
+  },
+  {
+    "period": "2025-10-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.1
+  },
+  {
+    "period": "2025-10-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.8
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.0
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.2
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.7
+  },
+  {
+    "period": "2025-11-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.1
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.2
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.0
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.2
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.7
+  },
+  {
+    "period": "2025-12-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.1
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.5
+  },
+  {
+    "period": "2026-01-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.6
+  },
+  {
+    "period": "2026-02-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.1
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.3
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.2
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.5
+  },
+  {
+    "period": "2026-03-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.2
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.5
+  },
+  {
+    "period": "2026-04-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 3.9
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.2
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.4
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "GBR",
+    "reference_area_name": "United Kingdom",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.4
+  },
+  {
+    "period": "2026-05-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 5.0
+  },
+  {
+    "period": "2026-06-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.0
+  },
+  {
+    "period": "2026-06-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.1
+  },
+  {
+    "period": "2026-06-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2026-06-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.8
+  },
+  {
+    "period": "2026-06-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  },
+  {
+    "period": "2026-07-01",
+    "reference_area_code": "DEU",
+    "reference_area_name": "Germany",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 4.0
+  },
+  {
+    "period": "2026-07-01",
+    "reference_area_code": "ESP",
+    "reference_area_name": "Spain",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 10.0
+  },
+  {
+    "period": "2026-07-01",
+    "reference_area_code": "FRA",
+    "reference_area_name": "France",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 8.3
+  },
+  {
+    "period": "2026-07-01",
+    "reference_area_code": "ITA",
+    "reference_area_name": "Italy",
+    "reference_area_kind": "member",
+    "unemployment_rate_pct": 5.8
+  },
+  {
+    "period": "2026-07-01",
+    "reference_area_code": "OECD",
+    "reference_area_name": "OECD",
+    "reference_area_kind": "aggregate",
+    "unemployment_rate_pct": 4.9
+  }
+]

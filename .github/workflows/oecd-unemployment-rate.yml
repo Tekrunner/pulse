@@ -1,0 +1,50 @@
+name: Refresh OECD monthly unemployment rates
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Every 2026 OECD release falls between the 7th and the 22nd, so the 13th
+    # collects the early-month releases and the 25th the late-month ones. Two
+    # runs keep a fortnight of margin in the worst case, when the publication
+    # edge is frozen across the OECD's August gap. 10:00 UTC is after the Paris
+    # publication under both CET and CEST.
+    - cron: "0 10 13,25 * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/oecd-unemployment-rate/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh oecd-unemployment-rate --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication oecd-unemployment-rate
+          if ! git diff --cached --quiet; then
+            git commit -m "data(oecd-unemployment-rate): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

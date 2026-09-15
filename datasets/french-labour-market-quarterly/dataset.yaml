@@ -1,0 +1,6 @@
+id: french-labour-market-quarterly
+name: French quarterly ILO labour-market indicators
+source: insee-labour-market
+visibility: public
+logical_table: french_labour_market_quarterly
+contract: dataset-contract.yaml

@@ -1,0 +1,50 @@
+name: Refresh INSEE localised unemployment rates
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Quarters end 31 Mar, 30 Jun, 30 Sep and 31 Dec, so the 25th of Jun, Sep,
+    # Dec and Mar is +84 to +87 days after the quarter end: after the observed
+    # +80-day release and before the declared deadline plus grace expires at
+    # +99 days. 08:00 UTC is safely after the 07:30 Europe/Paris release under
+    # both CET and CEST.
+    - cron: "0 8 25 3,6,9,12 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/insee-local-unemployment/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh insee-local-unemployment --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication insee-local-unemployment
+          if ! git diff --cached --quiet; then
+            git commit -m "data(insee-local-unemployment): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

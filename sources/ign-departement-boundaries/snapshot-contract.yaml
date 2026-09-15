@@ -1,0 +1,14 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+# Provider member and property names, unrenamed. GeoJSON is nested and a
+# snapshot row is flat, so the feature's `geometry` member is carried as its
+# exact JSON value rather than exploded into invented columns.
+required_fields:
+  type: string
+  id: string
+  geometry: string
+  cleabs: string
+  code_insee: string
+  code_insee_de_la_region: string
+  nom_officiel: string

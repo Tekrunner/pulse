@@ -360,7 +360,7 @@ export function renderFrenchConsumerPricesReport({
   scenario,
 } = {}) {
   const main = el("main");
-  main.className = "cpi-report";
+  main.className = "pulse-report cpi-report";
   const navigation = el("nav"),
     home = el("a", "Pulse reports");
   navigation.setAttribute("aria-label", "Report navigation");

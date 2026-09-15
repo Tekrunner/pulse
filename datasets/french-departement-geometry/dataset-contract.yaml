@@ -1,0 +1,85 @@
+contract_version: 1.1.0
+model:
+  name: french_departement_geometry
+  description: One row per French departement carrying its administrative boundary as
+    GeoJSON text and its bounding box, keyed by the INSEE departement code so it joins
+    directly to the localised unemployment rates.
+columns:
+- name: departement_code
+  type: VARCHAR
+  description: INSEE departement code, including 2A and 2B for Corsica and the three-digit
+    overseas codes. This is the join key to french-departement-unemployment.
+- name: departement_name
+  type: VARCHAR
+  description: Official departement name as IGN publishes it.
+- name: region_code
+  type: VARCHAR
+  description: INSEE code of the region the departement belongs to.
+- name: geometry_type
+  type: VARCHAR
+  description: GeoJSON geometry type of the boundary, Polygon or MultiPolygon.
+- name: geometry_geojson
+  type: VARCHAR
+  description: The boundary as a GeoJSON geometry object in EPSG:4326, exactly as IGN
+    published it at Petite Echelle generalisation. Nothing is simplified here.
+- name: bbox_west
+  type: DECIMAL(9,6)
+  description: Westernmost longitude of the boundary, in degrees.
+- name: bbox_south
+  type: DECIMAL(9,6)
+  description: Southernmost latitude of the boundary, in degrees.
+- name: bbox_east
+  type: DECIMAL(9,6)
+  description: Easternmost longitude of the boundary, in degrees.
+- name: bbox_north
+  type: DECIMAL(9,6)
+  description: Northernmost latitude of the boundary, in degrees.
+indicators:
+- column: geometry_geojson
+  definition: Administrative boundary of the departement as a GeoJSON geometry object in
+    EPSG:4326, at the provider's Petite Echelle generalisation. It is reference geometry,
+    not a measurement.
+  unit: GeoJSON geometry, WGS 84 decimal degrees
+  source: IGN, ADMIN EXPRESS COG CARTO Petite Echelle, edition 2026, served by the
+    Geoplateforme WFS
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: IGN, ADMIN EXPRESS COG CARTO, edition 2026.'
+questions:
+- id: draw-the-departement-map
+  question: What shape is each French departement, so a rate can be drawn on it?
+  derivation: Select every row and join to french-departement-unemployment on
+    departement_code equals territory_code.
+  columns: [departement_code, departement_name, geometry_geojson]
+- id: fit-the-map-to-a-territory
+  question: What extent does a map need in order to frame one departement, or all of them?
+  derivation: Read the bounding box columns directly; take their minima and maxima across
+    a set of rows to frame that set.
+  columns: [departement_code, bbox_west, bbox_south, bbox_east, bbox_north]
+- id: group-departements-by-region
+  question: Which departements belong to the same region?
+  derivation: Group rows by region_code.
+  columns: [departement_code, departement_name, region_code]
+temporal:
+  grain: edition
+  period_column: departement_code
+  meaning: This table has no time dimension. It describes administrative geography for
+    one pinned IGN COG edition, whose reference year is recorded in the source snapshot's
+    represented period. A row is current for the whole of that year.
+validations:
+- name: one-row-per-departement
+  description: departement_code is unique and every row has one.
+  columns: [departement_code]
+- name: required-values
+  description: No published column is ever null.
+  columns: [departement_code, departement_name, region_code, geometry_type, geometry_geojson,
+    bbox_west, bbox_south, bbox_east, bbox_north]
+- name: geometry-is-a-polygon
+  description: Every geometry is a Polygon or a MultiPolygon.
+  columns: [geometry_type]
+- name: bounding-box-is-well-formed
+  description: Each bounding box has west below east and south below north.
+  columns: [bbox_west, bbox_south, bbox_east, bbox_north]
+- name: every-rated-departement-has-a-shape
+  description: Every departement carrying a localised unemployment rate appears here, so
+    the choropleth can never render a hole.
+  columns: [departement_code]

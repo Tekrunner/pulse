@@ -1,0 +1,204 @@
+contract_version: 1.0.0
+id: french-unemployment
+title: Unemployment in France
+route: reports/french-unemployment
+visibility: public
+questions:
+  - id: headline-level
+    question: How many people in France are unemployed on the ILO definition, and how has that number moved?
+  - id: headline-rate
+    question: What share of the active population is unemployed, and how has that share moved?
+  - id: labour-slack-composition
+    question: Beyond headline ILO unemployment, how large are long-term unemployment, the halo around unemployment and underemployment, each as a count of people and as its own published rate?
+  - id: age-gap
+    question: How far apart are the unemployment rates of under-25s, 25-to-49-year-olds and people aged 50 or over, and is the gap widening?
+  - id: territorial-spread
+    question: How unevenly is unemployment spread across the French departements, and where are the extremes?
+  - id: participation-gap
+    question: What share of the population takes part in the labour market, and how far apart are men and women?
+  - id: international-standing
+    question: How do France's unemployment rate and participation rate compare with those of other OECD economies?
+datasets:
+  - french-labour-market-quarterly
+  - french-departement-unemployment
+  - french-departement-geometry
+  - oecd-unemployment-comparison
+  - oecd-participation-comparison
+queries:
+  - id: headline-trend
+    dataset: french-labour-market-quarterly
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(unemployment_rate_pct AS DOUBLE) AS unemployment_rate_pct, CAST(unemployed_thousands AS DOUBLE) AS unemployed_thousands FROM french_labour_market_quarterly WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, unemployment_rate_pct, unemployed_thousands]
+  - id: labour-slack
+    dataset: french-labour-market-quarterly
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(unemployed_thousands AS DOUBLE) AS unemployed_thousands, CAST(unemployment_rate_pct AS DOUBLE) AS unemployment_rate_pct, CAST(long_term_unemployed_thousands AS DOUBLE) AS long_term_unemployed_thousands, CAST(long_term_unemployment_rate_pct AS DOUBLE) AS long_term_unemployment_rate_pct, CAST(halo_15_to_64_thousands AS DOUBLE) AS halo_15_to_64_thousands, CAST(halo_share_of_population_15_to_64_pct AS DOUBLE) AS halo_share_of_population_15_to_64_pct, CAST(underemployed_thousands AS DOUBLE) AS underemployed_thousands, CAST(underemployment_rate_pct AS DOUBLE) AS underemployment_rate_pct FROM french_labour_market_quarterly WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, unemployed_thousands, unemployment_rate_pct, long_term_unemployed_thousands, long_term_unemployment_rate_pct, halo_15_to_64_thousands, halo_share_of_population_15_to_64_pct, underemployed_thousands, underemployment_rate_pct]
+  - id: age-bands
+    dataset: french-labour-market-quarterly
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(unemployment_rate_under_25_pct AS DOUBLE) AS unemployment_rate_under_25_pct, CAST(unemployment_rate_25_to_49_pct AS DOUBLE) AS unemployment_rate_25_to_49_pct, CAST(unemployment_rate_50_and_over_pct AS DOUBLE) AS unemployment_rate_50_and_over_pct, CAST(unemployed_under_25_thousands AS DOUBLE) AS unemployed_under_25_thousands, CAST(unemployed_25_to_49_thousands AS DOUBLE) AS unemployed_25_to_49_thousands, CAST(unemployed_50_and_over_thousands AS DOUBLE) AS unemployed_50_and_over_thousands FROM french_labour_market_quarterly WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, unemployment_rate_under_25_pct, unemployment_rate_25_to_49_pct, unemployment_rate_50_and_over_pct, unemployed_under_25_thousands, unemployed_25_to_49_thousands, unemployed_50_and_over_thousands]
+  - id: participation-rates
+    dataset: french-labour-market-quarterly
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(participation_rate_men_15_to_64_pct AS DOUBLE) AS participation_rate_men_15_to_64_pct, CAST(participation_rate_women_15_to_64_pct AS DOUBLE) AS participation_rate_women_15_to_64_pct, CAST(participation_rate_15_to_64_pct AS DOUBLE) AS participation_rate_15_to_64_pct, CAST(participation_rate_pct AS DOUBLE) AS participation_rate_pct FROM french_labour_market_quarterly WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, participation_rate_men_15_to_64_pct, participation_rate_women_15_to_64_pct, participation_rate_15_to_64_pct, participation_rate_pct]
+  # The choropleth's row spine. Every published boundary is returned, including
+  # the one territory the rate series never carries, so a missing rate renders
+  # as not-published rather than as a missing shape. Geometry does not move with
+  # the represented period, so this query takes no parameter.
+  - id: departement-geometry
+    dataset: french-departement-geometry
+    sql: SELECT departement_code, departement_name, region_code, geometry_geojson, CAST(bbox_west AS DOUBLE) AS bbox_west, CAST(bbox_south AS DOUBLE) AS bbox_south, CAST(bbox_east AS DOUBLE) AS bbox_east, CAST(bbox_north AS DOUBLE) AS bbox_north FROM french_departement_geometry ORDER BY departement_code
+    parameters: []
+    columns: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+  # Joined onto the geometry spine by the report, never by the engine: a query
+  # may select only from its own declared dataset. Country rows are returned
+  # alongside the departements because the section's national reference is a
+  # different geography from the national headline series.
+  - id: departement-rates
+    dataset: french-departement-unemployment
+    sql: SELECT CAST(period AS VARCHAR) AS period, territory_kind, territory_code, territory_name, CAST(unemployment_rate_pct AS DOUBLE) AS unemployment_rate_pct FROM french_departement_unemployment WHERE territory_kind IN ('departement', 'country') AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period, territory_code
+    parameters: [period-start, period-end]
+    columns: [period, territory_kind, territory_code, territory_name, unemployment_rate_pct]
+  - id: international-unemployment
+    dataset: oecd-unemployment-comparison
+    sql: SELECT CAST(period AS VARCHAR) AS period, reference_area_code, reference_area_name, reference_area_kind, CAST(unemployment_rate_pct AS DOUBLE) AS unemployment_rate_pct FROM oecd_unemployment_comparison WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY reference_area_code, period
+    parameters: [period-start, period-end]
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, unemployment_rate_pct]
+  # The international section's quarterly panel. It is a different time grain
+  # from the monthly one above, so it does not follow the observation selection.
+  - id: international-participation
+    dataset: oecd-participation-comparison
+    sql: SELECT CAST(period AS VARCHAR) AS period, reference_area_code, reference_area_name, reference_area_kind, sex, CAST(participation_rate_pct AS DOUBLE) AS participation_rate_pct FROM oecd_participation_comparison WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY reference_area_code, sex, period
+    parameters: [period-start, period-end]
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, sex, participation_rate_pct]
+schemas:
+  headline-trend-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: unemployment_rate_pct, type: number, nullable: false}
+    - {name: unemployed_thousands, type: number, nullable: false}
+  labour-slack-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: unemployed_thousands, type: number, nullable: false}
+    - {name: unemployment_rate_pct, type: number, nullable: false}
+    - {name: long_term_unemployed_thousands, type: number, nullable: false}
+    - {name: long_term_unemployment_rate_pct, type: number, nullable: false}
+    - {name: halo_15_to_64_thousands, type: number, nullable: false}
+    - {name: halo_share_of_population_15_to_64_pct, type: number, nullable: false}
+    - {name: underemployed_thousands, type: number, nullable: false}
+    - {name: underemployment_rate_pct, type: number, nullable: false}
+  age-bands-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: unemployment_rate_under_25_pct, type: number, nullable: false}
+    - {name: unemployment_rate_25_to_49_pct, type: number, nullable: false}
+    - {name: unemployment_rate_50_and_over_pct, type: number, nullable: false}
+    - {name: unemployed_under_25_thousands, type: number, nullable: false}
+    - {name: unemployed_25_to_49_thousands, type: number, nullable: false}
+    - {name: unemployed_50_and_over_thousands, type: number, nullable: false}
+  participation-rates-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: participation_rate_men_15_to_64_pct, type: number, nullable: false}
+    - {name: participation_rate_women_15_to_64_pct, type: number, nullable: false}
+    - {name: participation_rate_15_to_64_pct, type: number, nullable: false}
+    - {name: participation_rate_pct, type: number, nullable: false}
+  departement-geometry-schema:
+    - {name: departement_code, type: string, nullable: false}
+    - {name: departement_name, type: string, nullable: false}
+    - {name: region_code, type: string, nullable: false}
+    - {name: geometry_geojson, type: string, nullable: false}
+    - {name: bbox_west, type: number, nullable: false}
+    - {name: bbox_south, type: number, nullable: false}
+    - {name: bbox_east, type: number, nullable: false}
+    - {name: bbox_north, type: number, nullable: false}
+  # Secondary input of departement-choropleth. A null rate is the published
+  # not-published case and must never be read as zero.
+  departement-rates-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: territory_kind, type: string, nullable: false}
+    - {name: territory_code, type: string, nullable: false}
+    - {name: territory_name, type: string, nullable: false}
+    - {name: unemployment_rate_pct, type: number, nullable: true}
+  international-unemployment-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: reference_area_code, type: string, nullable: false}
+    - {name: reference_area_name, type: string, nullable: false}
+    - {name: reference_area_kind, type: string, nullable: false}
+    - {name: unemployment_rate_pct, type: number, nullable: false}
+  international-participation-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: reference_area_code, type: string, nullable: false}
+    - {name: reference_area_name, type: string, nullable: false}
+    - {name: reference_area_kind, type: string, nullable: false}
+    - {name: sex, type: string, nullable: false}
+    - {name: participation_rate_pct, type: number, nullable: false}
+visuals:
+  - id: headline-trend-pair
+    contract: 1.0.0
+    dataset: french-labour-market-quarterly
+    question: headline-level
+    query: headline-trend
+    schema: headline-trend-schema
+    columns: [period, unemployment_rate_pct, unemployed_thousands]
+  - id: slack-multiples
+    contract: 1.0.0
+    dataset: french-labour-market-quarterly
+    question: labour-slack-composition
+    query: labour-slack
+    schema: labour-slack-schema
+    columns: [period, unemployed_thousands, unemployment_rate_pct, long_term_unemployed_thousands, long_term_unemployment_rate_pct, halo_15_to_64_thousands, halo_share_of_population_15_to_64_pct, underemployed_thousands, underemployment_rate_pct]
+  - id: age-band-lines
+    contract: 1.0.0
+    dataset: french-labour-market-quarterly
+    question: age-gap
+    query: age-bands
+    schema: age-bands-schema
+    columns: [period, unemployment_rate_under_25_pct, unemployment_rate_25_to_49_pct, unemployment_rate_50_and_over_pct, unemployed_under_25_thousands, unemployed_25_to_49_thousands, unemployed_50_and_over_thousands]
+  - id: participation-gap-band
+    contract: 1.0.0
+    dataset: french-labour-market-quarterly
+    question: participation-gap
+    query: participation-rates
+    schema: participation-rates-schema
+    columns: [period, participation_rate_men_15_to_64_pct, participation_rate_women_15_to_64_pct, participation_rate_15_to_64_pct, participation_rate_pct]
+  - id: departement-choropleth
+    contract: 1.0.0
+    dataset: french-departement-geometry
+    question: territorial-spread
+    query: departement-geometry
+    schema: departement-geometry-schema
+    columns: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+  - id: international-lines
+    contract: 1.0.0
+    dataset: oecd-unemployment-comparison
+    question: international-standing
+    query: international-unemployment
+    schema: international-unemployment-schema
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, unemployment_rate_pct]
+  - id: international-participation
+    contract: 1.0.0
+    dataset: oecd-participation-comparison
+    question: international-standing
+    query: international-participation
+    schema: international-participation-schema
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, sex, participation_rate_pct]
+lineage:
+  french-labour-market-quarterly: [period, unemployment_rate_pct, unemployed_thousands, long_term_unemployed_thousands, long_term_unemployment_rate_pct, halo_15_to_64_thousands, halo_share_of_population_15_to_64_pct, underemployed_thousands, underemployment_rate_pct, unemployment_rate_under_25_pct, unemployment_rate_25_to_49_pct, unemployment_rate_50_and_over_pct, unemployed_under_25_thousands, unemployed_25_to_49_thousands, unemployed_50_and_over_thousands, participation_rate_men_15_to_64_pct, participation_rate_women_15_to_64_pct, participation_rate_15_to_64_pct, participation_rate_pct]
+  french-departement-unemployment: [period, territory_kind, territory_code, territory_name, unemployment_rate_pct]
+  french-departement-geometry: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+  oecd-unemployment-comparison: [period, reference_area_code, reference_area_name, reference_area_kind, unemployment_rate_pct]
+  oecd-participation-comparison: [period, reference_area_code, reference_area_name, reference_area_kind, sex, participation_rate_pct]
+state_topology:
+  report: [ready, loading, empty, query-error, engine-error]
+  slot: [ready, loading, empty, suspect, stale, query-error, schema-error, render-error, engine-error]
+  failure_scope: slot-local
+  retry: safe
+exploration:
+  enabled: true
+  default_period: ten-years
+  controls: [represented-period, observation-quarter, departement, comparators, participation-basis]
+change:
+  version: 1.0.0
+  summary: Initial French unemployment report declaration

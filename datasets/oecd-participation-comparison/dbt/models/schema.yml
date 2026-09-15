@@ -1,0 +1,29 @@
+version: 2
+models:
+  - name: oecd_participation_comparison
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: reference_area_code
+        data_tests: [not_null]
+      - name: reference_area_name
+        data_tests: [not_null]
+      - name: reference_area_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [member, aggregate, non-member]
+      - name: sex
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [all, men, women]
+      - name: participation_rate_pct
+        data_tests:
+          - not_null
+          - within_range:
+              arguments:
+                minimum: 0
+                maximum: 100

@@ -1,0 +1,96 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1180,
+      "h": 3560,
+      "title": "Report — composed",
+      "print": "flow"
+    },
+    {
+      "file": "Map.dc.html",
+      "x": 1300,
+      "y": 0,
+      "w": 1180,
+      "h": 1320,
+      "title": "Territorial detail"
+    },
+    {
+      "file": "International.dc.html",
+      "x": 1300,
+      "y": 1480,
+      "w": 1180,
+      "h": 1500,
+      "title": "International comparison",
+      "is_interactive": true
+    },
+    {
+      "file": "States.dc.html",
+      "x": 2600,
+      "y": 0,
+      "w": 1180,
+      "h": 1380,
+      "title": "States and isolation"
+    },
+    {
+      "file": "Narrow.dc.html",
+      "x": 2600,
+      "y": 1540,
+      "w": 740,
+      "h": 1180,
+      "title": "Narrow — phone landscape"
+    },
+    {
+      "file": "Zoom.dc.html",
+      "x": 3440,
+      "y": 1540,
+      "w": 320,
+      "h": 1240,
+      "title": "400% zoom / reflow"
+    },
+    {
+      "file": "Decisions.dc.html",
+      "x": 3900,
+      "y": 0,
+      "w": 820,
+      "h": 2100,
+      "title": "Design decisions",
+      "print": "flow"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "start-here",
+      "x": 0,
+      "y": -150,
+      "w": 520,
+      "text": "Start here. The composed report is the deliverable; the artboards to the right specify the two hardest sections, every declared state, and the two required narrow views.\n\nEvery number on every artboard was read from the published Parquet — nothing is representative except the decimated map outlines, which are marked as design-only."
+    },
+    {
+      "id": "hard-sections",
+      "x": 1300,
+      "y": -150,
+      "w": 520,
+      "text": "The two sections the composed artboard only summarises. Territorial carries the three absence treatments; International carries the selector, the eight-series cap and the ragged publication edge.\n\nInternational has working controls: add and remove a country and watch the others keep their colours."
+    },
+    {
+      "id": "states-note",
+      "x": 2600,
+      "y": -150,
+      "w": 520,
+      "text": "Nine states, plus slot-local failure isolation and the focus/target/non-colour-cue specification.\n\nNo state is signalled by colour alone: each carries an icon and a named word."
+    },
+    {
+      "id": "decisions-note",
+      "x": 3900,
+      "y": -150,
+      "w": 520,
+      "text": "What was decided and what it costs — including three palettes that failed validation and were re-stepped, and the open questions for the approver.\n\nEverything here becomes binding on approval."
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  }
+}

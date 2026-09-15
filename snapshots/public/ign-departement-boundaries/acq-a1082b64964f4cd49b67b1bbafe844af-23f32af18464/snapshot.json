@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-14T12:46:37Z",
+  "acquisition_id": "acq-a1082b64964f4cd49b67b1bbafe844af",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "23f32af184649b9444ccadff0252010bb37f1663d3bcaae346cb39446bad8bfa"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "feature_count_matches_the_declared_edition",
+      "passed": true
+    },
+    {
+      "check": "every_geometry_is_a_polygon_or_multipolygon",
+      "passed": true
+    },
+    {
+      "check": "every_departement_falls_inside_one_french_territorial_box",
+      "passed": true
+    },
+    {
+      "check": "every_departement_carries_a_region_code",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: IGN, ADMIN EXPRESS COG CARTO, edition 2026.",
+  "decoder_version": "ign-geoplateforme-wfs-geojson-v1",
+  "format": "parquet",
+  "licence": "Licence Ouverte / Open Licence 2.0",
+  "observed_schema_sha256": "cfd18b25a474989365d40d2fc36917ade47a858bfbb4b6291bbed68db9fc54c4",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-a1082b64964f4cd49b67b1bbafe844af-23f32af18464",
+  "source_data_date": "2026-12-31",
+  "source_id": "ign-departement-boundaries",
+  "source_urls": [
+    "https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=ADMINEXPRESS-COG-CARTO-PE.2026%3Adepartement&OUTPUTFORMAT=application%2Fjson&COUNT=200&SRSNAME=EPSG%3A4326"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

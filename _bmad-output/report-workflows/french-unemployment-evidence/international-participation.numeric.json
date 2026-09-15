@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "international-participation",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "international-participation",
+  "parameters": [
+    "2016-10-01",
+    "the quarterly dataset's own published edge"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2026-04-01 / FRA",
+      "column": "participation_rate_pct",
+      "storedParquet": "56.9",
+      "queryOutput": 56.9,
+      "mappedJavaScript": 56.9,
+      "displayedText": "56.9"
+    },
+    {
+      "observation": "2026-04-01 / DEU",
+      "column": "participation_rate_pct",
+      "storedParquet": "61.5",
+      "queryOutput": 61.5,
+      "mappedJavaScript": 61.5,
+      "displayedText": "61.5"
+    },
+    {
+      "observation": "2026-04-01 / GBR",
+      "column": "participation_rate_pct",
+      "storedParquet": "63.9",
+      "queryOutput": 63.9,
+      "mappedJavaScript": 63.9,
+      "displayedText": "63.9"
+    },
+    {
+      "observation": "2026-04-01 / USA",
+      "column": "participation_rate_pct",
+      "storedParquet": "61.7",
+      "queryOutput": 61.7,
+      "mappedJavaScript": 61.7,
+      "displayedText": "61.7"
+    },
+    {
+      "observation": "2026-04-01 / EU",
+      "column": "participation_rate_pct",
+      "storedParquet": "58.2",
+      "queryOutput": 58.2,
+      "mappedJavaScript": 58.2,
+      "displayedText": "58.2"
+    }
+  ],
+  "displayedOnPage": {
+    "chips": [
+      "United Kingdom 63.9%",
+      "United States 61.7%",
+      "Germany 61.5%",
+      "European Union 58.2%",
+      "France 56.9%"
+    ],
+    "tableRows": [
+      [
+        "Germany",
+        "DEU",
+        "61.5",
+        "66.4",
+        "56.8",
+        "9.6",
+        "Q2 2026"
+      ],
+      [
+        "European Union",
+        "EU",
+        "58.2",
+        "63.9",
+        "52.9",
+        "11.0",
+        "Q2 2026"
+      ],
+      [
+        "France",
+        "FRA",
+        "56.9",
+        "60.4",
+        "53.6",
+        "6.8",
+        "Q2 2026"
+      ],
+      [
+        "United Kingdom",
+        "GBR",
+        "63.9",
+        "67.9",
+        "60.1",
+        "7.8",
+        "Q2 2026"
+      ],
+      [
+        "United States",
+        "USA",
+        "61.7",
+        "67.0",
+        "56.8",
+        "10.2",
+        "Q2 2026"
+      ]
+    ]
+  }
+}

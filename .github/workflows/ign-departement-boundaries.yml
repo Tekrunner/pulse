@@ -1,0 +1,50 @@
+name: Refresh IGN departement boundaries
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Once a year, by which date IGN has published the current year's COG
+    # edition. Because the edition is pinned in source.yaml this run is a
+    # liveness check rather than a refresh: it confirms the provider still
+    # serves the pinned edition and that its content still satisfies the
+    # declared scope. Bumping the edition is a separate deliberate change.
+    - cron: "0 6 15 3 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/ign-departement-boundaries/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh ign-departement-boundaries --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication ign-departement-boundaries
+          if ! git diff --cached --quiet; then
+            git commit -m "data(ign-departement-boundaries): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

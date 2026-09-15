@@ -1,0 +1,43 @@
+id: oecd-participation-rate
+snapshot_contract: snapshot-contract.yaml
+name: OECD quarterly labour force participation rates
+visibility: public
+acquisition:
+  method: OECD SDMX-CSV 2.0 with combined code and label values
+  url: https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_LF_WAP_Q,1.0/.LF_WAP.PT_WAP_SUB._Z.Y._T+M+F.Y_GE15._Z.Q?startPeriod=2000-Q1
+  # SDMX-CSV 2.0 with labels=both returns one column per dimension carrying
+  # "<code>: <label>". The older csvfilewithlabels representation splits each
+  # dimension into a code column and a label column whose names differ only in
+  # case, which the Parquet writer cannot store: see source-contract.md.
+  media_type: application/vnd.sdmx.data+csv;version=2.0.0;labels=both
+  dataflow: OECD.SDD.TPS:DSD_LFS@DF_IALFS_LF_WAP_Q(1.0)
+  # SEX is deliberately left open across total, men and women; every other
+  # dimension is pinned so the response cannot silently widen.
+  key:
+    "MEASURE: Measure": LF_WAP
+    "UNIT_MEASURE: Unit of measure": PT_WAP_SUB
+    "TRANSFORMATION: Transformation": _Z
+    "ADJUSTMENT: Adjustment": Y
+    "AGE: Age": Y_GE15
+    "ACTIVITY: Economic activity": _Z
+    "FREQ: Frequency of observation": Q
+  required_sexes: [_T, M, F]
+  # Areas the OECD has stopped publishing altogether, excluded from the
+  # publication-edge check so a discontinued series does not hold every
+  # future release suspect. Brazil's quarterly participation rate ends at
+  # 2015-Q3.
+  discontinued_reference_areas: [BRA]
+  # Areas known to carry a total without a men/women split for part of their
+  # history, which is provider history rather than a fault. Every other area is
+  # expected to report all three sexes in every quarter it reports at all.
+  # Brazil carries no split at any date; Croatia and the OECD aggregate carry
+  # none for 2007-2010.
+  sex_incomplete_reference_areas: [BRA, HRV, OECD]
+fetch_cadence: quarterly, after the OECD labour market statistics news release
+expected_publication_advance: quarterly; a reference quarter normally reaches the publication edge about ten weeks later, on the same OECD news-release calendar as the monthly unemployment rates
+publication_schedule:
+  period: quarterly
+  expected_within_days: 80
+  grace_days: 14
+licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+attribution: "Source: OECD, Labour force participation rate. This is an adaptation of an original work by the OECD."

@@ -1,0 +1,26 @@
+version: 2
+models:
+  - name: french_departement_geometry
+    columns:
+      - name: departement_code
+        data_tests: [not_null, unique]
+      - name: departement_name
+        data_tests: [not_null]
+      - name: region_code
+        data_tests: [not_null]
+      - name: geometry_type
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [Polygon, MultiPolygon]
+      - name: geometry_geojson
+        data_tests: [not_null]
+      - name: bbox_west
+        data_tests: [not_null]
+      - name: bbox_south
+        data_tests: [not_null]
+      - name: bbox_east
+        data_tests: [not_null]
+      - name: bbox_north
+        data_tests: [not_null]

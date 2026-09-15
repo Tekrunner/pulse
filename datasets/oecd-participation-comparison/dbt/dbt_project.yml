@@ -1,0 +1,10 @@
+name: oecd_participation_comparison
+version: 1.0.0
+config-version: 2
+profile: pulse_dataset
+model-paths: [models]
+models:
+  oecd_participation_comparison:
+    +materialized: external
+    +location: "{{ var('external_location') }}"
+    +format: parquet

@@ -1,0 +1,663 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "phase": "complete",
+  "discovery": {
+    "standingQuestions": [
+      {
+        "id": "headline-level",
+        "question": "How many people in France are unemployed on the ILO definition, and how has that number moved?"
+      },
+      {
+        "id": "headline-rate",
+        "question": "What share of the active population is unemployed, and how has that share moved?"
+      },
+      {
+        "id": "labour-slack-composition",
+        "question": "Beyond headline ILO unemployment, how large are long-term unemployment, the halo around unemployment and underemployment, each as a count of people and as its own published rate?"
+      },
+      {
+        "id": "age-gap",
+        "question": "How far apart are the unemployment rates of under-25s, 25-to-49-year-olds and people aged 50 or over, and is the gap widening?"
+      },
+      {
+        "id": "territorial-spread",
+        "question": "How unevenly is unemployment spread across the French departements, and where are the extremes?"
+      },
+      {
+        "id": "participation-gap",
+        "question": "What share of the population takes part in the labour market, and how far apart are men and women?"
+      },
+      {
+        "id": "international-standing",
+        "question": "How do France's unemployment rate and participation rate compare with those of other OECD economies?"
+      }
+    ],
+    "indicators": [
+      "ILO unemployment rate, quarterly, seasonally adjusted, France including Mayotte, total and by sex and age band",
+      "ILO unemployed persons in thousands, quarterly, seasonally adjusted, total and by sex and age band",
+      "Long-term unemployment rate and long-term unemployed persons in thousands",
+      "Persons in the halo around unemployment, in thousands and as a published share of the population",
+      "Underemployment rate and underemployed persons in thousands, with their three published components",
+      "Localised unemployment rate by departement and region, quarterly, seasonally adjusted",
+      "ILO labour force participation rate, quarterly, seasonally adjusted, men, women and both sexes",
+      "OECD harmonised monthly unemployment rate, seasonally and calendar adjusted, 15 years or over, both sexes",
+      "OECD labour force participation rate, quarterly, seasonally adjusted, 15 years or over, both sexes",
+      "Departement administrative boundary geometry keyed by INSEE departement code"
+    ],
+    "context": "A public French labour-market report covering France including Mayotte where the provider publishes it, built on the quarterly ILO (BIT) family measured by the INSEE Enquete emploi. The reader-facing scope was fixed with the requester on 2026-09-14: the 'categories of unemployment' section uses INSEE's own ILO taxonomy (ILO unemployment, long-term unemployment, unemployment halo, underemployment) because every item in that family has an officially published count AND an officially published rate on a consistent base. France Travail categories A to E were considered and deliberately excluded from this report: they are a register-based administrative population, they have no official expression as a share of the active population, and deriving one would divide an administrative headcount by a survey labour force. The international section keeps monthly OECD unemployment rates and shows the CHE and NZL coverage gap explicitly rather than silently narrowing the selector. Departement geography is shown as a choropleth, which requires a separate boundary-geometry source keyed by INSEE departement code.",
+    "readingBehavior": "The reader arrives with a headline rate already in mind from the news and first checks the current level, the direction of the last move, and which quarter it refers to. They then test that headline against the wider slack measures, because the gap between the ILO rate and the halo is the point of that section. Next they look for themselves in the breakdowns: their age band, then their departement, then their sex in the participation figures. International comparison is read last and comparatively, not absolutely: the question is whether France sits above or below its usual peers, so the five default comparators must be present without any interaction and the full OECD list must be reachable without leaving the page. They return each quarter on release day, so the represented period and the freshness of each section must be legible without interaction, and the departement section must state that it trails the national series by roughly one quarter.",
+    "privacyExpectation": "public",
+    "explorationNeeded": true
+  },
+  "sourceDecisions": [
+    {
+      "need": "French national quarterly ILO labour-market series: unemployment level and rate, long-term unemployment, unemployment halo, underemployment, and labour force participation rate, by sex and age band",
+      "candidates": [
+        {
+          "authority": "Institut national de la statistique et des etudes economiques (INSEE), the French national statistical institute and the producer of the Enquete emploi from which the ILO labour-market series are measured",
+          "accessMethod": "Credential-free HTTPS GET against the INSEE BDM SDMX 2.1 endpoint https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/<idbank>+<idbank>, the same access method already proven by the insee-cpi source package in this repository",
+          "format": "SDMX-ML 2.1 StructureSpecificData XML, one Series element per IDBANK carrying provider attributes, one Obs element per period",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: INSEE",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution including commercially, conditional only on attributing the producer and the date of the last update of the reused information; there is no share-alike obligation",
+          "id": "insee-labour-market",
+          "coverage": "France including Mayotte (REF_AREA FE) and France excluding Mayotte (FR-D976), quarterly, with history back to the start of the current Enquete emploi series; 104 live series verified in dataflow CHOMAGE-TRIM-NATIONAL and 122 in EMPLOI-BIT-TRIM on 2026-09-14",
+          "granularity": "Quarterly national observations crossed by sex (total/men/women) and age band (under 25, 25-49, 50 or over, plus 15-64 and 55-64 variants); seasonally adjusted (CORRECTION=CVS)",
+          "stability": "Stable IDBANK identifiers and stable dataflow keys; INSEE retires superseded series by flagging SERIE_ARRETEE=TRUE rather than deleting them, so retirement is detectable; series are revised backwards at each quarterly release, which is expected behaviour for a survey-based indicator",
+          "cadence": "Quarterly. Provider evidence: every live series in CHOMAGE-TRIM-NATIONAL and EMPLOI-BIT-TRIM carried LAST_UPDATE 2026-08-07 with a latest TIME_PERIOD of 2026-Q2 when queried on 2026-09-14",
+          "publicationSchedule": "INSEE Informations Rapides, quarterly, at 07:30 Europe/Paris. Observed releases: 2026-Q1 published 2026-05-13 (Informations Rapides 113), 2026-Q2 published 2026-08-07 (Informations Rapides 192), i.e. roughly 38 to 43 days after the end of the reference quarter. INSEE announces exact dates in a quadrimestrial calendar published on the 25th of each month, with only the first month's dates fixed"
+        },
+        {
+          "id": "eurostat-lfs-sdmx",
+          "authority": "Eurostat, the statistical office of the European Union, republishing the French Labour Force Survey transmitted by INSEE",
+          "coverage": "France as an EU member state plus every other EU/EFTA country, quarterly and annual",
+          "granularity": "Quarterly, by sex and age band, seasonally adjusted",
+          "stability": "Stable dataset codes, but Eurostat harmonisation can restate French figures on a basis that differs from the nationally published headline, so the number in the report would not match the number INSEE announces",
+          "accessMethod": "Credential-free HTTPS GET against https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/<dataset>",
+          "format": "JSON-stat or SDMX",
+          "licence": "Free reuse with attribution under Commission Decision 2011/833/EU on the reuse of Commission documents",
+          "attribution": "Source: Eurostat",
+          "cadence": "Quarterly, following national transmission",
+          "publicationSchedule": "Published after the national release, so structurally later than INSEE for a French-headline report",
+          "redistributionConstraints": "Reuse and redistribution permitted with attribution; no share-alike obligation"
+        },
+        {
+          "id": "oecd-labour-force",
+          "authority": "Organisation for Economic Co-operation and Development, republishing harmonised national labour force statistics",
+          "coverage": "France plus 40+ other reference areas and aggregates",
+          "granularity": "Monthly unemployment rates and quarterly participation rates by sex and age band; no long-term unemployment, halo or underemployment breakdown of the kind this report's slack section needs",
+          "stability": "Stable dataflow and dimension identifiers; harmonised rather than nationally published values",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.oecd.org/public/rest/data/",
+          "format": "SDMX-ML or SDMX-CSV",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0) as the OECD default licence",
+          "attribution": "Source: OECD",
+          "cadence": "Monthly for unemployment rates, quarterly for participation",
+          "publicationSchedule": "OECD statistics news release calendar for 2026: 15 January, 12 February, 12 March, 16 April, 22 May, 11 June, 7 July, 10 September, 15 October, 10 November, 10 December",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution; adaptations must not use the OECD logo or visual identity and must carry the OECD adaptation disclaimer"
+        },
+        {
+          "id": "ilostat-sdmx",
+          "authority": "International Labour Organization, the body that defines the ILO unemployment concept, republishing national statistics",
+          "coverage": "France plus global coverage; verified working on 2026-09-14 via dataflow DF_UNE_DEA1_SEX_AGE_RT returning monthly French rates from 2025",
+          "granularity": "Monthly, quarterly and annual, by sex and age band",
+          "stability": "Stable dataflow identifiers, but ILOSTAT republishes an adjusted national series (SOURCE marked LFS-ADJ for France) rather than the nationally published headline",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.ilo.org/rest/data/",
+          "format": "SDMX-CSV or SDMX-ML",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+          "attribution": "Source: ILOSTAT, International Labour Organization",
+          "cadence": "Updated continuously as member states transmit",
+          "publicationSchedule": "No fixed per-country release calendar; updates follow national transmission, which gives no deadline against which staleness could be judged",
+          "redistributionConstraints": "Redistribution and adaptation permitted with attribution"
+        }
+      ],
+      "selected": "insee-labour-market",
+      "rationale": "INSEE is the producer, not a republisher, of every series this report's French sections need. It is the only candidate that publishes the complete ILO slack family the requester chose - unemployment, long-term unemployment, halo and underemployment - with an official count AND an official rate for each, so no hybrid denominator has to be invented. Its figures are the ones French readers see quoted, which matters because the reading behaviour recorded above starts from a remembered headline. Eurostat, OECD and ILOSTAT were all rejected for the French sections on the same ground: each republishes a harmonised or adjusted restatement that can differ from the nationally announced headline, each is structurally later than the national release, and none carries the halo and underemployment breakdowns. ILOSTAT was additionally rejected because it publishes no fixed release calendar, so no honest staleness deadline could be declared. The access method is not preferred because insee-cpi already uses it; it was re-verified independently on 2026-09-14 against the live dataflow listing before selection.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Unemployment rate for every French departement, for a national choropleth",
+      "candidates": [
+        {
+          "authority": "Institut national de la statistique et des etudes economiques (INSEE), the French national statistical institute and the producer of the Enquete emploi from which the ILO labour-market series are measured",
+          "accessMethod": "Credential-free HTTPS GET against the INSEE BDM SDMX 2.1 endpoint https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/<idbank>+<idbank>, the same access method already proven by the insee-cpi source package in this repository",
+          "format": "SDMX-ML 2.1 StructureSpecificData XML, one Series element per IDBANK carrying provider attributes, one Obs element per period",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: INSEE",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution including commercially, conditional only on attributing the producer and the date of the last update of the reused information; there is no share-alike obligation",
+          "id": "insee-local-unemployment",
+          "coverage": "115 live series in dataflow TAUX-CHOMAGE verified on 2026-09-14: metropolitan France, every region, and 100 departements including the four overseas departements 971, 972, 973 and 974",
+          "granularity": "Quarterly, one seasonally adjusted rate per territory; no sex or age breakdown at this geography",
+          "stability": "Stable IDBANK per territory; the territorial code set follows the official geographic code (COG) and changes only when administrative geography changes",
+          "cadence": "Quarterly, published on its own calendar roughly five weeks after the national quarterly figure. Provider evidence: LAST_UPDATE 2026-06-19 with latest TIME_PERIOD 2026-Q1 when queried on 2026-09-14, at which date the national series already carried 2026-Q2",
+          "publicationSchedule": "INSEE Informations Rapides for localised unemployment rates, quarterly, at 07:30 Europe/Paris, roughly 80 days after the end of the reference quarter (2026-Q1 published 2026-06-19). Announced in the same INSEE quadrimestrial calendar as the national release"
+        },
+        {
+          "id": "eurostat-nuts3-lfs",
+          "authority": "Eurostat, publishing regional labour market statistics at NUTS level 3, which corresponds to the French departement",
+          "coverage": "All EU NUTS-3 regions including the 101 French ones",
+          "granularity": "Annual only, not quarterly, which cannot answer a question about the current quarter",
+          "stability": "Stable NUTS codes, but NUTS-3 identifiers do not match INSEE departement codes, so a separate correspondence table would be needed to join the statistics to any French-coded geometry",
+          "accessMethod": "Credential-free HTTPS GET against the Eurostat dissemination API; a request for dataset lfst_r_lfu3rt on 2026-09-14 returned HTTP 413 with an asynchronous-processing notice rather than data",
+          "format": "JSON-stat or SDMX",
+          "licence": "Free reuse with attribution under Commission Decision 2011/833/EU",
+          "attribution": "Source: Eurostat",
+          "cadence": "Annual",
+          "publicationSchedule": "Annual, following national transmission; no quarterly release",
+          "redistributionConstraints": "Reuse and redistribution permitted with attribution"
+        },
+        {
+          "id": "france-travail-stmt",
+          "authority": "France Travail and DARES, publishing the monthly labour market statistics (STMT) of registered job seekers by departement",
+          "coverage": "All departements, monthly, with long history",
+          "granularity": "Monthly counts of registered job seekers by category and departement",
+          "stability": "Stable publication, but the measured population is administrative registration, not ILO unemployment",
+          "accessMethod": "Credential-free file download from data.gouv.fr and the DARES site",
+          "format": "CSV and XLSX files",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: DARES / France Travail, STMT",
+          "cadence": "Monthly and quarterly",
+          "publicationSchedule": "Monthly, around the 25th of the following month",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse and redistribution with attribution"
+        }
+      ],
+      "selected": "insee-local-unemployment",
+      "rationale": "Only INSEE publishes a quarterly ILO-consistent unemployment rate for every departement, which is what the choropleth question requires: the map must be readable as the same concept as the headline the reader arrived with. Eurostat NUTS-3 was rejected on two independent grounds - it is annual, so it cannot answer a question about the current quarter, and its NUTS-3 identifiers would force a correspondence table between the statistics and any French-coded geometry, adding a hand-maintained join for no gain. France Travail STMT was rejected because it measures administrative registration rather than ILO unemployment, the same concept mismatch that removed categories A to E from this report's scope. This is declared as a source distinct from insee-labour-market despite sharing a provider and access method, because it is released on its own calendar roughly five weeks later and therefore needs its own staleness deadline and its own schedule; folding it into one source would make one of the two deadlines wrong.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Internationally comparable unemployment rate and labour force participation rate for OECD member economies",
+      "candidates": [
+        {
+          "id": "oecd-labour-force",
+          "authority": "Organisation for Economic Co-operation and Development, which produces the harmonised cross-country labour force statistics that make national figures comparable",
+          "coverage": "Verified on 2026-09-14: 43 reference areas in the monthly unemployment rate dataflow DSD_LFS@DF_IALFS_UNE_M and 44 in the quarterly participation rate dataflow DSD_LFS@DF_IALFS_LF_WAP_Q, in both cases including OECD members, EU and euro area aggregates, the G7 and the OECD total. Switzerland and New Zealand appear in the participation dataflow but not in the monthly unemployment dataflow; this gap is shown to the reader rather than hidden",
+          "granularity": "Monthly unemployment rate and quarterly participation rate, by sex (total, men, women) and age band (15+, 15-24, 15-64, 25-54, 55-64), seasonally and calendar adjusted",
+          "stability": "Stable agency, dataflow and dimension identifiers; harmonisation is the point of the source rather than a defect for a comparison section",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,<dataflow>,<version>/<key>",
+          "format": "SDMX-CSV with labels, or SDMX-ML",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0) as the OECD default licence for content published from 1 July 2024",
+          "attribution": "Source: OECD",
+          "cadence": "Monthly for unemployment rates with no August release, quarterly for participation rates. Provider evidence: on 2026-09-14 most reference areas carried monthly data through 2026-07 and quarterly participation through 2026-Q2",
+          "publicationSchedule": "OECD statistics news release calendar for Unemployment rates and Labour Market Situation, 2026: 15 January, 12 February, 12 March, 16 April, 22 May, 11 June, 7 July, 10 September, 15 October, 10 November, 10 December, published from Paris",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution; an adaptation must not use the OECD logo or visual identity and must carry the OECD adaptation disclaimer"
+        },
+        {
+          "id": "eurostat-lfs-sdmx",
+          "authority": "Eurostat, publishing harmonised unemployment and activity rates for EU and EFTA countries",
+          "coverage": "EU and EFTA members only; does not cover the United States, Japan, Korea, Canada, Australia, Mexico or Chile, so it cannot satisfy a request for all OECD members",
+          "granularity": "Monthly and quarterly, by sex and age band",
+          "stability": "Stable dataset codes",
+          "accessMethod": "Credential-free HTTPS GET against the Eurostat dissemination API, which returned HTTP 413 with an asynchronous-processing notice for a regional request on 2026-09-14",
+          "format": "JSON-stat or SDMX",
+          "licence": "Free reuse with attribution under Commission Decision 2011/833/EU",
+          "attribution": "Source: Eurostat",
+          "cadence": "Monthly",
+          "publicationSchedule": "Monthly euro indicators release calendar",
+          "redistributionConstraints": "Reuse and redistribution permitted with attribution"
+        },
+        {
+          "id": "ilostat-sdmx",
+          "authority": "International Labour Organization, custodian of the ILO unemployment definition",
+          "coverage": "Global, so it covers every OECD member and more; verified working on 2026-09-14",
+          "granularity": "Monthly, quarterly and annual by sex and age band",
+          "stability": "Stable dataflow identifiers; country series are a mix of adjusted and unadjusted national submissions, so cross-country comparability is weaker than the OECD harmonised set",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.ilo.org/rest/data/",
+          "format": "SDMX-CSV or SDMX-ML",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+          "attribution": "Source: ILOSTAT, International Labour Organization",
+          "cadence": "Updated continuously as member states transmit",
+          "publicationSchedule": "No fixed release calendar, so no deadline exists against which staleness could be judged",
+          "redistributionConstraints": "Redistribution and adaptation permitted with attribution"
+        },
+        {
+          "id": "worldbank-wdi",
+          "authority": "World Bank World Development Indicators, republishing ILO modelled estimates",
+          "coverage": "Global",
+          "granularity": "Annual only, and largely modelled rather than measured, which cannot support a comparison read against a current quarter",
+          "stability": "Stable indicator codes; modelled values are revised in bulk when the underlying model is rerun",
+          "accessMethod": "Credential-free HTTPS GET against https://api.worldbank.org/v2/",
+          "format": "JSON or XML",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+          "attribution": "Source: World Bank, World Development Indicators",
+          "cadence": "Annual",
+          "publicationSchedule": "Annual bulk update",
+          "redistributionConstraints": "Redistribution and adaptation permitted with attribution"
+        }
+      ],
+      "selected": "oecd-labour-force",
+      "rationale": "The requester asked for OECD members as the selectable comparison set, and the OECD is the only candidate that both covers that exact membership and harmonises the figures so a cross-country comparison is meaningful rather than an accidental comparison of differing national definitions. Eurostat was rejected on coverage: it omits the United States, Japan, Korea, Canada, Australia, Mexico and Chile, so it cannot serve a request phrased as all OECD members. ILOSTAT covers everyone but mixes adjusted and unadjusted national submissions and publishes no release calendar, which would leave this source with no declarable deadline. World Bank WDI is annual and largely modelled. The known cost of the OECD choice is recorded rather than argued away: Switzerland and New Zealand are absent from the monthly unemployment dataflow, and the requester decided on 2026-09-14 that they stay in the selector with an explicit not-published-at-this-frequency state. Packaging note recorded during implementation on 2026-09-14: the selected provider is acquired as two source packages, oecd-unemployment-rate (monthly) and oecd-participation-rate (quarterly), rather than one. The two indicators share a provider, a licence and a release calendar but not a frequency, and a single package would have to declare one source_data_date; the greater of a monthly and a quarterly period is always the monthly one, so pulse status would advertise the quarterly participation data as fresher than it is every month of the year. The provider selection above is unchanged.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Departement administrative boundary geometry, keyed by INSEE departement code so it joins the statistics without a correspondence table",
+      "candidates": [
+        {
+          "id": "ign-departement-boundaries",
+          "authority": "Institut national de l'information geographique et forestiere (IGN), the French national mapping agency and the legal authority for French administrative boundary geometry, served through the state Geoplateforme",
+          "coverage": "Verified on 2026-09-14: exactly 101 departement features from ADMIN EXPRESS COG CARTO Petite Echelle, covering all metropolitan departements including Corsica 2A and 2B and the five overseas departements 971, 972, 973, 974 and 976 - a superset of the 100 territories carried by the localised unemployment series",
+          "granularity": "One MultiPolygon per departement at small-scale (Petite Echelle) generalisation, carrying code_insee, nom_officiel and code_insee_de_la_region; 1.78 MB of GeoJSON uncompressed, against 20.3 MB for the full-detail ADMIN EXPRESS COG CARTO layer",
+          "stability": "Editions are published and addressable by year (ADMINEXPRESS-COG-CARTO-PE.2025, .2026) alongside a moving LATEST alias, so a dated edition can be pinned and the represented date derived from it rather than from acquisition time; code_insee follows the official geographic code",
+          "accessMethod": "Credential-free HTTPS WFS 2.0.0 GetFeature against https://data.geopf.fr/wfs/ows with TYPENAMES=ADMINEXPRESS-COG-CARTO-PE.<edition>:departement, OUTPUTFORMAT=application/json and SRSNAME=EPSG:4326",
+          "format": "GeoJSON FeatureCollection returned by WFS",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: IGN, ADMIN EXPRESS COG CARTO",
+          "cadence": "Monthly editions of ADMIN EXPRESS per the IGN data.gouv.fr record, with the official geographic code itself changing annually",
+          "publicationSchedule": "Annual COG editions addressable as dated layers; because boundaries are a reference layer rather than a released indicator, the acquisition schedule will be declared as an explicit annual human decision tied to the pinned edition rather than inferred from the monthly cadence",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution with attribution to IGN and the date of last update; no share-alike obligation"
+        },
+        {
+          "id": "eurostat-gisco-nuts3",
+          "authority": "Eurostat GISCO, the EU reference geographic information service",
+          "coverage": "Verified on 2026-09-14: 1345 NUTS-3 features Europe-wide, of which exactly 101 are French and correspond to the departements",
+          "granularity": "Several published generalisation levels (1M, 3M, 10M, 20M); the 3M level is 6.6 MB for all of Europe",
+          "stability": "Very stable hosting and stable NUTS identifiers, but the features carry NUTS_ID and a NAME_LATN only - no INSEE departement code - and the observed names contain typographic apostrophes and trailing whitespace, so joining to French statistics would require either a hand-maintained NUTS-to-INSEE correspondence table or a brittle name match",
+          "accessMethod": "Credential-free HTTPS GET against https://gisco-services.ec.europa.eu/distribution/v2/nuts/geojson/",
+          "format": "GeoJSON or TopoJSON",
+          "licence": "Free reuse with attribution under Commission Decision 2011/833/EU, subject to the GISCO administrative-boundary attribution notice",
+          "attribution": "Source: Eurostat GISCO, administrative boundaries",
+          "cadence": "New NUTS vintages roughly every three years",
+          "publicationSchedule": "Published per NUTS vintage rather than on a periodic calendar",
+          "redistributionConstraints": "Reuse and redistribution permitted with attribution; the GISCO boundary attribution notice must be carried"
+        },
+        {
+          "id": "osm-etalab-departements",
+          "authority": "OpenStreetMap contributors, republished on data.gouv.fr under an OpenStreetMap organisation account",
+          "coverage": "French departements",
+          "granularity": "Several simplification levels from 5 m to 100 m",
+          "stability": "Poor: the newest resource on the data.gouv.fr record is a 2018 export, the dataset was last updated in 2018, and the files are served over plain HTTP from a personal host rather than an institutional endpoint",
+          "accessMethod": "HTTP (not HTTPS) download of zipped shapefiles from a contributor-operated host",
+          "format": "Zipped ESRI shapefile",
+          "licence": "Open Database License (ODbL)",
+          "attribution": "Source: OpenStreetMap contributors",
+          "cadence": "Nominally annual but in practice stalled since 2018",
+          "publicationSchedule": "No active publication schedule; no export newer than 2018-01-04",
+          "redistributionConstraints": "ODbL is a share-alike licence: redistributing the database or a derived database obliges the publisher to offer it under ODbL, which would impose a licence term on this repository that none of the statistical sources require"
+        },
+        {
+          "id": "geo-api-gouv-departements",
+          "authority": "Etalab / DINUM, operating the French state geographic reference API on top of IGN and INSEE reference data",
+          "coverage": "Verified on 2026-09-14: all 101 departements with INSEE codes and region codes",
+          "granularity": "Attribute level only - the contour geometry field documented in earlier versions is no longer returned, and requests with fields=contour, format=geojson and geometry=contour all returned attribute-only JSON",
+          "stability": "Stable and well operated, but it no longer serves the geometry this need is about",
+          "accessMethod": "Credential-free HTTPS GET against https://geo.api.gouv.fr/departements",
+          "format": "JSON",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: Etalab, API Decoupage administratif",
+          "cadence": "Updated with the official geographic code",
+          "publicationSchedule": "Follows the annual official geographic code",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse and redistribution with attribution"
+        }
+      ],
+      "selected": "ign-departement-boundaries",
+      "rationale": "IGN is the authority for French administrative boundaries, and its Geoplateforme WFS is the only candidate that returns geometry already keyed by code_insee, so the choropleth joins to the localised unemployment series directly with no hand-maintained correspondence table anywhere in the pipeline. The Petite Echelle layer was chosen over the full-detail layer on measured evidence, not preference: 1.78 MB against 20.3 MB for identical coverage and identical keys, which matters because snapshots are committed to this repository. GISCO was rejected because its features carry no INSEE code and its names contain typographic apostrophes and trailing whitespace, so the join would rest on either a hand-built table or a brittle name match. The OpenStreetMap export was rejected on three grounds: it has not been refreshed since 2018, it is served over plain HTTP from a personal host, and ODbL is share-alike, which would impose a licence obligation on this repository that no statistical source here requires. geo.api.gouv.fr has the right keys but no longer serves geometry, which was confirmed against the live API rather than assumed from its documentation.",
+      "defaultProvider": false
+    }
+  ],
+  "dependencies": [
+    {
+      "kind": "source",
+      "id": "insee-labour-market",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/insee-labour-market/acq-503c705e4723434aa14bd04919ddb0d6-002b492c29a1/snapshot.json",
+        "sha256": "a57ff4c316e8d8a4e557fa487c44dd1020ed943adc3907188bd1637d3fb6a49c"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "insee-local-unemployment",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/insee-local-unemployment/acq-f7cc804479e4468aa432a9d8e3a3cce3-9a49f4653c1b/snapshot.json",
+        "sha256": "496c82a81d77ea4bceaa619748016b120d56cff3a070c706f79f5903040fcee3"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "oecd-unemployment-rate",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/oecd-unemployment-rate/acq-d9a04313c9394fe9ac55a3a4be081295-41bdf40db72b/snapshot.json",
+        "sha256": "c7a5e76fa0acbd0efd030d70faf0bb4ec059cccdf2c0463d9e0385f5ae299d3b"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "oecd-participation-rate",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/oecd-participation-rate/acq-10ee060056a6434baf14d5e2adf69d49-9e2f0ad6e3c2/snapshot.json",
+        "sha256": "b9067471d581061511c86ce0f0ce21f80991fc52f5cc5beae14fabe40eb7ba85"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "ign-departement-boundaries",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/ign-departement-boundaries/acq-a1082b64964f4cd49b67b1bbafe844af-23f32af18464/snapshot.json",
+        "sha256": "474152badb5231ea700644241ad4b583ea0b0adc026025ddd6dc33d059f1feec"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-labour-market-quarterly",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-labour-market-quarterly/dataset.json",
+        "sha256": "82a53d072c451975613df7290a60fe24ce287601cd157aefba75419c979196a4"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-departement-unemployment",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-departement-unemployment/dataset.json",
+        "sha256": "011aac06486543885b2435d54d97900dd2382cfcd2aebb6f762eef9da7615261"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-departement-geometry",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-departement-geometry/dataset.json",
+        "sha256": "3008751e9df811fa5e9620b6321626a4b0d393b61544889009d7335797284249"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "oecd-unemployment-comparison",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/oecd-unemployment-comparison/dataset.json",
+        "sha256": "8494d01ac5f4d9cd607e888e70c35d872111e9ad47f6a413c3ccdecb2becb6ee"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "oecd-participation-comparison",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/oecd-participation-comparison/dataset.json",
+        "sha256": "8b7b03c19f9b9dc166412df47eaa96edc74722ac2020f95d0fdd0eeef3c53250"
+      },
+      "verified": true
+    }
+  ],
+  "artifacts": [
+    {
+      "phase": "real-data",
+      "kind": "representative-rows",
+      "path": "_bmad-output/report-workflows/french-unemployment-real-data.json",
+      "sha256": "516215e9d3bec9d269b86223e8e01a87b7b8933d164a5291dcb0adeb69343f07"
+    },
+    {
+      "phase": "design-handoff",
+      "kind": "claude-design-export",
+      "path": "claude-design-output/french-unemployment",
+      "sha256": "4563211c6c2c0bc7e27b38bf16804ea696f1a808ffac819ce1b9b427d510a72e"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-declaration",
+      "path": "site/reports/french-unemployment/report.yml",
+      "sha256": "f56f702b1257c8a4737fa739061a396f33900f0e8ca00c30d4df5b851f05fab6"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "route-page",
+      "path": "site/reports/french-unemployment.md",
+      "sha256": "ea777590c5c5ff11e2010f4e993ccc9a964c70c9fc5503fae18cc0f9208745aa"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-module",
+      "path": "site/reports/french-unemployment/report.js",
+      "sha256": "76e7aa5683bddf8e92c535a6f4411ae63728d7e75f3c829b884f293c95a6cdf8"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "state-boundary",
+      "path": "site/reports/french-unemployment/state.js",
+      "sha256": "b901928a68628317d2f32bcaf6aa12bbcdab70c89de6c35fd288a1b8b8b8bd45"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "synthetic-tests",
+      "path": "site/reports/french-unemployment/test.js",
+      "sha256": "5f116df3e0c10fe47de7abb1cb9c986130e8411f284ee65f91e4b7b6d811699e"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "contract-test",
+      "path": "tests/node/unemployment-contract.test.mjs",
+      "sha256": "4601874a7661ff05f7002ad191f48f2bf8a6062a81698b99a5323d7167b9dbf9"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "browser-tests",
+      "path": "tests/browser/unemployment.spec.js",
+      "sha256": "0b1f543d46cb0d42d53fc7ed107de1862365ad24d69c7003c732f8da0a69b672"
+    }
+  ],
+  "approval": {
+    "phase": "design-approval",
+    "kind": "human-approval",
+    "path": "_bmad-output/report-workflows/french-unemployment-approval.json",
+    "sha256": "d7c233014bcf26b6485e00e58ac17874c7e35684d96fcd1c6faeeadde51d70ca"
+  },
+  "visuals": [
+    {
+      "id": "headline-trend-pair",
+      "handoffSection": "design/Main.dc.html \u2014 How many people are out of work",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/headline-trend-pair.js",
+        "sha256": "7c43144ebf0760f9d341f420d1806acd849e06f0be4d32e36dae1a1c117f5745"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/headline-trend-pair.numeric.json",
+        "sha256": "fbf7105b51bea35d4e1bdf433d9f052f2cb8d05d540b2dbc5301b379d11a9993"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/headline-trend-pair.fidelity.json",
+        "sha256": "c52eac1adfe87d86c3c38936ec20a4e7b915103346171b03553a2d1b76c2361b"
+      },
+      "verified": true
+    },
+    {
+      "id": "slack-multiples",
+      "handoffSection": "design/Main.dc.html \u2014 Unemployment, halo and underemployment",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/slack-multiples.js",
+        "sha256": "963a84b75457fd56783e6b35150beb6801a8b59a32ca736529f92f27b1fa35be"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/slack-multiples.numeric.json",
+        "sha256": "ca396dc2492c810181e6ec14486d3c0314c838f7be003b6e91d130d6a9e4df80"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/slack-multiples.fidelity.json",
+        "sha256": "d7aaa311d3e509a26001322b6d376721ddb27e6d153cca6701e7e58abf2d10c1"
+      },
+      "verified": true
+    },
+    {
+      "id": "age-band-lines",
+      "handoffSection": "design/Main.dc.html \u2014 Who is out of work",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/age-band-lines.js",
+        "sha256": "285b1499baa9699a36b47b6a5dc2d4f926554786b11e84f3705511a5b879c72e"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/age-band-lines.numeric.json",
+        "sha256": "4c5fc71447dd6c1103b270b966456df5b1c2bd3e5cfb8f9f1e98e71a0620deac"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/age-band-lines.fidelity.json",
+        "sha256": "0b824db922dfb64b133a436acedcec963bf875f1b29f0629411c328b4bb5ecb4"
+      },
+      "verified": true
+    },
+    {
+      "id": "participation-gap-band",
+      "handoffSection": "design/Main.dc.html \u2014 Who takes part at all",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/participation-gap-band.js",
+        "sha256": "547a5a8cb8872e2e4f5bd25fb83375950b4eec80c041df18067e1aea80fb5e0a"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/participation-gap-band.numeric.json",
+        "sha256": "fc69a3362a69959dbbebf4b73df07c3a3e4140cdf3d93ab652fe4684056a239d"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/participation-gap-band.fidelity.json",
+        "sha256": "1d67fe4102594e6cb35c11b28a183c4fa50934821c380bf50922c2df172381c0"
+      },
+      "verified": true
+    },
+    {
+      "id": "departement-choropleth",
+      "handoffSection": "design/Map.dc.html \u2014 Where people are out of work",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/departement-choropleth.js",
+        "sha256": "a62b18255ec751b834b18513e96ca081997abed6663416424e1f9716e9aadd0a"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/departement-choropleth.numeric.json",
+        "sha256": "d3fa1c44748ade4d7437f37443d6a8043fae2b5876b069be35104f78edf76a1c"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/departement-choropleth.fidelity.json",
+        "sha256": "8a68af56f71d288400e22bfee23ba73130429248cd4d02b2de6bb1c5227fed62"
+      },
+      "verified": true
+    },
+    {
+      "id": "international-lines",
+      "handoffSection": "design/International.dc.html \u2014 Unemployment rate, OECD harmonised, monthly",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/international-lines.js",
+        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-lines.numeric.json",
+        "sha256": "fd3f90985442d53569867ba6e942054e2bd2a0bbdde0d1e33e3b94c1d47d4c95"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-lines.fidelity.json",
+        "sha256": "155e8b42a70eb7fb0aa707c6b945b505c3b1a3f6ad1c67206e486698d62e800f"
+      },
+      "verified": true
+    },
+    {
+      "id": "international-participation",
+      "handoffSection": "design/International.dc.html \u2014 Participation rate, OECD harmonised, aged 15 or over",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/international-lines.js",
+        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-participation.numeric.json",
+        "sha256": "8a835014b51094adf2ac9a8eea6fcd8c3bfe87d22d6fbd6339857ba07ba77f8a"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-participation.fidelity.json",
+        "sha256": "a3e4a65ccac8381cfd1e0054fa7aa9948c65aeac4da23291bdacb3ce303fde4c"
+      },
+      "verified": true
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "uv run --no-sync pulse verify",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/french-unemployment-evidence/pulse-verify.log",
+          "sha256": "a9546c72732746f2f5d05cf7b9c134816efc7b5a92897d9f90f272f5344eb7a0"
+        }
+      }
+    ],
+    "complete": true
+  },
+  "resume": {
+    "firstIncomplete": null,
+    "checkedAt": "2026-09-15T08:54:36Z"
+  }
+}

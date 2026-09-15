@@ -1,0 +1,89 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "departement-choropleth",
+  "handoffSection": "design/Map.dc.html — “Where people are out of work”",
+  "handoffSha256": "4563211c6c2c0bc7e27b38bf16804ea696f1a808ffac819ce1b9b427d510a72e",
+  "renderedViews": [
+    {
+      "view": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-desktop.png",
+      "documentHorizontalOverflowPx": 0,
+      "state": "ready"
+    },
+    {
+      "view": "narrow-smartphone-landscape",
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "screenshot": "view-narrow-smartphone-landscape.png",
+      "documentHorizontalOverflowPx": 0,
+      "state": "ready"
+    },
+    {
+      "view": "zoom-400",
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "screenshot": "view-zoom-400.png",
+      "documentHorizontalOverflowPx": 0,
+      "state": "ready"
+    }
+  ],
+  "slotLocalFailure": {
+    "screenshot": "view-slot-local-failure.png",
+    "scenario": "slot-query",
+    "observed": {
+      "failedSections": [
+        [
+          "How many people are out of work",
+          "ready"
+        ],
+        [
+          "Where people are out of work",
+          "query-error"
+        ]
+      ],
+      "readyFigures": [
+        [
+          "headline-trend-pair",
+          "ready"
+        ],
+        [
+          "slack-multiples",
+          "ready"
+        ],
+        [
+          "age-band-lines",
+          "ready"
+        ],
+        [
+          "participation-gap-band",
+          "ready"
+        ],
+        [
+          "international-lines",
+          "ready"
+        ],
+        [
+          "international-participation",
+          "ready"
+        ]
+      ],
+      "retryOffered": true
+    }
+  },
+  "differencesFromHandoff": [
+    "The default comparators are France, Germany, the United Kingdom, the United States and the European Union, replacing the handoff's France, Germany, the United Kingdom, Italy and Spain. The report module is the only place that names them: the OECD source and dataset guarantees that previously listed the report's defaults were decoupled, so they now assert provider facts (every area within the publication-edge tolerance, every declared member and aggregate present, every sex split complete outside the declared provider gaps) and a future change of defaults touches the report alone.",
+    "Selected-observation values are shown in chips beside the selected point instead of in a readout under the figure, which the approver found cost too much eye travel. The end-of-line series labels the handoff specified are replaced by those chips, which carry the same identity and the selected value.",
+    "Headcounts are shown in millions to two decimals rather than in thousands, rounded on integer hundredths so a published .5 does not fall the wrong way through binary floating point.",
+    "The review outlines were decimated to roughly thirty vertices per département; the build renders the published IGN geometry unchanged, which the approval permits.",
+    "Below 700 CSS px of figure width the ranked table is promoted in place of the map, as design/Narrow.dc.html and design/Decisions.dc.html require."
+  ]
+}

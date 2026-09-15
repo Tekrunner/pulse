@@ -1,0 +1,438 @@
+contract_version: 1.1.0
+model:
+  name: french_labour_market_quarterly
+  description: One row per quarter carrying the published INSEE ILO labour-market indicators for France
+    including Mayotte, seasonally adjusted. Every value is published by INSEE; nothing here is computed
+    from anything else.
+columns:
+- name: period
+  type: DATE
+  description: First day of the quarter the observation describes.
+- name: unemployment_rate_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed people as a percentage of the labour force, all ages, both sexes.
+- name: unemployment_rate_under_25_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed people aged under 25 as a percentage of the labour force of that age.
+- name: unemployment_rate_25_to_49_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed people aged 25 to 49 as a percentage of the labour force of that age.
+- name: unemployment_rate_50_and_over_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed people aged 50 or over as a percentage of the labour force of that age.
+- name: unemployment_rate_men_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed men as a percentage of the male labour force.
+- name: unemployment_rate_women_pct
+  type: DECIMAL(10,1)
+  description: ILO unemployed women as a percentage of the female labour force.
+- name: unemployed_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed people, all ages, both sexes.
+- name: unemployed_under_25_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed people aged under 25.
+- name: unemployed_25_to_49_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed people aged 25 to 49.
+- name: unemployed_50_and_over_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed people aged 50 or over.
+- name: unemployed_men_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed men.
+- name: unemployed_women_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed women.
+- name: long_term_unemployed_thousands
+  type: DECIMAL(10,1)
+  description: Number of ILO unemployed people who have been looking for work for a year or more.
+- name: long_term_unemployment_rate_pct
+  type: DECIMAL(10,1)
+  description: Long-term ILO unemployed people as a percentage of the labour force.
+- name: halo_thousands
+  type: DECIMAL(10,1)
+  description: 'Number of people in the halo around unemployment: inactive people who want a job but do
+    not meet both ILO conditions of availability and active search, all ages.'
+- name: halo_15_to_64_thousands
+  type: DECIMAL(10,1)
+  description: Number of people aged 15 to 64 in the halo around unemployment.
+- name: halo_share_of_population_15_to_64_pct
+  type: DECIMAL(10,1)
+  description: People aged 15 to 64 in the halo around unemployment as a percentage of the population
+    of that age. The denominator is the population, not the labour force, because people in the halo are
+    by definition outside the labour force.
+- name: underemployed_thousands
+  type: DECIMAL(10,1)
+  description: 'Number of employed people in a situation of underemployment: part-time workers who want
+    to work more hours and are available to do so, plus people who involuntarily worked less than usual.'
+- name: underemployment_rate_pct
+  type: DECIMAL(10,1)
+  description: Underemployed people as a percentage of employment. The denominator is employment, not
+    the labour force, because underemployment is a condition of people who are in work.
+- name: participation_rate_pct
+  type: DECIMAL(10,1)
+  description: 'ILO labour force participation (activity) rate: people in the labour force as a percentage
+    of the corresponding population, all ages, both sexes. This is the same 15-or-over basis the OECD
+    publishes, so it is the French series to place beside oecd-participation-comparison. The two still
+    differ slightly after OECD harmonisation: across the 94 shared quarters the gap reaches 0.7 points
+    and averages 0.49.'
+- name: participation_rate_men_pct
+  type: DECIMAL(10,1)
+  description: ILO labour force participation rate, men, all ages.
+- name: participation_rate_women_pct
+  type: DECIMAL(10,1)
+  description: ILO labour force participation rate, women, all ages.
+- name: participation_rate_15_to_64_pct
+  type: DECIMAL(10,1)
+  description: 'ILO labour force participation rate for people aged 15 to 64, both sexes. This is a NARROWER
+    base than the all-ages rate: it excludes the retired population, so it runs roughly 18 points higher.
+    It is NOT the basis the OECD publishes; the all-ages rate is.'
+- name: participation_rate_men_15_to_64_pct
+  type: DECIMAL(10,1)
+  description: ILO labour force participation rate for men aged 15 to 64.
+- name: participation_rate_women_15_to_64_pct
+  type: DECIMAL(10,1)
+  description: ILO labour force participation rate for women aged 15 to 64.
+indicators:
+- column: unemployment_rate_pct
+  definition: ILO unemployed people as a percentage of the labour force, all ages, both sexes.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818543
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployment_rate_under_25_pct
+  definition: ILO unemployed people aged under 25 as a percentage of the labour force of that age.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818548
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployment_rate_25_to_49_pct
+  definition: ILO unemployed people aged 25 to 49 as a percentage of the labour force of that age.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818544
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployment_rate_50_and_over_pct
+  definition: ILO unemployed people aged 50 or over as a percentage of the labour force of that age.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818545
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployment_rate_men_pct
+  definition: ILO unemployed men as a percentage of the male labour force.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818547
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployment_rate_women_pct
+  definition: ILO unemployed women as a percentage of the female labour force.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818546
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_thousands
+  definition: Number of ILO unemployed people, all ages, both sexes.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818555
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_under_25_thousands
+  definition: Number of ILO unemployed people aged under 25.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818599
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_25_to_49_thousands
+  definition: Number of ILO unemployed people aged 25 to 49.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818598
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_50_and_over_thousands
+  definition: Number of ILO unemployed people aged 50 or over.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818600
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_men_thousands
+  definition: Number of ILO unemployed men.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818596
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: unemployed_women_thousands
+  definition: Number of ILO unemployed women.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818592
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: long_term_unemployed_thousands
+  definition: Number of ILO unemployed people who have been looking for work for a year or more.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818577
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: long_term_unemployment_rate_pct
+  definition: Long-term ILO unemployed people as a percentage of the labour force.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818581
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: halo_thousands
+  definition: 'Number of people in the halo around unemployment: inactive people who want a job but do
+    not meet both ILO conditions of availability and active search, all ages.'
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818564
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: halo_15_to_64_thousands
+  definition: Number of people aged 15 to 64 in the halo around unemployment.
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818560
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: halo_share_of_population_15_to_64_pct
+  definition: People aged 15 to 64 in the halo around unemployment as a percentage of the population of
+    that age. The denominator is the population, not the labour force, because people in the halo are
+    by definition outside the labour force.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818623
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: underemployed_thousands
+  definition: 'Number of employed people in a situation of underemployment: part-time workers who want
+    to work more hours and are available to do so, plus people who involuntarily worked less than usual.'
+  unit: Thousands of people
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818739
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: underemployment_rate_pct
+  definition: Underemployed people as a percentage of employment. The denominator is employment, not the
+    labour force, because underemployment is a condition of people who are in work.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818670
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_pct
+  definition: 'ILO labour force participation (activity) rate: people in the labour force as a percentage
+    of the corresponding population, all ages, both sexes. This is the same 15-or-over basis the OECD
+    publishes, so it is the French series to place beside oecd-participation-comparison. The two still
+    differ slightly after OECD harmonisation: across the 94 shared quarters the gap reaches 0.7 points
+    and averages 0.49.'
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818680
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_men_pct
+  definition: ILO labour force participation rate, men, all ages.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818665
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_women_pct
+  definition: ILO labour force participation rate, women, all ages.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818704
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_15_to_64_pct
+  definition: 'ILO labour force participation rate for people aged 15 to 64, both sexes. This is a NARROWER
+    base than the all-ages rate: it excludes the retired population, so it runs roughly 18 points higher.
+    It is NOT the basis the OECD publishes; the all-ages rate is.'
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818737
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_men_15_to_64_pct
+  definition: ILO labour force participation rate for men aged 15 to 64.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818644
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+- column: participation_rate_women_15_to_64_pct
+  definition: ILO labour force participation rate for women aged 15 to 64.
+  unit: Percent
+  source: INSEE, enquete Emploi, quarterly ILO (BIT) indicators for France including Mayotte, seasonally
+    adjusted; INSEE BDM series 011818710
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.'
+questions:
+- id: headline-unemployment-over-time
+  question: How many people in France are unemployed on the ILO definition, and what share of the labour
+    force is that?
+  derivation: Select the published ILO unemployment rate and the published count of unemployed people
+    by quarter. Neither is derived from the other.
+  columns:
+  - period
+  - unemployment_rate_pct
+  - unemployed_thousands
+- id: unemployment-by-age
+  question: How far apart are the unemployment rates of under-25s, 25-to-49-year-olds and people aged
+    50 or over?
+  derivation: Select the three published age-band unemployment rates and their matching counts by quarter.
+    The bands partition the labour force, so the counts sum to the total.
+  columns:
+  - period
+  - unemployment_rate_under_25_pct
+  - unemployment_rate_25_to_49_pct
+  - unemployment_rate_50_and_over_pct
+  - unemployed_under_25_thousands
+  - unemployed_25_to_49_thousands
+  - unemployed_50_and_over_thousands
+- id: labour-market-slack-composition
+  question: Beyond headline ILO unemployment, how large are long-term unemployment, the halo around unemployment
+    and underemployment?
+  derivation: 'Select each published slack measure with both its count and its own published rate. The
+    rates are NOT comparable with one another: unemployment and long-term unemployment are shares of the
+    labour force, the halo is a share of the population, and underemployment is a share of employment.'
+  columns:
+  - period
+  - unemployed_thousands
+  - unemployment_rate_pct
+  - long_term_unemployed_thousands
+  - long_term_unemployment_rate_pct
+  - halo_15_to_64_thousands
+  - halo_share_of_population_15_to_64_pct
+  - underemployed_thousands
+  - underemployment_rate_pct
+- id: participation-by-sex
+  question: What share of the population takes part in the labour market, and how far apart are men and
+    women?
+  derivation: Select the published activity rate for both sexes together and for each sex, on both the
+    all-ages and the 15-to-64 basis. The ALL-AGES basis is the one that matches the OECD's 15-or-over
+    participation rate; the 15-to-64 basis is a narrower population and must never be placed on the same
+    axis as an OECD figure.
+  columns:
+  - period
+  - participation_rate_pct
+  - participation_rate_men_pct
+  - participation_rate_women_pct
+  - participation_rate_15_to_64_pct
+  - participation_rate_men_15_to_64_pct
+  - participation_rate_women_15_to_64_pct
+- id: unemployment-by-sex
+  question: Are men and women unemployed at different rates?
+  derivation: Select the published unemployment rate and count for each sex by quarter.
+  columns:
+  - period
+  - unemployment_rate_men_pct
+  - unemployment_rate_women_pct
+  - unemployed_men_thousands
+  - unemployed_women_thousands
+temporal:
+  grain: quarter
+  period_column: period
+  meaning: 'Each period is the first day of the calendar quarter the observation describes, from the provider''s
+    YYYY-Qn period. Only quarters carrying every declared indicator are published, which begins at 2003-Q1:
+    the unemployment counts reach back to 1975 but the rates, halo, underemployment and activity series
+    do not.'
+validations:
+- name: unique-period
+  description: There is exactly one row for each quarter.
+  columns:
+  - period
+- name: required-values
+  description: Every declared indicator is present in every published quarter.
+  columns:
+  - period
+  - unemployment_rate_pct
+  - unemployment_rate_under_25_pct
+  - unemployment_rate_25_to_49_pct
+  - unemployment_rate_50_and_over_pct
+  - unemployment_rate_men_pct
+  - unemployment_rate_women_pct
+  - unemployed_thousands
+  - unemployed_under_25_thousands
+  - unemployed_25_to_49_thousands
+  - unemployed_50_and_over_thousands
+  - unemployed_men_thousands
+  - unemployed_women_thousands
+  - long_term_unemployed_thousands
+  - long_term_unemployment_rate_pct
+  - halo_thousands
+  - halo_15_to_64_thousands
+  - halo_share_of_population_15_to_64_pct
+  - underemployed_thousands
+  - underemployment_rate_pct
+  - participation_rate_pct
+  - participation_rate_men_pct
+  - participation_rate_women_pct
+  - participation_rate_15_to_64_pct
+  - participation_rate_men_15_to_64_pct
+  - participation_rate_women_15_to_64_pct
+- name: rates-within-zero-and-one-hundred
+  description: Every percentage lies between 0 and 100.
+  columns:
+  - unemployment_rate_pct
+  - unemployment_rate_under_25_pct
+  - unemployment_rate_25_to_49_pct
+  - unemployment_rate_50_and_over_pct
+  - unemployment_rate_men_pct
+  - unemployment_rate_women_pct
+  - long_term_unemployment_rate_pct
+  - halo_share_of_population_15_to_64_pct
+  - underemployment_rate_pct
+  - participation_rate_pct
+  - participation_rate_men_pct
+  - participation_rate_women_pct
+  - participation_rate_15_to_64_pct
+  - participation_rate_men_15_to_64_pct
+  - participation_rate_women_15_to_64_pct
+- name: counts-are-not-negative
+  description: Every headcount is zero or greater.
+  columns:
+  - unemployed_thousands
+  - unemployed_under_25_thousands
+  - unemployed_25_to_49_thousands
+  - unemployed_50_and_over_thousands
+  - unemployed_men_thousands
+  - unemployed_women_thousands
+  - long_term_unemployed_thousands
+  - halo_thousands
+  - halo_15_to_64_thousands
+  - underemployed_thousands
+- name: age-bands-sum-to-the-total
+  description: The three age-band unemployment counts sum to the published total, within the rounding
+    of one decimal place.
+  columns:
+  - unemployed_thousands
+  - unemployed_under_25_thousands
+  - unemployed_25_to_49_thousands
+  - unemployed_50_and_over_thousands
+- name: sexes-sum-to-the-total
+  description: The male and female unemployment counts sum to the published total, within the rounding
+    of one decimal place.
+  columns:
+  - unemployed_thousands
+  - unemployed_men_thousands
+  - unemployed_women_thousands
+- name: long-term-unemployment-does-not-exceed-unemployment
+  description: Long-term unemployed people are a subset of the unemployed.
+  columns:
+  - long_term_unemployed_thousands
+  - unemployed_thousands

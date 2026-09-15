@@ -1,0 +1,127 @@
+contract_version: 1.1.0
+model:
+  name: oecd_participation_comparison
+  description: One row per quarter, OECD reference area and sex, carrying the harmonised labour force
+    participation rate for people aged 15 or over, seasonally adjusted, with each area classified as an
+    OECD member, a computed aggregate or a non-member the OECD also publishes.
+columns:
+- name: period
+  type: DATE
+  description: First day of the calendar quarter the observation describes.
+- name: reference_area_code
+  type: VARCHAR
+  description: The OECD reference-area code, an ISO-3166 alpha-3 country code or an aggregate code such
+    as EA, EU or OECD.
+- name: reference_area_name
+  type: VARCHAR
+  description: The area name exactly as the OECD publishes it.
+- name: reference_area_kind
+  type: VARCHAR
+  description: Whether the area is an OECD member, a computed aggregate, or a non-member the OECD publishes
+    alongside members.
+- name: sex
+  type: VARCHAR
+  description: Whether the row is for all people, men only or women only.
+- name: participation_rate_pct
+  type: DECIMAL(10,1)
+  description: Harmonised labour force participation rate as a percentage of the working-age population
+    aged 15 or over in the same area and sex. Comparable with the French all-ages activity rate, not with
+    the French 15-to-64 rate.
+indicators:
+- column: participation_rate_pct
+  definition: OECD harmonised labour force participation rate for people aged 15 or over, seasonally adjusted,
+    expressed as a percentage of the working-age population in the same subgroup. The matching French
+    series is french-labour-market-quarterly.participation_rate_pct, the all-ages activity rate, which
+    is the same 15-or-over basis; across the 94 shared quarters the two differ by at most 0.7 points after
+    harmonisation. The French participation_rate_15_to_64_pct is a DIFFERENT basis, roughly 18 points
+    higher, and must never be placed on the same axis as this rate.
+  unit: Percent
+  source: OECD, Labour force participation rate, dataflow DSD_LFS@DF_IALFS_LF_WAP_Q
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD, Labour force participation rate. This is an adaptation of an original work
+    by the OECD.'
+questions:
+- id: participation-against-usual-peers
+  question: Does a larger or smaller share of France's population take part in the labour market than
+    in Germany, the United Kingdom, Italy and Spain?
+  derivation: Select the five default reference areas with sex equal to all, and compare over time.
+  columns:
+  - period
+  - reference_area_code
+  - reference_area_name
+  - sex
+  - participation_rate_pct
+- id: participation-gap-across-countries
+  question: Is the gap between men's and women's participation wider in France than elsewhere?
+  derivation: For each area and quarter, compare the men row with the women row. The gap is a difference
+    between two published rates, not a published figure itself.
+  columns:
+  - period
+  - reference_area_code
+  - reference_area_name
+  - sex
+  - participation_rate_pct
+- id: participation-against-any-oecd-member
+  question: How does France's participation rate compare with any other OECD economy the reader chooses?
+  derivation: Filter to rows whose reference_area_kind is member and select the areas the reader picked.
+  columns:
+  - period
+  - reference_area_code
+  - reference_area_kind
+  - sex
+  - participation_rate_pct
+temporal:
+  grain: quarter by reference area and sex
+  period_column: period
+  meaning: Each period is the first day of the calendar quarter the observation describes. The grain is
+    one row per period, reference_area_code and sex. Areas reach the publication edge at different speeds,
+    so the latest quarter present differs by country.
+validations:
+- name: one-row-per-area-sex-and-quarter
+  description: The compound key of period, reference_area_code and sex is unique.
+  columns:
+  - period
+  - reference_area_code
+  - sex
+- name: required-values
+  description: No published column is ever null.
+  columns:
+  - period
+  - reference_area_code
+  - reference_area_name
+  - reference_area_kind
+  - sex
+  - participation_rate_pct
+- name: rates-within-zero-and-one-hundred
+  description: Every rate lies between 0 and 100.
+  columns:
+  - participation_rate_pct
+- name: area-kinds-are-known
+  description: Every area is a member, an aggregate or a non-member.
+  columns:
+  - reference_area_kind
+- name: sexes-are-known
+  description: Every row is for all people, men or women.
+  columns:
+  - sex
+- name: sex-split-is-complete-outside-known-gaps
+  description: Every area except Brazil, Croatia and the OECD aggregate carries all three
+    sex breakdowns in every quarter it reports, so a participation gap can always
+    be drawn for any of them.
+  columns:
+  - period
+  - reference_area_code
+  - sex
+- name: every-oecd-member-is-present
+  description: Every OECD member on the package's membership list appears, including Switzerland and New
+    Zealand, which this quarterly dataflow carries although the monthly unemployment one does not.
+  columns:
+  - reference_area_code
+  - reference_area_kind
+- name: every-declared-aggregate-is-present
+  description: Every aggregate the package classifies appears, except the G7, which this
+    quarterly dataflow is known not to carry. Members and aggregates together are what
+    guarantee any report's chosen comparators.
+  columns:
+  - reference_area_code
+  - reference_area_kind

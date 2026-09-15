@@ -32,18 +32,18 @@ th,td { text-align:left; padding:.45rem; border-bottom:1px solid #566172; }
 button { min-height:44px; padding:.5rem 1rem; }
 @media (max-width:600px) { .pilot-report { padding:var(--space-2); } svg { min-height:160px; } }
 
-.cpi-report { --color-accent:#9184d9; max-width:1180px; margin:0 auto; padding:22.4px 16.8px 44px; display:flex; flex-direction:column; gap:22.4px; font:15px/1.6 var(--font-body); color:#e9e9ed; background:var(--color-bg); }
-.cpi-report * { box-sizing:border-box; }
-.cpi-report header { display:flex; flex-direction:column; gap:8.4px; border-bottom:1px solid var(--color-divider); padding-bottom:16.8px; }
-.cpi-report h1 { max-width:22ch; margin:0; font-size:40px; font-weight:500; line-height:1.1; letter-spacing:-.015em; }
-.cpi-report h2,.cpi-report h3 { margin:0; font-weight:500; }
-.cpi-report h2 { font-size:20px; }
-.cpi-report h3 { font-size:20px; }
-.cpi-report .eyebrow { font-size:10px; letter-spacing:.1em; color:var(--color-accent-400); }
+.pulse-report { --color-accent:#9184d9; max-width:1180px; margin:0 auto; padding:22.4px 16.8px 44px; display:flex; flex-direction:column; gap:22.4px; font:15px/1.6 var(--font-body); color:#e9e9ed; background:var(--color-bg); }
+.pulse-report * { box-sizing:border-box; }
+.pulse-report header { display:flex; flex-direction:column; gap:8.4px; border-bottom:1px solid var(--color-divider); padding-bottom:16.8px; }
+.pulse-report h1 { max-width:22ch; margin:0; font-size:40px; font-weight:500; line-height:1.1; letter-spacing:-.015em; }
+.pulse-report h2,.pulse-report h3 { margin:0; font-weight:500; }
+.pulse-report h2 { font-size:20px; }
+.pulse-report h3 { font-size:20px; }
+.pulse-report .eyebrow { font-size:10px; letter-spacing:.1em; color:var(--color-accent-400); }
 .standfirst { max-width:62ch; margin:0; color:var(--color-neutral-300); font-size:16px; }
-.cpi-report dl { display:flex; flex-wrap:wrap; gap:4px 22.4px; margin:5.6px 0 0; font-size:12px; color:var(--color-neutral-400); }
-.cpi-report dl div { display:flex; gap:6px; }
-.cpi-report dd { margin:0; color:#e9e9ed; }
+.pulse-report dl { display:flex; flex-wrap:wrap; gap:4px 22.4px; margin:5.6px 0 0; font-size:12px; color:var(--color-neutral-400); }
+.pulse-report dl div { display:flex; gap:6px; }
+.pulse-report dd { margin:0; color:#e9e9ed; }
 .standings { display:flex; flex-direction:column; gap:11.2px; }
 .standings>h2 { font-size:25px; letter-spacing:-.015em; }
 .scorecards { display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:11.2px; }
@@ -53,8 +53,8 @@ button { min-height:44px; padding:.5rem 1rem; }
 .scorecards strong { font-size:32px; font-weight:500; line-height:1.1; font-variant-numeric:tabular-nums; }
 .scorecards small { color:var(--color-neutral-400); }
 .exploration { position:sticky; top:0; z-index:5; display:flex; flex-wrap:wrap; align-items:flex-end; gap:16.8px; padding:11.2px; border-radius:8px; background:var(--color-bg); box-shadow:0 0 0 1px var(--color-neutral-800); }
-.cpi-report fieldset { min-width:0; margin:0; padding:0; border:0; }
-.cpi-report legend,.observation-control>span { padding:0; font-size:12px; color:var(--color-neutral-400); }
+.pulse-report fieldset { min-width:0; margin:0; padding:0; border:0; }
+.pulse-report legend,.observation-control>span { padding:0; font-size:12px; color:var(--color-neutral-400); }
 .period-field,.component-field,.figure-series { display:flex; flex-direction:column; gap:5.6px; }
 .period-row,.period-range,.component-row,.segments { display:flex; flex-wrap:wrap; align-items:center; gap:8.4px; }
 .segments { gap:0; overflow:hidden; width:fit-content; border:1px solid var(--color-divider); border-radius:8px; }
@@ -62,9 +62,12 @@ button { min-height:44px; padding:.5rem 1rem; }
 .segments label:first-child { border-inline-start:0; }
 .segments input { position:absolute; width:0; height:0; opacity:0; }
 .segments input:checked~span:last-child { color:var(--color-accent-400); }
+/* The radio itself is 0x0, so the focus ring had nothing to draw around.
+   Keyboard focus lands on the label the reader can actually see. */
+.segments input:focus-visible~span { outline:2px solid var(--color-accent); outline-offset:3px; }
 .month-picker { display:flex; align-items:center; gap:5.6px; }
 .month-picker>span { font-size:12px; color:var(--color-neutral-400); }
-.cpi-report select,.cpi-report input,.cpi-report button { min-height:44px; padding:0 6px; border:1px solid var(--color-divider); border-radius:8px; background:var(--color-surface); color:#e9e9ed; font:inherit; }
+.pulse-report select,.pulse-report input,.pulse-report button { min-height:44px; padding:0 6px; border:1px solid var(--color-divider); border-radius:8px; background:var(--color-surface); color:#e9e9ed; font:inherit; }
 .observation-control { flex:1 1 260px; min-width:220px; max-width:none; display:flex; flex-direction:column; gap:5.6px; }
 .observation-control input { width:100%; margin:0; }
 .observation-control output { font-size:13px; font-weight:500; font-variant-numeric:tabular-nums; }
@@ -72,9 +75,9 @@ button { min-height:44px; padding:.5rem 1rem; }
 .component-row input { width:16px; min-height:16px; height:16px; accent-color:var(--color-accent); }
 .swatch { width:14px; height:3px; border-radius:2px; flex:none; }
 .report-content { display:flex; flex-direction:column; gap:33.6px; }
-.cpi-report figure { margin:0; padding:16.8px; border-radius:8px; background:var(--color-surface); box-shadow:0 0 0 1px var(--color-neutral-800); display:flex; flex-direction:column; gap:8.4px; }
-.cpi-report figcaption { display:flex; flex-direction:column; gap:2.8px; }
-.cpi-report figcaption p { max-width:74ch; margin:0; font-size:13px; color:var(--color-neutral-400); }
+.pulse-report figure { margin:0; padding:16.8px; border-radius:8px; background:var(--color-surface); box-shadow:0 0 0 1px var(--color-neutral-800); display:flex; flex-direction:column; gap:8.4px; }
+.pulse-report figcaption { display:flex; flex-direction:column; gap:2.8px; }
+.pulse-report figcaption p { max-width:74ch; margin:0; font-size:13px; color:var(--color-neutral-400); }
 .chart-wrapper { position:relative; min-width:0; overflow-x:auto; overflow-y:hidden; }
 .report-visual { position:relative; min-width:320px; }
 .report-visual svg { display:block; width:100%; min-width:320px; min-height:0; }
@@ -98,9 +101,9 @@ button { min-height:44px; padding:.5rem 1rem; }
 .slot-error p { margin:0; color:var(--color-neutral-300); }
 @keyframes pulse-skeleton { 50% { opacity:.45; } }
 .state-skeleton { animation:pulse-skeleton 1.6s ease-in-out infinite; background:var(--color-surface); border-radius:8px; }
-.cpi-report details summary { min-height:44px; display:flex; align-items:center; color:var(--color-accent-400); cursor:pointer; }
+.pulse-report details summary { min-height:44px; display:flex; align-items:center; color:var(--color-accent-400); cursor:pointer; }
 .table-scroll { max-height:320px; overflow:auto; }
-.cpi-report code { display:block; overflow-x:auto; overflow-y:hidden; color:var(--color-accent-300); font-size:11px; }
+.pulse-report code { display:block; overflow-x:auto; overflow-y:hidden; color:var(--color-accent-300); font-size:11px; }
 .calculator { display:flex; flex-direction:column; gap:5.6px; padding:16.8px; border-radius:8px; background:var(--color-surface); box-shadow:0 0 0 1px var(--color-neutral-800); }
 .calculator>p { max-width:74ch; margin:0; color:var(--color-neutral-400); }
 .calculator-controls { display:flex; flex-wrap:wrap; align-items:flex-end; gap:11.2px; margin-top:5.6px; }
@@ -115,9 +118,9 @@ button { min-height:44px; padding:.5rem 1rem; }
 .method article:nth-of-type(2) h3 { color:#9dc0ae; }
 .method article:nth-of-type(3) h3 { color:#d09a6a; }
 .method-source { grid-column:1/-1; margin:5.6px 0 0; font-size:12px; color:var(--color-neutral-400); }
-.cpi-report :focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
+.pulse-report :focus-visible { outline:2px solid var(--color-accent); outline-offset:2px; }
 @media(max-height:480px) { .exploration { position:static; } }
-@media(max-width:780px) { .multiples,.method { grid-template-columns:1fr; } .cpi-report h1 { font-size:32px; } }
+@media(max-width:780px) { .multiples,.method { grid-template-columns:1fr; } .pulse-report h1 { font-size:32px; } }
 @media(prefers-reduced-motion:reduce) { .state-skeleton { animation:none; } }
 
 /* Navigation shell: report index and pipeline health. State is always carried
@@ -169,3 +172,57 @@ li[data-state="not-run"]>details>summary .pipeline-state { color:var(--color-mut
 .pipeline-message { margin:0; color:var(--color-muted); }
 [data-state="unavailable"]>.pipeline-message { padding-inline-start:var(--space-1); border-inline-start:4px solid var(--color-error); color:var(--color-text); }
 @media (max-width:600px) { .pipeline-list dt { min-width:0; font-size:.85rem; } .pipeline-state { flex-basis:auto; } .pipeline-name { flex-basis:100%; } }
+
+/* French unemployment report. Everything below is local to this report: its
+   series palette, its map ramp and its section geometry. The shell, controls
+   and figure vocabulary come from .pulse-report above. */
+.unemployment-report .section-intro { max-width:74ch; margin:0; color:var(--color-neutral-300); font-size:14px; }
+.unemployment-report .report-section { display:flex; flex-direction:column; gap:11.2px; }
+.unemployment-report .report-section>h2 { font-size:25px; letter-spacing:-.015em; }
+.legend { display:flex; flex-wrap:wrap; gap:5.6px 16.8px; font-size:12px; color:var(--color-neutral-300); }
+.legend span { display:inline-flex; align-items:center; gap:6px; }
+.legend i { width:14px; height:3px; border-radius:2px; flex:none; }
+.readout { align-self:flex-start; margin:0; padding:5.6px 11.2px; border-radius:8px; background:var(--color-bg); font-size:13px; color:var(--color-neutral-300); font-variant-numeric:tabular-nums; }
+.readout b { color:#e9e9ed; font-weight:500; }
+/* Selected-observation chips sit beside the selection line inside the plot,
+   so a value is read where the reader is already looking. */
+.selection-chip { padding:1px 4px; border-radius:4px; white-space:nowrap; font-size:12px; font-weight:500; }
+.tiny { margin:0; color:var(--color-neutral-500); font-size:12px; }
+.caution { display:flex; gap:8px; padding:8.4px 11.2px; border-radius:8px; background:#2a2418; box-shadow:inset 3px 0 0 var(--color-warn); font-size:12.5px; color:#f0e3c8; }
+.caution p { margin:0; max-width:82ch; }
+.quarter-picker { display:flex; align-items:center; gap:5.6px; }
+.quarter-picker>span { font-size:12px; color:var(--color-neutral-400); }
+.slack-panels { display:grid; grid-template-columns:1fr; gap:11.2px; }
+.slack-panels-side { grid-template-columns:1fr 1fr; }
+.slack-panel { display:flex; flex-direction:column; gap:5.6px; min-width:0; padding:8.4px; border-radius:8px; background:var(--color-bg); }
+.panel-title { margin:0; font-size:14px; font-weight:500; color:#e9e9ed; }
+.panel-readout { margin:0; font-size:12px; color:var(--color-neutral-400); font-variant-numeric:tabular-nums; }
+.panel-readout b { color:#e9e9ed; font-weight:500; }
+.choropleth { display:flex; flex-direction:column; gap:8.4px; }
+.choropleth-legend { display:flex; flex-wrap:wrap; gap:5.6px 14px; font-size:12px; color:var(--color-neutral-300); }
+.choropleth-legend span { display:inline-flex; align-items:center; gap:6px; }
+.choropleth-legend i { width:14px; height:14px; border-radius:3px; flex:none; }
+.choropleth-legend .legend-absent i { border:1px dashed var(--color-neutral-500); }
+/* The pilot report's bare `svg` rule stretches every SVG to its container.
+   The map and its insets are sized by the visual from the published bounding
+   boxes, so they opt out of it and keep their own aspect. */
+.choropleth-body { display:flex; flex-wrap:wrap; align-items:flex-start; gap:16.8px; }
+.choropleth-insets { flex:1 1 320px; align-content:flex-start; }
+.choropleth-map svg,.choropleth-inset svg { display:block; width:auto; min-width:0; min-height:0; max-width:100%; height:auto; }
+.choropleth-map path:focus-visible,.choropleth-inset path:focus-visible { outline:3px solid var(--color-focus); outline-offset:2px; }
+.choropleth-insets { display:flex; flex-wrap:wrap; gap:8.4px; }
+.choropleth-inset { margin:0; padding:5.6px; border-radius:8px; background:var(--color-bg); box-shadow:none; display:flex; flex-direction:column; align-items:center; gap:2.8px; }
+.choropleth-inset figcaption { align-items:center; font-size:11px; color:var(--color-neutral-400); text-align:center; }
+.choropleth-inset figcaption b { display:block; color:#e9e9ed; font-variant-numeric:tabular-nums; }
+.comparator-field { display:flex; flex-direction:column; gap:5.6px; }
+.comparator-chips { display:flex; flex-wrap:wrap; gap:5.6px; }
+.comparator-chip { display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:0 4px 0 10px; border:1px solid var(--color-divider); border-radius:8px; font-size:13px; }
+.comparator-chip i { width:14px; height:3px; border-radius:2px; flex:none; }
+.comparator-chip button { min-height:32px; padding:0 8px; border:0; background:none; color:var(--color-neutral-400); }
+.comparator-add { display:flex; flex-direction:column; gap:5.6px; font-size:12px; color:var(--color-neutral-400); }
+.unavailable-chips { margin:5.6px 0 0; font-size:12px; color:var(--color-neutral-400); display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.chip-absent { display:inline-flex; align-items:center; padding:2px 8px; border:1px dashed var(--color-neutral-500); border-radius:999px; color:var(--color-neutral-300); }
+.sort-button { min-height:32px; padding:0 4px; border:0; background:none; color:var(--color-neutral-400); font:inherit; font-weight:500; text-decoration:underline; }
+.unemployment-report footer.method-source { margin:0; color:var(--color-neutral-400); font-size:12px; }
+@media(max-width:900px) { .slack-panels-side { grid-template-columns:1fr; } }
+@media(max-width:780px) { .unemployment-report h1 { font-size:32px; } }

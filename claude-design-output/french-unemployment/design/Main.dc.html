@@ -1,0 +1,283 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #161826; color: #e9e9ed;
+    font: 15px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #b5abfc; } a:hover { color: #d2cefd; }
+  h1, h2, h3 { margin: 0; font-weight: 500; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch; }
+  h2 { font-size: 25px; letter-spacing: -.015em; }
+  h3 { font-size: 20px; }
+  p { margin: 0; }
+  .eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .standfirst { max-width: 62ch; color: #cfd3e5; font-size: 16px; }
+  .muted { color: #b2b6ca; font-size: 13px; }
+  .tiny { color: #9397ab; font-size: 12px; }
+  figure { margin: 0; padding: 16.8px; border-radius: 8px; background: #232532;
+    box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8.4px; }
+  figcaption { display: flex; flex-direction: column; gap: 2.8px; }
+  figcaption p { max-width: 74ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #3f424d;
+    font-variant-numeric: tabular-nums; }
+  th { color: #b2b6ca; font-weight: 500; }
+  td.n, th.n { text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5.6px 16.8px; font-size: 12px; color: #cfd3e5; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .provenance { color: #9397ab; font-size: 12px; }
+
+  header { display: flex; flex-direction: column; gap: 8.4px;
+    border-bottom: 1px solid #3f424d; padding-bottom: 16.8px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 4px 22.4px; font-size: 12px; color: #b2b6ca; }
+  .meta b { color: #e9e9ed; font-weight: 500; }
+  .scorecards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 11.2px; }
+  .scorecards article { display: flex; flex-direction: column; gap: 2.8px; padding: 11.2px;
+    border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; }
+  .scorecards span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .scorecards strong { font-size: 32px; font-weight: 500; line-height: 1.1;
+    font-variant-numeric: tabular-nums; }
+  .scorecards small { font-size: 12px; color: #b2b6ca; }
+  .exploration { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 16.8px;
+    padding: 11.2px; border-radius: 8px; background: #161826; box-shadow: 0 0 0 1px #3f424d; }
+  fieldset { min-width: 0; margin: 0; padding: 0; border: 0;
+    display: flex; flex-direction: column; gap: 5.6px; }
+  legend { padding: 0; font-size: 12px; color: #b2b6ca; }
+  .period-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8.4px; }
+  .segments { display: flex; gap: 0; overflow: hidden; width: fit-content;
+    border: 1px solid #595d6c; border-radius: 8px; }
+  .segments label { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px;
+    border-inline-start: 1px solid #595d6c; font-size: 13px; color: #cfd3e5; }
+  .segments label:first-child { border-inline-start: 0; }
+  .segments label[data-on] { background: #2c3040; color: #e9e9ed; box-shadow: inset 0 -2px 0 #b5abfc; }
+  .period-range { display: flex; flex-wrap: wrap; align-items: center; gap: 5.6px; font-size: 13px; }
+  select, input, button { min-height: 44px; padding: 0 10px; border: 1px solid #595d6c;
+    border-radius: 8px; background: #232532; color: #e9e9ed; font: inherit; }
+  .observation-control { flex: 1 1 300px; min-width: 240px; display: flex;
+    flex-direction: column; gap: 5.6px; }
+  .observation-control input[type=range] { width: 100%; padding: 0; accent-color: #b5abfc; }
+  .observation-control output { font-size: 13px; font-weight: 500;
+    font-variant-numeric: tabular-nums; color: #e9e9ed; }
+  .sections { display: flex; flex-direction: column; gap: 33.6px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 11.2px; }
+  .readout { align-self: flex-start; padding: 5.6px 11.2px; border-radius: 8px;
+    background: #161826; font-size: 13px; color: #cfd3e5; font-variant-numeric: tabular-nums; }
+  .readout b { color: #e9e9ed; font-weight: 500; }
+  .caution { display: flex; gap: 8px; padding: 8.4px 11.2px; border-radius: 8px;
+    background: #2a2418; box-shadow: inset 3px 0 0 #fab219; font-size: 12.5px; color: #f0e3c8; }
+  .caution svg { flex: none; margin-top: 2px; }
+  .caution b { color: #fff2d8; }
+  details { border-radius: 8px; background: #161826; }
+  details summary { cursor: pointer; min-height: 44px; display: flex; align-items: center;
+    padding: 0 11.2px; font-size: 13px; color: #cfd3e5; }
+  details .body { padding: 0 11.2px 11.2px; display: flex; flex-direction: column; gap: 8.4px; }
+  details dl { margin: 0; display: flex; flex-direction: column; gap: 8.4px; font-size: 13px; }
+  details dt { color: #e9e9ed; font-weight: 500; }
+  details dd { margin: 0; color: #cfd3e5; max-width: 82ch; }
+</style>
+</helmet>
+<div style="width: 1180px; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px">
+<header>
+  <p class="eyebrow">Pulse · Labour market</p>
+  <h1>Unemployment in France</h1>
+  <p class="standfirst">Unemployment in France on the ILO definition. Every figure below is
+    published by INSEE or the OECD and is shown at the precision the provider publishes.</p>
+  <div class="meta">
+    <div>National data through <b>Q2 2026</b></div>
+    <div>Départements through <b>Q1 2026</b></div>
+    <div>International through <b>Aug 2026</b></div>
+  </div>
+</header>
+
+<div class="scorecards"><article><span>Unemployment rate</span><strong>8.3%</strong><small>▲ 0.2 pt on the quarter · Q2 2026</small></article><article><span>Participation, 15–64</span><strong>75.4%</strong><small>men 78.0% · women 72.8% · Q2 2026</small></article><article><span>Halo around unemployment</span><strong>1,825k</strong><small>4.4% of the 15–64 population · Q2 2026</small></article><article><span>Underemployment</span><strong>4.4%</strong><small>1,296 thousand people · Q2 2026</small></article></div>
+
+<div class="exploration" role="group" aria-label="Report controls">
+  <fieldset>
+    <legend>Represented period</legend>
+    <div class="period-row">
+      <div class="segments" role="radiogroup" aria-label="Represented period presets">
+        <label>5 years</label><label data-on>10 years</label><label>From start</label>
+      </div>
+      <div class="period-range">
+        <label>Start <select aria-label="Start quarter"><option>Q3 16</option></select></label>
+        <span>to</span>
+        <label>End <select aria-label="End quarter"><option>Q2 26</option></select></label>
+      </div>
+    </div>
+  </fieldset>
+  <label class="observation-control">
+    <span>Observation quarter — or click any point on a figure</span>
+    <input type="range" min="0" max="39" value="39"
+      aria-label="Observation quarter" />
+    <output aria-live="polite">Q2 2026 · 8.3% · 2,677k people ·
+      participation 75.4%</output>
+  </label>
+</div>
+
+<div class="sections">
+<section id="headline">
+  <h2>How many people are out of work</h2>
+  <figure>
+    <figcaption><h3>ILO unemployment rate</h3></figcaption>
+    <svg viewBox="0 0 700 250" width="100%" height="250" role="img"
+      aria-label="ILO unemployment rate, quarterly, Q3 16 to Q2 26. Selected quarter Q2 2026: 8.3 percent, 2,677 thousand people.">
+      <title>ILO unemployment rate, Q3 16 to Q2 26</title>
+      <line x1="46" x2="684" y1="224.0" y2="224.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="228.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">6%</text><line x1="46" x2="684" y1="181.6" y2="181.6" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="185.6" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7%</text><line x1="46" x2="684" y1="139.2" y2="139.2" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="143.2" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8%</text><line x1="46" x2="684" y1="96.8" y2="96.8" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="100.8" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">9%</text><line x1="46" x2="684" y1="54.4" y2="54.4" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="58.4" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">10%</text><line x1="46" x2="684" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">11%</text>
+      <text x="46.0" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 16</text><text x="144.2" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 18</text><text x="242.3" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 19</text><text x="340.5" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 21</text><text x="438.6" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 22</text><text x="536.8" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="634.9" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 25</text><text x="684.0" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+      <polyline points="46.0,58.6 62.4,50.2 78.7,67.1 95.1,71.4 111.4,75.6 127.8,96.8 144.2,84.1 160.5,92.6 176.9,96.8 193.2,105.3 209.6,105.3 225.9,118.0 242.3,122.2 258.7,130.7 275.0,143.4 291.4,173.1 307.7,96.8 324.1,135.0 340.5,130.7 356.8,139.2 373.2,143.4 389.5,160.4 405.9,164.6 422.3,160.4 438.6,173.1 455.0,173.1 471.3,173.1 487.7,168.9 504.1,164.6 520.4,156.2 536.8,160.4 553.1,164.6 569.5,164.6 585.8,164.6 602.2,160.4 618.6,156.2 634.9,147.7 651.3,139.2 667.6,135.0 684.0,126.5" fill="none" stroke="#3987e5" stroke-width="2"
+        stroke-linejoin="round" stroke-linecap="round" />
+      <line x1="684.0" x2="684.0" y1="12" y2="224" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3" opacity=".55" /><circle cx="684.0" cy="126.5" r="5" fill="#3987e5" stroke="#232532" stroke-width="2.5" />
+    </svg>
+    <p class="readout" role="status"><b>Q2 2026</b> ·
+      <b>8.3%</b> of the labour force · <b>2,677 thousand</b> people</p>
+    <p class="provenance">Source: INSEE, enquête Emploi, indicateurs trimestriels au sens du BIT ·
+      Licence Ouverte 2.0</p>
+  </figure>
+</section>
+<section id="slack">
+  <h2>Unemployment, halo and underemployment</h2>
+  <div class="pair">
+    <figure>
+      <figcaption><h3>Unemployment, of which long-term</h3></figcaption>
+      <svg viewBox="0 0 560 230" width="100%" height="230" role="img"
+        aria-label="ILO unemployed people and, within them, the long-term unemployed, thousands, quarterly. Selected quarter Q2 2026: 2,677 thousand unemployed, of which 671 thousand long-term.">
+        <title>Unemployment, of which long-term, thousands</title>
+        <line x1="46" x2="544" y1="204.0" y2="204.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="208.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">0</text><line x1="46" x2="544" y1="140.0" y2="140.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="144.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">1,000</text><line x1="46" x2="544" y1="76.0" y2="76.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="80.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">2,000</text><line x1="46" x2="544" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">3,000</text>
+        <text x="46.0" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q3 16</text><text x="109.8" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q4 17</text><text x="173.7" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q1 19</text><text x="237.5" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 20</text><text x="301.4" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q3 21</text><text x="365.2" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q4 22</text><text x="429.1" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="492.9" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 25</text><text x="544.0" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+        <polygon points="46.0,15.1 58.8,12.3 71.5,20.4 84.3,20.7 97.1,22.0 109.8,30.7 122.6,24.9 135.4,28.7 148.2,31.6 160.9,34.5 173.7,34.8 186.5,41.3 199.2,44.0 212.0,44.8 224.8,51.0 237.5,69.9 250.3,30.6 263.1,47.6 275.8,44.7 288.6,49.1 301.4,48.5 314.2,57.4 326.9,58.0 339.7,56.8 352.5,60.7 365.2,61.0 378.0,61.6 390.8,59.0 403.5,56.2 416.3,50.8 429.1,52.3 441.8,55.1 454.6,53.0 467.4,54.9 480.2,51.7 492.9,49.4 505.7,45.0 518.5,40.7 531.2,36.6 544.0,32.7 544.0,204.0 46.0,204.0" fill="#3987e5" opacity=".20" />
+        <polygon points="46.0,142.2 58.8,141.9 71.5,144.6 84.3,144.9 97.1,143.9 109.8,150.4 122.6,151.2 135.4,152.3 148.2,153.2 160.9,155.1 173.7,156.1 186.5,158.2 199.2,157.6 212.0,160.4 224.8,163.6 237.5,174.9 250.3,158.1 263.1,161.4 275.8,155.4 288.6,158.2 301.4,156.9 314.2,161.1 326.9,159.3 339.7,162.9 352.5,164.4 365.2,166.8 378.0,166.2 390.8,166.6 403.5,168.4 416.3,166.6 429.1,167.6 441.8,168.4 454.6,168.9 467.4,167.9 480.2,169.6 492.9,168.5 505.7,165.4 518.5,165.3 531.2,163.4 544.0,161.1 544.0,204.0 46.0,204.0" fill="#3987e5" opacity=".45" />
+        <polyline points="46.0,15.1 58.8,12.3 71.5,20.4 84.3,20.7 97.1,22.0 109.8,30.7 122.6,24.9 135.4,28.7 148.2,31.6 160.9,34.5 173.7,34.8 186.5,41.3 199.2,44.0 212.0,44.8 224.8,51.0 237.5,69.9 250.3,30.6 263.1,47.6 275.8,44.7 288.6,49.1 301.4,48.5 314.2,57.4 326.9,58.0 339.7,56.8 352.5,60.7 365.2,61.0 378.0,61.6 390.8,59.0 403.5,56.2 416.3,50.8 429.1,52.3 441.8,55.1 454.6,53.0 467.4,54.9 480.2,51.7 492.9,49.4 505.7,45.0 518.5,40.7 531.2,36.6 544.0,32.7" fill="none" stroke="#3987e5" stroke-width="2"
+          stroke-linejoin="round" stroke-linecap="round" />
+        <polyline points="46.0,142.2 58.8,141.9 71.5,144.6 84.3,144.9 97.1,143.9 109.8,150.4 122.6,151.2 135.4,152.3 148.2,153.2 160.9,155.1 173.7,156.1 186.5,158.2 199.2,157.6 212.0,160.4 224.8,163.6 237.5,174.9 250.3,158.1 263.1,161.4 275.8,155.4 288.6,158.2 301.4,156.9 314.2,161.1 326.9,159.3 339.7,162.9 352.5,164.4 365.2,166.8 378.0,166.2 390.8,166.6 403.5,168.4 416.3,166.6 429.1,167.6 441.8,168.4 454.6,168.9 467.4,167.9 480.2,169.6 492.9,168.5 505.7,165.4 518.5,165.3 531.2,163.4 544.0,161.1" fill="none" stroke="#3987e5" stroke-width="2"
+          stroke-dasharray="5 3" stroke-linejoin="round" stroke-linecap="round" />
+        <line x1="544.0" x2="544.0" y1="12" y2="204" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3" opacity=".55" /><circle cx="544.0" cy="32.7" r="5" fill="#3987e5" stroke="#232532" stroke-width="2.5" />
+      </svg>
+      <div class="legend">
+        <span><i style="background:#3987e5;opacity:.45"></i>Long-term (a year or more)</span>
+        <span><i style="background:#3987e5;opacity:.20"></i>Unemployed less than a year</span>
+      </div>
+      <p class="readout" role="status"><b>Q2 2026</b> ·
+        <b>2,677k</b> unemployed, of which <b>671k</b> long-term</p>
+    </figure>
+
+    <figure>
+      <figcaption><h3>Halo and underemployment</h3></figcaption>
+      <svg viewBox="0 0 560 230" width="100%" height="230" role="img"
+        aria-label="People in the halo around unemployment and people in underemployment, thousands, quarterly. Selected quarter Q2 2026: halo 1,825 thousand, underemployment 1,296 thousand.">
+        <title>Halo and underemployment, thousands</title>
+        <line x1="46" x2="544" y1="204.0" y2="204.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="208.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">0</text><line x1="46" x2="544" y1="140.0" y2="140.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="144.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">2,000</text><line x1="46" x2="544" y1="76.0" y2="76.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="80.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">4,000</text><line x1="46" x2="544" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">6,000</text>
+        <text x="46.0" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q3 16</text><text x="109.8" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q4 17</text><text x="173.7" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q1 19</text><text x="237.5" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 20</text><text x="301.4" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q3 21</text><text x="365.2" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q4 22</text><text x="429.1" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="492.9" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 25</text><text x="544.0" y="222" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+        <polyline points="46.0,143.8 58.8,144.6 71.5,143.6 84.3,144.5 97.1,146.1 109.8,144.3 122.6,144.8 135.4,145.3 148.2,144.4 160.9,144.7 173.7,148.0 186.5,145.5 199.2,142.8 212.0,141.1 224.8,140.2 237.5,113.4 250.3,140.5 263.1,138.9 275.8,139.6 288.6,140.4 301.4,145.0 314.2,143.3 326.9,144.9 339.7,144.9 352.5,145.6 365.2,143.7 378.0,140.9 390.8,141.7 403.5,140.3 416.3,144.1 429.1,143.8 441.8,142.7 454.6,146.5 467.4,141.9 480.2,144.8 492.9,144.2 505.7,143.7 518.5,143.9 531.2,145.7 544.0,145.6" fill="none" stroke="#d95926" stroke-width="2"
+          stroke-linejoin="round" stroke-linecap="round" />
+        <polyline points="46.0,142.4 58.8,144.0 71.5,144.9 84.3,144.9 97.1,143.5 109.8,149.0 122.6,145.8 135.4,147.1 148.2,149.2 160.9,147.7 173.7,152.8 186.5,153.1 199.2,152.3 212.0,152.1 224.8,139.5 237.5,68.9 250.3,140.8 263.1,132.1 275.8,132.3 288.6,140.2 301.4,155.4 314.2,159.0 326.9,160.8 339.7,161.8 352.5,162.8 365.2,162.1 378.0,162.7 390.8,162.9 403.5,163.4 416.3,162.6 429.1,163.9 441.8,163.6 454.6,163.8 467.4,163.3 480.2,163.9 492.9,161.7 505.7,162.2 518.5,162.3 531.2,162.3 544.0,162.5" fill="none" stroke="#199e70" stroke-width="2"
+          stroke-linejoin="round" stroke-linecap="round" />
+        <line x1="544.0" x2="544.0" y1="12" y2="204" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3" opacity=".55" /><circle cx="544.0" cy="145.6" r="5" fill="#d95926" stroke="#232532" stroke-width="2.5" />
+      </svg>
+      <div class="legend">
+        <span><i style="background:#d95926"></i>Halo around unemployment</span>
+        <span><i style="background:#199e70"></i>Underemployment</span>
+      </div>
+      <p class="readout" role="status"><b>Q2 2026</b> ·
+        halo <b>1,825k</b> · underemployment <b>1,296k</b></p>
+    </figure>
+  </div>
+
+  <details>
+    <summary>Definitions</summary>
+    <div class="body"><dl>
+      <dt>ILO unemployment</dt>
+      <dd>Without a job, available to start within two weeks, and having actively looked for work in
+        the past four weeks. Long-term unemployment is the subset who have been looking for a year
+        or more.</dd>
+      <dt>Halo around unemployment</dt>
+      <dd>People who want a job but do not meet both ILO conditions — available but not actively
+        searching, or searching but not immediately available. They are outside the labour force,
+        which is why the published halo rate is a share of the population rather than of the labour
+        force.</dd>
+      <dt>Underemployment</dt>
+      <dd>People in work who want more hours: part-timers available to work more, plus those who
+        involuntarily worked less than usual. The published rate is a share of employment.</dd>
+    </dl></div>
+  </details>
+  <p class="provenance">Source: INSEE, enquête Emploi · Licence Ouverte 2.0</p>
+</section>
+<section id="age">
+  <h2>Who is out of work</h2>
+  <figure>
+    <figcaption><h3>Unemployment rate by age band</h3></figcaption>
+    <div class="legend"><span><i style="background:#3987e5"></i>Under 25</span><span><i style="background:#d95926"></i>25 to 49</span><span><i style="background:#199e70"></i>50 or over</span></div>
+    <svg viewBox="0 0 700 260" width="100%" height="260" role="img"
+      aria-label="Unemployment rate by age band, quarterly. Selected quarter Q2 2026: under 25 21.6 percent, 25 to 49 7.5 percent, 50 or over 5.5 percent.">
+      <title>Unemployment rate by age band</title>
+      <line x1="46" x2="684" y1="234.0" y2="234.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="238.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">0%</text><line x1="46" x2="684" y1="160.0" y2="160.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="164.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">10%</text><line x1="46" x2="684" y1="86.0" y2="86.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="90.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">20%</text><line x1="46" x2="684" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">30%</text>
+      <text x="46.0" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q3 16</text><text x="144.2" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 18</text><text x="242.3" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q3 19</text><text x="340.5" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 21</text><text x="438.6" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q3 22</text><text x="536.8" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="634.9" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q3 25</text><text x="684.0" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+      <polyline points="46.0,38.6 62.4,46.8 78.7,56.4 95.1,51.2 111.4,63.8 127.8,66.8 144.2,63.1 160.5,70.5 176.9,69.7 193.2,78.6 209.6,77.1 225.9,82.3 242.3,87.5 258.7,71.9 275.0,80.1 291.4,69.0 307.7,66.8 324.1,81.6 340.5,77.1 356.8,90.4 373.2,95.6 389.5,111.2 405.9,108.9 422.3,100.1 438.6,105.2 455.0,107.5 471.3,110.4 487.7,107.5 504.1,105.2 520.4,102.3 536.8,99.3 553.1,100.8 569.5,87.5 585.8,94.1 602.2,91.9 618.6,92.7 634.9,91.2 651.3,74.2 667.6,77.1 684.0,74.2" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,169.6 62.4,165.9 78.7,168.9 95.1,169.6 111.4,168.9 127.8,173.3 144.2,171.1 160.5,171.8 176.9,173.3 193.2,174.8 209.6,176.3 225.9,177.0 242.3,177.8 258.7,180.0 275.0,181.5 291.4,186.6 307.7,172.6 324.1,179.2 340.5,178.5 356.8,181.5 373.2,181.5 389.5,183.7 405.9,184.4 422.3,184.4 438.6,185.9 455.0,185.9 471.3,185.9 487.7,184.4 504.1,183.7 520.4,181.5 536.8,182.9 553.1,184.4 569.5,185.2 585.8,184.4 602.2,183.7 618.6,182.2 634.9,181.5 651.3,182.2 667.6,180.0 684.0,178.5" fill="none" stroke="#d95926" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,181.5 62.4,182.9 78.7,182.9 95.1,185.9 111.4,185.2 127.8,186.6 144.2,186.6 160.5,186.6 176.9,188.1 193.2,187.4 209.6,184.4 225.9,188.1 242.3,187.4 258.7,191.1 275.0,193.3 291.4,202.2 307.7,188.9 324.1,191.8 340.5,193.3 356.8,190.3 373.2,191.1 389.5,191.8 405.9,192.6 422.3,196.3 438.6,196.3 455.0,196.3 471.3,195.5 487.7,196.3 504.1,196.3 520.4,196.3 536.8,196.3 553.1,197.0 569.5,199.2 585.8,198.5 602.2,198.5 618.6,198.5 634.9,196.3 651.3,196.3 667.6,195.5 684.0,193.3" fill="none" stroke="#199e70" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><circle cx="684.0" cy="74.2" r="4" fill="#3987e5" stroke="#232532" stroke-width="2" /><text x="674.0" y="78.2" text-anchor="end" fill="#e9e9ed" font-size="12.5" font-weight="500">Under 25 21.6%</text><circle cx="684.0" cy="178.5" r="4" fill="#d95926" stroke="#232532" stroke-width="2" /><text x="674.0" y="182.5" text-anchor="end" fill="#e9e9ed" font-size="12.5" font-weight="500">25 to 49 7.5%</text><circle cx="684.0" cy="193.3" r="4" fill="#199e70" stroke="#232532" stroke-width="2" /><text x="674.0" y="197.3" text-anchor="end" fill="#e9e9ed" font-size="12.5" font-weight="500">50 or over 5.5%</text>
+      <line x1="684.0" x2="684.0" y1="12" y2="234" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3" opacity=".55" /><circle cx="684.0" cy="74.2" r="5" fill="#3987e5" stroke="#232532" stroke-width="2.5" />
+    </svg>
+    <p class="readout" role="status"><b>Q2 2026</b> ·
+      under 25 <b>21.6%</b> · 25–49 <b>7.5%</b> ·
+      50+ <b>5.5%</b></p>
+    <p class="provenance">Source: INSEE, enquête Emploi · Licence Ouverte 2.0</p>
+  </figure>
+</section>
+<section id="participation">
+  <h2>Who takes part at all</h2>
+  <p class="muted" style="max-width:74ch;margin:5.6px 0 11.2px">The activity rate counts everyone
+    working or looking for work. Shown here on the 15-to-64 basis. The international section uses
+    the 15-or-over basis instead, which includes the retired population and therefore reads
+    markedly lower.</p>
+  <figure>
+    <figcaption><h3>Labour force participation, men and women aged 15 to 64</h3></figcaption>
+    <div class="legend">
+      <span><i style="background:#3987e5"></i>Men</span>
+      <span><i style="background:#d95926"></i>Women</span>
+      <span><i style="background:#3987e5;opacity:.22;height:10px;border-radius:2px"></i>Gap</span>
+    </div>
+    <svg viewBox="0 0 700 250" width="100%" height="250" role="img"
+      aria-label="Labour force participation rate for men and women aged 15 to 64, quarterly. Selected quarter Q2 2026: men 78.0 percent, women 72.8 percent.">
+      <title>Participation rate, men and women aged 15 to 64</title>
+      <line x1="46" x2="684" y1="224.0" y2="224.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="228.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">60%</text><line x1="46" x2="684" y1="171.0" y2="171.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="175.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">65%</text><line x1="46" x2="684" y1="118.0" y2="118.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="122.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">70%</text><line x1="46" x2="684" y1="65.0" y2="65.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="69.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">75%</text><line x1="46" x2="684" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">80%</text>
+      <text x="46.0" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 16</text><text x="144.2" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 18</text><text x="242.3" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 19</text><text x="340.5" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 21</text><text x="438.6" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 22</text><text x="536.8" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="634.9" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q3 25</text><text x="684.0" y="242" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+      <polygon points="46.0,62.9 62.4,58.6 78.7,62.9 95.1,55.5 111.4,55.5 127.8,54.4 144.2,54.4 160.5,55.5 176.9,55.5 193.2,56.5 209.6,57.6 225.9,60.8 242.3,63.9 258.7,59.7 275.0,58.6 291.4,85.1 307.7,60.8 324.1,65.0 340.5,56.5 356.8,54.4 373.2,50.2 389.5,49.1 405.9,50.2 422.3,47.0 438.6,48.0 455.0,45.9 471.3,44.9 487.7,48.0 504.1,47.0 520.4,43.8 536.8,39.6 553.1,38.5 569.5,34.3 585.8,38.5 602.2,34.3 618.6,31.1 634.9,33.2 651.3,31.1 667.6,31.1 684.0,33.2 684.0,88.3 667.6,88.3 651.3,91.5 634.9,92.6 618.6,92.6 602.2,95.7 585.8,100.0 569.5,98.9 553.1,101.0 536.8,101.0 520.4,101.0 504.1,106.3 487.7,104.2 471.3,108.5 455.0,108.5 438.6,109.5 422.3,112.7 405.9,112.7 389.5,114.8 373.2,112.7 356.8,121.2 340.5,122.2 324.1,119.1 307.7,124.4 291.4,145.6 275.0,122.2 258.7,116.9 242.3,127.5 225.9,124.4 209.6,121.2 193.2,121.2 176.9,123.3 160.5,124.4 144.2,123.3 127.8,126.5 111.4,129.7 95.1,126.5 78.7,129.7 62.4,129.7 46.0,125.4" fill="#3987e5" opacity=".18" />
+      <polyline points="46.0,62.9 62.4,58.6 78.7,62.9 95.1,55.5 111.4,55.5 127.8,54.4 144.2,54.4 160.5,55.5 176.9,55.5 193.2,56.5 209.6,57.6 225.9,60.8 242.3,63.9 258.7,59.7 275.0,58.6 291.4,85.1 307.7,60.8 324.1,65.0 340.5,56.5 356.8,54.4 373.2,50.2 389.5,49.1 405.9,50.2 422.3,47.0 438.6,48.0 455.0,45.9 471.3,44.9 487.7,48.0 504.1,47.0 520.4,43.8 536.8,39.6 553.1,38.5 569.5,34.3 585.8,38.5 602.2,34.3 618.6,31.1 634.9,33.2 651.3,31.1 667.6,31.1 684.0,33.2" fill="none" stroke="#3987e5" stroke-width="2"
+        stroke-linejoin="round" stroke-linecap="round" />
+      <polyline points="46.0,125.4 62.4,129.7 78.7,129.7 95.1,126.5 111.4,129.7 127.8,126.5 144.2,123.3 160.5,124.4 176.9,123.3 193.2,121.2 209.6,121.2 225.9,124.4 242.3,127.5 258.7,116.9 275.0,122.2 291.4,145.6 307.7,124.4 324.1,119.1 340.5,122.2 356.8,121.2 373.2,112.7 389.5,114.8 405.9,112.7 422.3,112.7 438.6,109.5 455.0,108.5 471.3,108.5 487.7,104.2 504.1,106.3 520.4,101.0 536.8,101.0 553.1,101.0 569.5,98.9 585.8,100.0 602.2,95.7 618.6,92.6 634.9,92.6 651.3,91.5 667.6,88.3 684.0,88.3" fill="none" stroke="#d95926" stroke-width="2"
+        stroke-linejoin="round" stroke-linecap="round" />
+      <circle cx="684.0" cy="33.2" r="4" fill="#3987e5" stroke="#232532" stroke-width="2" /><text x="674.0" y="37.2" text-anchor="end" fill="#e9e9ed" font-size="12.5" font-weight="500">Men 78.0%</text><circle cx="684.0" cy="88.3" r="4" fill="#d95926" stroke="#232532" stroke-width="2" /><text x="674.0" y="92.3" text-anchor="end" fill="#e9e9ed" font-size="12.5" font-weight="500">Women 72.8%</text><line x1="684.0" x2="684.0" y1="12" y2="224" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3" opacity=".55" /><circle cx="684.0" cy="33.2" r="5" fill="#3987e5" stroke="#232532" stroke-width="2.5" />
+    </svg>
+    <p class="readout" role="status"><b>Q2 2026</b> ·
+      men <b>78.0%</b> · women <b>72.8%</b> ·
+      gap <b>5.2 points</b>
+      <span class="tiny">(derived)</span></p>
+    <p class="provenance">Source: INSEE, enquête Emploi · Licence Ouverte 2.0</p>
+  </figure>
+</section>
+<section id="territory">
+  <h2>Where people are out of work</h2>
+  <p class="muted" style="max-width:74ch;margin:5.6px 0 11.2px">Shown in full on the
+    <b>Territorial detail</b> artboard.</p>
+</section>
+<section id="international">
+  <h2>How France compares</h2>
+  <p class="muted" style="max-width:74ch;margin:5.6px 0 11.2px">Shown in full on the
+    <b>International comparison</b> artboard.</p>
+</section>
+</div>
+
+<p class="provenance" style="border-top:1px solid #3f424d;padding-top:16.8px">
+  Sources: INSEE (enquête Emploi; taux de chômage localisés) under Licence Ouverte 2.0 ·
+  IGN ADMIN EXPRESS COG CARTO under Licence Ouverte 2.0 ·
+  OECD (Monthly unemployment rates; Labour force participation rate) under CC BY 4.0.
+  This is an adaptation of an original work by the OECD.</p>
+</div>
+</x-dc>
+</body>
+</html>

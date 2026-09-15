@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #161826; color: #e9e9ed;
+    font: 15px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #b5abfc; } a:hover { color: #d2cefd; }
+  h1, h2, h3 { margin: 0; font-weight: 500; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch; }
+  h2 { font-size: 25px; letter-spacing: -.015em; }
+  h3 { font-size: 20px; }
+  p { margin: 0; }
+  .eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .standfirst { max-width: 62ch; color: #cfd3e5; font-size: 16px; }
+  .muted { color: #b2b6ca; font-size: 13px; }
+  .tiny { color: #9397ab; font-size: 12px; }
+  figure { margin: 0; padding: 16.8px; border-radius: 8px; background: #232532;
+    box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8.4px; }
+  figcaption { display: flex; flex-direction: column; gap: 2.8px; }
+  figcaption p { max-width: 74ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #3f424d;
+    font-variant-numeric: tabular-nums; }
+  th { color: #b2b6ca; font-weight: 500; }
+  td.n, th.n { text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5.6px 16.8px; font-size: 12px; color: #cfd3e5; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .provenance { color: #9397ab; font-size: 12px; }
+
+  .caution { display: flex; gap: 8px; padding: 8.4px 11.2px; border-radius: 8px;
+    background: #2a2418; box-shadow: inset 3px 0 0 #fab219; font-size: 12.5px; color: #f0e3c8; }
+  .caution b { color: #fff2d8; }
+  fieldset { min-width: 0; }
+</style>
+</helmet>
+<div style="width: 1180px; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px">
+<header style="display:flex;flex-direction:column;gap:5.6px">
+  <p class="eyebrow">Section · International standing</p>
+  <h2>How France compares</h2>
+  <p class="standfirst" style="font-size:15px">Harmonised OECD rates, which are adjusted for
+    comparability and so can differ from the number each country announces at home. Read this
+    section for <i>position</i>, not for France's headline.</p>
+</header>
+
+<figure>
+  <figcaption>
+    <h3>Unemployment rate, OECD harmonised, monthly</h3>
+    <p>France is fixed in the chart and cannot be removed; every other country keeps its colour for
+      as long as it is selected, so removing one never repaints the others.</p>
+  </figcaption>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:11.2px;padding:11.2px;
+    border-radius:8px;background:#161826;box-shadow:0 0 0 1px #3f424d">
+    <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:5.6px;flex:1 1 320px">
+      <legend style="padding:0;font-size:12px;color:#b2b6ca">Comparators &mdash; {{capacity}}</legend>
+      <div style="display:flex;flex-wrap:wrap;gap:5.6px">
+        <sc-for list="{{lines}}" as="line" hint-placeholder-count="5">
+          <span style="display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 6px 0 10px;
+            border:1px solid #595d6c;border-radius:8px;font-size:13px">
+            <i style="width:14px;height:3px;border-radius:2px;background:{{line.colour}}"></i>
+            {{line.name}}
+            <sc-if value="{{line.removable}}" hint-placeholder-val="{{true}}">
+              <button type="button" onClick="{{line.remove}}" aria-label="Remove comparator"
+                style="min-height:32px;width:32px;padding:0;border:0;background:transparent;
+                color:#b2b6ca;font-size:16px;line-height:1;cursor:pointer">&times;</button>
+            </sc-if>
+          </span>
+        </sc-for>
+      </div>
+    </fieldset>
+    <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:5.6px">
+      <legend style="padding:0;font-size:12px;color:#b2b6ca">Add an OECD member or aggregate</legend>
+      <select onChange="{{onPick}}" value="{{addValue}}" aria-label="Add a comparator"
+        style="min-height:44px;min-width:230px;padding:0 10px;border:1px solid #595d6c;border-radius:8px;
+        background:#232532;color:#e9e9ed;font:inherit">
+        <option value="">Choose a country…</option>
+        <sc-for list="{{options}}" as="option" hint-placeholder-count="3">
+          <option value="{{option.code}}">{{option.name}}</option>
+        </sc-for>
+      </select>
+    </fieldset>
+  </div>
+
+  <sc-if value="{{full}}" hint-placeholder-val="{{false}}">
+    <p class="caution"><span><b>Eight series is the limit.</b> Past eight the palette runs out of
+      colours a colour-blind reader can separate, so adding a ninth is refused rather than served
+      with a colour that lies. Remove one to add another.</span></p>
+  </sc-if>
+
+  <svg viewBox="0 0 {{W}} {{H}}" width="100%" height="300" role="img"
+    aria-label="OECD harmonised monthly unemployment rate for the selected countries. Values are listed in the table below.">
+    <title>OECD harmonised unemployment rate, selected countries</title>
+    <sc-for list="{{gridRows}}" as="row" hint-placeholder-count="7">
+      <line x1="46" x2="600" y1="{{row.y}}" y2="{{row.y}}" stroke="rgba(233,233,237,.10)" stroke-width="1" />
+      <text x="38" y="{{row.y}}" dy="4" text-anchor="end" fill="#9397ab" font-size="11"
+        style="font-variant-numeric:tabular-nums">{{row.label}}</text>
+    </sc-for>
+    <sc-for list="{{ticks}}" as="tick" hint-placeholder-count="5">
+      <text x="{{tick.x}}" y="292" text-anchor="middle" fill="#9397ab" font-size="11">{{tick.label}}</text>
+    </sc-for>
+    <sc-for list="{{lines}}" as="line" hint-placeholder-count="5">
+      <polyline points="{{line.path}}" fill="none" stroke="{{line.colour}}"
+        stroke-width="{{line.width}}" stroke-linejoin="round" stroke-linecap="round" />
+      <circle cx="{{line.endX}}" cy="{{line.endY}}" r="4" fill="{{line.colour}}"
+        stroke="#232532" stroke-width="2" />
+      <text x="{{line.labelX}}" y="{{line.labelY}}" fill="#e9e9ed" font-size="12"
+        font-weight="500">{{line.name}} {{line.rate}}%</text>
+    </sc-for>
+  </svg>
+
+  <p class="caution"><span><b>The lines do not all end in the same month.</b> Each country is drawn
+    to its own latest published month and direct-labelled with it, rather than every line being cut
+    back to the slowest. The United Kingdom's rolling-quarter survey runs about three months behind
+    the others, so its line stops earlier — that is the provider's calendar, not a gap in the
+    data.</span></p>
+
+  <table>
+    <caption class="tiny" style="text-align:left;padding:.45rem 0">Selected comparators, each at its
+      own latest published month</caption>
+    <thead><tr><th scope="col">Country</th><th scope="col">Code</th><th scope="col" class="n">Rate</th>
+      <th scope="col">Latest month</th><th scope="col">Publication edge</th></tr></thead>
+    <tbody>
+      <sc-for list="{{tableRows}}" as="row" hint-placeholder-count="5">
+        <tr><th scope="row"><span style="display:inline-flex;align-items:center;gap:6px">
+          <i style="width:14px;height:3px;border-radius:2px;background:{{row.colour}}"></i>
+          {{row.name}}</span></th>
+          <td>{{row.code}}</td><td class="n">{{row.rate}}%</td><td>{{row.period}}</td>
+          <td>{{row.note}}</td></tr>
+      </sc-for>
+    </tbody>
+  </table>
+
+  <div style="padding:11.2px;border-radius:8px;background:#161826">
+    <p class="tiny" style="color:#cfd3e5"><b style="color:#e9e9ed">Two OECD members are not in this
+      series.</b> Switzerland and New Zealand publish no monthly unemployment rate through this OECD dataflow.
+      They stay in the list and are shown like this rather than disappearing:</p>
+    <div style="display:flex;flex-wrap:wrap;gap:5.6px;margin-top:8.4px">
+      <sc-for list="{{missing}}" as="row" hint-placeholder-count="2">
+        <span style="display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 12px;
+          border:1px dashed #595d6c;border-radius:8px;font-size:13px;color:#b2b6ca">
+          <svg width="13" height="13" viewBox="0 0 13 13" aria-hidden="true">
+            <circle cx="6.5" cy="6.5" r="5.6" fill="none" stroke="#9397ab" stroke-width="1.2"/>
+            <path d="M3 10 10 3" stroke="#9397ab" stroke-width="1.2"/></svg>
+          {{row.name}} — not published monthly</span>
+      </sc-for>
+    </div>
+    <p class="tiny" style="margin-top:8.4px">Both appear in the participation comparison below, which
+      draws on the OECD's quarterly series.</p>
+  </div>
+
+  <p class="provenance">Source: OECD, Monthly unemployment rates · CC BY 4.0 ·
+    This is an adaptation of an original work by the OECD.</p>
+</figure>
+
+<figure>
+  <figcaption><h3>Participation rate, OECD harmonised, aged 15 or over</h3></figcaption>
+  <div class="legend"><span><i style="background:#3987e5"></i>France</span><span><i style="background:#d95926"></i>Germany</span><span><i style="background:#199e70"></i>United Kingdom</span><span><i style="background:#c98500"></i>Italy</span><span><i style="background:#d55181"></i>Spain</span></div>
+  <svg viewBox="0 0 700 260" width="100%" height="260" role="img"
+    aria-label="OECD harmonised labour force participation rate, aged 15 or over, both sexes, quarterly, for France, Germany, the United Kingdom, Italy and Spain. Values are listed in the table below.">
+    <title>Participation rate, OECD harmonised, aged 15 or over</title>
+    <line x1="46" x2="588" y1="234.0" y2="234.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="238.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">40%</text><line x1="46" x2="588" y1="197.0" y2="197.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="201.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">45%</text><line x1="46" x2="588" y1="160.0" y2="160.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="164.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">50%</text><line x1="46" x2="588" y1="123.0" y2="123.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="127.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">55%</text><line x1="46" x2="588" y1="86.0" y2="86.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="90.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">60%</text><line x1="46" x2="588" y1="49.0" y2="49.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="53.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">65%</text><line x1="46" x2="588" y1="12.0" y2="12.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="38" y="16.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">70%</text>
+    <text x="46.0" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 19</text><text x="120.8" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 20</text><text x="195.5" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 21</text><text x="270.3" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 22</text><text x="345.0" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 23</text><text x="419.8" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="494.6" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 25</text><text x="569.3" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q1 26</text><text x="588.0" y="252" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text>
+    <polyline points="46.0,120.0 64.7,120.8 83.4,123.0 102.1,120.0 120.8,122.3 139.4,135.6 158.1,123.7 176.8,124.5 195.5,120.0 214.2,117.8 232.9,114.1 251.6,114.9 270.3,115.6 289.0,114.9 307.7,113.4 326.3,114.1 345.0,114.1 363.7,113.4 382.4,113.4 401.1,111.9 419.8,111.9 438.5,111.2 457.2,109.7 475.9,112.6 494.6,109.7 513.2,107.5 531.9,108.2 550.6,108.9 569.3,108.2 588.0,108.9" fill="none" stroke="#3987e5" stroke-width="3" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,73.4 64.7,71.9 83.4,72.7 102.1,69.0 120.8,71.9 139.4,73.4 158.1,74.2 176.8,75.6 195.5,86.7 214.2,83.0 232.9,80.1 251.6,78.6 270.3,79.3 289.0,76.4 307.7,76.4 326.3,75.6 345.0,75.6 363.7,74.2 382.4,74.9 401.1,75.6 419.8,76.4 438.5,74.2 457.2,74.2 475.9,73.4 494.6,74.9 513.2,74.2 531.9,73.4 550.6,71.9 569.3,71.2 588.0,74.9" fill="none" stroke="#d95926" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,57.1 64.7,54.9 83.4,56.4 102.1,54.9 120.8,54.2 139.4,60.1 158.1,60.1 176.8,60.8 195.5,62.3 214.2,62.3 232.9,60.8 251.6,62.3 270.3,64.5 289.0,63.1 307.7,65.3 326.3,63.1 345.0,60.8 363.7,61.6 382.4,63.1 401.1,65.3 419.8,64.5 438.5,65.3 457.2,61.6 475.9,61.6 494.6,60.1 513.2,57.1 531.9,57.1 550.6,56.4 569.3,57.1 588.0,57.1" fill="none" stroke="#199e70" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,160.0 64.7,160.7 83.4,160.7 102.1,161.5 120.8,165.2 139.4,181.5 158.1,167.4 176.8,169.6 195.5,176.3 214.2,171.8 232.9,167.4 251.6,166.7 270.3,168.9 289.0,166.7 307.7,166.7 326.3,165.2 345.0,163.0 363.7,162.2 382.4,160.7 401.1,158.5 419.8,160.0 438.5,161.5 457.2,160.7 475.9,163.0 494.6,158.5 513.2,159.3 531.9,161.5 550.6,163.7 569.3,163.7" fill="none" stroke="#c98500" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><polyline points="46.0,101.5 64.7,101.5 83.4,102.3 102.1,100.8 120.8,102.3 139.4,124.5 158.1,109.7 176.8,105.2 195.5,106.7 214.2,103.8 232.9,100.8 251.6,102.3 270.3,101.5 289.0,102.3 307.7,103.0 326.3,103.0 345.0,101.5 363.7,100.8 382.4,99.3 401.1,100.1 419.8,100.1 438.5,100.1 457.2,100.8 475.9,101.5 494.6,100.1 513.2,99.3 531.9,99.3 550.6,98.6 569.3,98.6 588.0,97.8" fill="none" stroke="#d55181" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /><circle cx="588.0" cy="108.9" r="4" fill="#3987e5" stroke="#232532" stroke-width="2" /><text x="597.0" y="112.9" fill="#e9e9ed" font-size="12" font-weight="500">France 56.9%</text><circle cx="588.0" cy="74.9" r="4" fill="#d95926" stroke="#232532" stroke-width="2" /><text x="597.0" y="78.9" fill="#e9e9ed" font-size="12" font-weight="500">Germany 61.5%</text><circle cx="588.0" cy="57.1" r="4" fill="#199e70" stroke="#232532" stroke-width="2" /><text x="597.0" y="61.1" fill="#e9e9ed" font-size="12" font-weight="500">United Kingdom 63.9%</text><circle cx="569.3" cy="163.7" r="4" fill="#c98500" stroke="#232532" stroke-width="2" /><text x="578.3" y="167.7" fill="#e9e9ed" font-size="12" font-weight="500">Italy 49.5%</text><circle cx="588.0" cy="97.8" r="4" fill="#d55181" stroke="#232532" stroke-width="2" /><text x="597.0" y="101.8" fill="#e9e9ed" font-size="12" font-weight="500">Spain 58.4%</text>
+  </svg>
+  <table>
+    <caption class="tiny" style="text-align:left;padding:.45rem 0">Participation rate, both sexes,
+      each country at its own latest published quarter</caption>
+    <thead><tr><th scope="col">Country</th><th scope="col">Code</th>
+      <th scope="col" class="n">Rate</th><th scope="col">Latest quarter</th></tr></thead>
+    <tbody><tr><th scope="row">France</th><td>FRA</td><td class="n">56.9%</td><td>Q2 2026</td></tr><tr><th scope="row">Germany</th><td>DEU</td><td class="n">61.5%</td><td>Q2 2026</td></tr><tr><th scope="row">United Kingdom</th><td>GBR</td><td class="n">63.9%</td><td>Q2 2026</td></tr><tr><th scope="row">Italy</th><td>ITA</td><td class="n">49.5%</td><td>Q1 2026</td></tr><tr><th scope="row">Spain</th><td>ESP</td><td class="n">58.4%</td><td>Q2 2026</td></tr></tbody>
+  </table>
+</figure>
+
+<figure>
+  <figcaption><h3>Participation by sex</h3></figcaption>
+  <table>
+    <caption class="tiny" style="text-align:left;padding:.45rem 0">Participation rate by sex, latest
+      shared quarter</caption>
+    <thead><tr><th scope="col">Country</th><th scope="col" class="n">All</th>
+      <th scope="col" class="n">Men</th><th scope="col" class="n">Women</th>
+      <th scope="col" class="n">Gap</th></tr></thead>
+    <tbody><tr><th scope="row">France</th><td class="n">56.9%</td><td class="n">60.4%</td><td class="n">53.6%</td><td class="n">6.8 pt</td></tr><tr><th scope="row">Germany</th><td class="n">61.5%</td><td class="n">66.4%</td><td class="n">56.8%</td><td class="n">9.6 pt</td></tr><tr><th scope="row">United Kingdom</th><td class="n">63.9%</td><td class="n">67.9%</td><td class="n">60.1%</td><td class="n">7.8 pt</td></tr><tr><th scope="row">Spain</th><td class="n">58.4%</td><td class="n">63.2%</td><td class="n">53.8%</td><td class="n">9.4 pt</td></tr></tbody>
+  </table>
+  <p class="tiny">The gap column is men minus women — a difference between two published rates,
+    not a figure the OECD publishes.</p>
+  <p class="provenance">Source: OECD, Labour force participation rate · CC BY 4.0 ·
+    This is an adaptation of an original work by the OECD.</p>
+</figure>
+</div>
+</x-dc>
+<script data-dc-script>
+const DATA = {"periods": ["2019-01-01", "2019-02-01", "2019-03-01", "2019-04-01", "2019-05-01", "2019-06-01", "2019-07-01", "2019-08-01", "2019-09-01", "2019-10-01", "2019-11-01", "2019-12-01", "2020-01-01", "2020-02-01", "2020-03-01", "2020-04-01", "2020-05-01", "2020-06-01", "2020-07-01", "2020-08-01", "2020-09-01", "2020-10-01", "2020-11-01", "2020-12-01", "2021-01-01", "2021-02-01", "2021-03-01", "2021-04-01", "2021-05-01", "2021-06-01", "2021-07-01", "2021-08-01", "2021-09-01", "2021-10-01", "2021-11-01", "2021-12-01", "2022-01-01", "2022-02-01", "2022-03-01", "2022-04-01", "2022-05-01", "2022-06-01", "2022-07-01", "2022-08-01", "2022-09-01", "2022-10-01", "2022-11-01", "2022-12-01", "2023-01-01", "2023-02-01", "2023-03-01", "2023-04-01", "2023-05-01", "2023-06-01", "2023-07-01", "2023-08-01", "2023-09-01", "2023-10-01", "2023-11-01", "2023-12-01", "2024-01-01", "2024-02-01", "2024-03-01", "2024-04-01", "2024-05-01", "2024-06-01", "2024-07-01", "2024-08-01", "2024-09-01", "2024-10-01", "2024-11-01", "2024-12-01", "2025-01-01", "2025-02-01", "2025-03-01", "2025-04-01", "2025-05-01", "2025-06-01", "2025-07-01", "2025-08-01", "2025-09-01", "2025-10-01", "2025-11-01", "2025-12-01", "2026-01-01", "2026-02-01", "2026-03-01", "2026-04-01", "2026-05-01", "2026-06-01", "2026-07-01"], "labels": ["Jan 19", "Feb 19", "Mar 19", "Apr 19", "May 19", "Jun 19", "Jul 19", "Aug 19", "Sep 19", "Oct 19", "Nov 19", "Dec 19", "Jan 20", "Feb 20", "Mar 20", "Apr 20", "May 20", "Jun 20", "Jul 20", "Aug 20", "Sep 20", "Oct 20", "Nov 20", "Dec 20", "Jan 21", "Feb 21", "Mar 21", "Apr 21", "May 21", "Jun 21", "Jul 21", "Aug 21", "Sep 21", "Oct 21", "Nov 21", "Dec 21", "Jan 22", "Feb 22", "Mar 22", "Apr 22", "May 22", "Jun 22", "Jul 22", "Aug 22", "Sep 22", "Oct 22", "Nov 22", "Dec 22", "Jan 23", "Feb 23", "Mar 23", "Apr 23", "May 23", "Jun 23", "Jul 23", "Aug 23", "Sep 23", "Oct 23", "Nov 23", "Dec 23", "Jan 24", "Feb 24", "Mar 24", "Apr 24", "May 24", "Jun 24", "Jul 24", "Aug 24", "Sep 24", "Oct 24", "Nov 24", "Dec 24", "Jan 25", "Feb 25", "Mar 25", "Apr 25", "May 25", "Jun 25", "Jul 25", "Aug 25", "Sep 25", "Oct 25", "Nov 25", "Dec 25", "Jan 26", "Feb 26", "Mar 26", "Apr 26", "May 26", "Jun 26", "Jul 26"], "series": {"DEU": {"name": "Germany", "points": [["2019-01-01", 3.0], ["2019-02-01", 3.0], ["2019-03-01", 3.0], ["2019-04-01", 2.9], ["2019-05-01", 2.9], ["2019-06-01", 2.9], ["2019-07-01", 2.9], ["2019-08-01", 2.9], ["2019-09-01", 2.9], ["2019-10-01", 2.9], ["2019-11-01", 3.0], ["2019-12-01", 3.1], ["2020-01-01", 3.2], ["2020-02-01", 3.3], ["2020-03-01", 3.4], ["2020-04-01", 3.5], ["2020-05-01", 3.7], ["2020-06-01", 3.8], ["2020-07-01", 3.8], ["2020-08-01", 3.9], ["2020-09-01", 3.8], ["2020-10-01", 3.8], ["2020-11-01", 3.8], ["2020-12-01", 3.8], ["2021-01-01", 3.9], ["2021-02-01", 3.9], ["2021-03-01", 3.9], ["2021-04-01", 3.8], ["2021-05-01", 3.7], ["2021-06-01", 3.6], ["2021-07-01", 3.5], ["2021-08-01", 3.4], ["2021-09-01", 3.4], ["2021-10-01", 3.4], ["2021-11-01", 3.4], ["2021-12-01", 3.3], ["2022-01-01", 3.3], ["2022-02-01", 3.2], ["2022-03-01", 3.2], ["2022-04-01", 3.1], ["2022-05-01", 3.1], ["2022-06-01", 3.1], ["2022-07-01", 3.1], ["2022-08-01", 3.1], ["2022-09-01", 3.1], ["2022-10-01", 3.1], ["2022-11-01", 3.1], ["2022-12-01", 3.1], ["2023-01-01", 3.1], ["2023-02-01", 3.0], ["2023-03-01", 3.0], ["2023-04-01", 3.0], ["2023-05-01", 3.0], ["2023-06-01", 3.0], ["2023-07-01", 3.0], ["2023-08-01", 3.1], ["2023-09-01", 3.1], ["2023-10-01", 3.1], ["2023-11-01", 3.2], ["2023-12-01", 3.2], ["2024-01-01", 3.2], ["2024-02-01", 3.2], ["2024-03-01", 3.3], ["2024-04-01", 3.4], ["2024-05-01", 3.4], ["2024-06-01", 3.4], ["2024-07-01", 3.4], ["2024-08-01", 3.4], ["2024-09-01", 3.4], ["2024-10-01", 3.4], ["2024-11-01", 3.4], ["2024-12-01", 3.5], ["2025-01-01", 3.5], ["2025-02-01", 3.6], ["2025-03-01", 3.6], ["2025-04-01", 3.7], ["2025-05-01", 3.7], ["2025-06-01", 3.7], ["2025-07-01", 3.8], ["2025-08-01", 3.8], ["2025-09-01", 3.8], ["2025-10-01", 3.8], ["2025-11-01", 3.9], ["2025-12-01", 3.9], ["2026-01-01", 3.9], ["2026-02-01", 3.9], ["2026-03-01", 3.9], ["2026-04-01", 3.9], ["2026-05-01", 3.9], ["2026-06-01", 4.0], ["2026-07-01", 4.0]]}, "ESP": {"name": "Spain", "points": [["2019-01-01", 14.3], ["2019-02-01", 14.2], ["2019-03-01", 14.2], ["2019-04-01", 14.2], ["2019-05-01", 14.3], ["2019-06-01", 14.2], ["2019-07-01", 14.2], ["2019-08-01", 14.1], ["2019-09-01", 14.0], ["2019-10-01", 14.0], ["2019-11-01", 13.9], ["2019-12-01", 13.8], ["2020-01-01", 13.8], ["2020-02-01", 13.6], ["2020-03-01", 14.5], ["2020-04-01", 15.3], ["2020-05-01", 15.5], ["2020-06-01", 16.0], ["2020-07-01", 16.2], ["2020-08-01", 16.5], ["2020-09-01", 16.4], ["2020-10-01", 16.3], ["2020-11-01", 16.2], ["2020-12-01", 16.2], ["2021-01-01", 15.9], ["2021-02-01", 15.7], ["2021-03-01", 15.5], ["2021-04-01", 15.7], ["2021-05-01", 15.7], ["2021-06-01", 15.6], ["2021-07-01", 15.2], ["2021-08-01", 14.8], ["2021-09-01", 14.4], ["2021-10-01", 13.9], ["2021-11-01", 13.5], ["2021-12-01", 13.3], ["2022-01-01", 13.3], ["2022-02-01", 13.2], ["2022-03-01", 13.3], ["2022-04-01", 13.2], ["2022-05-01", 12.9], ["2022-06-01", 12.9], ["2022-07-01", 12.7], ["2022-08-01", 12.8], ["2022-09-01", 13.0], ["2022-10-01", 13.1], ["2022-11-01", 13.2], ["2022-12-01", 13.2], ["2023-01-01", 13.1], ["2023-02-01", 12.9], ["2023-03-01", 12.5], ["2023-04-01", 12.1], ["2023-05-01", 12.0], ["2023-06-01", 11.9], ["2023-07-01", 12.0], ["2023-08-01", 12.0], ["2023-09-01", 12.0], ["2023-10-01", 12.0], ["2023-11-01", 12.0], ["2023-12-01", 11.9], ["2024-01-01", 11.9], ["2024-02-01", 11.8], ["2024-03-01", 11.6], ["2024-04-01", 11.6], ["2024-05-01", 11.6], ["2024-06-01", 11.5], ["2024-07-01", 11.4], ["2024-08-01", 11.3], ["2024-09-01", 11.1], ["2024-10-01", 10.9], ["2024-11-01", 10.8], ["2024-12-01", 10.8], ["2025-01-01", 10.8], ["2025-02-01", 10.8], ["2025-03-01", 10.8], ["2025-04-01", 10.6], ["2025-05-01", 10.6], ["2025-06-01", 10.5], ["2025-07-01", 10.6], ["2025-08-01", 10.5], ["2025-09-01", 10.4], ["2025-10-01", 10.2], ["2025-11-01", 10.1], ["2025-12-01", 10.2], ["2026-01-01", 10.3], ["2026-02-01", 10.3], ["2026-03-01", 10.3], ["2026-04-01", 10.2], ["2026-05-01", 10.2], ["2026-06-01", 10.1], ["2026-07-01", 10.0]]}, "FRA": {"name": "France", "points": [["2019-01-01", 8.8], ["2019-02-01", 8.7], ["2019-03-01", 8.7], ["2019-04-01", 8.5], ["2019-05-01", 8.5], ["2019-06-01", 8.5], ["2019-07-01", 8.4], ["2019-08-01", 8.3], ["2019-09-01", 8.2], ["2019-10-01", 8.2], ["2019-11-01", 8.2], ["2019-12-01", 8.2], ["2020-01-01", 8.2], ["2020-02-01", 7.8], ["2020-03-01", 7.6], ["2020-04-01", 7.6], ["2020-05-01", 6.9], ["2020-06-01", 7.4], ["2020-07-01", 8.6], ["2020-08-01", 9.1], ["2020-09-01", 9.0], ["2020-10-01", 8.3], ["2020-11-01", 8.1], ["2020-12-01", 7.9], ["2021-01-01", 8.1], ["2021-02-01", 8.2], ["2021-03-01", 8.2], ["2021-04-01", 8.2], ["2021-05-01", 8.0], ["2021-06-01", 7.9], ["2021-07-01", 8.0], ["2021-08-01", 7.9], ["2021-09-01", 7.7], ["2021-10-01", 7.5], ["2021-11-01", 7.4], ["2021-12-01", 7.4], ["2022-01-01", 7.3], ["2022-02-01", 7.3], ["2022-03-01", 7.4], ["2022-04-01", 7.5], ["2022-05-01", 7.5], ["2022-06-01", 7.5], ["2022-07-01", 7.4], ["2022-08-01", 7.2], ["2022-09-01", 7.1], ["2022-10-01", 7.2], ["2022-11-01", 7.1], ["2022-12-01", 7.2], ["2023-01-01", 7.1], ["2023-02-01", 7.1], ["2023-03-01", 7.1], ["2023-04-01", 7.3], ["2023-05-01", 7.3], ["2023-06-01", 7.3], ["2023-07-01", 7.4], ["2023-08-01", 7.4], ["2023-09-01", 7.4], ["2023-10-01", 7.5], ["2023-11-01", 7.6], ["2023-12-01", 7.6], ["2024-01-01", 7.6], ["2024-02-01", 7.5], ["2024-03-01", 7.4], ["2024-04-01", 7.3], ["2024-05-01", 7.4], ["2024-06-01", 7.5], ["2024-07-01", 7.5], ["2024-08-01", 7.5], ["2024-09-01", 7.5], ["2024-10-01", 7.4], ["2024-11-01", 7.4], ["2024-12-01", 7.3], ["2025-01-01", 7.3], ["2025-02-01", 7.5], ["2025-03-01", 7.6], ["2025-04-01", 7.5], ["2025-05-01", 7.6], ["2025-06-01", 7.7], ["2025-07-01", 7.7], ["2025-08-01", 7.8], ["2025-09-01", 7.9], ["2025-10-01", 8.0], ["2025-11-01", 8.0], ["2025-12-01", 8.0], ["2026-01-01", 8.1], ["2026-02-01", 8.2], ["2026-03-01", 8.2], ["2026-04-01", 8.3], ["2026-05-01", 8.4], ["2026-06-01", 8.3], ["2026-07-01", 8.3]]}, "GBR": {"name": "United Kingdom", "points": [["2019-01-01", 4.0], ["2019-02-01", 3.8], ["2019-03-01", 3.8], ["2019-04-01", 3.8], ["2019-05-01", 3.9], ["2019-06-01", 3.9], ["2019-07-01", 3.9], ["2019-08-01", 3.9], ["2019-09-01", 3.8], ["2019-10-01", 3.8], ["2019-11-01", 3.7], ["2019-12-01", 3.9], ["2020-01-01", 3.9], ["2020-02-01", 4.1], ["2020-03-01", 4.1], ["2020-04-01", 4.1], ["2020-05-01", 4.1], ["2020-06-01", 4.4], ["2020-07-01", 4.6], ["2020-08-01", 5.0], ["2020-09-01", 5.2], ["2020-10-01", 5.2], ["2020-11-01", 5.3], ["2020-12-01", 5.2], ["2021-01-01", 5.0], ["2021-02-01", 4.9], ["2021-03-01", 4.8], ["2021-04-01", 4.8], ["2021-05-01", 4.7], ["2021-06-01", 4.6], ["2021-07-01", 4.5], ["2021-08-01", 4.4], ["2021-09-01", 4.3], ["2021-10-01", 4.2], ["2021-11-01", 4.2], ["2021-12-01", 4.1], ["2022-01-01", 3.9], ["2022-02-01", 3.8], ["2022-03-01", 3.8], ["2022-04-01", 3.7], ["2022-05-01", 3.8], ["2022-06-01", 3.6], ["2022-07-01", 3.6], ["2022-08-01", 3.7], ["2022-09-01", 3.8], ["2022-10-01", 3.9], ["2022-11-01", 3.9], ["2022-12-01", 3.9], ["2023-01-01", 4.0], ["2023-02-01", 4.0], ["2023-03-01", 3.9], ["2023-04-01", 4.0], ["2023-05-01", 4.2], ["2023-06-01", 4.4], ["2023-07-01", 4.3], ["2023-08-01", 4.1], ["2023-09-01", 4.0], ["2023-10-01", 4.0], ["2023-11-01", 3.9], ["2023-12-01", 4.1], ["2024-01-01", 4.2], ["2024-02-01", 4.3], ["2024-03-01", 4.4], ["2024-04-01", 4.4], ["2024-05-01", 4.2], ["2024-06-01", 4.2], ["2024-07-01", 4.1], ["2024-08-01", 4.3], ["2024-09-01", 4.2], ["2024-10-01", 4.4], ["2024-11-01", 4.4], ["2024-12-01", 4.4], ["2025-01-01", 4.5], ["2025-02-01", 4.6], ["2025-03-01", 4.6], ["2025-04-01", 4.7], ["2025-05-01", 4.7], ["2025-06-01", 4.7], ["2025-07-01", 4.8], ["2025-08-01", 5.0], ["2025-09-01", 5.1], ["2025-10-01", 5.1], ["2025-11-01", 5.2], ["2025-12-01", 5.2], ["2026-01-01", 4.9], ["2026-02-01", 5.0], ["2026-03-01", 4.9], ["2026-04-01", 4.9], ["2026-05-01", 4.9]]}, "ITA": {"name": "Italy", "points": [["2019-01-01", 10.3], ["2019-02-01", 10.4], ["2019-03-01", 10.2], ["2019-04-01", 10.4], ["2019-05-01", 10.0], ["2019-06-01", 9.6], ["2019-07-01", 9.6], ["2019-08-01", 9.5], ["2019-09-01", 9.8], ["2019-10-01", 9.5], ["2019-11-01", 9.8], ["2019-12-01", 9.8], ["2020-01-01", 9.6], ["2020-02-01", 9.5], ["2020-03-01", 7.6], ["2020-04-01", 7.7], ["2020-05-01", 8.8], ["2020-06-01", 9.5], ["2020-07-01", 10.2], ["2020-08-01", 10.1], ["2020-09-01", 10.0], ["2020-10-01", 10.0], ["2020-11-01", 9.5], ["2020-12-01", 9.8], ["2021-01-01", 10.1], ["2021-02-01", 10.2], ["2021-03-01", 10.1], ["2021-04-01", 10.3], ["2021-05-01", 9.9], ["2021-06-01", 9.5], ["2021-07-01", 9.1], ["2021-08-01", 9.1], ["2021-09-01", 9.1], ["2021-10-01", 9.1], ["2021-11-01", 9.1], ["2021-12-01", 8.9], ["2022-01-01", 8.5], ["2022-02-01", 8.3], ["2022-03-01", 8.3], ["2022-04-01", 8.1], ["2022-05-01", 8.1], ["2022-06-01", 8.2], ["2022-07-01", 8.0], ["2022-08-01", 8.1], ["2022-09-01", 8.0], ["2022-10-01", 7.8], ["2022-11-01", 7.8], ["2022-12-01", 7.9], ["2023-01-01", 7.9], ["2023-02-01", 7.8], ["2023-03-01", 7.9], ["2023-04-01", 7.9], ["2023-05-01", 7.8], ["2023-06-01", 7.5], ["2023-07-01", 7.8], ["2023-08-01", 7.6], ["2023-09-01", 7.7], ["2023-10-01", 7.7], ["2023-11-01", 7.5], ["2023-12-01", 7.1], ["2024-01-01", 7.1], ["2024-02-01", 7.3], ["2024-03-01", 6.9], ["2024-04-01", 6.8], ["2024-05-01", 6.5], ["2024-06-01", 6.7], ["2024-07-01", 6.4], ["2024-08-01", 6.4], ["2024-09-01", 6.1], ["2024-10-01", 6.1], ["2024-11-01", 6.2], ["2024-12-01", 6.4], ["2025-01-01", 6.5], ["2025-02-01", 6.1], ["2025-03-01", 6.3], ["2025-04-01", 6.2], ["2025-05-01", 6.4], ["2025-06-01", 5.9], ["2025-07-01", 5.9], ["2025-08-01", 5.9], ["2025-09-01", 6.0], ["2025-10-01", 5.8], ["2025-11-01", 5.7], ["2025-12-01", 5.7], ["2026-01-01", 5.5], ["2026-02-01", 5.6], ["2026-03-01", 5.5], ["2026-04-01", 5.5], ["2026-05-01", 5.4], ["2026-06-01", 5.8], ["2026-07-01", 5.8]]}}, "slots": ["#3987e5", "#d95926", "#199e70", "#c98500", "#d55181", "#008300", "#9085e9", "#e66767"], "defaults": ["FRA", "DEU", "GBR", "ITA", "ESP"], "catalogue": [{"code": "AUS", "name": "Australia", "kind": "member"}, {"code": "AUT", "name": "Austria", "kind": "member"}, {"code": "BEL", "name": "Belgium", "kind": "member"}, {"code": "CAN", "name": "Canada", "kind": "member"}, {"code": "CHL", "name": "Chile", "kind": "member"}, {"code": "COL", "name": "Colombia", "kind": "member"}, {"code": "CRI", "name": "Costa Rica", "kind": "member"}, {"code": "CZE", "name": "Czechia", "kind": "member"}, {"code": "DNK", "name": "Denmark", "kind": "member"}, {"code": "EST", "name": "Estonia", "kind": "member"}, {"code": "EA", "name": "Euro area", "kind": "aggregate"}, {"code": "EU", "name": "European Union", "kind": "aggregate"}, {"code": "FIN", "name": "Finland", "kind": "member"}, {"code": "FRA", "name": "France", "kind": "member"}, {"code": "G7", "name": "G7", "kind": "aggregate"}, {"code": "DEU", "name": "Germany", "kind": "member"}, {"code": "GRC", "name": "Greece", "kind": "member"}, {"code": "HUN", "name": "Hungary", "kind": "member"}, {"code": "ISL", "name": "Iceland", "kind": "member"}, {"code": "IRL", "name": "Ireland", "kind": "member"}, {"code": "ISR", "name": "Israel", "kind": "member"}, {"code": "ITA", "name": "Italy", "kind": "member"}, {"code": "JPN", "name": "Japan", "kind": "member"}, {"code": "KOR", "name": "Korea", "kind": "member"}, {"code": "LVA", "name": "Latvia", "kind": "member"}, {"code": "LTU", "name": "Lithuania", "kind": "member"}, {"code": "LUX", "name": "Luxembourg", "kind": "member"}, {"code": "MEX", "name": "Mexico", "kind": "member"}, {"code": "NLD", "name": "Netherlands", "kind": "member"}, {"code": "NOR", "name": "Norway", "kind": "member"}, {"code": "OECD", "name": "OECD", "kind": "aggregate"}, {"code": "POL", "name": "Poland", "kind": "member"}, {"code": "PRT", "name": "Portugal", "kind": "member"}, {"code": "SVK", "name": "Slovak Republic", "kind": "member"}, {"code": "SVN", "name": "Slovenia", "kind": "member"}, {"code": "ESP", "name": "Spain", "kind": "member"}, {"code": "SWE", "name": "Sweden", "kind": "member"}, {"code": "TUR", "name": "Türkiye", "kind": "member"}, {"code": "GBR", "name": "United Kingdom", "kind": "member"}, {"code": "USA", "name": "United States", "kind": "member"}], "missing": [{"code": "CHE", "name": "Switzerland"}, {"code": "NZL", "name": "New Zealand"}], "surface": "#232532", "ink": "#e9e9ed", "muted": "#9397ab", "grid": "rgba(233,233,237,.10)"};
+
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    // Colour follows the COUNTRY, not its rank: a slot is claimed when a
+    // country is added and released only when it is removed, so taking Spain
+    // off the chart never repaints Germany.
+    const assigned = {};
+    DATA.defaults.forEach((code, index) => { assigned[code] = index; });
+    this.state = { selected: [...DATA.defaults], assigned, adding: "" };
+  }
+
+  colourFor(code) { return DATA.slots[this.state.assigned[code]] || DATA.muted; }
+
+  freeSlot() {
+    const taken = new Set(Object.values(this.state.assigned));
+    for (let index = 0; index < DATA.slots.length; index += 1) if (!taken.has(index)) return index;
+    return -1;
+  }
+
+  add(code) {
+    if (!code || this.state.selected.includes(code)) return;
+    const slot = this.freeSlot();
+    if (slot < 0) return;
+    this.setState({
+      selected: [...this.state.selected, code],
+      assigned: { ...this.state.assigned, [code]: slot },
+      adding: "",
+    });
+  }
+
+  remove(code) {
+    if (code === "FRA") return;
+    const assigned = { ...this.state.assigned };
+    delete assigned[code];
+    this.setState({ selected: this.state.selected.filter((item) => item !== code), assigned });
+  }
+
+  renderVals() {
+    const W = 720, H = 300, PL = 46, PR = 120, PT = 14, PB = 26;
+    const inner = W - PL - PR, plotH = H - PT - PB;
+    const active = this.state.selected.filter((code) => DATA.series[code]);
+    const values = active.flatMap((code) => DATA.series[code].points.map((point) => point[1]));
+    const lo = 0, hi = Math.max(12, Math.ceil(Math.max(...values, 1) / 2) * 2 + 2);
+    const x = (index) => PL + (index * inner) / (DATA.periods.length - 1);
+    const y = (value) => PT + plotH * (1 - (value - lo) / (hi - lo));
+
+    const gridRows = [];
+    for (let value = lo; value <= hi + 1e-9; value += 2) {
+      gridRows.push({ y: y(value), label: `${value}%`, key: `g${value}` });
+    }
+    const ticks = DATA.periods
+      .map((period, index) => ({ index, label: DATA.labels[index] }))
+      .filter((tick) => tick.index % 6 === 0 || tick.index === DATA.periods.length - 1)
+      .map((tick) => ({ ...tick, x: x(tick.index), key: `t${tick.index}` }));
+
+    const lines = active.map((code) => {
+      const entry = DATA.series[code];
+      const points = entry.points
+        .map(([period, rate]) => [DATA.periods.indexOf(period), rate])
+        .filter(([index]) => index >= 0);
+      const last = points[points.length - 1];
+      const trailing = last[0] < DATA.periods.length - 1;
+      return {
+        code,
+        key: code,
+        name: entry.name,
+        colour: this.colourFor(code),
+        path: points.map(([index, rate]) => `${x(index).toFixed(1)},${y(rate).toFixed(1)}`).join(" "),
+        endX: x(last[0]),
+        endY: y(last[1]),
+        labelX: x(last[0]) + 9,
+        labelY: y(last[1]) + 4,
+        rate: last[1].toFixed(1),
+        period: DATA.labels[last[0]],
+        trailing,
+        note: trailing ? `ends ${DATA.labels[last[0]]}` : "",
+        width: code === "FRA" ? 3 : 2,
+        removable: code !== "FRA",
+        remove: () => this.remove(code),
+      };
+    });
+
+    const chosen = new Set(this.state.selected);
+    const options = DATA.catalogue.filter((row) => !chosen.has(row.code));
+    const full = this.freeSlot() < 0;
+
+    return {
+      W, H, lo, hi,
+      gridRows, ticks, lines,
+      options,
+      full,
+      capacity: `${active.length} of ${DATA.slots.length} series`,
+      addValue: this.state.adding,
+      onPick: (event) => this.add(event.target.value),
+      missing: DATA.missing.map((row) => ({ ...row, key: row.code })),
+      surface: DATA.surface,
+      ink: DATA.ink,
+      muted: DATA.muted,
+      grid: DATA.grid,
+      tableRows: lines.map((line) => ({
+        key: line.code,
+        name: line.name,
+        code: line.code,
+        rate: line.rate,
+        period: line.period,
+        colour: line.colour,
+        note: line.trailing ? "behind the edge" : "at the edge",
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>

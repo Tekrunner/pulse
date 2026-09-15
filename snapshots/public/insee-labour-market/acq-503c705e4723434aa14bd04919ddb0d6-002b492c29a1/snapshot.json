@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-14T12:11:42Z",
+  "acquisition_id": "acq-503c705e4723434aa14bd04919ddb0d6",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "002b492c29a1d4319241087f726cab914a20a5bc33563e8598b5c1e09574a09c"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_is_quarterly",
+      "passed": true
+    },
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "percentage_observations_lie_within_zero_and_one_hundred",
+      "passed": true
+    },
+    {
+      "check": "every_declared_series_carries_observations",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT.",
+  "decoder_version": "insee-bdm-sdmx-quarterly-v1",
+  "format": "parquet",
+  "licence": "Licence Ouverte / Open Licence 2.0",
+  "observed_schema_sha256": "e250a7c827d40087f7240dc1ee4c7a93c1628c87f205ae3221c76f401a987747",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-503c705e4723434aa14bd04919ddb0d6-002b492c29a1",
+  "source_data_date": "2026-06-30",
+  "source_id": "insee-labour-market",
+  "source_urls": [
+    "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011818543+011818548+011818544+011818545+011818547+011818546+011818555+011818599+011818598+011818600+011818596+011818592+011818577+011818581+011818564+011818560+011818623+011818739+011818670+011818680+011818665+011818704+011818737+011818644+011818710"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

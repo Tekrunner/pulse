@@ -1,0 +1,6 @@
+id: oecd-participation-comparison
+name: OECD participation rate international comparison
+source: oecd-participation-rate
+visibility: public
+logical_table: oecd_participation_comparison
+contract: dataset-contract.yaml

@@ -1,0 +1,183 @@
+version: 2
+models:
+- name: french_labour_market_quarterly
+  columns:
+  - name: period
+    data_tests:
+    - not_null
+    - unique
+  - name: unemployment_rate_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployment_rate_under_25_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployment_rate_25_to_49_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployment_rate_50_and_over_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployment_rate_men_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployment_rate_women_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unemployed_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: unemployed_under_25_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: unemployed_25_to_49_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: unemployed_50_and_over_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: unemployed_men_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: unemployed_women_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: long_term_unemployed_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: long_term_unemployment_rate_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: halo_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: halo_15_to_64_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: halo_share_of_population_15_to_64_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: underemployed_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100000
+  - name: underemployment_rate_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_men_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_women_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_15_to_64_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_men_15_to_64_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: participation_rate_women_15_to_64_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100

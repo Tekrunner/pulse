@@ -1,0 +1,36 @@
+id: oecd-unemployment-rate
+snapshot_contract: snapshot-contract.yaml
+name: OECD harmonised monthly unemployment rates
+visibility: public
+acquisition:
+  method: OECD SDMX-CSV 2.0 with combined code and label values
+  url: https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0/.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M?startPeriod=2000-01
+  # SDMX-CSV 2.0 with labels=both returns one column per dimension carrying
+  # "<code>: <label>". The older csvfilewithlabels representation splits each
+  # dimension into a code column and a label column whose names differ only in
+  # case, which the Parquet writer cannot store: see source-contract.md.
+  media_type: application/vnd.sdmx.data+csv;version=2.0.0;labels=both
+  dataflow: OECD.SDD.TPS:DSD_LFS@DF_IALFS_UNE_M(1.0)
+  # The key pins one series per reference area so the response cannot silently
+  # widen into other measures, adjustments, sexes or age bands.
+  key:
+    "MEASURE: Measure": UNE_LF_M
+    "UNIT_MEASURE: Unit of measure": PT_LF_SUB
+    "TRANSFORMATION: Transformation": _Z
+    "ADJUSTMENT: Adjustment": Y
+    "SEX: Sex": _T
+    "AGE: Age": Y_GE15
+    "ACTIVITY: Economic activity": _Z
+    "FREQ: Frequency of observation": M
+  # Every reference area the provider sends is retained as observed. Which
+  # areas must exist is a question about the OECD's own membership and
+  # aggregates, answered by the dataset package that declares them; this
+  # acquisition asks only whether the response is well formed and current.
+fetch_cadence: monthly, after the OECD unemployment rates statistics news release
+expected_publication_advance: monthly; a reference month normally reaches the publication edge within about two weeks, except across the OECD's August publication gap, when the edge stands still for two months
+publication_schedule:
+  period: monthly
+  expected_within_days: 45
+  grace_days: 14
+licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+attribution: "Source: OECD, Monthly unemployment rates. This is an adaptation of an original work by the OECD."

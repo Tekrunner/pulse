@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+  *, *::before, *::after { box-sizing: border-box; }
+  body { margin: 0; background: #161826; color: #e9e9ed;
+    font: 15px/1.6 Inter, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #b5abfc; } a:hover { color: #d2cefd; }
+  h1, h2, h3 { margin: 0; font-weight: 500; }
+  h1 { font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch; }
+  h2 { font-size: 25px; letter-spacing: -.015em; }
+  h3 { font-size: 20px; }
+  p { margin: 0; }
+  .eyebrow { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc; }
+  .standfirst { max-width: 62ch; color: #cfd3e5; font-size: 16px; }
+  .muted { color: #b2b6ca; font-size: 13px; }
+  .tiny { color: #9397ab; font-size: 12px; }
+  figure { margin: 0; padding: 16.8px; border-radius: 8px; background: #232532;
+    box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8.4px; }
+  figcaption { display: flex; flex-direction: column; gap: 2.8px; }
+  figcaption p { max-width: 74ch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: .45rem; border-bottom: 1px solid #3f424d;
+    font-variant-numeric: tabular-nums; }
+  th { color: #b2b6ca; font-weight: 500; }
+  td.n, th.n { text-align: right; }
+  .legend { display: flex; flex-wrap: wrap; gap: 5.6px 16.8px; font-size: 12px; color: #cfd3e5; }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 14px; height: 3px; border-radius: 2px; flex: none; }
+  .provenance { color: #9397ab; font-size: 12px; }
+</style>
+</helmet>
+<div style="width: 740px; padding: 22.4px 16.8px 44px; display: flex; flex-direction: column; gap: 22.4px">
+<header style="display:flex;flex-direction:column;gap:5.6px">
+  <p class="eyebrow">Pulse · Labour market</p>
+  <h1 style="font-size:27px">Unemployment in France</h1>
+  <p class="muted">ILO definition, quarterly, France including Mayotte.</p>
+</header>
+<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8.4px">
+  <article style="padding:8.4px;border-radius:8px;background:#232532;box-shadow:0 0 0 1px #3f424d">
+    <span class="eyebrow">Rate</span><br><strong style="font-size:25px;font-weight:500;
+      font-variant-numeric:tabular-nums">8.3%</strong></article>
+  <article style="padding:8.4px;border-radius:8px;background:#232532;box-shadow:0 0 0 1px #3f424d">
+    <span class="eyebrow">People</span><br><strong style="font-size:25px;font-weight:500;
+      font-variant-numeric:tabular-nums">2,677k</strong></article>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8.4px;padding:8.4px;border-radius:8px;background:#161826;
+  box-shadow:0 0 0 1px #3f424d">
+  <div style="display:flex;gap:0;border:1px solid #595d6c;border-radius:8px;overflow:hidden">
+    <span style="min-height:44px;display:inline-flex;align-items:center;padding:0 12px;font-size:13px">5y</span>
+    <span style="min-height:44px;display:inline-flex;align-items:center;padding:0 12px;font-size:13px;
+      border-inline-start:1px solid #595d6c;background:#2c3040;box-shadow:inset 0 -2px 0 #b5abfc">10y</span>
+    <span style="min-height:44px;display:inline-flex;align-items:center;padding:0 12px;font-size:13px;
+      border-inline-start:1px solid #595d6c">All</span>
+  </div>
+  <select style="min-height:44px;flex:1 1 150px;padding:0 10px;border:1px solid #595d6c;
+    border-radius:8px;background:#232532;color:#e9e9ed;font:inherit"><option>Q2 2026</option></select>
+</div>
+<figure style="padding:11.2px">
+  <figcaption><h3 style="font-size:16px">ILO unemployment rate</h3></figcaption>
+  <svg viewBox="0 0 660 150" width="100%" height="150" role="img" aria-label="ILO unemployment rate, last 20 quarters, ending 8.3 percent."><title>ILO unemployment rate</title><line x1="38" x2="648" y1="130.0" y2="130.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="134.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">6.5%</text><line x1="38" x2="648" y1="99.5" y2="99.5" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="103.5" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7%</text><line x1="38" x2="648" y1="69.0" y2="69.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="73.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">7.5%</text><line x1="38" x2="648" y1="38.5" y2="38.5" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="42.5" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8%</text><line x1="38" x2="648" y1="8.0" y2="8.0" stroke="rgba(233,233,237,.10)" stroke-width="1" /><text x="30" y="12.0" text-anchor="end" fill="#9397ab" font-size="11" style="font-variant-numeric:tabular-nums">8.5%</text><text x="38.0" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q3 21</text><text x="198.5" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q4 22</text><text x="359.1" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q1 24</text><text x="519.6" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q2 25</text><text x="648.0" y="142" text-anchor="middle" fill="#9397ab" font-size="11">Q2 26</text><polyline points="38.0,44.6 70.1,69.0 102.2,75.1 134.3,69.0 166.4,87.3 198.5,87.3 230.6,87.3 262.7,81.2 294.8,75.1 326.9,62.9 359.1,69.0 391.2,75.1 423.3,75.1 455.4,75.1 487.5,69.0 519.6,62.9 551.7,50.7 583.8,38.5 615.9,32.4 648.0,20.2" fill="none" stroke="#3987e5" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" /></svg>
+  <p class="provenance">INSEE · Licence Ouverte 2.0 · Q2 2026</p>
+</figure>
+<figure style="padding:11.2px">
+  <figcaption><h3 style="font-size:16px">Slack, Q2 2026</h3>
+    <p class="tiny">Four panels stack into one column below 900px; the rates keep their own
+      denominators and are never put on a shared axis.</p></figcaption>
+  <table style="font-size:12.5px">
+    <thead><tr><th scope="col">Measure</th><th scope="col" class="n">People</th>
+      <th scope="col" class="n">Rate</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Unemployment</th><td class="n">2,677k</td><td class="n">8.3%</td></tr>
+      <tr><th scope="row">Long-term</th><td class="n">671k</td>
+        <td class="n">2.1%</td></tr>
+      <tr><th scope="row">Halo</th><td class="n">1,825k</td>
+        <td class="n">4.4%</td></tr>
+      <tr><th scope="row">Underemployment</th><td class="n">1,296k</td>
+        <td class="n">4.4%</td></tr>
+    </tbody></table>
+</figure>
+<p class="tiny">At this width the map becomes the ranked table with a class swatch per row, because a
+  100-shape choropleth is unreadable on a phone. The table is the same accessible equivalent the
+  desktop map already carries, so nothing is lost — it is promoted, not substituted.</p>
+</div>
+</x-dc>
+</body>
+</html>

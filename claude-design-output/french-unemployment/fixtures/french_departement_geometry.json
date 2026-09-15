@@ -1,0 +1,74 @@
+[
+  {
+    "departement_code": "15",
+    "departement_name": "Cantal",
+    "region_code": "84",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 16621,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[2.17667681,44.63550146],[2.17414299,44.63442739],[2.16958243,44.63810344],[2.16…",
+    "bbox_west": 2.062878,
+    "bbox_south": 44.615766,
+    "bbox_east": 3.37145,
+    "bbox_north": 45.482191
+  },
+  {
+    "departement_code": "2A",
+    "departement_name": "Corse-du-Sud",
+    "region_code": "94",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 16603,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[8.77660535,41.74102476],[8.77269066,41.74164392],[8.75650025,41.7373192],[8.747…",
+    "bbox_west": 8.540151,
+    "bbox_south": 41.366165,
+    "bbox_east": 9.406959,
+    "bbox_north": 42.381567
+  },
+  {
+    "departement_code": "2B",
+    "departement_name": "Haute-Corse",
+    "region_code": "94",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 12282,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[9.07659418,42.12896497],[9.07116023,42.12971112],[9.07454862,42.13275852],[9.07…",
+    "bbox_west": 8.573256,
+    "bbox_south": 41.832182,
+    "bbox_east": 9.559987,
+    "bbox_north": 43.009356
+  },
+  {
+    "departement_code": "75",
+    "departement_name": "Paris",
+    "region_code": "11",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 4461,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[2.26733861,48.83153198],[2.26993076,48.83301113],[2.26778887,48.83458543],[2.26…",
+    "bbox_west": 2.224219,
+    "bbox_south": 48.815604,
+    "bbox_east": 2.469803,
+    "bbox_north": 48.902077
+  },
+  {
+    "departement_code": "973",
+    "departement_name": "Guyane",
+    "region_code": "03",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 42928,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[-53.3185922,2.34265802],[-53.32129808,2.3420813],[-53.32381846,2.33800923],[-53…",
+    "bbox_west": -54.602361,
+    "bbox_south": 2.112678,
+    "bbox_east": -51.619066,
+    "bbox_north": 5.748682
+  },
+  {
+    "departement_code": "976",
+    "departement_name": "Mayotte",
+    "region_code": "06",
+    "geometry_type": "MultiPolygon",
+    "geometry_geojson_length": 8536,
+    "geometry_geojson_excerpt": "{\"type\":\"MultiPolygon\",\"coordinates\":[[[[45.13824954,-12.99135979],[45.13540754,-12.98962237],[45.12968572,-12.99478867]…",
+    "bbox_west": 45.022008,
+    "bbox_south": -12.999953,
+    "bbox_east": 45.298044,
+    "bbox_north": -12.63659
+  }
+]

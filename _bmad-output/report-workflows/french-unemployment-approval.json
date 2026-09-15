@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "handoffSha256": "4563211c6c2c0bc7e27b38bf16804ea696f1a808ffac819ce1b9b427d510a72e",
+  "approvedBy": "yann.fontana@hardis-group.com",
+  "approvedAt": "2026-09-14T16:33:10Z",
+  "permittedChanges": [
+    "Replace the handoff fixture rows with verified rows returned by the report's parameter-bound queries.",
+    "Render the full published IGN departement geometry in place of the decimated review outlines."
+  ]
+}

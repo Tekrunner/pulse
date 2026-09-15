@@ -1,0 +1,66 @@
+id: insee-labour-market
+snapshot_contract: snapshot-contract.yaml
+name: INSEE quarterly ILO labour-market indicators, France
+visibility: public
+acquisition:
+  method: INSEE BDM StructureSpecific SDMX-ML 2.1
+  url: https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011818543+011818548+011818544+011818545+011818547+011818546+011818555+011818599+011818598+011818600+011818596+011818592+011818577+011818581+011818564+011818560+011818623+011818739+011818670+011818680+011818665+011818704+011818737+011818644+011818710
+  series:
+    - id: '011818543'
+      name: "Taux de chômage au sens du BIT - Ensemble - France entière - Données CVS"
+    - id: '011818548'
+      name: "Taux de chômage au sens du BIT - Ensemble des moins de 25 ans - France entière - Données CVS"
+    - id: '011818544'
+      name: "Taux de chômage au sens du BIT - Ensemble des 25 à 49 ans - France entière - Données CVS"
+    - id: '011818545'
+      name: "Taux de chômage au sens du BIT - Ensemble des 50 ans ou plus - France entière - Données CVS"
+    - id: '011818547'
+      name: "Taux de chômage au sens du BIT - Hommes - France entière - Données CVS"
+    - id: '011818546'
+      name: "Taux de chômage au sens du BIT - Femmes - France entière - Données CVS"
+    - id: '011818555'
+      name: "Chômeurs au sens du BIT - Ensemble (en milliers) - France entière - Données CVS"
+    - id: '011818599'
+      name: "Chômeurs au sens du BIT - Ensemble des moins de 25 ans (en milliers) - France entière - Données CVS"
+    - id: '011818598'
+      name: "Chômeurs au sens du BIT - Ensemble des 25 à 49 ans (en milliers) - France entière - Données CVS"
+    - id: '011818600'
+      name: "Chômeurs au sens du BIT - Ensemble des 50 ans ou plus (en milliers) - France entière - Données CVS"
+    - id: '011818596'
+      name: "Chômeurs au sens du BIT - Hommes (en milliers) - France entière - Données CVS"
+    - id: '011818592'
+      name: "Chômeurs au sens du BIT - Femmes (en milliers) - France entière - Données CVS"
+    - id: '011818577'
+      name: "Chômeurs de longue durée - Ensemble (en milliers) - Données CVS - France entière - Données CVS"
+    - id: '011818581'
+      name: "Taux de chômage de longue durée - Ensemble - France entière - Données CVS"
+    - id: '011818564'
+      name: "Personnes dans le halo autour du chômage - Ensemble (en milliers) - France entière - Données CVS"
+    - id: '011818560'
+      name: "Personnes dans le halo autour du chômage - Ensemble des 15 à 64 ans (en milliers) - France entière - Données CVS"
+    - id: '011818623'
+      name: "Personnes dans le halo autour du chômage - Ensemble de 15 à 64 ans (part dans la population) - France entière - Données CVS"
+    - id: '011818739'
+      name: "Nombre total des personnes en situation de sous-emploi (en milliers) - France entière - Données CVS"
+    - id: '011818670'
+      name: "Taux des personnes en situation de sous-emploi - Ensemble - France entière - Données CVS"
+    - id: '011818680'
+      name: "Personnes actives (taux d'activité) au sens du BIT - France entière - Données CVS"
+    - id: '011818665'
+      name: "Personnes actives (taux d'activité) au sens du BIT - Hommes - France entière - Données CVS"
+    - id: '011818704'
+      name: "Personnes actives (taux d'activité) au sens du BIT - Femmes - France entière - Données CVS"
+    - id: '011818737'
+      name: "Personnes actives (taux d'activité) au sens du BIT - Ensemble des 15 à 64 ans - France entière - Données CVS"
+    - id: '011818644'
+      name: "Personnes actives (taux d'activité) au sens du BIT - Hommes de 15 à 64 ans - France entière - Données CVS"
+    - id: '011818710'
+      name: "Personnes actives (taux d'activité) au sens du BIT - Femmes de 15 à 64 ans - France entière - Données CVS"
+fetch_cadence: quarterly, after the INSEE quarterly ILO labour-market release
+expected_publication_advance: quarterly; the ILO unemployment, halo, underemployment and activity series advance together about six weeks after the quarter they describe
+publication_schedule:
+  period: quarterly
+  expected_within_days: 45
+  grace_days: 14
+licence: Licence Ouverte / Open Licence 2.0
+attribution: "Source: INSEE, enquete Emploi, indicateurs trimestriels au sens du BIT."

@@ -1,0 +1,361 @@
+id: insee-local-unemployment
+snapshot_contract: snapshot-contract.yaml
+name: INSEE localised unemployment rates by territory, France
+visibility: public
+acquisition:
+  method: INSEE BDM StructureSpecific SDMX-ML 2.1
+  url: https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/001515842+010754822+001515843+001515847+001739980+001739981+001739982+001739983+001515854+001515855+001739984+001739985+001739986+001515864+001515865+001515866+001515867+001515868+001515869+001515870+001515871+001515872+001515873+001515874+001515875+001515876+001515862+001515877+001515878+001515879+001515880+001515881+001515882+001515883+001515886+001515887+001515888+001515889+001515890+001515891+001515892+001515893+001515894+001515884+001515885+001515895+001515896+001515897+001515898+001515899+001515900+001515901+001515902+001515903+001515904+001515905+001515906+001515907+001515908+001515909+001515910+001515911+001515912+001515913+001515914+001515915+001515916+001515917+001515918+001515919+001515920+001515921+001515922+001515923+001515924+001515925+001515926+001515927+001515928+001515929+001515930+001515931+001515932+001515933+001515934+001515935+001515936+001515937+001515938+001515939+001515940+001515941+001515942+001515943+001515944+001515945+001515946+001515947+001515960+001515948+001515949+001515950+001515951+001515952+001515953+001515954+001515955+001515956+001515957+001515958+001515959+010751337+010751338+010751339+010751340
+  series:
+    - id: '001515842'
+      ref_area: 'FM'
+      name: "Taux de chômage localisé par région - France métropolitaine"
+    - id: '010754822'
+      ref_area: 'FR-D976'
+      name: "Taux de chômage localisé par région - France entière (hors Mayotte)"
+    - id: '001515843'
+      ref_area: 'R11'
+      name: "Taux de chômage localisé par région - Île-de-France"
+    - id: '001515847'
+      ref_area: 'R24'
+      name: "Taux de chômage localisé par région - Centre-Val de Loire"
+    - id: '001739980'
+      ref_area: 'R27'
+      name: "Taux de chômage localisé par région - Bourgogne-Franche-Comté"
+    - id: '001739981'
+      ref_area: 'R28'
+      name: "Taux de chômage localisé par région - Normandie"
+    - id: '001739982'
+      ref_area: 'R32'
+      name: "Taux de chômage localisé par région - Hauts-de-France"
+    - id: '001739983'
+      ref_area: 'R44'
+      name: "Taux de chômage localisé par région - Grand Est"
+    - id: '001515854'
+      ref_area: 'R52'
+      name: "Taux de chômage localisé par région - Pays de la Loire"
+    - id: '001515855'
+      ref_area: 'R53'
+      name: "Taux de chômage localisé par région - Bretagne"
+    - id: '001739984'
+      ref_area: 'R75'
+      name: "Taux de chômage localisé par région - Nouvelle-Aquitaine"
+    - id: '001739985'
+      ref_area: 'R76'
+      name: "Taux de chômage localisé par région - Occitanie"
+    - id: '001739986'
+      ref_area: 'R84'
+      name: "Taux de chômage localisé par région - Auvergne-Rhône-Alpes"
+    - id: '001515864'
+      ref_area: 'R93'
+      name: "Taux de chômage localisé par région - Provence-Alpes-Côte d'Azur"
+    - id: '001515865'
+      ref_area: 'R94'
+      name: "Taux de chômage localisé par région - Corse"
+    - id: '001515866'
+      ref_area: 'D01'
+      name: "Taux de chômage localisé par département - Ain"
+    - id: '001515867'
+      ref_area: 'D02'
+      name: "Taux de chômage localisé par département - Aisne"
+    - id: '001515868'
+      ref_area: 'D03'
+      name: "Taux de chômage localisé par département - Allier"
+    - id: '001515869'
+      ref_area: 'D04'
+      name: "Taux de chômage localisé par département - Alpes-de-Haute-Provence"
+    - id: '001515870'
+      ref_area: 'D05'
+      name: "Taux de chômage localisé par département - Hautes-Alpes"
+    - id: '001515871'
+      ref_area: 'D06'
+      name: "Taux de chômage localisé par département - Alpes-Maritimes"
+    - id: '001515872'
+      ref_area: 'D07'
+      name: "Taux de chômage localisé par département - Ardèche"
+    - id: '001515873'
+      ref_area: 'D08'
+      name: "Taux de chômage localisé par département - Ardennes"
+    - id: '001515874'
+      ref_area: 'D09'
+      name: "Taux de chômage localisé par département - Ariège"
+    - id: '001515875'
+      ref_area: 'D10'
+      name: "Taux de chômage localisé par département - Aube"
+    - id: '001515876'
+      ref_area: 'D11'
+      name: "Taux de chômage localisé par département - Aude"
+    - id: '001515862'
+      ref_area: 'D12'
+      name: "Taux de chômage localisé par département - Aveyron"
+    - id: '001515877'
+      ref_area: 'D13'
+      name: "Taux de chômage localisé par département - Bouches-du-Rhône"
+    - id: '001515878'
+      ref_area: 'D14'
+      name: "Taux de chômage localisé par département - Calvados"
+    - id: '001515879'
+      ref_area: 'D15'
+      name: "Taux de chômage localisé par département - Cantal"
+    - id: '001515880'
+      ref_area: 'D16'
+      name: "Taux de chômage localisé par département - Charente"
+    - id: '001515881'
+      ref_area: 'D17'
+      name: "Taux de chômage localisé par département - Charente-Maritime"
+    - id: '001515882'
+      ref_area: 'D18'
+      name: "Taux de chômage localisé par département - Cher"
+    - id: '001515883'
+      ref_area: 'D19'
+      name: "Taux de chômage localisé par département - Corrèze"
+    - id: '001515886'
+      ref_area: 'D21'
+      name: "Taux de chômage localisé par département - Côte-d'Or"
+    - id: '001515887'
+      ref_area: 'D22'
+      name: "Taux de chômage localisé par département - Côtes-d'Armor"
+    - id: '001515888'
+      ref_area: 'D23'
+      name: "Taux de chômage localisé par département - Creuse"
+    - id: '001515889'
+      ref_area: 'D24'
+      name: "Taux de chômage localisé par département - Dordogne"
+    - id: '001515890'
+      ref_area: 'D25'
+      name: "Taux de chômage localisé par département - Doubs"
+    - id: '001515891'
+      ref_area: 'D26'
+      name: "Taux de chômage localisé par département - Drôme"
+    - id: '001515892'
+      ref_area: 'D27'
+      name: "Taux de chômage localisé par département - Eure"
+    - id: '001515893'
+      ref_area: 'D28'
+      name: "Taux de chômage localisé par département - Eure-et-Loir"
+    - id: '001515894'
+      ref_area: 'D29'
+      name: "Taux de chômage localisé par département - Finistère"
+    - id: '001515884'
+      ref_area: 'D2A'
+      name: "Taux de chômage localisé par département - Corse-du-Sud"
+    - id: '001515885'
+      ref_area: 'D2B'
+      name: "Taux de chômage localisé par département - Haute-Corse"
+    - id: '001515895'
+      ref_area: 'D30'
+      name: "Taux de chômage localisé par département - Gard"
+    - id: '001515896'
+      ref_area: 'D31'
+      name: "Taux de chômage localisé par département - Haute-Garonne"
+    - id: '001515897'
+      ref_area: 'D32'
+      name: "Taux de chômage localisé par département - Gers"
+    - id: '001515898'
+      ref_area: 'D33'
+      name: "Taux de chômage localisé par département - Gironde"
+    - id: '001515899'
+      ref_area: 'D34'
+      name: "Taux de chômage localisé par département - Hérault"
+    - id: '001515900'
+      ref_area: 'D35'
+      name: "Taux de chômage localisé par département - Ille-et-Vilaine"
+    - id: '001515901'
+      ref_area: 'D36'
+      name: "Taux de chômage localisé par département - Indre"
+    - id: '001515902'
+      ref_area: 'D37'
+      name: "Taux de chômage localisé par département - Indre-et-Loire"
+    - id: '001515903'
+      ref_area: 'D38'
+      name: "Taux de chômage localisé par département - Isère"
+    - id: '001515904'
+      ref_area: 'D39'
+      name: "Taux de chômage localisé par département - Jura"
+    - id: '001515905'
+      ref_area: 'D40'
+      name: "Taux de chômage localisé par département - Landes"
+    - id: '001515906'
+      ref_area: 'D41'
+      name: "Taux de chômage localisé par département - Loir-et-Cher"
+    - id: '001515907'
+      ref_area: 'D42'
+      name: "Taux de chômage localisé par département - Loire"
+    - id: '001515908'
+      ref_area: 'D43'
+      name: "Taux de chômage localisé par département - Haute-Loire"
+    - id: '001515909'
+      ref_area: 'D44'
+      name: "Taux de chômage localisé par département - Loire-Atlantique"
+    - id: '001515910'
+      ref_area: 'D45'
+      name: "Taux de chômage localisé par département - Loiret"
+    - id: '001515911'
+      ref_area: 'D46'
+      name: "Taux de chômage localisé par département - Lot"
+    - id: '001515912'
+      ref_area: 'D47'
+      name: "Taux de chômage localisé par département - Lot-et-Garonne"
+    - id: '001515913'
+      ref_area: 'D48'
+      name: "Taux de chômage localisé par département - Lozère"
+    - id: '001515914'
+      ref_area: 'D49'
+      name: "Taux de chômage localisé par département - Maine-et-Loire"
+    - id: '001515915'
+      ref_area: 'D50'
+      name: "Taux de chômage localisé par département - Manche"
+    - id: '001515916'
+      ref_area: 'D51'
+      name: "Taux de chômage localisé par département - Marne"
+    - id: '001515917'
+      ref_area: 'D52'
+      name: "Taux de chômage localisé par département - Haute-Marne"
+    - id: '001515918'
+      ref_area: 'D53'
+      name: "Taux de chômage localisé par département - Mayenne"
+    - id: '001515919'
+      ref_area: 'D54'
+      name: "Taux de chômage localisé par département - Meurthe-et-Moselle"
+    - id: '001515920'
+      ref_area: 'D55'
+      name: "Taux de chômage localisé par département - Meuse"
+    - id: '001515921'
+      ref_area: 'D56'
+      name: "Taux de chômage localisé par département - Morbihan"
+    - id: '001515922'
+      ref_area: 'D57'
+      name: "Taux de chômage localisé par département - Moselle"
+    - id: '001515923'
+      ref_area: 'D58'
+      name: "Taux de chômage localisé par département - Nièvre"
+    - id: '001515924'
+      ref_area: 'D59'
+      name: "Taux de chômage localisé par département - Nord"
+    - id: '001515925'
+      ref_area: 'D60'
+      name: "Taux de chômage localisé par département - Oise"
+    - id: '001515926'
+      ref_area: 'D61'
+      name: "Taux de chômage localisé par département - Orne"
+    - id: '001515927'
+      ref_area: 'D62'
+      name: "Taux de chômage localisé par département - Pas-de-Calais"
+    - id: '001515928'
+      ref_area: 'D63'
+      name: "Taux de chômage localisé par département - Puy-de-Dôme"
+    - id: '001515929'
+      ref_area: 'D64'
+      name: "Taux de chômage localisé par département - Pyrénées-Atlantiques"
+    - id: '001515930'
+      ref_area: 'D65'
+      name: "Taux de chômage localisé par département - Hautes-Pyrénées"
+    - id: '001515931'
+      ref_area: 'D66'
+      name: "Taux de chômage localisé par département - Pyrénées-Orientales"
+    - id: '001515932'
+      ref_area: 'D67'
+      name: "Taux de chômage localisé par département - Bas-Rhin"
+    - id: '001515933'
+      ref_area: 'D68'
+      name: "Taux de chômage localisé par département - Haut-Rhin"
+    - id: '001515934'
+      ref_area: 'D69'
+      name: "Taux de chômage localisé par département - Rhône"
+    - id: '001515935'
+      ref_area: 'D70'
+      name: "Taux de chômage localisé par département - Haute-Saône"
+    - id: '001515936'
+      ref_area: 'D71'
+      name: "Taux de chômage localisé par département - Saône-et-Loire"
+    - id: '001515937'
+      ref_area: 'D72'
+      name: "Taux de chômage localisé par département - Sarthe"
+    - id: '001515938'
+      ref_area: 'D73'
+      name: "Taux de chômage localisé par département - Savoie"
+    - id: '001515939'
+      ref_area: 'D74'
+      name: "Taux de chômage localisé par département - Haute-Savoie"
+    - id: '001515940'
+      ref_area: 'D75'
+      name: "Taux de chômage localisé par département - Paris"
+    - id: '001515941'
+      ref_area: 'D76'
+      name: "Taux de chômage localisé par département - Seine-Maritime"
+    - id: '001515942'
+      ref_area: 'D77'
+      name: "Taux de chômage localisé par département - Seine-et-Marne"
+    - id: '001515943'
+      ref_area: 'D78'
+      name: "Taux de chômage localisé par département - Yvelines"
+    - id: '001515944'
+      ref_area: 'D79'
+      name: "Taux de chômage localisé par département - Deux-Sèvres"
+    - id: '001515945'
+      ref_area: 'D80'
+      name: "Taux de chômage localisé par département - Somme"
+    - id: '001515946'
+      ref_area: 'D81'
+      name: "Taux de chômage localisé par département - Tarn"
+    - id: '001515947'
+      ref_area: 'D82'
+      name: "Taux de chômage localisé par département - Tarn-et-Garonne"
+    - id: '001515960'
+      ref_area: 'D83'
+      name: "Taux de chômage localisé par département - Var"
+    - id: '001515948'
+      ref_area: 'D84'
+      name: "Taux de chômage localisé par département - Vaucluse"
+    - id: '001515949'
+      ref_area: 'D85'
+      name: "Taux de chômage localisé par département - Vendée"
+    - id: '001515950'
+      ref_area: 'D86'
+      name: "Taux de chômage localisé par département - Vienne"
+    - id: '001515951'
+      ref_area: 'D87'
+      name: "Taux de chômage localisé par département - Haute-Vienne"
+    - id: '001515952'
+      ref_area: 'D88'
+      name: "Taux de chômage localisé par département - Vosges"
+    - id: '001515953'
+      ref_area: 'D89'
+      name: "Taux de chômage localisé par département - Yonne"
+    - id: '001515954'
+      ref_area: 'D90'
+      name: "Taux de chômage localisé par département - Territoire de Belfort"
+    - id: '001515955'
+      ref_area: 'D91'
+      name: "Taux de chômage localisé par département - Essonne"
+    - id: '001515956'
+      ref_area: 'D92'
+      name: "Taux de chômage localisé par département - Hauts-de-Seine"
+    - id: '001515957'
+      ref_area: 'D93'
+      name: "Taux de chômage localisé par département - Seine-Saint-Denis"
+    - id: '001515958'
+      ref_area: 'D94'
+      name: "Taux de chômage localisé par département - Val-de-Marne"
+    - id: '001515959'
+      ref_area: 'D95'
+      name: "Taux de chômage localisé par département - Val-d'Oise"
+    - id: '010751337'
+      ref_area: 'D971'
+      name: "Taux de chômage localisé par département - Guadeloupe"
+    - id: '010751338'
+      ref_area: 'D972'
+      name: "Taux de chômage localisé par département - Martinique"
+    - id: '010751339'
+      ref_area: 'D973'
+      name: "Taux de chômage localisé par département - Guyane"
+    - id: '010751340'
+      ref_area: 'D974'
+      name: "Taux de chômage localisé par département - La Réunion"
+fetch_cadence: quarterly, after the INSEE localised unemployment rate release
+expected_publication_advance: quarterly; localised rates advance about eleven weeks after the quarter they describe, roughly five weeks later than the national ILO series
+publication_schedule:
+  period: quarterly
+  expected_within_days: 85
+  grace_days: 14
+licence: Licence Ouverte / Open Licence 2.0
+attribution: "Source: INSEE, taux de chomage localises."

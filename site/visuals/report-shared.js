@@ -51,6 +51,36 @@ export function signed(value, dp = 1, suffix = "") {
   const n = Number(value);
   return `${n < 0 ? "−" : "+"}${Math.abs(n).toFixed(dp)}${suffix}`;
 }
+export function quarterLabel(p, short = false) {
+  const [y, m] = p.split("-");
+  return `Q${Math.floor((Number(m) - 1) / 3) + 1} ${short ? y.slice(2) : y}`;
+}
+/**
+ * A rounded domain that spans the data instead of anchoring at zero. A rate
+ * that never leaves the 4-to-11 band is unreadable on a zero-based axis, and
+ * these series are levels rather than changes, so zero carries no meaning that
+ * would justify the lost resolution.
+ */
+export function niceSpan(min, max, pad = 0.08) {
+  let lo = min,
+    hi = max;
+  if (lo === hi) {
+    lo -= 0.5;
+    hi += 0.5;
+  }
+  const margin = (hi - lo) * pad;
+  lo -= margin;
+  hi += margin;
+  const raw = (hi - lo) / 4,
+    mag = 10 ** Math.floor(Math.log10(raw)),
+    step =
+      [1, 2, 2.5, 5, 10].map((x) => x * mag).find((x) => x >= raw) || 10 * mag;
+  return {
+    lo: Math.floor(lo / step) * step,
+    hi: Math.ceil(hi / step) * step,
+    step,
+  };
+}
 export function niceDomain(min, max) {
   let lo = Math.min(0, min),
     hi = Math.max(0, max);
@@ -209,13 +239,21 @@ export function grid(
   }
   return rows;
 }
-export function xTicks(overlay, rows, scale, top, width, labelWidth = 64) {
+export function xTicks(
+  overlay,
+  rows,
+  scale,
+  top,
+  width,
+  labelWidth = 64,
+  label = periodLabel,
+) {
   for (const i of tickIndices(rows.length, scale.inner)) {
     const left = Math.max(
       scale.padL - 10,
       Math.min(width - labelWidth, scale.x(i) - labelWidth / 2),
     );
-    overlayLabel(overlay, periodLabel(rows[i].period, true), left, top, {
+    overlayLabel(overlay, label(rows[i].period, true), left, top, {
       width: labelWidth,
     });
   }
@@ -248,4 +286,50 @@ export function enablePicking(svg, count, padL, inner) {
       }),
     );
   });
+}
+
+/**
+ * Selected-observation chips placed beside the selection line rather than
+ * under the figure, so reading a value costs no eye travel. Chips are stacked
+ * apart when two series are close, pushed back inside the plot when the stack
+ * would overflow it, and flipped to the left of the line once the selection
+ * passes the middle — which is where it sits by default, at the series end.
+ */
+export function placeChips(overlay, chips, { x, width, height, flip, top = 8, bottom = 34 }) {
+  const ordered = [...chips].sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ordered.length; i += 1) {
+    ordered[i].labelY = Math.max(
+      ordered[i].y,
+      (ordered[i - 1].labelY ?? ordered[i - 1].y) + 17,
+    );
+  }
+  const overflow = (ordered.at(-1)?.labelY ?? 0) - (height - bottom);
+  if (overflow > 0) for (const chip of ordered) chip.labelY = (chip.labelY ?? chip.y) - overflow;
+  for (const chip of ordered) {
+    chip.labelY = Math.max(top, Math.min(height - bottom, chip.labelY ?? chip.y));
+  }
+  for (const chip of ordered) {
+    const chipWidth = Math.min(190, Math.max(76, chip.text.length * 6.8 + 12)),
+      left = flip ? x - chipWidth - 7 : x + 7,
+      node = overlayLabel(
+        overlay,
+        chip.text,
+        Math.max(4, Math.min(width - chipWidth - 4, left)),
+        chip.labelY - 8,
+        { width: chipWidth, align: "left", color: chip.color, className: "selection-chip" },
+      );
+    node.style.background = "#1f2233";
+  }
+}
+
+// Headcounts are published in thousands, to one decimal, and read in millions.
+// Rounded on the integer hundredths rather than by toFixed: 1,825.0 thousand is
+// 1.825 million, which is not exactly representable, so toFixed(2) would show
+// 1.82 and lose the half upwards.
+export function millionsValue(value) {
+  return (Math.round(Number(value) / 10) / 100).toFixed(2);
+}
+export function millions(value, { long = false } = {}) {
+  const text = millionsValue(value);
+  return long ? `${text} million` : `${text}M`;
 }

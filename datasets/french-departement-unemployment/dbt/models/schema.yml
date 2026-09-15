@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: french_departement_unemployment
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: territory_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [country, region, departement]
+      - name: territory_code
+        data_tests: [not_null]
+      - name: territory_name
+        data_tests: [not_null]
+      - name: provider_ref_area
+        data_tests: [not_null]
+      - name: unemployment_rate_pct
+        data_tests:
+          - not_null
+          - within_range:
+              arguments:
+                minimum: 0
+                maximum: 100

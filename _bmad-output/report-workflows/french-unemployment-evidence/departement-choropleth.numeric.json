@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-unemployment",
+  "visualId": "departement-choropleth",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "departement-geometry (row spine) joined by the report to departement-rates",
+  "parameters": {
+    "departement-geometry": [],
+    "departement-rates": [
+      "2016-10-01",
+      "2026-04-01"
+    ]
+  },
+  "publishedBoundaries": 101,
+  "displayedShapes": 101,
+  "pinnedObservations": [
+    {
+      "observation": "2026-01-01 / 973",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "19.3",
+      "queryOutput": 19.3,
+      "mappedJavaScript": 19.3,
+      "displayedText": "19.3",
+      "absenceTreatment": null
+    },
+    {
+      "observation": "2026-01-01 / 2A",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "6.6",
+      "queryOutput": 6.6,
+      "mappedJavaScript": 6.6,
+      "displayedText": "6.6",
+      "absenceTreatment": null
+    },
+    {
+      "observation": "2026-01-01 / 75",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "6.3",
+      "queryOutput": 6.3,
+      "mappedJavaScript": 6.3,
+      "displayedText": "6.3",
+      "absenceTreatment": null
+    },
+    {
+      "observation": "2026-01-01 / 15",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "4.7",
+      "queryOutput": 4.7,
+      "mappedJavaScript": 4.7,
+      "displayedText": "4.7",
+      "absenceTreatment": null
+    },
+    {
+      "observation": "2026-01-01 / 59",
+      "column": "unemployment_rate_pct",
+      "storedParquet": "10.5",
+      "queryOutput": 10.5,
+      "mappedJavaScript": 10.5,
+      "displayedText": "10.5",
+      "absenceTreatment": null
+    },
+    {
+      "observation": "2026-01-01 / 976",
+      "column": "unemployment_rate_pct",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": null,
+      "displayedText": "not published",
+      "absenceTreatment": "not published — a distinct fill, a dashed edge and a named legend class; never zero and never a missing shape"
+    }
+  ],
+  "nationalReference": {
+    "storedParquet": "7.9",
+    "displayedText": "National reference, same quarter and same source: France métropolitaine 7.9%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead."
+  },
+  "displayedOnPage": {
+    "title": "Localised unemployment rate by département, Q1 2026",
+    "readout": "Selected: Guyane (973) · 19.3% · Q1 2026 — click or focus any département to select it",
+    "nationalReference": "National reference, same quarter and same source: France métropolitaine 7.9%. This is the reference published inside the localised series, measured for metropolitan France; the national headline above is measured for France including Mayotte and is normally a quarter ahead.",
+    "shapes": 101,
+    "pinned": {
+      "15": "Cantal, 15: 4.7 percent",
+      "59": "Nord, 59: 10.5 percent",
+      "75": "Paris, 75: 6.3 percent",
+      "973": "Guyane, 973: 19.3 percent",
+      "976": "Mayotte, 976: no rate published",
+      "2A": "Corse-du-Sud, 2A: 6.6 percent"
+    },
+    "tableRows": [
+      [
+        "Guyane",
+        "973",
+        "19.3",
+        "5 of 5"
+      ],
+      [
+        "Nord",
+        "59",
+        "10.5",
+        "5 of 5"
+      ],
+      [
+        "Corse-du-Sud",
+        "2A",
+        "6.6",
+        "2 of 5"
+      ],
+      [
+        "Paris",
+        "75",
+        "6.3",
+        "2 of 5"
+      ],
+      [
+        "Cantal",
+        "15",
+        "4.7",
+        "1 of 5"
+      ],
+      [
+        "Mayotte",
+        "976",
+        "not published",
+        "not published"
+      ]
+    ]
+  },
+  "conversionPaths": [
+    "DECIMAL(10,1) → DOUBLE → Number() → toFixed(1) for a published rate",
+    "SQL NULL → null → the not-published class, asserted never to become 0",
+    "DECIMAL(9,6) bounding box → DOUBLE → equirectangular projection scaled by cos(mid-latitude)"
+  ]
+}

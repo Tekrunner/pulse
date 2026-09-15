@@ -1,0 +1,164 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the quarter the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "Whether the row is a national reference, a region or a departement.",
+      "name": "territory_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The bare INSEE departement code for departements, so the row joins directly to boundary geometry; the provider region or national code otherwise.",
+      "name": "territory_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The territory name as INSEE writes it in the series title.",
+      "name": "territory_name",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The provider's own REF_AREA code, retained so a row can always be traced back to the exact snapshot series it came from.",
+      "name": "provider_ref_area",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Localised ILO unemployment rate for the territory, seasonally adjusted, as a percentage of the local labour force.",
+      "name": "unemployment_rate_pct",
+      "type": "DECIMAL(10,1)"
+    }
+  ],
+  "content_sha256": "4c4ce328448ad9d8e22ceceea4ac1788c26b88f0e0517f8f2753fcbab3802799",
+  "dataset_id": "french-departement-unemployment",
+  "indicators": [
+    {
+      "attribution": "Source: INSEE, taux de chomage localises.",
+      "column": "unemployment_rate_pct",
+      "definition": "Localised ILO (BIT) unemployment rate published by INSEE for the territory, seasonally adjusted, expressed as a percentage of the labour force resident in that territory.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE, taux de chomage localises, quarterly, seasonally adjusted, dataflow TAUX-CHOMAGE",
+      "unit": "Percent"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "snapshot_id": "acq-f7cc804479e4468aa432a9d8e3a3cce3-9a49f4653c1b",
+    "snapshot_sha256": "9a49f4653c1b0665dc6f3fe2b0fe66e1e6b5459fcbfd635c11ee1fb916c72299",
+    "territory_quarters": 19715
+  },
+  "logical_table": "french_departement_unemployment",
+  "model": {
+    "description": "One row per quarter and territory carrying the published INSEE localised unemployment rate, for metropolitan France, France excluding Mayotte, the 13 metropolitan regions and 100 departements.",
+    "name": "french_departement_unemployment"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "territory_kind",
+        "territory_code",
+        "territory_name",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Select the published localised rate for every row whose territory_kind is departement, for one quarter, and join to boundary geometry on territory_code.",
+      "id": "unemployment-across-departements",
+      "question": "How unevenly is unemployment spread across the French departements, and where are the extremes?"
+    },
+    {
+      "columns": [
+        "period",
+        "territory_kind",
+        "territory_code",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Compare each departement row with the country row for the same quarter. Use the country rows in THIS table, never the national headline from french-labour-market-quarterly, which is measured on a different geography.",
+      "id": "departement-against-the-national-reference",
+      "question": "Which departements sit above and below the national rate?"
+    },
+    {
+      "columns": [
+        "period",
+        "territory_code",
+        "territory_name",
+        "unemployment_rate_pct"
+      ],
+      "derivation": "Select all quarters for a single territory_code, ordered by period.",
+      "id": "departement-over-time",
+      "question": "How has unemployment in one departement moved over time?"
+    }
+  ],
+  "represented_period": {
+    "end": "2026-03-31",
+    "start": "1982-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "insee-local-unemployment",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "quarter by territory",
+    "meaning": "Each period is the first day of the calendar quarter the observation describes, from the provider's YYYY-Qn. The grain is one row per period and territory_code. The panel is NOT rectangular: the 96 metropolitan departements, the regions and the national references run from 1982-Q1, while Guadeloupe, Martinique, Guyane and La Reunion begin only at 2014-Q1. A consumer that lets a reader reach a quarter before 2014 must show those four as unpublished rather than as zero or as absent shapes. These rates are also released about five weeks later than the national ILO series, so the latest quarter here is normally one behind french-labour-market-quarterly.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "territory_code"
+      ],
+      "description": "The compound key of period and territory_code is unique.",
+      "name": "one-row-per-territory-and-quarter"
+    },
+    {
+      "columns": [
+        "territory_name"
+      ],
+      "description": "Every territory name was successfully parsed from the provider title.",
+      "name": "territory-names-are-decoded"
+    },
+    {
+      "columns": [
+        "period",
+        "territory_kind",
+        "territory_code",
+        "territory_name",
+        "provider_ref_area",
+        "unemployment_rate_pct"
+      ],
+      "description": "No published column is ever null.",
+      "name": "required-values"
+    },
+    {
+      "columns": [
+        "unemployment_rate_pct"
+      ],
+      "description": "Every rate lies between 0 and 100.",
+      "name": "rates-within-zero-and-one-hundred"
+    },
+    {
+      "columns": [
+        "territory_kind"
+      ],
+      "description": "Every row is a country, region or departement.",
+      "name": "territory-kinds-are-known"
+    },
+    {
+      "columns": [
+        "period",
+        "territory_kind",
+        "territory_code"
+      ],
+      "description": "Every quarter carries all 96 metropolitan departements, and every quarter from 2014-Q1 carries all 100. INSEE publishes the four overseas departements only from 2014-Q1, so a quarter before that has 96 rows by design, not by omission.",
+      "name": "departement-coverage-matches-provider-history"
+    }
+  ],
+  "visibility": "public"
+}
