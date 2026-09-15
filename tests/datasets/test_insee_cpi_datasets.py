@@ -50,10 +50,15 @@ def _latest_snapshot_id() -> str:
 
 def test_dataset_packages_are_discovered_independently() -> None:
     declarations = discover_datasets()
-    assert set(declarations) == {"insee-cpi-monthly", "insee-cpi-category-analysis"}
+    # Every declared package, whatever its source, must be registry-free and
+    # carry its prose contract beside the machine-readable one.
     assert all("/" not in item.dataset_id for item in declarations.values())
-    assert all(item.source_id == "insee-cpi" for item in declarations.values())
     assert all((item.path.parent / "dataset-contract.md").is_file() for item in declarations.values())
+
+    consumer_packages = {
+        dataset_id: item for dataset_id, item in declarations.items() if item.source_id == "insee-cpi"
+    }
+    assert set(consumer_packages) == {"insee-cpi-monthly", "insee-cpi-category-analysis"}
 
 
 def test_monthly_build_preserves_analytical_rows_schema_and_bytes(tmp_path: Path) -> None:
@@ -196,7 +201,7 @@ def test_neutral_dataset_package_builds_without_shared_runtime_changes(tmp_path:
         "id: example-source\nname: Example source\nvisibility: public\n"
         "snapshot_contract: snapshot-contract.yaml\nacquisition: {native: example}\n"
         "fetch_cadence: monthly\nexpected_publication_advance: monthly\n"
-        "publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}\n"
+        "publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}\n"
         "licence: Open\nattribution: Example\n",
         encoding="utf-8",
     )

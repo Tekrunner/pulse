@@ -105,7 +105,7 @@ acquisition:
   provider_specific_key: anything
 fetch_cadence: weekly
 expected_publication_advance: weekly
-publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}
+publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}
 licence: Open licence
 attribution: "Source: Example."
 """,
@@ -343,7 +343,7 @@ snapshot_contract: snapshot-contract.yaml
 acquisition: {native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
-publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}
+publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}
 licence: Open
 attribution: Example
 """,
@@ -393,7 +393,7 @@ snapshot_contract: snapshot-contract.yaml
 acquisition: {provider_native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
-publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}
+publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}
 licence: Open
 attribution: Example
 """,
@@ -438,7 +438,7 @@ snapshot_contract: snapshot-contract.yaml
 acquisition: {native: value}
 fetch_cadence: daily
 expected_publication_advance: daily
-publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}
+publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}
 licence: Open
 attribution: Example
 """,

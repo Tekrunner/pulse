@@ -11,7 +11,7 @@ import {
 } from "../../site/data/status-client.js";
 import { STATUS_SCENARIOS, statusScenarioCatalog } from "../../site/data/status-scenarios.js";
 
-const SCHEDULE = { period: "monthly", expectedByDayOfFollowingMonth: 15, graceDays: 7 };
+const SCHEDULE = { period: "monthly", expectedWithinDays: 15, graceDays: 7 };
 const at = (value) => new Date(value);
 
 function datasetEntry(overrides = {}) {

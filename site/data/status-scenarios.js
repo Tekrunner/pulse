@@ -8,7 +8,7 @@
  */
 import { StatusClientError, validateStatusCatalog } from "./status-client.js";
 
-const SCHEDULE = { period: "monthly", expectedByDayOfFollowingMonth: 15, graceDays: 7 };
+const SCHEDULE = { period: "monthly", expectedWithinDays: 15, graceDays: 7 };
 const ATTEMPT = "2026-09-09T07:52:02Z";
 const ACQUIRED = "2026-09-07T20:24:29Z";
 const MONTHLY_HASH = "39e166e9ee601157f50977183bb18c46cb2b7cbe5e1f77925e829453f22680bf";

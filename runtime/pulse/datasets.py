@@ -6,6 +6,7 @@ from dataclasses import dataclass
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import re
 import shutil
@@ -524,8 +525,11 @@ def _publish_pair(target: Path, candidate: Path, manifest: DatasetManifest) -> N
         if attempt_path.is_file():
             shutil.copyfile(attempt_path, staged / "attempt.json")
         for path in (staged / "dataset.parquet", staged / "dataset.json"):
-            with path.open("rb") as handle:
-                import os
+            # Opened read-write, not read-only: POSIX allows fsync on an
+            # O_RDONLY descriptor but Windows rejects it with EBADF, so a
+            # read-only handle here makes every publication fail on Windows.
+            # "rb+" writes nothing; it only yields a descriptor fsync accepts.
+            with path.open("rb+") as handle:
                 os.fsync(handle.fileno())
         if backup.exists():
             shutil.rmtree(backup)

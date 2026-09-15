@@ -25,7 +25,10 @@ def _publication(tmp_path: Path) -> Path:
 def test_compiles_complete_public_insee_contract_with_manifest_relative_url(tmp_path: Path) -> None:
     catalog = compile_browser_catalog(_publication(tmp_path))
 
-    assert set(catalog["datasets"]) == {
+    # A superset, not an equality: this compiles the real publication tree, so
+    # every dataset the repository later publishes would otherwise break a test
+    # whose subject is the compiled contract shape, not the catalog's membership.
+    assert set(catalog["datasets"]) >= {
         "insee-cpi-monthly",
         "insee-cpi-category-analysis",
     }

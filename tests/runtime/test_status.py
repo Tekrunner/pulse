@@ -47,7 +47,7 @@ MONTHLY = "dataset:insee-cpi-monthly"
 CATEGORY = "dataset:insee-cpi-category-analysis"
 SOURCE = "source:insee-cpi"
 SITE = "system:site"
-SCHEDULE = {"period": "monthly", "expectedByDayOfFollowingMonth": 15, "graceDays": 7}
+SCHEDULE = {"period": "monthly", "expectedWithinDays": 15, "graceDays": 7}
 
 
 def _archive(tmp_path: Path) -> Path:
@@ -79,10 +79,24 @@ def _stages(entry: dict) -> dict[str, str]:
     return {stage["stage"]: stage["state"] for stage in entry["stages"]}
 
 
+def _declared_pipelines() -> set[str]:
+    """Every declared source and dataset, derived rather than hardcoded.
+
+    A literal set here would turn "a source was added" into three unrelated
+    test failures, which says nothing about whether the catalog is correct.
+    """
+    return (
+        {f"source:{source_id}" for source_id in discover_sources()}
+        | {f"dataset:{dataset_id}" for dataset_id in discover_datasets()}
+        | {SITE}
+    )
+
+
 def test_expected_catalog_holds_every_declared_source_and_dataset_pipeline() -> None:
     catalog = compile_expected_pipelines()
 
-    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY, SITE}
+    assert set(catalog["pipelines"]) == _declared_pipelines()
+    assert {SOURCE, MONTHLY, CATEGORY, SITE} <= set(catalog["pipelines"])
     assert catalog["pipelines"][SOURCE]["kind"] == "source"
     assert catalog["pipelines"][MONTHLY]["kind"] == "dataset"
     assert catalog["pipelines"][SOURCE]["name"] == discover_sources()["insee-cpi"].name
@@ -96,7 +110,16 @@ def test_expected_catalog_holds_every_declared_source_and_dataset_pipeline() -> 
 def test_public_expected_catalog_is_limited_to_explicit_dataset_closure() -> None:
     catalog = compile_expected_pipelines(dataset_ids=("insee-cpi-monthly",))
 
-    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, SITE}
+    # Datasets are narrowed to the requested closure; public sources are not,
+    # because a public snapshot is independently visible before any dataset
+    # consumes it.
+    assert {name for name in catalog["pipelines"] if name.startswith("dataset:")} == {MONTHLY}
+    assert {name for name in catalog["pipelines"] if name.startswith("source:")} == {
+        f"source:{source_id}"
+        for source_id, declaration in discover_sources().items()
+        if declaration.visibility == "public"
+    }
+    assert SOURCE in catalog["pipelines"] and SITE in catalog["pipelines"]
 
 
 def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_output(
@@ -104,7 +127,7 @@ def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_out
 ) -> None:
     catalog = _compile(tmp_path)
 
-    assert set(catalog["pipelines"]) == {SOURCE, MONTHLY, CATEGORY, SITE}
+    assert set(catalog["pipelines"]) == _declared_pipelines()
     monthly = catalog["pipelines"][MONTHLY]
     assert _stages(monthly) == {"transform": "succeeded", "test": "succeeded", "publish-data": "succeeded"}
     assert monthly["state"] == "succeeded"
@@ -472,15 +495,39 @@ def test_published_dataset_may_not_publish_a_derived_or_failed_state(tmp_path: P
     (
         None,
         {},
-        {"period": "weekly", "expected_by_day_of_following_month": 15, "grace_days": 7},
-        {"period": "monthly", "expected_by_day_of_following_month": 29, "grace_days": 7},
-        {"period": "monthly", "expected_by_day_of_following_month": 15, "grace_days": -1},
-        {"period": "monthly", "expected_by_day_of_following_month": 15},
+        {"period": "weekly", "expected_within_days": 15, "grace_days": 7},
+        {"period": "monthly", "expected_within_days": 366, "grace_days": 7},
+        {"period": "monthly", "expected_within_days": -1, "grace_days": 7},
+        {"period": "monthly", "expected_within_days": 15, "grace_days": -1},
+        {"period": "monthly", "expected_within_days": 15, "grace_days": 61},
+        {"period": "monthly", "expected_within_days": 15},
+        {"period": "quarterly", "expected_within_days": 45, "grace_days": 7, "extra": 1},
     ),
 )
 def test_declared_schedule_is_validated_with_an_exact_field_set(schedule: object) -> None:
     with pytest.raises(ContractError):
         validate_publication_schedule(schedule)
+
+
+@pytest.mark.parametrize(
+    ("period", "represented_end", "expected"),
+    (
+        # A lag is measured from the end of the period that follows the
+        # represented one, so a quarterly source is not judged late until the
+        # next quarter's own release has been missed.
+        ("monthly", "2026-07-31", "2026-09-22"),
+        ("quarterly", "2026-06-30", "2026-10-22"),
+        ("annual", "2025-12-31", "2027-01-22"),
+    ),
+)
+def test_publication_deadline_scales_with_the_declared_period(
+    period: str, represented_end: str, expected: str
+) -> None:
+    schedule = {"period": period, "expectedWithinDays": 15, "graceDays": 7}
+
+    assert publication_deadline(represented_end, schedule) == datetime.fromisoformat(
+        f"{expected}T00:00:00+00:00"
+    )
 
 
 def test_source_declaration_requires_a_machine_readable_schedule(tmp_path: Path) -> None:
@@ -503,7 +550,7 @@ def test_source_declaration_requires_a_machine_readable_schedule(tmp_path: Path)
 
     assert discover_sources()["insee-cpi"].publication_schedule == {
         "period": "monthly",
-        "expected_by_day_of_following_month": 15,
+        "expected_within_days": 15,
         "grace_days": 7,
     }
 

@@ -36,7 +36,7 @@ def _source(root: Path) -> None:
         "id: example-public-source\nname: Example\nvisibility: public\n"
         "snapshot_contract: snapshot-contract.yaml\nacquisition: {url: 'https://example.test/data.csv'}\n"
         "fetch_cadence: monthly\nexpected_publication_advance: monthly\n"
-        "publication_schedule: {period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}\n"
+        "publication_schedule: {period: monthly, expected_within_days: 15, grace_days: 7}\n"
         "licence: Open\nattribution: Example\n",
         encoding="utf-8",
     )

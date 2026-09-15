@@ -41,9 +41,12 @@ STATES = ("not-run", "succeeded", "suspect", "stale", "failed")
 STATE_PRECEDENCE = ("failed", "suspect", "stale", "succeeded")
 PUBLISHED_STATES = ("not-run", "succeeded", "suspect", "failed")
 
-SCHEDULE_PERIODS = ("monthly",)
-_DECLARED_SCHEDULE_FIELDS = {"period", "expected_by_day_of_following_month", "grace_days"}
-_BROWSER_SCHEDULE_FIELDS = {"period", "expectedByDayOfFollowingMonth", "graceDays"}
+# A period's length in months. The deadline math needs nothing else about a
+# period, so adding one here is the whole cost of supporting it.
+SCHEDULE_PERIOD_MONTHS = {"monthly": 1, "quarterly": 3, "annual": 12}
+SCHEDULE_PERIODS = tuple(SCHEDULE_PERIOD_MONTHS)
+_DECLARED_SCHEDULE_FIELDS = {"period", "expected_within_days", "grace_days"}
+_BROWSER_SCHEDULE_FIELDS = {"period", "expectedWithinDays", "graceDays"}
 _PIPELINE_ID = re.compile(r"^(source|dataset|system):[a-z0-9][a-z0-9-]*$")
 _ISO_DATE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 
@@ -66,15 +69,24 @@ def _positive_integer(value: object, field: str, *, low: int, high: int) -> int:
     return value
 
 
+def _period_end_after(end: date, months: int) -> date:
+    """Return the last day of the period that follows the one ending at `end`."""
+    month = end.month + months
+    year, month = end.year + (month - 1) // 12, (month - 1) % 12 + 1
+    following = month % 12 + 1
+    return date(year + (month == 12), following, 1) - timedelta(days=1)
+
+
 def validate_publication_schedule(value: Any) -> dict[str, Any]:
     """Validate the declared, machine-readable schedule with an exact field set."""
     if not isinstance(value, dict) or set(value) != _DECLARED_SCHEDULE_FIELDS:
         raise ContractError("publication schedule fields are not exact")
     if value["period"] not in SCHEDULE_PERIODS:
         raise ContractError("publication schedule period is unsupported")
-    # Days above 28 are not expressible in every month, so a deadline built from
-    # them would silently move. Reject them instead of clamping.
-    _positive_integer(value["expected_by_day_of_following_month"], "expected_by_day_of_following_month", low=1, high=28)
+    # Measured from the end of the period, not as a day-of-month, because real
+    # release lags routinely exceed one month: INSEE publishes its localised
+    # unemployment rates roughly eighty days after the quarter they describe.
+    _positive_integer(value["expected_within_days"], "expected_within_days", low=0, high=365)
     _positive_integer(value["grace_days"], "grace_days", low=0, high=60)
     return value
 
@@ -84,7 +96,7 @@ def browser_schedule(declared: dict[str, Any]) -> dict[str, Any]:
     validate_publication_schedule(declared)
     return {
         "period": declared["period"],
-        "expectedByDayOfFollowingMonth": declared["expected_by_day_of_following_month"],
+        "expectedWithinDays": declared["expected_within_days"],
         "graceDays": declared["grace_days"],
     }
 
@@ -94,7 +106,7 @@ def validate_browser_schedule(value: Any) -> dict[str, Any]:
         raise ContractError("browser publication schedule fields are not exact")
     if value["period"] not in SCHEDULE_PERIODS:
         raise ContractError("browser publication schedule period is unsupported")
-    _positive_integer(value["expectedByDayOfFollowingMonth"], "expectedByDayOfFollowingMonth", low=1, high=28)
+    _positive_integer(value["expectedWithinDays"], "expectedWithinDays", low=0, high=365)
     _positive_integer(value["graceDays"], "graceDays", low=0, high=60)
     return value
 
@@ -104,16 +116,15 @@ def publication_deadline(represented_period_end: str, schedule: dict[str, Any]) 
 
     The deadline derives from the represented period rather than from fetch
     time: data through July is only late once the August observation has missed
-    its own declared publication day plus grace.
+    its own declared lag plus grace.
     """
     validate_browser_schedule(schedule)
     if not isinstance(represented_period_end, str) or not _ISO_DATE.fullmatch(represented_period_end):
         raise ContractError("publication deadline requires an ISO represented period end")
     end = date.fromisoformat(represented_period_end)
-    month = end.month + 2
-    year, month = end.year + (month - 1) // 12, (month - 1) % 12 + 1
-    due = date(year, month, schedule["expectedByDayOfFollowingMonth"]) + timedelta(
-        days=schedule["graceDays"]
+    due = (
+        _period_end_after(end, SCHEDULE_PERIOD_MONTHS[schedule["period"]])
+        + timedelta(days=schedule["expectedWithinDays"] + schedule["graceDays"])
     )
     return datetime(due.year, due.month, due.day, tzinfo=timezone.utc)
 

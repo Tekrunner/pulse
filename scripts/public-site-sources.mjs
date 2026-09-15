@@ -29,7 +29,11 @@ function safeRelative(root, path) {
   if (!value || value === ".." || value.startsWith(`..${sep}`)) {
     throw new Error("public site dependency escapes the site source root");
   }
-  return value;
+  // Staged paths are site paths, not host paths: they are compared against
+  // route and import strings and are written into the published artifact, so
+  // they carry "/" on every platform. Windows' relative() returns "\", which
+  // made every one of those comparisons miss.
+  return value.split(sep).join("/");
 }
 
 export async function stagePublicSiteSources({ siteRoot, outputRoot, reportCatalog }) {

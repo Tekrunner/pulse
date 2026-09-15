@@ -53,17 +53,22 @@ function isPeriod(value) {
   );
 }
 
+// A period's length in months. The deadline math needs nothing else about a
+// period, so adding one here is the whole cost of supporting it.
+const SCHEDULE_PERIOD_MONTHS = { monthly: 1, quarterly: 3, annual: 12 };
+
 function validateSchedule(schedule) {
   if (schedule === null) return null;
   if (
     !schedule ||
     typeof schedule !== "object" ||
-    schedule.period !== "monthly" ||
-    !Number.isInteger(schedule.expectedByDayOfFollowingMonth) ||
-    schedule.expectedByDayOfFollowingMonth < 1 ||
-    schedule.expectedByDayOfFollowingMonth > 28 ||
+    !Object.hasOwn(SCHEDULE_PERIOD_MONTHS, schedule.period) ||
+    !Number.isInteger(schedule.expectedWithinDays) ||
+    schedule.expectedWithinDays < 0 ||
+    schedule.expectedWithinDays > 365 ||
     !Number.isInteger(schedule.graceDays) ||
-    schedule.graceDays < 0
+    schedule.graceDays < 0 ||
+    schedule.graceDays > 60
   ) {
     throw malformed("A pipeline declares an unreadable publication schedule.");
   }
@@ -147,15 +152,17 @@ export function validateReportCatalog(catalog) {
  *
  * The deadline derives from the represented period, never from fetch time:
  * data through July is only late once the August observation has missed its
- * own declared publication day plus the declared grace.
+ * own declared lag plus the declared grace.
  */
 export function publicationDeadline(representedPeriodEnd, schedule) {
   if (typeof representedPeriodEnd !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(representedPeriodEnd)) return null;
   const validated = validateSchedule(schedule ?? null);
   if (!validated) return null;
   const [year, month] = representedPeriodEnd.split("-").map(Number);
-  const due = new Date(Date.UTC(year, month + 1, validated.expectedByDayOfFollowingMonth));
-  due.setUTCDate(due.getUTCDate() + validated.graceDays);
+  // Day 0 of a month is the last day of the one before it, so this lands on the
+  // end of the period that follows the represented one.
+  const due = new Date(Date.UTC(year, month + SCHEDULE_PERIOD_MONTHS[validated.period], 0));
+  due.setUTCDate(due.getUTCDate() + validated.expectedWithinDays + validated.graceDays);
   return due;
 }
 

@@ -28,7 +28,7 @@ def _configure_asset_schedule(package: Path) -> None:
         "__DOCUMENTED_FETCH_CADENCE__": "monthly, per test provider evidence",
         "__DOCUMENTED_EXPECTED_ADVANCE__": "monthly, per test provider evidence",
         "__DOCUMENTED_PERIOD__": "monthly",
-        "__DOCUMENTED_DEADLINE_DAY__": "11",
+        "__DOCUMENTED_DAYS_AFTER_PERIOD_END__": "11",
         "__EVIDENCED_GRACE_DAYS__": "3",
     }
     for placeholder, evidenced_value in replacements.items():
@@ -47,7 +47,7 @@ snapshot_contract: snapshot-contract.yaml
 acquisition: {{url: https://example.test/data.csv}}
 fetch_cadence: monthly
 expected_publication_advance: monthly
-publication_schedule: {{period: monthly, expected_by_day_of_following_month: 15, grace_days: 7}}
+publication_schedule: {{period: monthly, expected_within_days: 15, grace_days: 7}}
 licence: Open
 attribution: Example
 """,
