@@ -303,7 +303,7 @@
         "phase": "dependencies",
         "kind": "source-output",
         "path": "snapshots/public/insee-labour-market/acq-503c705e4723434aa14bd04919ddb0d6-002b492c29a1/snapshot.json",
-        "sha256": "a57ff4c316e8d8a4e557fa487c44dd1020ed943adc3907188bd1637d3fb6a49c"
+        "sha256": "751663cb643fabba126a97e941e88e0d7c1063fc9bc968d9e3c24e83f721cecb"
       },
       "verified": true
     },
@@ -315,7 +315,7 @@
         "phase": "dependencies",
         "kind": "source-output",
         "path": "snapshots/public/insee-local-unemployment/acq-f7cc804479e4468aa432a9d8e3a3cce3-9a49f4653c1b/snapshot.json",
-        "sha256": "496c82a81d77ea4bceaa619748016b120d56cff3a070c706f79f5903040fcee3"
+        "sha256": "8277f14f8ee1bdaa17e61545ba019502d20db3596d777fe8479be2bd16979b19"
       },
       "verified": true
     },
@@ -327,7 +327,7 @@
         "phase": "dependencies",
         "kind": "source-output",
         "path": "snapshots/public/oecd-unemployment-rate/acq-d9a04313c9394fe9ac55a3a4be081295-41bdf40db72b/snapshot.json",
-        "sha256": "c7a5e76fa0acbd0efd030d70faf0bb4ec059cccdf2c0463d9e0385f5ae299d3b"
+        "sha256": "fbc649bb1db153cdc47a3a18e7b86e7ce8a009e475a9b9702d26c548b1f64150"
       },
       "verified": true
     },
@@ -339,7 +339,7 @@
         "phase": "dependencies",
         "kind": "source-output",
         "path": "snapshots/public/oecd-participation-rate/acq-10ee060056a6434baf14d5e2adf69d49-9e2f0ad6e3c2/snapshot.json",
-        "sha256": "b9067471d581061511c86ce0f0ce21f80991fc52f5cc5beae14fabe40eb7ba85"
+        "sha256": "54acfba2bb3fb333118086d5a942b89c8d72e80b8118efdaffae6bb3cbc536ff"
       },
       "verified": true
     },
@@ -351,7 +351,7 @@
         "phase": "dependencies",
         "kind": "source-output",
         "path": "snapshots/public/ign-departement-boundaries/acq-a1082b64964f4cd49b67b1bbafe844af-23f32af18464/snapshot.json",
-        "sha256": "474152badb5231ea700644241ad4b583ea0b0adc026025ddd6dc33d059f1feec"
+        "sha256": "89ea02c0848f1efee26adacede64f9572b0fbaaecf89bbe6e8d7f02a56c459e4"
       },
       "verified": true
     },
@@ -363,7 +363,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/french-labour-market-quarterly/dataset.json",
-        "sha256": "82a53d072c451975613df7290a60fe24ce287601cd157aefba75419c979196a4"
+        "sha256": "4bcbc1c16a737ab0d38f0e444c305a42fd432c1270f8f787fff3a46e95cd59dd"
       },
       "verified": true
     },
@@ -375,7 +375,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/french-departement-unemployment/dataset.json",
-        "sha256": "011aac06486543885b2435d54d97900dd2382cfcd2aebb6f762eef9da7615261"
+        "sha256": "d3a7a9a05f0293f5b02c3ccd8d0bf3397cddbe711bcb4c0706f2e75af697413d"
       },
       "verified": true
     },
@@ -387,7 +387,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/french-departement-geometry/dataset.json",
-        "sha256": "3008751e9df811fa5e9620b6321626a4b0d393b61544889009d7335797284249"
+        "sha256": "99bbb5e9bcbe87c40bf2a59cfff2c34158d3ecab3128e9f01d8be63c8019d6c4"
       },
       "verified": true
     },
@@ -399,7 +399,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/oecd-unemployment-comparison/dataset.json",
-        "sha256": "8494d01ac5f4d9cd607e888e70c35d872111e9ad47f6a413c3ccdecb2becb6ee"
+        "sha256": "a1d026cd168091fa92c72bdb5b9939bff67371bfc9662d587b5028e299b6da04"
       },
       "verified": true
     },
@@ -411,7 +411,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/oecd-participation-comparison/dataset.json",
-        "sha256": "8b7b03c19f9b9dc166412df47eaa96edc74722ac2020f95d0fdd0eeef3c53250"
+        "sha256": "b4f1116c59c596704806fd48862610acf080745001dd94da8b428ba22ed18c02"
       },
       "verified": true
     }
@@ -421,7 +421,7 @@
       "phase": "real-data",
       "kind": "representative-rows",
       "path": "_bmad-output/report-workflows/french-unemployment-real-data.json",
-      "sha256": "516215e9d3bec9d269b86223e8e01a87b7b8933d164a5291dcb0adeb69343f07"
+      "sha256": "ad37354230ad2941c187aa2661ab13f1afb973101741acda8f74d210e7b4d5ca"
     },
     {
       "phase": "design-handoff",
@@ -433,50 +433,50 @@
       "phase": "infrastructure",
       "kind": "report-declaration",
       "path": "site/reports/french-unemployment/report.yml",
-      "sha256": "f56f702b1257c8a4737fa739061a396f33900f0e8ca00c30d4df5b851f05fab6"
+      "sha256": "3c151bc4e337affd681ae92b446636a2d17986678c74c2d5d5cea09cb692c561"
     },
     {
       "phase": "infrastructure",
       "kind": "route-page",
       "path": "site/reports/french-unemployment.md",
-      "sha256": "ea777590c5c5ff11e2010f4e993ccc9a964c70c9fc5503fae18cc0f9208745aa"
+      "sha256": "a986178a50e8cd479f153ef2345dd43b45fb26d797e2b459bfb4a535f914cbbe"
     },
     {
       "phase": "infrastructure",
       "kind": "report-module",
       "path": "site/reports/french-unemployment/report.js",
-      "sha256": "76e7aa5683bddf8e92c535a6f4411ae63728d7e75f3c829b884f293c95a6cdf8"
+      "sha256": "9f9db0207f254e26dd9f8a7d65602d80ef9fef5a07ac545e6f770029f7905186"
     },
     {
       "phase": "infrastructure",
       "kind": "state-boundary",
       "path": "site/reports/french-unemployment/state.js",
-      "sha256": "b901928a68628317d2f32bcaf6aa12bbcdab70c89de6c35fd288a1b8b8b8bd45"
+      "sha256": "17f9a408c54468e461adc5b212b9c13a234cc9a3b74c4a6aae5d39116254677c"
     },
     {
       "phase": "infrastructure",
       "kind": "synthetic-tests",
       "path": "site/reports/french-unemployment/test.js",
-      "sha256": "5f116df3e0c10fe47de7abb1cb9c986130e8411f284ee65f91e4b7b6d811699e"
+      "sha256": "dc4f325d56d83b3690db9f47407db6a31c7c0f690c21c8d195c8d4eca4b14b53"
     },
     {
       "phase": "infrastructure",
       "kind": "contract-test",
       "path": "tests/node/unemployment-contract.test.mjs",
-      "sha256": "4601874a7661ff05f7002ad191f48f2bf8a6062a81698b99a5323d7167b9dbf9"
+      "sha256": "48f3846282ce3258424a861d3f8345d0c1818e4e06f465357acdcfe835694904"
     },
     {
       "phase": "infrastructure",
       "kind": "browser-tests",
       "path": "tests/browser/unemployment.spec.js",
-      "sha256": "0b1f543d46cb0d42d53fc7ed107de1862365ad24d69c7003c732f8da0a69b672"
+      "sha256": "ac9471b4b4bf6f722e993cfbe145bf9d2633195be2ddd50aeb1c470118701bce"
     }
   ],
   "approval": {
     "phase": "design-approval",
     "kind": "human-approval",
     "path": "_bmad-output/report-workflows/french-unemployment-approval.json",
-    "sha256": "d7c233014bcf26b6485e00e58ac17874c7e35684d96fcd1c6faeeadde51d70ca"
+    "sha256": "a445db0044bbfee5d1a26471faf42793028a0c5eecd02677103fbca2eefde026"
   },
   "visuals": [
     {
@@ -486,19 +486,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/headline-trend-pair.js",
-        "sha256": "7c43144ebf0760f9d341f420d1806acd849e06f0be4d32e36dae1a1c117f5745"
+        "sha256": "ec2eefa68cb44e2d5ce8928cabdd46c3a3a6011136c1d6cda54a17d5a9048e5f"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/headline-trend-pair.numeric.json",
-        "sha256": "fbf7105b51bea35d4e1bdf433d9f052f2cb8d05d540b2dbc5301b379d11a9993"
+        "sha256": "79132667cc948930251f39b9c67d02943185a05080072ca5367535d64d436901"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/headline-trend-pair.fidelity.json",
-        "sha256": "c52eac1adfe87d86c3c38936ec20a4e7b915103346171b03553a2d1b76c2361b"
+        "sha256": "3f565be85c7271e597979c0b75fd553cec112654cf066e4b4940f5f0734cc6c0"
       },
       "verified": true
     },
@@ -509,19 +509,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/slack-multiples.js",
-        "sha256": "963a84b75457fd56783e6b35150beb6801a8b59a32ca736529f92f27b1fa35be"
+        "sha256": "ab03cf8381a504b530cab9757131fa57a298d0323bf20541d49142d2133d397f"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/slack-multiples.numeric.json",
-        "sha256": "ca396dc2492c810181e6ec14486d3c0314c838f7be003b6e91d130d6a9e4df80"
+        "sha256": "aed8a1799dbc5377d3b767c35352743a3ff4d6d6b7210bdb3a17ef1f3eb6e2cb"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/slack-multiples.fidelity.json",
-        "sha256": "d7aaa311d3e509a26001322b6d376721ddb27e6d153cca6701e7e58abf2d10c1"
+        "sha256": "4c5bb69fb35f71e0eae522db8c85e8c707d36baff00930c92f77bbc9850be2ef"
       },
       "verified": true
     },
@@ -532,19 +532,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/age-band-lines.js",
-        "sha256": "285b1499baa9699a36b47b6a5dc2d4f926554786b11e84f3705511a5b879c72e"
+        "sha256": "1799736024be1c67a1fbe31b09ee6e7fe62de6545c7e8a339d0962bce0c4a95d"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/age-band-lines.numeric.json",
-        "sha256": "4c5fc71447dd6c1103b270b966456df5b1c2bd3e5cfb8f9f1e98e71a0620deac"
+        "sha256": "323fc2cdd65a4db5490e552b27e1ad8dccc5e8d0f2363d1adab55abf76f34228"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/age-band-lines.fidelity.json",
-        "sha256": "0b824db922dfb64b133a436acedcec963bf875f1b29f0629411c328b4bb5ecb4"
+        "sha256": "c428e034c4cac04978c0f92c56a6ec491ff36308fb8fb7d316b5bfcd47aaed55"
       },
       "verified": true
     },
@@ -555,19 +555,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/participation-gap-band.js",
-        "sha256": "547a5a8cb8872e2e4f5bd25fb83375950b4eec80c041df18067e1aea80fb5e0a"
+        "sha256": "21c5bc19d3875ec739dcd828523baebe45ac6193679fc8722c723c1498afddd8"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/participation-gap-band.numeric.json",
-        "sha256": "fc69a3362a69959dbbebf4b73df07c3a3e4140cdf3d93ab652fe4684056a239d"
+        "sha256": "674ff8ae869a6ef0099ca4ec6baad3b17b840ef6f585142d076af1a1f5cb1d85"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/participation-gap-band.fidelity.json",
-        "sha256": "1d67fe4102594e6cb35c11b28a183c4fa50934821c380bf50922c2df172381c0"
+        "sha256": "45aa68864371c4d5d1538b5245994e20dd4782d50c14894dd7373b68409ab9f8"
       },
       "verified": true
     },
@@ -578,19 +578,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/departement-choropleth.js",
-        "sha256": "a62b18255ec751b834b18513e96ca081997abed6663416424e1f9716e9aadd0a"
+        "sha256": "2c45f207c690d729f9bbd2e0e06faf2ae6486b1885203d29e4089323265d9993"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/departement-choropleth.numeric.json",
-        "sha256": "d3fa1c44748ade4d7437f37443d6a8043fae2b5876b069be35104f78edf76a1c"
+        "sha256": "da71bccdc7a245f0f7bb7436a94eba0c60641ecd6f26af3779828ebff4b0760f"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/departement-choropleth.fidelity.json",
-        "sha256": "8a68af56f71d288400e22bfee23ba73130429248cd4d02b2de6bb1c5227fed62"
+        "sha256": "d8b8df8e7eb65cd385731b9dc2a7845ad415af4cb6ac97b3eddac22f1ab2b0a7"
       },
       "verified": true
     },
@@ -601,19 +601,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/international-lines.js",
-        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
+        "sha256": "0dfa633403f53b89f129418ff12b9dc7e592476b625b386f208cb17b6985d39d"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-lines.numeric.json",
-        "sha256": "fd3f90985442d53569867ba6e942054e2bd2a0bbdde0d1e33e3b94c1d47d4c95"
+        "sha256": "9e60959229d051b0399409aff0496dd0552e243e7f3f73e8538b8f54d9dde948"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-lines.fidelity.json",
-        "sha256": "155e8b42a70eb7fb0aa707c6b945b505c3b1a3f6ad1c67206e486698d62e800f"
+        "sha256": "bbde7c0ee88fe33a4869d817b247adea58350f9075cac3abc7b4bb7d5a87dfcc"
       },
       "verified": true
     },
@@ -624,19 +624,19 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/international-lines.js",
-        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
+        "sha256": "0dfa633403f53b89f129418ff12b9dc7e592476b625b386f208cb17b6985d39d"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
         "kind": "numeric-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-participation.numeric.json",
-        "sha256": "8a835014b51094adf2ac9a8eea6fcd8c3bfe87d22d6fbd6339857ba07ba77f8a"
+        "sha256": "e9c4a07929b5c3847dc0614f8e8ba6ae692a6137727c969a77f487eb4f53462f"
       },
       "fidelityEvidence": {
         "phase": "visual-implementation",
         "kind": "fidelity-evidence",
         "path": "_bmad-output/report-workflows/french-unemployment-evidence/international-participation.fidelity.json",
-        "sha256": "a3e4a65ccac8381cfd1e0054fa7aa9948c65aeac4da23291bdacb3ce303fde4c"
+        "sha256": "5d35d0e5d982b1958fcadb406bdc82ec91de15c840d328f38f23fcb81e0b88b2"
       },
       "verified": true
     }
@@ -650,7 +650,7 @@
           "phase": "verification",
           "kind": "test-evidence",
           "path": "_bmad-output/report-workflows/french-unemployment-evidence/pulse-verify.log",
-          "sha256": "a9546c72732746f2f5d05cf7b9c134816efc7b5a92897d9f90f272f5344eb7a0"
+          "sha256": "5c7753189de0ed1037ef2b32c158b3502b49fcb063ba67a8488cdb7f4de1485f"
         }
       }
     ],
@@ -658,6 +658,6 @@
   },
   "resume": {
     "firstIncomplete": null,
-    "checkedAt": "2026-09-15T08:54:36Z"
+    "checkedAt": "2026-09-15T10:37:09Z"
   }
 }

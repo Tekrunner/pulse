@@ -5,7 +5,10 @@ import { resolve } from "node:path";
 import { classOf, classLabels } from "../../site/visuals/departement-choropleth.js";
 
 const root = resolve(import.meta.dirname, "../..");
-const read = (file) => readFile(resolve(root, file), "utf8");
+// Normalised on read: a contract assertion must not depend on whether the
+// working tree was checked out with LF or CRLF, which varies by core.autocrlf.
+const read = async (file) =>
+  (await readFile(resolve(root, file), "utf8")).replaceAll("\r\n", "\n");
 
 const report = await read("site/reports/french-unemployment/report.js");
 const declaration = await read("site/reports/french-unemployment/report.yml");

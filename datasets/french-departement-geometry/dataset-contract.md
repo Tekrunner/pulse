@@ -41,10 +41,17 @@ pipeline.
 
 This table has 101 rows; only 100 departements carry a localised unemployment
 rate. **Mayotte (976) has geometry but no rate**, because INSEE publishes no
-localised series for it. That surplus is expected, and a choropleth must decide
-explicitly what to render for Mayotte rather than discovering the gap at draw
-time. The `every-rated-departement-has-a-shape` test guards the other direction:
-every rated departement always has a shape, so the map can never have a hole.
+localised series for it. That surplus is expected, and whatever joins the two
+has to decide explicitly what to render for Mayotte rather than discovering the
+gap at draw time.
+
+This package guarantees only its own side of that join:
+`every-snapshot-feature-reaches-the-table` asserts that every boundary the
+pinned IGN edition published reaches the table exactly once, so the model can
+neither drop nor duplicate a territory. Whether a rated territory also has a
+shape is a property of the join, and dbt cannot `ref` across packages, so it is
+asserted by the consumer that performs the join rather than copied into either
+side, where the two copies could silently diverge.
 
 ## No time dimension
 

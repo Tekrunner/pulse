@@ -63,8 +63,8 @@
   ],
   "raggedEdge": "each area is drawn to its own latest published month; the United Kingdom's rolling-quarter survey publishes later, so its line stops earlier and is labelled with its own month",
   "absentFromThisSeries": [
-    "CHE",
-    "NZL"
+    "NZL",
+    "CHE"
   ],
   "displayedOnPage": {
     "chips": [

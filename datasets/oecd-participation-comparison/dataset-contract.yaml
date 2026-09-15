@@ -34,7 +34,8 @@ indicators:
     series is french-labour-market-quarterly.participation_rate_pct, the all-ages activity rate, which
     is the same 15-or-over basis; across the 94 shared quarters the two differ by at most 0.7 points after
     harmonisation. The French participation_rate_15_to_64_pct is a DIFFERENT basis, roughly 18 points
-    higher, and must never be placed on the same axis as this rate.
+    higher, a gap that is a difference of denominator rather than of labour-market behaviour, so the two
+    series do not measure the same quantity.
   unit: Percent
   source: OECD, Labour force participation rate, dataflow DSD_LFS@DF_IALFS_LF_WAP_Q
   licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
@@ -121,7 +122,7 @@ validations:
 - name: every-declared-aggregate-is-present
   description: Every aggregate the package classifies appears, except the G7, which this
     quarterly dataflow is known not to carry. Members and aggregates together are what
-    guarantee any report's chosen comparators.
+    guarantee whichever comparators a consumer chooses.
   columns:
   - reference_area_code
   - reference_area_kind

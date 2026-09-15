@@ -236,6 +236,30 @@ test("the map publishes every boundary, selects one, and never draws an absent r
   );
 });
 
+test("every territory carrying a rate also has a shape on the map", async ({ page }) => {
+  // The join between french-departement-unemployment and
+  // french-departement-geometry spans two dbt packages, which cannot ref each
+  // other, so neither can assert this. The report performs the join, so the
+  // guarantee is asserted here rather than copied into either package as a
+  // hardcoded list that could drift from the provider.
+  await ready(page);
+  await page.locator('figure[data-figure="departement-choropleth"] details summary').click();
+  const rated = await page
+    .locator('figure[data-figure="departement-choropleth"] .accessible-data tbody tr')
+    .evaluateAll((rows) =>
+      rows
+        .filter((row) => /^\d+\.\d$/.test(row.children[2].textContent.trim()))
+        .map((row) => row.children[1].textContent.trim()),
+    );
+  expect(rated.length).toBeGreaterThan(90);
+  const drawn = new Set(
+    await page
+      .locator("path[data-departement]")
+      .evaluateAll((paths) => paths.map((path) => path.dataset.departement)),
+  );
+  expect(rated.filter((code) => !drawn.has(code))).toEqual([]);
+});
+
 test("the international panel is ragged, capped and never repaints on removal", async ({ page }) => {
   await ready(page);
   const labels = page.locator('figure[data-figure="international-lines"] .selection-chip');

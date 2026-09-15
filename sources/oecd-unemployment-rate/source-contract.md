@@ -49,16 +49,17 @@ observed on 2026-09-14.
 Back-dating the whole snapshot to the slowest required member would claim a
 staleness the provider does not have and would hide the spread instead of
 exposing it. The spread is recorded as a plausibility assertion with a
-four-month tolerance, and it is real provider structure that a dataset and the
-report must present rather than smooth away.
+four-month tolerance. It is real provider structure rather than an acquisition
+defect, and the snapshot records it instead of back-dating to the slowest area;
+what a consumer does with it is the consumer's decision.
 
 ## Known coverage gap
 
 Switzerland and New Zealand are OECD members but do not appear in this monthly
 dataflow; they do appear in the quarterly participation dataflow acquired by
 `oecd-participation-rate`. This is a provider coverage fact, not an acquisition
-defect, and the report is required to show it explicitly rather than silently
-narrow its selector.
+defect. The snapshot records the coverage as the provider sent it, and the
+quarterly participation dataflow is where those two members do appear.
 
 ## Scheduling evidence
 

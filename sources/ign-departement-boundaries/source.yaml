@@ -17,7 +17,7 @@ acquisition:
   coordinate_reference_system: EPSG:4326
   expected_feature_count: 101
   # Every territory carrying a localised unemployment rate must have geometry,
-  # or the choropleth has holes. Mayotte is present here although it has no
+  # or a territory is missing. Mayotte is present here although it has no
   # localised rate, which is a coverage surplus rather than a mismatch.
   required_departement_codes:
     ['01','02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19',

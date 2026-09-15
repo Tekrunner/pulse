@@ -28,10 +28,10 @@ so nothing downstream has to invent country labels.
 ## Membership is a declared classification
 
 Nothing in the provider response distinguishes a member country from a computed
-aggregate or from a non-member the OECD also publishes. The report's comparison
-selector is defined as "OECD members", so the membership has to be stated
+aggregate or from a non-member the OECD also publishes. Membership is an
+analytical fact about the world, so it has to be stated
 somewhere, and it is stated once — in `dbt/macros/oecd_membership.sql` — rather
-than guessed from country names by each visual.
+than guessed from country names by every consumer in turn.
 
 `reference_area_kind` is therefore one of:
 
@@ -50,8 +50,8 @@ without the build saying so.
 
 **Switzerland and New Zealand are OECD members that this monthly dataflow does
 not carry.** They do appear in `oecd-participation-comparison`, which draws on
-the quarterly dataflow. This is a provider fact, not a defect, and the report is
-required to show it explicitly rather than silently narrowing its selector —
+the quarterly dataflow. This is a provider fact, not a defect, and the table
+records the coverage as the provider sent it —
 a member the reader can select must render an explicit
 not-published-at-this-frequency state, not vanish. The membership test allows
 exactly these two absences and no others.
@@ -71,7 +71,7 @@ which.
 ## Frequency mismatch with the French series
 
 This table is monthly; the French national series is quarterly. Aligning them is
-a presentation decision that belongs to the report, not here, and neither
+a presentation decision that belongs to a consumer, not here, and neither
 frequency is resampled into the other.
 
 ## Validations
@@ -81,7 +81,7 @@ frequency is resampled into the other.
 - Every `reference_area_kind` is `member`, `aggregate` or `non-member`.
 - Every aggregate the package classifies is present, so a comparison against
   the euro area, the European Union, the G7 or the OECD can never silently lose
-  one. Members are covered by the membership check, so any report's choice of
+  one. Members are covered by the membership check, so whichever choice of
   comparators is guaranteed without this package knowing what that choice is.
 - Every listed OECD member appears, except Switzerland and New Zealand.
 

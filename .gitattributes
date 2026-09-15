@@ -1,3 +1,12 @@
 # Public immutable raw snapshots are deliberately stored through Git LFS.
 snapshots/public/*/*/raw.* filter=lfs diff=lfs merge=lfs -text
 publish/public/data/*/dataset.parquet filter=lfs diff=lfs merge=lfs -text
+
+# Digest-locked trees. A human approval pins the SHA-256 of the design handoff,
+# and every work record, snapshot manifest and published dataset manifest pins
+# its own bytes, so git must never rewrite their line endings on checkout.
+# Without this, a checkout under core.autocrlf silently invalidates an approval.
+claude-design-output/** -text
+_bmad-output/** -text
+snapshots/public/** -text
+publish/public/** -text

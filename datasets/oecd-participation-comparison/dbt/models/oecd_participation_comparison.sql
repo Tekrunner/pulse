@@ -1,6 +1,6 @@
 {#
   One row per quarter, reference area and sex. Sex stays a dimension rather than
-  becoming three columns, because the report reads men, women and both together
+  becoming three columns, because men, women and both together are read together
   as the same measure of the same population, and a reader switching between
   them is switching a filter rather than a metric.
 #}

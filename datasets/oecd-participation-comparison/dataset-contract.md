@@ -24,7 +24,7 @@ gap out of nothing but the denominator.
 
 ## Sex is a dimension, not three columns
 
-The report reads men, women and both together as the same measure of the same
+Men, women and both together are the same measure of the same
 population, so a reader switching between them switches a filter rather than a
 metric. `sex` is therefore `all`, `men` or `women`, and the grain is `(period,
 reference_area_code, sex)`.
@@ -43,7 +43,7 @@ or `non-member` (here Brazil, Bulgaria, Croatia and Romania).
 Unlike the monthly unemployment dataflow, this quarterly one **does** carry
 Switzerland and New Zealand, so `every-oecd-member-is-present` requires all 38
 with no exceptions. The two tables therefore disagree about which members are
-available, which is a provider fact the report has to present rather than
+available, which is a provider fact a consumer has to present rather than
 reconcile.
 
 ## Sex coverage is complete only where it is tested

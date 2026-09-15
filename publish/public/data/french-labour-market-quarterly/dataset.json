@@ -399,7 +399,7 @@
         "participation_rate_men_15_to_64_pct",
         "participation_rate_women_15_to_64_pct"
       ],
-      "derivation": "Select the published activity rate for both sexes together and for each sex, on both the all-ages and the 15-to-64 basis. The ALL-AGES basis is the one that matches the OECD's 15-or-over participation rate; the 15-to-64 basis is a narrower population and must never be placed on the same axis as an OECD figure.",
+      "derivation": "Select the published activity rate for both sexes together and for each sex, on both the all-ages and the 15-to-64 basis. The ALL-AGES basis is the one that matches the OECD's 15-or-over participation rate. The 15-to-64 basis is a narrower population and is not comparable with it, the two differing by roughly 18 points through a difference of denominator rather than of labour-market behaviour.",
       "id": "participation-by-sex",
       "question": "What share of the population takes part in the labour market, and how far apart are men and women?"
     },

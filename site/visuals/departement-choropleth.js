@@ -23,14 +23,53 @@ export const DEPARTEMENT_CHOROPLETH_VISUAL_CONTRACT = Object.freeze({
     classColours: "array",
     noDataColour: "string",
     selectedCode: "string|null",
+    mainAreaLabel: "string",
   }),
   inputs: Object.freeze(["rows", "display", "provenance"]),
   cleanup: "focused callback only — releases the shape listeners the map registers",
 });
 
-/** Overseas départements are drawn as insets: at their true positions the
- *  metropolitan map would shrink to a few pixels. */
-const OVERSEAS = Object.freeze(["971", "972", "973", "974", "976"]);
+/**
+ * A territory far from the main cluster is drawn as an inset, because at its
+ * true position the rest of the map would shrink to a few pixels. Which
+ * territories those are is derived from the bounding boxes the rows already
+ * carry rather than listed: a hardcoded list would silently keep rendering a
+ * newly published overseas territory in place, squashing everything else.
+ *
+ * The separation is not marginal. For the French départements the farthest
+ * mainland shape sits at 2.5 times the median distance from the median centre
+ * and the nearest overseas one at 21 times, so this threshold falls in a gap an
+ * order of magnitude wide.
+ */
+const INSET_DISTANCE_MULTIPLE = 6;
+
+function median(values) {
+  const sorted = [...values].sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[middle] : (sorted[middle - 1] + sorted[middle]) / 2;
+}
+
+export function partitionByDistance(rows, multiple = INSET_DISTANCE_MULTIPLE) {
+  if (rows.length < 3) return { main: rows, insets: [] };
+  const centre = (row) => [
+    (row.bbox_west + row.bbox_east) / 2,
+    (row.bbox_south + row.bbox_north) / 2,
+  ];
+  const middleLon = median(rows.map((row) => centre(row)[0])),
+    middleLat = median(rows.map((row) => centre(row)[1])),
+    distance = (row) => {
+      const [lon, lat] = centre(row);
+      return Math.hypot(lon - middleLon, lat - middleLat);
+    },
+    typical = median(rows.map(distance)) || 0;
+  if (!typical) return { main: rows, insets: [] };
+  const main = [],
+    insets = [];
+  for (const row of rows) (distance(row) > typical * multiple ? insets : main).push(row);
+  // Never leave the main map empty: if everything reads as remote the shapes
+  // simply are spread out, and one map is the honest rendering.
+  return main.length ? { main, insets } : { main: rows, insets: [] };
+}
 
 export function validateChoroplethRows(rows) {
   if (!Array.isArray(rows)) throw new TypeError("Visual rows must be an array.");
@@ -173,10 +212,7 @@ function shape(row, project, display, onSelect) {
 export function renderDepartementChoropleth(input, display, provenance) {
   const rows = validateChoroplethRows(input),
     total = Math.max(320, display.width),
-    metropolitan = rows.filter((row) => !OVERSEAS.includes(row.departement_code)),
-    overseas = OVERSEAS.map((code) => rows.find((row) => row.departement_code === code)).filter(
-      Boolean,
-    ),
+    { main: metropolitan, insets: overseas } = partitionByDistance(rows),
     root = node("div");
   root.className = "choropleth";
   const emit = (code) =>
@@ -193,7 +229,7 @@ export function renderDepartementChoropleth(input, display, provenance) {
   svg.setAttribute("role", "group");
   svg.setAttribute(
     "aria-label",
-    `Localised unemployment rate by département, metropolitan France${metropolitan[0]?.period ? `, ${metropolitan.find((row) => row.period)?.period ?? ""}` : ""}. Every département is listed in the table below this figure. ${provenance?.summary || ""}`,
+    `Localised unemployment rate, ${display.mainAreaLabel || "the main map area"}${metropolitan.find((row) => row.period)?.period ? `, ${metropolitan.find((row) => row.period).period}` : ""}. ${overseas.length} more distant ${overseas.length === 1 ? "territory is" : "territories are"} drawn separately beside it. Every territory is listed in the table below this figure. ${provenance?.summary || ""}`,
   );
   const project = projector(metropolitan, mapWidth, mapHeight);
   for (const row of metropolitan) svg.append(shape(row, project, display, emit));

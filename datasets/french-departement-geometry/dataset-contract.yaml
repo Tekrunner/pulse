@@ -79,7 +79,9 @@ validations:
 - name: bounding-box-is-well-formed
   description: Each bounding box has west below east and south below north.
   columns: [bbox_west, bbox_south, bbox_east, bbox_north]
-- name: every-rated-departement-has-a-shape
-  description: Every departement carrying a localised unemployment rate appears here, so
-    the choropleth can never render a hole.
+- name: every-snapshot-feature-reaches-the-table
+  description: Every boundary the pinned IGN edition published reaches the table exactly
+    once, so the model can neither drop nor duplicate a territory. Whether a territory
+    that carries a rate also has a shape is a property of the join between this package
+    and french-departement-unemployment, and is asserted by whatever performs it.
   columns: [departement_code]

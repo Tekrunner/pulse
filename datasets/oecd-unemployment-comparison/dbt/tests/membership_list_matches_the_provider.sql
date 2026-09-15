@@ -1,5 +1,5 @@
 -- Switzerland and New Zealand are OECD members that this monthly dataflow does
--- not carry. That gap is a known provider fact the report shows explicitly, so
+-- not carry. That gap is a known provider fact recorded as published, so
 -- it is allowed here. Any OTHER member going missing is not, because it would
 -- mean the membership list has drifted from what the OECD actually publishes.
 {% set expected_absent = ['CHE', 'NZL'] %}

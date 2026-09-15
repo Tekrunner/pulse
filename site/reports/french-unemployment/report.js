@@ -1165,6 +1165,11 @@ export function renderFrenchUnemploymentReport({
                       classColours: MAP_CLASS_COLOURS,
                       noDataColour: MAP_NO_DATA_COLOUR,
                       selectedCode: selected?.departement_code ?? null,
+                      // The visual derives which shapes are too far away to
+                      // draw in place; naming what the rest of them are is the
+                      // report's job, because only the report knows the
+                      // subject is France.
+                      mainAreaLabel: "metropolitan France",
                     },
                     { summary: LOCALISED_PROVENANCE },
                   ),

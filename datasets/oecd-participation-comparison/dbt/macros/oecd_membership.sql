@@ -5,9 +5,9 @@
   This list is a classification, not data: the OECD dataflow mixes members,
   non-member reference areas it also publishes (Brazil, Bulgaria, Croatia,
   Romania) and computed aggregates, and nothing in the response distinguishes
-  them. The report's comparison selector is defined as "OECD members", so the
-  membership has to be stated somewhere, and stating it once here is better than
-  each visual guessing from a country name.
+  them. Membership is an analytical fact about the world, so it is stated once
+  here and published as reference_area_kind, rather than left for every
+  consumer to infer from a country name.
 
   It changes only when the OECD admits a member, which is a deliberate edit
   accompanied by a contract review, and the accompanying test fails loudly if a
