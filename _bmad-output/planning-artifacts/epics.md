@@ -170,7 +170,50 @@ Yann can open a deployed French macroeconomic report, read and explore current d
 
 **FRs covered:** FR1, FR2, FR3, FR5, FR6, FR7, FR8, FR9, FR10, FR11, FR12, FR15, FR18, FR19, FR20, FR21, FR25, FR26
 
-### Epic 2: Extend Pulse Through Repeatable Agent Workflows
+#### Story 1.10: Scale the Home Page to More Reports and Pipelines
+
+As Yann,
+I want the home page to carry a growing catalog of reports and pipelines without becoming a scroll,
+So that the entry point stays readable as Pulse accumulates sources, datasets and reports.
+
+**Acceptance Criteria:**
+
+**Given** the published report catalog
+**When** the home page renders its report index
+**Then** each report is a card carrying its title link and the figure and dataset counts the catalog declares
+**And** those cards render from the report catalog alone, without any pipeline status being readable.
+
+**Given** a readable report catalog and a readable status catalog
+**When** the two are joined
+**Then** each card states how far the data behind its report reaches
+**And** it carries the same qualification wording the report's own provenance block uses, computed from the declared lineage rather than restated
+**And** a report whose lineage cannot be qualified keeps its link and its counts.
+
+**Given** the compiled expected-pipeline catalog
+**When** pipeline health renders
+**Then** every expected pipeline appears as one row showing state, kind, represented period, next deadline and last attempt
+**And** each row value carries its own label, so a row is readable where the column header is not shown
+**And** the evidence behind a row stays behind the existing per-pipeline disclosure.
+
+**Given** a catalog too large to scan
+**When** a reader narrows the board by state or by kind
+**Then** the selection states the size of the set it covers
+**And** narrowing hides rows without removing any pipeline from the catalog beneath
+**And** a selection matching nothing says so rather than rendering blank
+**And** the control is operable from the keyboard with a visible focus indicator.
+
+**Given** the design foundation established for reports
+**When** the home page is styled
+**Then** it uses that foundation's accent, type ramp, surface card, spacing scale and numeral treatment
+**And** pipeline and report state remain carried by text and by a marker glyph, with colour additive only.
+
+**Given** narrow layouts, keyboard navigation and assistive technology
+**When** the home page is read and operated
+**Then** it reflows without horizontal overflow
+**And** no value is left unlabelled when the column header is hidden
+**And** navigation and the report index stay usable when pipeline status cannot be read.
+
+## Epic 2: Extend Pulse Through Repeatable Agent Workflows
 
 Yann can use coding agents to add sources, indicators, visuals, reports, and data-driven annotations—or change a dataset schema—by following stable workflows and neutral templates validated by complete working implementations without reinventing the system or breaking existing output.
 

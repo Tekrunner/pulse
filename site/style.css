@@ -123,55 +123,229 @@ button { min-height:44px; padding:.5rem 1rem; }
 @media(max-width:780px) { .multiples,.method { grid-template-columns:1fr; } .pulse-report h1 { font-size:32px; } }
 @media(prefers-reduced-motion:reduce) { .state-skeleton { animation:none; } }
 
-/* Navigation shell: report index and pipeline health. State is always carried
-   by text; --color-error is reused as the only severity colour and never as
-   the sole distinction. */
-.site-index { display:flex; flex-direction:column; gap:calc(var(--space-2) * 1.5); max-width:60rem; }
-.site-index h2 { margin:0 0 var(--space-1); }
-.site-index section>p { margin:0 0 var(--space-1); max-width:70ch; color:var(--color-muted); }
-.report-index,.pipeline-list { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:var(--space-1); }
-.report-index a { font-size:1.05rem; }
-.pipeline-list>li { border-radius:12px; background:var(--color-panel); border-inline-start:4px solid var(--color-neutral-700); }
-.pipeline-list>li.pipeline-degraded { border-inline-start-color:var(--color-error); }
+/* Navigation shell: report index and pipeline health. It adopts the report
+   design foundation above -- the same accent, type ramp, surface card and
+   spacing scale -- so the door looks like the rooms behind it. State is always
+   carried by text and by a marker glyph; colour is only ever additive. */
+.site-index {
+  --color-accent: #9184d9;
+  --board-grid: .75rem 7.5rem minmax(0, 1fr) 5rem 8rem 9rem 10rem;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 22.4px 16.8px 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 22.4px;
+  font: 15px/1.6 var(--font-body);
+}
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.site-masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 8.4px;
+  padding-bottom: 16.8px;
+  border-bottom: 1px solid var(--color-divider);
+}
+.site-masthead h1 { margin: 0; font-size: 40px; font-weight: 500; line-height: 1.1; letter-spacing: -.015em; }
+/* Empty until status resolves, and it stays empty if status never does. */
+.site-stamp { margin: 0; font-size: 12px; color: var(--color-neutral-400); font-variant-numeric: tabular-nums; }
+.site-section { display: flex; flex-direction: column; gap: 11.2px; }
+.site-index h2 { margin: 0; font-size: 25px; font-weight: 500; letter-spacing: -.015em; }
+.site-index h3 { margin: 0; font-weight: 500; }
+
+/* Reports. A card says what the catalog knows on its own; coverage and the
+   qualification line are added only when pipeline status can be joined to it. */
+.report-index {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 11.2px;
+}
+.report-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2.8px;
+  padding: 16.8px;
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: 0 0 0 1px var(--color-neutral-800);
+}
+.report-title { font-size: 20px; }
+.report-title a { display: inline-flex; align-items: center; min-height: 44px; }
+.report-coverage,
+.report-counts { margin: 0; font-size: 13px; color: var(--color-neutral-400); font-variant-numeric: tabular-nums; }
+.report-state { margin: 5.6px 0 0; display: flex; align-items: baseline; gap: 8px; font-size: 13px; }
+.report-state[data-qualification="suspect"],
+.report-state[data-qualification="stale"] { color: var(--color-warn); }
+.report-state[data-qualification="failed"] { color: var(--color-error); }
+.report-state[data-qualification="succeeded"] { color: var(--color-ok); }
+
+/* The filter is the answer to scale: the board keeps every pipeline, and a
+   reader narrows it rather than scrolling it. Same segmented control the
+   reports use, restated locally so a change here cannot restyle a report. */
+.board-filter { min-width: 0; margin: 0; padding: 0; border: 0; }
+.board-filter legend { padding: 0; font-size: 12px; color: var(--color-neutral-400); }
+.site-index .segments {
+  display: flex;
+  gap: 0;
+  overflow: hidden;
+  width: fit-content;
+  max-width: 100%;
+  flex-wrap: wrap;
+  margin-top: 5.6px;
+  border: 1px solid var(--color-divider);
+  border-radius: 8px;
+}
+.site-index .segments label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 12px;
+  border-inline-start: 1px solid var(--color-divider);
+  font-size: 13px;
+  cursor: pointer;
+}
+.site-index .segments label:first-child { border-inline-start: 0; }
+.site-index .segments input { position: absolute; width: 0; height: 0; opacity: 0; }
+.site-index .segments input:checked ~ span { color: var(--color-accent-400); font-weight: 500; }
+/* The radio itself is 0x0, so the focus ring had nothing to draw around. */
+.site-index .segments input:focus-visible ~ span { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+/* The board. `clip` keeps the rounded corners without establishing a
+   scrollport, which `hidden` would -- and a scrollport that never scrolls
+   strands the sticky header in normal flow. */
+.pipeline-board {
+  border-radius: 8px;
+  background: var(--color-surface);
+  box-shadow: 0 0 0 1px var(--color-neutral-800);
+  overflow: clip;
+}
+.board-head,
+.pipeline-list summary {
+  display: grid;
+  grid-template-columns: var(--board-grid);
+  align-items: baseline;
+  gap: 11.2px;
+  padding: 0 16.8px;
+}
+.board-head {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-height: 36px;
+  align-items: center;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-divider);
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--color-neutral-500);
+}
+@media (max-height: 480px) { .board-head { position: static; } }
+.pipeline-list { list-style: none; margin: 0; padding: 0; }
+.pipeline-list > li { border-inline-start: 4px solid var(--color-neutral-700); }
+.pipeline-list > li + li { border-top: 1px solid var(--color-divider); }
 /* Colour is additive: the marker glyph and the state word already carry the
    state, so these rules only make it louder. Failed and suspect/stale get
    different hues because a red edge on both made them look identical. */
-.pipeline-list>li[data-state="succeeded"] { border-inline-start-color:var(--color-ok); }
-.pipeline-list>li[data-state="suspect"],
-.pipeline-list>li[data-state="stale"] { border-inline-start-color:var(--color-warn); }
-.pipeline-list>li[data-state="failed"] { border-inline-start-color:var(--color-error); }
-li[data-state="succeeded"]>details>summary .pipeline-marker,
-li[data-state="succeeded"]>details>summary .pipeline-state { color:var(--color-ok); }
-li[data-state="suspect"]>details>summary .pipeline-marker,
-li[data-state="suspect"]>details>summary .pipeline-state,
-li[data-state="stale"]>details>summary .pipeline-marker,
-li[data-state="stale"]>details>summary .pipeline-state { color:var(--color-warn); }
-li[data-state="failed"]>details>summary .pipeline-marker,
-li[data-state="failed"]>details>summary .pipeline-state { color:var(--color-error); }
-li[data-state="not-run"]>details>summary .pipeline-marker,
-li[data-state="not-run"]>details>summary .pipeline-state { color:var(--color-muted); }
-.pipeline-list h3 { margin:0; font-size:1rem; }
-.pipeline-kind { color:var(--color-muted); font-size:.8rem; font-weight:400; }
-/* The summary stays a list-item so the platform disclosure triangle survives;
-   the flex row lives inside it. Marker and state hold fixed widths so the
-   statuses line up as a scannable column down the list. */
-.pipeline-list summary { display:flex; align-items:baseline; gap:.5rem; list-style:none; cursor:pointer; padding:var(--space-2); border-radius:12px; }
-.pipeline-list summary::-webkit-details-marker { display:none; }
-.pipeline-list summary::before { content:"\25B8"; flex:0 0 .75rem; color:var(--color-muted); }
-.pipeline-list details[open]>summary::before { content:"\25BE"; }
-.pipeline-summary { flex:1 1 auto; display:flex; flex-wrap:wrap; align-items:baseline; gap:.5rem; }
-.pipeline-marker { flex:0 0 1rem; text-align:center; font-weight:700; }
-.pipeline-state { flex:0 0 6rem; font-weight:700; }
-.pipeline-name { flex:1 1 14rem; }
-.pipeline-when { color:var(--color-muted); font-size:.85rem; }
-.pipeline-warning { flex-basis:100%; color:var(--color-text); }
-.pipeline-list dl { display:grid; gap:.2rem; margin:0; padding:0 var(--space-2) var(--space-2); font-size:.9rem; }
-.pipeline-list dl div { display:flex; flex-wrap:wrap; gap:.5rem; }
-.pipeline-list dt { min-width:11rem; color:var(--color-muted); }
-.pipeline-list dd { margin:0; }
-.pipeline-message { margin:0; color:var(--color-muted); }
-[data-state="unavailable"]>.pipeline-message { padding-inline-start:var(--space-1); border-inline-start:4px solid var(--color-error); color:var(--color-text); }
-@media (max-width:600px) { .pipeline-list dt { min-width:0; font-size:.85rem; } .pipeline-state { flex-basis:auto; } .pipeline-name { flex-basis:100%; } }
+.pipeline-list > li[data-state="succeeded"] { border-inline-start-color: var(--color-ok); }
+.pipeline-list > li[data-state="suspect"],
+.pipeline-list > li[data-state="stale"] { border-inline-start-color: var(--color-warn); }
+.pipeline-list > li[data-state="failed"] { border-inline-start-color: var(--color-error); }
+.pipeline-list > li[data-state="not-run"] { border-inline-start-color: var(--color-muted); }
+li[data-state="succeeded"] .pipeline-marker,
+li[data-state="succeeded"] .pipeline-state { color: var(--color-ok); }
+li[data-state="suspect"] .pipeline-marker,
+li[data-state="suspect"] .pipeline-state,
+li[data-state="stale"] .pipeline-marker,
+li[data-state="stale"] .pipeline-state { color: var(--color-warn); }
+li[data-state="failed"] .pipeline-marker,
+li[data-state="failed"] .pipeline-state { color: var(--color-error); }
+li[data-state="not-run"] .pipeline-marker,
+li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
+
+.pipeline-list summary { min-height: 44px; list-style: none; cursor: pointer; padding-block: 5.6px; }
+.pipeline-list summary::-webkit-details-marker { display: none; }
+.pipeline-list summary::before { content: "\25B8"; color: var(--color-neutral-500); font-size: 11px; }
+.pipeline-list details[open] > summary::before { content: "\25BE"; }
+.pipeline-status { display: inline-flex; align-items: baseline; gap: 6px; min-width: 0; }
+.pipeline-marker { font-weight: 700; font-size: 13px; }
+.pipeline-state { font-weight: 500; font-size: 13px; }
+.pipeline-name { min-width: 0; font-size: 15px; }
+.pipeline-kind { font-size: 12px; color: var(--color-neutral-400); }
+.pipeline-through,
+.pipeline-due,
+.pipeline-when { font-size: 12.5px; color: var(--color-neutral-300); font-variant-numeric: tabular-nums; }
+/* Suspect data is never hidden behind the disclosure, and it carries the
+   caution container rather than only its ink. */
+.pipeline-warning {
+  grid-column: 1 / -1;
+  margin: 2.8px 0 5.6px;
+  padding: 8.4px 11.2px;
+  border-radius: 8px;
+  background: #2a2418;
+  box-shadow: inset 3px 0 0 var(--color-warn);
+  font-size: 12.5px;
+  color: #f0e3c8;
+}
+.pipeline-list dl {
+  display: grid;
+  gap: .2rem;
+  margin: 0;
+  padding: 8.4px 16.8px 16.8px 33.6px;
+  background: var(--color-bg);
+  font-size: 13px;
+}
+.pipeline-list dl div { display: flex; flex-wrap: wrap; gap: 8.4px; }
+.pipeline-list dt { min-width: 11rem; color: var(--color-neutral-400); }
+.pipeline-list dd { margin: 0; color: var(--color-neutral-300); }
+.pipeline-message { margin: 0; padding: 11.2px 16.8px; color: var(--color-neutral-400); }
+[data-state="unavailable"] > .pipeline-message {
+  padding: 0 0 0 var(--space-1);
+  border-inline-start: 4px solid var(--color-error);
+  color: var(--color-text);
+}
+@media (max-width: 900px) {
+  .board-head { display: none; }
+  .pipeline-list summary { grid-template-columns: .75rem 7.5rem minmax(0, 1fr); row-gap: 2.8px; padding-block: 8.4px; }
+  .pipeline-kind,
+  .pipeline-through,
+  .pipeline-due,
+  .pipeline-when { grid-column: 2 / -1; }
+  /* The column head is gone at this width, so the label each cell carries for
+     assistive technology becomes the visible one rather than a bare value. */
+  .pipeline-kind,
+  .pipeline-through,
+  .pipeline-due,
+  .pipeline-when { display: flex; gap: 6px; }
+  .pipeline-kind .visually-hidden,
+  .pipeline-through .visually-hidden,
+  .pipeline-due .visually-hidden,
+  .pipeline-when .visually-hidden {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    color: var(--color-neutral-500);
+  }
+  .pipeline-list dt { min-width: 0; }
+  .pipeline-list dl { padding-inline-start: 16.8px; }
+  .site-masthead h1 { font-size: 32px; }
+}
 
 /* French unemployment report. Everything below is local to this report: its
    series palette, its map ramp and its section geometry. The shell, controls

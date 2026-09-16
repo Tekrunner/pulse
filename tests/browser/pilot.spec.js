@@ -795,6 +795,135 @@ test("homepage pipeline health reflows without horizontal overflow", async ({
   await expect(
     page.getByRole("heading", { name: "Pipeline health" }),
   ).toBeVisible();
+  // The column header is dropped at this width, so each cell has to show the
+  // label it otherwise only carries for assistive technology -- a column of
+  // bare dates with nothing naming them is not a reflow, it is a loss.
+  await expect(page.locator(".board-head")).toBeHidden();
+  const cell = page.locator("[data-pipeline] .pipeline-through").first();
+  await expect(cell).toContainText("Data through");
+  expect(
+    await cell
+      .locator(".visually-hidden")
+      .evaluate((node) => node.getBoundingClientRect().width),
+  ).toBeGreaterThan(2);
+});
+
+test("homepage narrows pipeline health by filter without dropping a pipeline", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-failed");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  const all = await health.locator("[data-pipeline]").count();
+  expect(all).toBeGreaterThan(1);
+  // The chip states the size of the set it selects, so the filter row doubles
+  // as the census the collapsed board no longer prints.
+  await expect(health.locator('[data-control="filter-all"] ~ span')).toHaveText(
+    `All ${all}`,
+  );
+  // The radio itself is 0x0 behind its label, as in the report controls, so
+  // the label is what a reader -- and this test -- clicks.
+  const pick = (key) => health.locator(`[data-control="filter-${key}"]`).locator("..").click();
+  await pick("attention");
+  const narrowed = health.locator("[data-pipeline]");
+  expect(await narrowed.count()).toBeLessThan(all);
+  for (const state of await narrowed.evaluateAll((nodes) =>
+    nodes.map((node) => node.dataset.state),
+  )) {
+    expect(["failed", "suspect", "stale"]).toContain(state);
+  }
+  // Narrowing hides rows; it never edits the catalog behind them.
+  await pick("all");
+  expect(await health.locator("[data-pipeline]").count()).toBe(all);
+  // A filter whose set is empty says so rather than leaving a blank.
+  await pick("system");
+  if ((await health.locator("[data-pipeline]").count()) === 0) {
+    await expect(health.locator(".pipeline-message")).toContainText(
+      "No pipeline is in that state.",
+    );
+  }
+});
+
+test("homepage filter is operable from the keyboard", async ({ page }) => {
+  await page.goto("?scenario=status-failed");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  const first = health.locator('[data-control="filter-all"]');
+  await first.focus();
+  // Native radios, so the arrow-key group behaviour is the platform's rather
+  // than something this page reimplements.
+  expect(
+    await health
+      .locator('[data-control="filter-all"] ~ span')
+      .evaluate((node) => Number.parseFloat(getComputedStyle(node).outlineWidth)),
+  ).toBeGreaterThan(0);
+  await page.keyboard.press("ArrowRight");
+  await expect(health.locator('[data-control="filter-attention"]')).toBeChecked();
+});
+
+test("homepage report cards qualify a report against its upstream pipelines", async ({
+  page,
+}) => {
+  await page.goto("./");
+  const card = page.locator('[data-report="french-consumer-prices"]');
+  await expect(card.locator(".report-coverage")).toContainText("Data through");
+  await expect(card.locator(".report-counts")).toHaveText("4 figures · 2 datasets");
+  await expect(card.locator(".report-state")).toHaveText(
+    /All upstream data up to date/,
+  );
+  await expect(card.locator(".report-state")).toHaveAttribute(
+    "data-qualification",
+    "succeeded",
+  );
+  // The qualification is the report page's own wording, computed from the two
+  // catalogs rather than restated here.
+  await page.goto("?scenario=status-failed");
+  await expect(card.locator(".report-state")).toHaveAttribute(
+    "data-qualification",
+    "failed",
+  );
+  await expect(card.locator(".report-state")).toContainText(
+    "Failed refresh — affects Figure 2, Figure 3 and Figure 4; the retained dataset through 2026-07 is still shown",
+  );
+});
+
+test("homepage report cards survive unreadable status with link and counts", async ({
+  page,
+}) => {
+  await page.goto("?scenario=status-unavailable");
+  const card = page.locator('[data-report="french-consumer-prices"]');
+  await expect(
+    card.getByRole("link", { name: "French consumer prices", exact: true }),
+  ).toHaveAttribute("href", "./reports/french-consumer-prices");
+  await expect(card.locator(".report-counts")).toHaveText("4 figures · 2 datasets");
+  // Qualification is the only thing the missing catalog costs a reader.
+  await expect(card.locator(".report-state")).toHaveCount(0);
+  await expect(card.locator(".report-coverage")).toHaveCount(0);
+  await expect(page.locator(".site-stamp")).toHaveText("");
+});
+
+test("homepage board columns carry their own labels, not just a header", async ({
+  page,
+}) => {
+  await page.goto("./");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  // The visible header is decorative: repeating it per row would double every
+  // announcement, so each cell names itself instead.
+  await expect(health.locator(".board-head")).toHaveAttribute(
+    "aria-hidden",
+    "true",
+  );
+  const item = health.locator('[data-pipeline="source:insee-cpi"]');
+  await expect(item.locator(".pipeline-through")).toContainText("Data through");
+  await expect(item.locator(".pipeline-due")).toContainText("Next due");
+  await expect(item.locator(".pipeline-when")).toContainText("Last run");
+  // Sighted layout keeps them out of the way while the header is on screen.
+  expect(
+    await item
+      .locator(".pipeline-through .visually-hidden")
+      .evaluate((node) => node.getBoundingClientRect().width),
+  ).toBeLessThan(2);
 });
 
 test("report provenance states the represented period and source without qualification when healthy", async ({
