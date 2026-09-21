@@ -333,3 +333,95 @@ export function millions(value, { long = false } = {}) {
   const text = millionsValue(value);
   return long ? `${text} million` : `${text}M`;
 }
+
+
+// --- Shared figure furniture --------------------------------------------
+// Added for the world-demography report and available to any visual: a
+// people-scale formatter, the selected-value strip, the accessible data
+// equivalent and the provenance line. These extend the existing shared
+// drawing role rather than introducing a new one, and they add no styling to
+// any visual that does not call them.
+
+/**
+ * Thousands of people in the unit a reader says out loud. `signed` is for a
+ * flow, where the direction is the point and a leading plus is information;
+ * a stock never takes it.
+ */
+export function people(thousands, { signed = false } = {}) {
+  if (thousands === null || thousands === undefined || !Number.isFinite(Number(thousands))) return "—";
+  const value = Number(thousands);
+  const sign = value < 0 ? "−" : signed && value > 0 ? "+" : "";
+  const size = Math.abs(value);
+  if (size >= 1000000) return `${sign}${(size / 1000000).toFixed(2)}bn`;
+  if (size >= 1000) return `${sign}${(size / 1000).toFixed(size >= 10000 ? 1 : 2)}M`;
+  return `${sign}${Math.round(size * 10) / 10}k`;
+}
+
+export function signedPercent(value, digits = 2) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
+  const number = Number(value);
+  return `${number > 0 ? "+" : number < 0 ? "−" : ""}${Math.abs(number).toFixed(digits)}%`;
+}
+
+/** The calendar year of an ISO period, which is how an annual axis reads. */
+export function periodYear(period) { return String(period).slice(0, 4); }
+
+/** The value strip: the same place above every plot, never over the marks. */
+export function valueStrip(title, entries) {
+  const strip = node("div");
+  strip.className = "values";
+  const heading = node("span", title);
+  heading.className = "yr";
+  strip.append(heading);
+  for (const entry of entries) {
+    const item = node("span");
+    item.className = "v";
+    const swatch = node("i");
+    swatch.style.background = entry.color;
+    const value = node("b", entry.value);
+    item.append(swatch, document.createTextNode(entry.label), value);
+    if (entry.extra) {
+      const extra = node("em", entry.extra);
+      item.append(extra);
+    }
+    strip.append(item);
+  }
+  return strip;
+}
+
+export function dataTable(caption, headings, bodyRows) {
+  const details = node("details"), summary = node("summary", "Provenance, query and data table");
+  // A stable identity so a report can reopen it after an asynchronous
+  // refresh: the caption names one figure's table and no other's.
+  details.dataset.disclosure = caption;
+  const scroll = node("div"), table = node("table");
+  scroll.className = "table-scroll";
+  table.className = "accessible-data";
+  const head = node("thead"), headRow = node("tr");
+  for (const heading of headings) {
+    const cell = node("th", heading);
+    cell.scope = "col";
+    headRow.append(cell);
+  }
+  head.append(headRow);
+  const body = node("tbody");
+  for (const row of bodyRows) {
+    const tableRow = node("tr");
+    row.forEach((cellValue, index) => {
+      const cell = node(index ? "td" : "th", cellValue);
+      if (!index) cell.scope = "row";
+      tableRow.append(cell);
+    });
+    body.append(tableRow);
+  }
+  table.append(node("caption", caption), head, body);
+  scroll.append(table);
+  details.append(summary, scroll);
+  return details;
+}
+
+export function provenanceLine(text) {
+  const paragraph = node("p", text);
+  paragraph.className = "figure-provenance";
+  return paragraph;
+}
