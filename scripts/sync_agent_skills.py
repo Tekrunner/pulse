@@ -91,14 +91,35 @@ def write_mirrors(project_root: Path) -> None:
             shutil.rmtree(target)
 
     for name, source in canonical.items():
-        target = target_root / name
-        temporary = target_root / f".{name}.sync-tmp"
-        if temporary.exists():
-            shutil.rmtree(temporary)
-        shutil.copytree(source, temporary, ignore=_ignore_generated)
-        if target.exists():
-            shutil.rmtree(target)
-        temporary.replace(target)
+        _replace_mirror(source, target_root / name, target_root / f".{name}.sync-tmp",
+                        target_root / f".{name}.sync-old")
+
+
+def _replace_mirror(source: Path, target: Path, staged: Path, superseded: Path) -> None:
+    """Swap one mirror without a window in which neither copy exists.
+
+    Deleting the target and then renaming the replacement into its place looks
+    atomic and is not: on Windows a directory deletion can still be settling
+    when the rename runs, which fails with a permission error and leaves no
+    mirror at all. Moving the old copy aside first means every failure leaves
+    either the old tree or the new one in place.
+    """
+    for leftover in (staged, superseded):
+        if leftover.exists():
+            shutil.rmtree(leftover)
+    shutil.copytree(source, staged, ignore=_ignore_generated)
+    moved = target.exists()
+    if moved:
+        target.replace(superseded)
+    try:
+        staged.replace(target)
+    except OSError:
+        if moved:
+            superseded.replace(target)
+        shutil.rmtree(staged, ignore_errors=True)
+        raise
+    if moved:
+        shutil.rmtree(superseded, ignore_errors=True)
 
 
 def main(argv: list[str] | None = None) -> int:

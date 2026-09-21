@@ -73,3 +73,39 @@ def test_generated_python_caches_do_not_create_drift(tmp_path: Path) -> None:
         tmp_path / ".claude" / "skills" / "pulse-example" / "scripts" / "__pycache__"
     )
     assert not mirror_cache.exists()
+
+
+def test_a_failed_swap_leaves_the_previous_mirror_in_place(
+    tmp_path: Path, monkeypatch: object
+) -> None:
+    """A mirror swap that fails must not leave the repository with no mirror.
+
+    The earlier implementation deleted the target and then renamed the
+    replacement over it. On Windows the deletion can still be settling when the
+    rename runs, which raises a permission error after the only copy is gone.
+    """
+    import pytest
+
+    _write_skill(tmp_path, "pulse-example", body="new")
+    existing = tmp_path / ".claude" / "skills" / "pulse-example"
+    existing.mkdir(parents=True)
+    (existing / "SKILL.md").write_text("previous\n", encoding="utf-8")
+
+    original = Path.replace
+    calls = {"count": 0}
+
+    def flaky(self: Path, target: Path) -> Path:
+        calls["count"] += 1
+        # The first replace moves the old mirror aside; fail the second, which
+        # is the one that would put the new tree in place.
+        if calls["count"] == 2:
+            raise PermissionError("access is denied")
+        return original(self, target)
+
+    monkeypatch.setattr(Path, "replace", flaky)
+
+    with pytest.raises(PermissionError):
+        write_mirrors(tmp_path)
+
+    assert (existing / "SKILL.md").read_text(encoding="utf-8") == "previous\n"
+    assert not (tmp_path / ".claude" / "skills" / ".pulse-example.sync-tmp").exists()
