@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "reportId": "world-demography",
-  "phase": "complete",
+  "phase": "verification",
   "discovery": {
     "standingQuestions": [
       {
@@ -438,7 +438,7 @@
       "phase": "infrastructure",
       "kind": "report-module",
       "path": "site/reports/world-demography/report.js",
-      "sha256": "7a2d73fa5cd3579a2a6cf494f5dc09b1d8949c65d67b2692cc73e97d4a890082"
+      "sha256": "0bd0d22c844fab98cdec87c8f164caf6d2f28c0f82b76708717d8602150a094d"
     },
     {
       "phase": "infrastructure",
@@ -607,29 +607,19 @@
       },
       {
         "command": "npx playwright test --config tests/browser/playwright.config.js demography.spec.js",
-        "status": "passed",
-        "evidence": {
-          "phase": "verification",
-          "kind": "test-evidence",
-          "path": "_bmad-output/report-workflows/world-demography-evidence/browser-spec.log",
-          "sha256": "b057ec5df11e79cf44689aab19a1a952f34a3993be914b4ed88c23bbc9aadfe4"
-        }
+        "status": "pending",
+        "evidence": null
       },
       {
         "command": "uv run --no-sync pulse verify",
-        "status": "passed",
-        "evidence": {
-          "phase": "verification",
-          "kind": "test-evidence",
-          "path": "_bmad-output/report-workflows/world-demography-evidence/pulse-verify.log",
-          "sha256": "0c4cbeb313dee376a69675231b7a4568fc74542c75930283e431eb82d7c33072"
-        }
+        "status": "pending",
+        "evidence": null
       }
     ],
-    "complete": true
+    "complete": false
   },
   "resume": {
-    "firstIncomplete": null,
-    "checkedAt": "2026-09-21T15:59:43Z"
+    "firstIncomplete": "verification",
+    "checkedAt": "2026-09-21T21:26:40Z"
   }
 }
