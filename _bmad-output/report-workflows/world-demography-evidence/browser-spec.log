@@ -1,0 +1,28 @@
+
+Running 24 tests using 1 worker
+
+[1/24] [chromium] › tests\browser\demography.spec.js:57:1 › every declared figure reaches ready and shows the provider's own values at the selected year
+[2/24] [chromium] › tests\browser\demography.spec.js:85:1 › the components figure reads the same year in people and per 1,000
+[3/24] [chromium] › tests\browser\demography.spec.js:99:1 › a flow that stops says where, and a country outside the collection says so
+[4/24] [chromium] › tests\browser\demography.spec.js:119:1 › healthy life expectancy stops at its own last published year
+[5/24] [chromium] › tests\browser\demography.spec.js:133:1 › the age structure follows the year selected anywhere on the page
+[6/24] [chromium] › tests\browser\demography.spec.js:149:1 › the projection range is the 95% interval, and the peak is a mark
+[7/24] [chromium] › tests\browser\demography.spec.js:163:1 › every figure carries an accessible data equivalent and its own provenance
+[8/24] [chromium] › tests\browser\demography.spec.js:183:1 › a failing slot does not take its neighbours with it
+[9/24] [chromium] › tests\browser\demography.spec.js:197:1 › a whole-report data failure is reported once, with a retry
+[10/24] [chromium] › tests\browser\demography.spec.js:205:1 › the report says where each family's data stops
+[11/24] [chromium] › tests\browser\demography.spec.js:214:1 › the layout reflows at a narrow width and at 400% zoom without losing a figure
+[12/24] [chromium] › tests\browser\demography.spec.js:230:1 › an open disclosure and the selected year survive a refresh of another figure
+[13/24] [firefox] › tests\browser\demography.spec.js:57:1 › every declared figure reaches ready and shows the provider's own values at the selected year
+[14/24] [firefox] › tests\browser\demography.spec.js:85:1 › the components figure reads the same year in people and per 1,000
+[15/24] [firefox] › tests\browser\demography.spec.js:99:1 › a flow that stops says where, and a country outside the collection says so
+[16/24] [firefox] › tests\browser\demography.spec.js:119:1 › healthy life expectancy stops at its own last published year
+[17/24] [firefox] › tests\browser\demography.spec.js:133:1 › the age structure follows the year selected anywhere on the page
+[18/24] [firefox] › tests\browser\demography.spec.js:149:1 › the projection range is the 95% interval, and the peak is a mark
+[19/24] [firefox] › tests\browser\demography.spec.js:163:1 › every figure carries an accessible data equivalent and its own provenance
+[20/24] [firefox] › tests\browser\demography.spec.js:183:1 › a failing slot does not take its neighbours with it
+[21/24] [firefox] › tests\browser\demography.spec.js:197:1 › a whole-report data failure is reported once, with a retry
+[22/24] [firefox] › tests\browser\demography.spec.js:205:1 › the report says where each family's data stops
+[23/24] [firefox] › tests\browser\demography.spec.js:214:1 › the layout reflows at a narrow width and at 400% zoom without losing a figure
+[24/24] [firefox] › tests\browser\demography.spec.js:230:1 › an open disclosure and the selected year survive a refresh of another figure
+  24 passed (2.3m)

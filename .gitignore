@@ -58,6 +58,11 @@ cover/
 
 # Django stuff:
 *.log
+# ...but not the verification evidence a work record pins by SHA-256. The
+# rule above arrives with the stock Python template; leaving it to catch
+# this tree makes every record unverifiable from a clone, because the gate
+# reopens on evidence the repository does not carry.
+!_bmad-output/**/*.log
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
