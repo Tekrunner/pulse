@@ -220,34 +220,54 @@ async function settled(page) {
     .every((svg) => svg.getBoundingClientRect().width <= window.innerWidth + 1), null, { timeout: 30_000 });
 }
 
-test("the layout reflows at a narrow width and at 400% zoom without losing a figure", async ({ page }) => {
-  await page.setViewportSize({ width: 740, height: 420 });
-  await ready(page);
-  for (const id of FIGURES) {
-    await expect(page.locator(`.figure-body[data-slot="${id}"][data-state=ready]`)).toBeVisible();
-  }
-  await settled(page);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+// Text is wider on some hosts than on the machine a layout was written on,
+// and a layout that fits only under one font's metrics breaks somewhere else.
+// The report is loaded under a deliberately wider font as well as the default
+// one, because that is what separated this repository's CI from its authors:
+// a select sized to its widest option, and a caption holding a field on one
+// line, both fitted here and overflowed there.
+const WIDER_TEXT =
+  "*{font-family:'DejaVu Sans',Verdana,sans-serif !important;letter-spacing:1.2px !important;}";
 
-  const wide = await page.evaluate(() =>
-    Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
+for (const [metrics, stylesheet] of [["the shipped font", null], ["a wider font", WIDER_TEXT]]) {
+  test(`the layout reflows at a narrow width and at 400% zoom without losing a figure, in ${metrics}`, async ({ page }) => {
+    // Applied before the first paint, the way a host's own fonts apply.
+    if (stylesheet) await page.addInitScript((css) => {
+      addEventListener("DOMContentLoaded", () => {
+        const tag = document.createElement("style");
+        tag.textContent = css;
+        document.head.append(tag);
+      });
+    }, stylesheet);
 
-  await page.setViewportSize({ width: 320, height: 512 });
-  await expect(page.locator(".report-content[data-state=ready]")).toBeVisible();
-  for (const id of FIGURES) {
-    await expect(page.locator(`.figure-body[data-slot="${id}"]`)).toBeVisible();
-  }
-  await settled(page);
-  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+    await page.setViewportSize({ width: 740, height: 420 });
+    await ready(page);
+    for (const id of FIGURES) {
+      await expect(page.locator(`.figure-body[data-slot="${id}"][data-state=ready]`)).toBeVisible();
+    }
+    await settled(page);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
 
-  // The plots were redrawn for the narrower viewport rather than merely
-  // clipped by their frame: a figure kept at its old width would leave the
-  // reader scrolling inside every figure on a phone.
-  const narrow = await page.evaluate(() =>
-    Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
-  expect(narrow).toBeLessThan(wide);
-  expect(narrow).toBeLessThanOrEqual(320);
-});
+    const wide = await page.evaluate(() =>
+      Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
+
+    await page.setViewportSize({ width: 320, height: 512 });
+    await expect(page.locator(".report-content[data-state=ready]")).toBeVisible();
+    for (const id of FIGURES) {
+      await expect(page.locator(`.figure-body[data-slot="${id}"]`)).toBeVisible();
+    }
+    await settled(page);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+
+    // The plots were redrawn for the narrower viewport rather than merely
+    // clipped by their frame: a figure kept at its old width would leave the
+    // reader scrolling inside every figure on a phone.
+    const narrow = await page.evaluate(() =>
+      Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
+    expect(narrow).toBeLessThan(wide);
+    expect(narrow).toBeLessThanOrEqual(320);
+  });
+}
 
 test("changing the year never puts a loading message over a drawn figure", async ({ page }) => {
   await ready(page);

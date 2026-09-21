@@ -428,4 +428,21 @@ li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
 .broad-bands span { font-size: 10.5px; color: var(--color-bg); font-weight: 600; }
 .broad-scale { margin-top: 5px; display: flex; justify-content: space-between; font-size: 10.5px; color: var(--color-neutral-400); }
 .control-note { font-size: 12px; color: var(--color-neutral-400); align-self: center; }
+/* No control may widen the page. A select sizes itself to its widest option,
+   and this one carries every country the provider publishes, so on a narrow
+   viewport it pushed the sticky control bar past the window and every
+   stretched sibling followed it. The rules below are what keep the bar
+   inside the viewport; they are not cosmetic, and they work together --
+   removing any one of them still passes, removing two does not, so treat
+   them as one rule and re-run the wider-font reflow test after touching
+   any of them. */
+.wd-report .exploration { max-width: 100%; }
+.wd-report .exploration > *, .wd-report .exploration .segments { min-width: 0; max-width: 100%; }
+.wd-report .exploration select, .wd-report .exploration input { max-width: 100%; min-width: 0; }
+.wd-report .exploration .segments { flex-wrap: wrap; width: auto; }
+/* A labelled control keeps its caption and its field on one line while
+   they fit, and drops the field to the next line when they do not. Held
+   on one line, the caption pushes a wide field past the window edge. */
+.wd-report .exploration label { flex-wrap: wrap; min-width: 0; }
+.wd-report .exploration label > select { flex: 1 1 auto; }
 @media(max-width:900px) { .wd-report .exploration { position: static; flex-direction: column; align-items: stretch; } }
