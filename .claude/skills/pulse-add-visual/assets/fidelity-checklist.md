@@ -37,6 +37,8 @@ Every row needs a passing behavior assertion or a recorded rendered inspection. 
 - [ ] Every control and asynchronous update retains viewport and keyboard focus.
 - [ ] Partially entered values, selected period/month/components, and open disclosures survive updates.
 - [ ] Narrow and zoomed controls remain operable and the indicator/provenance remain available.
+- [ ] Each captured view records its measured horizontal page overflow, and it is zero.
+- [ ] Slot-local isolation is shown by a scenario failing exactly one slot: that slot errors with a retry, every sibling stays ready, and the report does not enter an error state.
 
 Reviewer: __HUMAN_OR_REVIEWER__  
 Reviewed at: __UTC_TIMESTAMP__  

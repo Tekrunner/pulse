@@ -31,6 +31,19 @@ Run `handoff_gate.py verify` immediately before work. The full prototype, decisi
 
 First implement only `__FIRST_VISUAL_ID__`. Prove pinned stored Parquet values, browser-query values, and displayed strings—including decimal scale, negatives, nulls, and precision—for every conversion path it exercises. Do not expand until that proof passes.
 
+## Known prototype-to-production substitutions
+
+- **Dynamic labels.** The canvas runtime renders no interpolated text inside an
+  SVG `<text>` element, so a prototype's dynamic SVG labels are blank on the
+  artboard even where the design is right. Place them with `overlayLabel` in
+  `site/visuals/report-shared.js`, which is an HTML layer over the plot. What
+  binds is each label's position, alignment, colour and content, not the
+  technique.
+- **Plot width.** Take the width the container measures, with a floor the axes
+  still fit inside, and let a plot narrower than that floor scroll within its
+  own figure. A fixed fallback width applied whenever the container is narrow
+  pushes the whole page sideways at 400% zoom.
+
 ## Production exclusions
 
 Do not port prototype runtime, design-only support files, remote assets, representative rows, or reconstruction/disclaimer copy tied to representative rows. Do not add a chart library. Keep SQL, DuckDB, Parquet/storage paths, route/state ownership, framework globals, data fetching, and shared resource lifecycle out of visual modules.

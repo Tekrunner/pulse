@@ -51,16 +51,28 @@ others, which reads as a bug. Where a series publishes nothing at the selected
 observation, say so on the mark — "United Kingdom — to May 26" — rather than
 showing a value from a period the reader did not choose.
 
-**The selected values are drawn beside the selected point, inside the plot,**
-not in a readout under the figure: a value under the figure makes the reader
-travel between the mark and the number for every observation they try.
-`placeChips` in `site/visuals/report-shared.js` stacks them apart when series
-are close and flips them to the left of the selection line once it passes the
-middle of the plot, which is where it sits by default. This is how a
-measurement reaches the reader without being written into prose, and it is
-usually what removes the need for a second figure: a rate curve whose chip
-carries both the rate and the headcount makes a second plot of the headcount
-pure repetition.
+**The selected values go in one strip, in the same place on every figure,**
+immediately above the plot and below the caption. `valueStrip` in
+`site/visuals/report-shared.js` builds it: the selected period, then one
+entry per series with its own colour swatch, label and value. A small
+multiple gets one strip per panel, in that panel's own header.
+
+The strip's position is fixed and identical everywhere, and that is the
+point. A box placed beside the selected point moves as the reader scrubs,
+flips from one side of the line to the other at the midpoint, and on a small
+multiple covers the plot it annotates — so the reader hunts for the number
+instead of reading it. A fixed strip costs a short, predictable glance. A
+readout *below* the figure is the other failure: the reader travels past the
+plot for every observation they try.
+
+The strip is how a measurement reaches the reader without being written into
+prose, and it usually removes the need for a second figure: a rate curve
+whose strip carries both the rate and the headcount makes a second plot of
+the headcount pure repetition.
+
+`placeChips` in the same module places a label beside a mark. It is for a
+label a mark carries permanently — a series name at the end of its line, a
+peak, the year a series stops — never for the selected values.
 
 Give a value the unit a reader would say out loud. A headcount published in
 thousands reads as "2.68M", not "2,677 thousand"; scale the axis with it. Do
@@ -120,6 +132,13 @@ out of any sentence that would ship.
 ## Binding constraints
 
 - Use ordinary DOM and hand-authored SVG through Visual Contract v1; no chart or visualization library.
+- **Put no dynamic text inside an SVG `<text>` element in the prototype.** The
+  canvas runtime wraps every interpolated text node in a `<span>`, which an SVG
+  `<text>` does not render, so every `{{hole}}` inside one is silently blank on
+  the artboard while the surrounding static labels look right. Draw dynamic
+  labels in an HTML layer positioned over the plot, which is what
+  `overlayLabel` in `site/visuals/report-shared.js` does in production; static
+  SVG text is fine.
 - The report owns data access, parameter-bound SQL, row mapping, state, routing, and shared resources. Visuals only validate and draw supplied plain rows plus display/provenance inputs.
 - Meet WCAG 2.2 AA: semantic structure, logical keyboard use, visible focus, sufficient contrast and targets, non-color-only cues, reduced motion, zoom/reflow, and accessible tables/text equivalents.
 - Use existing semantic roles. Keep one-off palette, geometry, and layout local; flag any proposed shared role for separate human approval.
