@@ -438,7 +438,7 @@
       "phase": "infrastructure",
       "kind": "report-module",
       "path": "site/reports/world-demography/report.js",
-      "sha256": "9289f304ccc8ecf8aed76079ffcdcda03569aa1e1341d8d62f4f7f03d84edcb1"
+      "sha256": "7a2d73fa5cd3579a2a6cf494f5dc09b1d8949c65d67b2692cc73e97d4a890082"
     },
     {
       "phase": "infrastructure",
@@ -622,7 +622,7 @@
           "phase": "verification",
           "kind": "test-evidence",
           "path": "_bmad-output/report-workflows/world-demography-evidence/pulse-verify.log",
-          "sha256": "fd6134d6f7234dbfbea361c37d2609180a0029da7cd9f10706dc5da7c4166ca4"
+          "sha256": "0c4cbeb313dee376a69675231b7a4568fc74542c75930283e431eb82d7c33072"
         }
       }
     ],
@@ -630,6 +630,6 @@
   },
   "resume": {
     "firstIncomplete": null,
-    "checkedAt": "2026-09-21T15:33:11Z"
+    "checkedAt": "2026-09-21T15:59:43Z"
   }
 }

@@ -8,7 +8,7 @@ Pulse skill mirrors match (5 skills).
 ........................................................................ [ 74%]
 ........................................................................ [ 93%]
 .........................                                                [100%]
-385 passed, 11 deselected in 576.86s (0:09:36)
+385 passed, 11 deselected in 603.35s (0:10:03)
 [node smoke] C:\Program Files\nodejs\npm.CMD run verify:frontend
 
 > pulse@0.1.0 verify:frontend
@@ -29,20 +29,20 @@ Visual workflow gates design intake, approval locking, numeric paths, registrati
 > pulse@0.1.0 build
 > node scripts/build-site.mjs
 
-pulse catalog build wrote C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\inputs\browser-data.json
+pulse catalog build wrote C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\inputs\browser-data.json
 [90mload[39m /index [90min[39m [33m133ms[39m
-[90mload[39m /design/reference [90min[39m [90m55ms[39m
-[90mload[39m /design/visual-language [90min[39m [90m36ms[39m
-[90mload[39m /reports/french-consumer-prices [90min[39m [33m165ms[39m
-[90mload[39m /reports/french-unemployment [90min[39m [90m57ms[39m
-[90mload[39m /reports/index [90min[39m [90m26ms[39m
-[90mload[39m /reports/report [90min[39m [90m33ms[39m
-[90mload[39m /reports/world-demography [90min[39m [90m78ms[39m
+[90mload[39m /design/reference [90min[39m [90m57ms[39m
+[90mload[39m /design/visual-language [90min[39m [90m37ms[39m
+[90mload[39m /reports/french-consumer-prices [90min[39m [33m229ms[39m
+[90mload[39m /reports/french-unemployment [90min[39m [33m155ms[39m
+[90mload[39m /reports/index [90min[39m [90m54ms[39m
+[90mload[39m /reports/report [90min[39m [90m44ms[39m
+[90mload[39m /reports/world-demography [90min[39m [33m102ms[39m
 [90mbuilt[39m 8 [90mpages in[39m site
 [90mbundle[39m /_observablehq/client.js [90m→[39m site/.observablehq/cache/_observablehq/client.js
 [90mbundle[39m /_observablehq/runtime.js [90m→[39m site/.observablehq/cache/_observablehq/runtime.js
 [90mbundle[39m /_observablehq/stdlib.js [90m→[39m site/.observablehq/cache/_observablehq/stdlib.js
-[90mbuild[39m site/style.css [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/style.a45c978d.css
+[90mbuild[39m site/style.css [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/style.a45c978d.css
 [90malias[39m /_observablehq/client.js [90m→[39m /_observablehq/client.75a582d7.js
 [90malias[39m /_observablehq/runtime.js [90m→[39m /_observablehq/runtime.607a8173.js
 [90malias[39m /_observablehq/stdlib.js [90m→[39m /_observablehq/stdlib.d41a6e77.js
@@ -50,59 +50,59 @@ pulse catalog build wrote C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\inputs
 [90malias[39m /_node/apache-arrow@17.0.0/index.js [90m→[39m /_node/apache-arrow@17.0.0/index.2d326ba0.js
 [90malias[39m /_node/tslib@2.8.1/index.js [90m→[39m /_node/tslib@2.8.1/index.3e211051.js
 [90malias[39m /_node/flatbuffers@24.12.23/index.js [90m→[39m /_node/flatbuffers@24.12.23/index.cd275b3e.js
-[90mbuild[39m /_observablehq/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_observablehq/client.75a582d7.js
-[90mbuild[39m /_observablehq/runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_observablehq/runtime.607a8173.js
-[90mbuild[39m /_observablehq/stdlib.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_observablehq/stdlib.d41a6e77.js
-[90mbuild[39m /_node/@duckdb/duckdb-wasm@1.31.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_node/@duckdb/duckdb-wasm@1.31.0/index.971ff573.js
-[90mbuild[39m /_node/apache-arrow@17.0.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_node/apache-arrow@17.0.0/index.2d326ba0.js
-[90mbuild[39m /_node/tslib@2.8.1/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_node/tslib@2.8.1/index.3e211051.js
-[90mbuild[39m /_node/flatbuffers@24.12.23/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_node/flatbuffers@24.12.23/index.cd275b3e.js
-[90mcopy[39m site/data/home.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/home.b2139e71.js
-[90mcopy[39m site/data/status-client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/status-client.ce12f827.js
-[90mcopy[39m site/data/status-scenarios.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/status-scenarios.af910ec1.js
-[90mcopy[39m site/workflows/add-visual/template/fixture.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/workflows/add-visual/template/fixture.7d6df577.js
-[90mcopy[39m site/workflows/add-visual/template/visual.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/workflows/add-visual/template/visual.42a60773.js
-[90mcopy[39m site/reports/french-consumer-prices/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/reports/french-consumer-prices/report.ddee076a.js
-[90mcopy[39m site/data/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/client.e9951e80.js
-[90mcopy[39m site/data/browser-shell.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/browser-shell.fad17abc.js
-[90mcopy[39m site/visuals/headline-trend.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/headline-trend.9a6dc858.js
-[90mcopy[39m site/visuals/contribution-stack.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/contribution-stack.74a6edbb.js
-[90mcopy[39m site/visuals/divergence-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/divergence-multiples.aae7b68f.js
-[90mcopy[39m site/visuals/index-level-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/index-level-paths.b6791e6e.js
-[90mcopy[39m site/visuals/report-shared.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/report-shared.cb962c8f.js
-[90mcopy[39m site/reports/french-unemployment/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/reports/french-unemployment/report.f1c46754.js
-[90mcopy[39m site/visuals/headline-trend-pair.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/headline-trend-pair.ba88eb83.js
-[90mcopy[39m site/visuals/slack-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/slack-multiples.409d2589.js
-[90mcopy[39m site/visuals/age-band-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/age-band-lines.ecb2c78c.js
-[90mcopy[39m site/visuals/participation-gap-band.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/participation-gap-band.39522df6.js
-[90mcopy[39m site/visuals/departement-choropleth.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/departement-choropleth.7b212827.js
-[90mcopy[39m site/visuals/international-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/international-lines.294ad944.js
-[90mcopy[39m site/reports/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/reports/report.d087d09c.js
-[90mcopy[39m site/visuals/line.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/line.85a80420.js
-[90mcopy[39m site/visuals/line.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/line.contract.3fef7f31.js
-[90mcopy[39m site/reports/world-demography/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/reports/world-demography/report.8dc4f27b.js
-[90mcopy[39m site/data/report-runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/data/report-runtime.847630a1.js
-[90mcopy[39m site/visuals/world-population-path.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/world-population-path.02791e39.js
-[90mcopy[39m site/visuals/country-population-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/country-population-paths.4a7363b4.js
-[90mcopy[39m site/visuals/change-composition.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/change-composition.81540fdf.js
-[90mcopy[39m site/visuals/migration-flows.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/migration-flows.a73b2364.js
-[90mcopy[39m site/visuals/fertility-longevity.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/fertility-longevity.37f26e85.js
-[90mcopy[39m site/visuals/age-structure.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/age-structure.433c726f.js
-[90mcopy[39m site/reports/world-demography/state.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/reports/world-demography/state.86be29d1.js
-[90mcopy[39m site/visuals/world-population-path.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/world-population-path.contract.f4ff3fe8.js
-[90mcopy[39m site/visuals/country-population-paths.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/country-population-paths.contract.b288e540.js
-[90mcopy[39m site/visuals/change-composition.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/change-composition.contract.da9fb039.js
-[90mcopy[39m site/visuals/migration-flows.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/migration-flows.contract.626ae2e7.js
-[90mcopy[39m site/visuals/fertility-longevity.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/fertility-longevity.contract.092331ae.js
-[90mcopy[39m site/visuals/age-structure.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/_import/visuals/age-structure.contract.c71bb444.js
-[90mrender[39m /index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/index.html
-[90mrender[39m /design/reference [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/design/reference.html
-[90mrender[39m /design/visual-language [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/design/visual-language.html
-[90mrender[39m /reports/french-consumer-prices [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/reports/french-consumer-prices.html
-[90mrender[39m /reports/french-unemployment [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/reports/french-unemployment.html
-[90mrender[39m /reports/index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/reports/index.html
-[90mrender[39m /reports/report [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/reports/report.html
-[90mrender[39m /reports/world-demography [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\artifact/reports/world-demography.html
+[90mbuild[39m /_observablehq/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_observablehq/client.75a582d7.js
+[90mbuild[39m /_observablehq/runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_observablehq/runtime.607a8173.js
+[90mbuild[39m /_observablehq/stdlib.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_observablehq/stdlib.d41a6e77.js
+[90mbuild[39m /_node/@duckdb/duckdb-wasm@1.31.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_node/@duckdb/duckdb-wasm@1.31.0/index.971ff573.js
+[90mbuild[39m /_node/apache-arrow@17.0.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_node/apache-arrow@17.0.0/index.2d326ba0.js
+[90mbuild[39m /_node/tslib@2.8.1/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_node/tslib@2.8.1/index.3e211051.js
+[90mbuild[39m /_node/flatbuffers@24.12.23/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_node/flatbuffers@24.12.23/index.cd275b3e.js
+[90mcopy[39m site/data/home.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/home.b2139e71.js
+[90mcopy[39m site/data/status-client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/status-client.ce12f827.js
+[90mcopy[39m site/data/status-scenarios.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/status-scenarios.af910ec1.js
+[90mcopy[39m site/workflows/add-visual/template/fixture.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/workflows/add-visual/template/fixture.7d6df577.js
+[90mcopy[39m site/workflows/add-visual/template/visual.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/workflows/add-visual/template/visual.42a60773.js
+[90mcopy[39m site/reports/french-consumer-prices/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/reports/french-consumer-prices/report.ddee076a.js
+[90mcopy[39m site/data/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/client.e9951e80.js
+[90mcopy[39m site/data/browser-shell.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/browser-shell.fad17abc.js
+[90mcopy[39m site/visuals/headline-trend.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/headline-trend.9a6dc858.js
+[90mcopy[39m site/visuals/contribution-stack.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/contribution-stack.74a6edbb.js
+[90mcopy[39m site/visuals/divergence-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/divergence-multiples.aae7b68f.js
+[90mcopy[39m site/visuals/index-level-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/index-level-paths.b6791e6e.js
+[90mcopy[39m site/visuals/report-shared.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/report-shared.cb962c8f.js
+[90mcopy[39m site/reports/french-unemployment/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/reports/french-unemployment/report.f1c46754.js
+[90mcopy[39m site/visuals/headline-trend-pair.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/headline-trend-pair.ba88eb83.js
+[90mcopy[39m site/visuals/slack-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/slack-multiples.409d2589.js
+[90mcopy[39m site/visuals/age-band-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/age-band-lines.ecb2c78c.js
+[90mcopy[39m site/visuals/participation-gap-band.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/participation-gap-band.39522df6.js
+[90mcopy[39m site/visuals/departement-choropleth.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/departement-choropleth.7b212827.js
+[90mcopy[39m site/visuals/international-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/international-lines.294ad944.js
+[90mcopy[39m site/reports/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/reports/report.d087d09c.js
+[90mcopy[39m site/visuals/line.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/line.85a80420.js
+[90mcopy[39m site/visuals/line.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/line.contract.3fef7f31.js
+[90mcopy[39m site/reports/world-demography/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/reports/world-demography/report.12a0dcc8.js
+[90mcopy[39m site/data/report-runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/data/report-runtime.847630a1.js
+[90mcopy[39m site/visuals/world-population-path.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/world-population-path.02791e39.js
+[90mcopy[39m site/visuals/country-population-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/country-population-paths.4a7363b4.js
+[90mcopy[39m site/visuals/change-composition.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/change-composition.81540fdf.js
+[90mcopy[39m site/visuals/migration-flows.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/migration-flows.a73b2364.js
+[90mcopy[39m site/visuals/fertility-longevity.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/fertility-longevity.37f26e85.js
+[90mcopy[39m site/visuals/age-structure.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/age-structure.433c726f.js
+[90mcopy[39m site/reports/world-demography/state.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/reports/world-demography/state.86be29d1.js
+[90mcopy[39m site/visuals/world-population-path.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/world-population-path.contract.f4ff3fe8.js
+[90mcopy[39m site/visuals/country-population-paths.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/country-population-paths.contract.b288e540.js
+[90mcopy[39m site/visuals/change-composition.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/change-composition.contract.da9fb039.js
+[90mcopy[39m site/visuals/migration-flows.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/migration-flows.contract.626ae2e7.js
+[90mcopy[39m site/visuals/fertility-longevity.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/fertility-longevity.contract.092331ae.js
+[90mcopy[39m site/visuals/age-structure.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/_import/visuals/age-structure.contract.c71bb444.js
+[90mrender[39m /index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/index.html
+[90mrender[39m /design/reference [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/design/reference.html
+[90mrender[39m /design/visual-language [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/design/visual-language.html
+[90mrender[39m /reports/french-consumer-prices [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/reports/french-consumer-prices.html
+[90mrender[39m /reports/french-unemployment [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/reports/french-unemployment.html
+[90mrender[39m /reports/index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/reports/index.html
+[90mrender[39m /reports/report [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/reports/report.html
+[90mrender[39m /reports/world-demography [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-r5oiQe\artifact/reports/world-demography.html
 
 [90m┌[39m[90m (8 pages)                    [39m         Page      Imports        Files
 [90m├── [39mdesign[90m (2 pages)           [39m 
@@ -113,13 +113,13 @@ pulse catalog build wrote C:\Users\yfontana\Code\pulse\.pulse-site-JlAyrl\inputs
 [90m│   ├── [39mfrench-unemployment     [32m        3 kB[39m [32m      453 kB[39m [32m       25 kB[39m
 [90m│   ├── [39mindex                   [32m        1 kB[39m [32m       51 kB[39m [32m       25 kB[39m
 [90m│   ├── [39mreport                  [32m        2 kB[39m [32m      318 kB[39m [32m       25 kB[39m
-[90m│   └── [39mworld-demography        [32m        3 kB[39m [32m      456 kB[39m [32m       25 kB[39m
+[90m│   └── [39mworld-demography        [32m        3 kB[39m [32m      457 kB[39m [32m       25 kB[39m
 [90m└── [39mindex                       [32m        2 kB[39m [32m       89 kB[39m [32m       25 kB[39m
 
-(node:52228) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(node:48752) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-Public artifact scan passed (65851360 bytes).
-Pulse site artifact ae31adcb5388e7015848077563d52b7426fde7d89872a79622c2fcf15e9d0f37 is verified and ready at C:\Users\yfontana\Code\pulse\dist.
+Public artifact scan passed (65851495 bytes).
+Pulse site artifact a2f86d94b4e44791b7c4a7781cf2de89587242e91dc78f8f799034918b123715 is verified and ready at C:\Users\yfontana\Code\pulse\dist.
 
 > pulse@0.1.0 portability:build
 > vite build --config tests/portability/vite.config.js
@@ -133,7 +133,7 @@ tests/portability/vite/dist/index.html                   0.37 kB │ gzip:  0.26
 tests/portability/vite/dist/assets/index-DoztMJH9.css    2.57 kB │ gzip:  0.85 kB
 tests/portability/vite/dist/assets/index-DuGQT5zc.js   214.65 kB │ gzip: 51.43 kB
 
-[32m✓ built in 180ms[39m
+[32m✓ built in 134ms[39m
 
 > pulse@0.1.0 browser:test
 > playwright test --config tests/browser/playwright.config.js
@@ -169,7 +169,7 @@ Running 196 tests using 1 worker
 [26/196] [chromium] › tests\browser\pilot.spec.js:68:1 › unchanged client and visual modules execute in the Vite harness
 [27/196] [chromium] › tests\browser\pilot.spec.js:78:1 › cold-cache performance stays within the recorded budget
 [chromium] › tests\browser\pilot.spec.js:78:1 › cold-cache performance stays within the recorded budget
-PULSE_PERFORMANCE [{"coldLoadMs":73.39999997615814,"firstReadableMs":1691.6000000238419},{"coldLoadMs":72,"firstReadableMs":1851.1000000238419},{"coldLoadMs":69.79999995231628,"firstReadableMs":1832.7999999523163}]
+PULSE_PERFORMANCE [{"coldLoadMs":52,"firstReadableMs":1703.7999999523163},{"coldLoadMs":89.79999995231628,"firstReadableMs":1731.1999999284744},{"coldLoadMs":73.70000004768372,"firstReadableMs":1714.2000000476837}]
 
 [28/196] [chromium] › tests\browser\pilot.spec.js:108:1 › complete French consumer-price report renders four real-data figures
 [29/196] [chromium] › tests\browser\pilot.spec.js:127:1 › report exploration keeps period-keyed selection and accessible equivalents
@@ -270,7 +270,7 @@ PULSE_PERFORMANCE [{"coldLoadMs":73.39999997615814,"firstReadableMs":1691.600000
 [124/196] [firefox] › tests\browser\pilot.spec.js:68:1 › unchanged client and visual modules execute in the Vite harness
 [125/196] [firefox] › tests\browser\pilot.spec.js:78:1 › cold-cache performance stays within the recorded budget
 [firefox] › tests\browser\pilot.spec.js:78:1 › cold-cache performance stays within the recorded budget
-PULSE_PERFORMANCE [{"coldLoadMs":284,"firstReadableMs":2219},{"coldLoadMs":301,"firstReadableMs":2071},{"coldLoadMs":355,"firstReadableMs":2125}]
+PULSE_PERFORMANCE [{"coldLoadMs":312,"firstReadableMs":2145},{"coldLoadMs":293,"firstReadableMs":2379},{"coldLoadMs":167,"firstReadableMs":1861}]
 
 [126/196] [firefox] › tests\browser\pilot.spec.js:108:1 › complete French consumer-price report renders four real-data figures
 [127/196] [firefox] › tests\browser\pilot.spec.js:127:1 › report exploration keeps period-keyed selection and accessible equivalents
@@ -343,11 +343,10 @@ PULSE_PERFORMANCE [{"coldLoadMs":284,"firstReadableMs":2219},{"coldLoadMs":301,"
 [194/196] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the render rendered state
 [195/196] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-suspect rendered state
 [196/196] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-stale rendered state
-  196 passed (11.8m)
+  196 passed (11.0m)
 
 > pulse@0.1.0 artifact:scan
 > node tests/browser/artifact-scan.mjs
 
-Public artifact scan passed (65851360 bytes).
+Public artifact scan passed (65851495 bytes).
 pulse verify passed
-VERIFY_EXIT=0
