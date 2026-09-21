@@ -1,0 +1,58 @@
+id: un-wpp-demographic-indicators
+snapshot_contract: snapshot-contract.yaml
+name: UN World Population Prospects demographic indicators, medium scenario
+visibility: public
+acquisition:
+  method: UN World Population Prospects standard CSV bulk download, gzip-compressed
+  url: https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_Medium.csv.gz
+  # The revision year is part of the provider's file name, so a new revision is
+  # a different URL rather than new content at this one. A scheduled run can
+  # therefore only confirm that this revision has not been rebuilt in place;
+  # moving to the next revision is a human edit of this declaration. That is
+  # not hypothetical: these 2024 files carry a Last-Modified of 13 December
+  # 2024, five months after the revision was released.
+  revision: WPP 2024
+  # The file itself carries no estimate/projection flag: every row reads
+  # Variant "Medium" from 1950 to 2101. The boundary is declared here from the
+  # provider's own statement, and the adapter asserts the file contains it.
+  first_year: 1950
+  estimates_through_year: 2023
+  projection_horizon_year: 2100
+  # The location whose rows are the provider's own world total.
+  world_location_id: "900"
+  required_columns:
+    - LocID
+    - Notes
+    - ISO3_code
+    - LocTypeID
+    - LocTypeName
+    - ParentID
+    - Location
+    - VarID
+    - Variant
+    - Time
+    - TPopulation1July
+    - PopDensity
+    - MedianAgePop
+    - NatChange
+    - NatChangeRT
+    - PopChange
+    - PopGrowthRate
+    - Births
+    - CBR
+    - TFR
+    - Deaths
+    - CDR
+    - LEx
+    - LExMale
+    - LExFemale
+    - NetMigrations
+    - CNMR
+fetch_cadence: with each revision of World Population Prospects, released on World Population Day of even-numbered years; between revisions, a quarterly integrity poll for an in-place rebuild of the same revision
+expected_publication_advance: each revision extends the estimate period by two years and re-bases the projection; the 2022 revision's estimates ended with 2021 and the 2024 revision's with 2023, so the represented year advances by two at each revision and stands still between them
+publication_schedule:
+  period: biennial
+  expected_within_days: 210
+  grace_days: 60
+licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. Made available under CC BY 3.0 IGO."

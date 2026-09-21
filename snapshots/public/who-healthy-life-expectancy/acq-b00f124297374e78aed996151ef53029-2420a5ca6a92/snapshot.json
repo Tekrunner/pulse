@@ -1,0 +1,53 @@
+{
+  "acquired_at": "2026-09-16T21:15:07Z",
+  "acquisition_id": "acq-b00f124297374e78aed996151ef53029",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "2420a5ca6a92593e4e391b5f00dc7e2062b040dc8a74041045600c80f0e7110d"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every-row-reports-the-requested-indicator",
+      "passed": true
+    },
+    {
+      "check": "every-row-is-disaggregated-by-the-declared-dimension",
+      "passed": true
+    },
+    {
+      "check": "every-declared-sex-code-is-published",
+      "passed": true
+    },
+    {
+      "check": "country-rows-are-published",
+      "passed": true
+    },
+    {
+      "check": "published-uncertainty-interval-contains-the-estimate",
+      "passed": true
+    },
+    {
+      "check": "the-latest-reference-year-is-published-for-every-declared-sex-code",
+      "passed": true
+    }
+  ],
+  "attribution": "WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024. Date of access is the acquisition timestamp recorded in each snapshot manifest. The underlying data were provided by the WHO Member States identified in each row's SpatialDim field.",
+  "decoder_version": "who-gho-hale-odata-v1",
+  "format": "parquet",
+  "licence": "WHO Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses: a royalty-free, worldwide, non-exclusive right to use, reproduce, extract, download, copy, distribute, display or include the Datasets for public health purposes, with attribution, no onward sale or transfer, no commercial promotion, and prior written WHO authorization for any alteration or modification",
+  "observed_schema_sha256": "bb773603a1e3dd2dedc88312c89cf030225f53bf8919e9053244d62e7ff66cd6",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-b00f124297374e78aed996151ef53029-2420a5ca6a92",
+  "source_data_date": "2021-12-31",
+  "source_id": "who-healthy-life-expectancy",
+  "source_urls": [
+    "https://ghoapi.azureedge.net/api/WHOSIS_000002"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

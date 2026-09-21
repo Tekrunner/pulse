@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-16T21:15:57Z",
+  "acquisition_id": "acq-92a062cf48794ae18b3b4b929fe947c9",
+  "artifacts": [
+    {
+      "path": "raw.csv.gz",
+      "sha256": "a860504df54877e4c19788bf6e16920d6017d021b4c149eaf8b5662674180a54"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "projection-begins-the-year-after-the-declared-estimate-boundary",
+      "passed": true
+    },
+    {
+      "check": "projection-reaches-the-declared-horizon",
+      "passed": true
+    },
+    {
+      "check": "every-declared-scenario-is-published",
+      "passed": true
+    },
+    {
+      "check": "world-total-is-published-for-every-scenario-the-provider-aggregates",
+      "passed": true
+    }
+  ],
+  "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. Made available under CC BY 3.0 IGO.",
+  "decoder_version": "un-wpp-scenarios-original-file-v1",
+  "format": "original-file",
+  "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+  "observed_schema_sha256": "6c416f42472932a88171426e47c3a76c7fe08bb178ac007208835d69d0c6ca44",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-92a062cf48794ae18b3b4b929fe947c9-a860504df548",
+  "source_data_date": "2023-12-31",
+  "source_id": "un-wpp-projection-scenarios",
+  "source_urls": [
+    "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_OtherVariants.csv.gz"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

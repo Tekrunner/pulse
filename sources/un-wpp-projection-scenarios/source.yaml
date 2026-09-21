@@ -1,0 +1,93 @@
+id: un-wpp-projection-scenarios
+snapshot_contract: snapshot-contract.yaml
+name: UN World Population Prospects demographic indicators, alternative projection scenarios
+visibility: public
+acquisition:
+  method: UN World Population Prospects standard CSV bulk download, gzip-compressed
+  url: https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_Demographic_Indicators_OtherVariants.csv.gz
+  # The revision year is part of the provider's file name, so a new revision is
+  # a different URL rather than new content at this one. See source-contract.md.
+  revision: WPP 2024
+  # This file begins where the estimates end, so the boundary below is checked
+  # against the data rather than only declared: the adapter asserts that the
+  # first published year is the year after the last estimated one.
+  estimates_through_year: 2023
+  projection_horizon_year: 2100
+  world_location_id: "900"
+  # Every scenario the provider publishes in this file. An absent scenario is
+  # an assertion failure rather than an incompatibility, because a scenario the
+  # provider stops publishing leaves the rest of the response usable.
+  scenarios:
+    - High
+    - Low
+    - Constant fertility
+    - Constant mortality
+    - Instant replacement
+    - Instant replacement zero migration
+    - Zero migration
+    - No change
+    - Momentum
+    - No fertility below age 18
+    - Accelerated ABR decline
+    - Accelerated ABR decline with rec
+    - Median PI
+    - Lower 80 PI
+    - Upper 80 PI
+    - Lower 95 PI
+    - Upper 95 PI
+    - Mean
+  # The provider aggregates every scenario above to the world total except
+  # "Mean", which it publishes for countries and areas only.
+  world_total_scenarios:
+    - High
+    - Low
+    - Constant fertility
+    - Constant mortality
+    - Instant replacement
+    - Instant replacement zero migration
+    - Zero migration
+    - No change
+    - Momentum
+    - No fertility below age 18
+    - Accelerated ABR decline
+    - Accelerated ABR decline with rec
+    - Median PI
+    - Lower 80 PI
+    - Upper 80 PI
+    - Lower 95 PI
+    - Upper 95 PI
+  required_columns:
+    - LocID
+    - Notes
+    - ISO3_code
+    - LocTypeID
+    - LocTypeName
+    - ParentID
+    - Location
+    - VarID
+    - Variant
+    - Time
+    - TPopulation1July
+    - MedianAgePop
+    - NatChange
+    - NatChangeRT
+    - PopChange
+    - PopGrowthRate
+    - Births
+    - CBR
+    - TFR
+    - Deaths
+    - CDR
+    - LEx
+    - LExMale
+    - LExFemale
+    - NetMigrations
+    - CNMR
+fetch_cadence: with each revision of World Population Prospects, released on World Population Day of even-numbered years; between revisions, a quarterly integrity poll for an in-place rebuild of the same revision
+expected_publication_advance: each revision re-bases the projection on two further years of estimates, so the first projected year advances by two at each revision and stands still between them
+publication_schedule:
+  period: biennial
+  expected_within_days: 210
+  grace_days: 60
+licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. Made available under CC BY 3.0 IGO."

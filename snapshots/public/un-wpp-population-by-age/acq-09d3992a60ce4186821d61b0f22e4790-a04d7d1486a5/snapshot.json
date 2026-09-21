@@ -1,0 +1,53 @@
+{
+  "acquired_at": "2026-09-16T21:15:34Z",
+  "acquisition_id": "acq-09d3992a60ce4186821d61b0f22e4790",
+  "artifacts": [
+    {
+      "path": "raw.csv.gz",
+      "sha256": "a04d7d1486a5eb2832cc812d599448f0a71e8ac9e1e7e6fa4066673d6a2487cd"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "series-starts-at-the-declared-first-year",
+      "passed": true
+    },
+    {
+      "check": "declared-estimate-boundary-year-is-published",
+      "passed": true
+    },
+    {
+      "check": "projection-reaches-the-declared-horizon",
+      "passed": true
+    },
+    {
+      "check": "world-total-is-published",
+      "passed": true
+    },
+    {
+      "check": "every-declared-age-group-is-published-at-the-boundary-year",
+      "passed": true
+    },
+    {
+      "check": "male-and-female-populations-sum-to-the-published-total",
+      "passed": true
+    }
+  ],
+  "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. Made available under CC BY 3.0 IGO.",
+  "decoder_version": "un-wpp-population-by-age-original-file-v1",
+  "format": "original-file",
+  "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+  "observed_schema_sha256": "6c416f42472932a88171426e47c3a76c7fe08bb178ac007208835d69d0c6ca44",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-09d3992a60ce4186821d61b0f22e4790-a04d7d1486a5",
+  "source_data_date": "2023-12-31",
+  "source_id": "un-wpp-population-by-age",
+  "source_urls": [
+    "https://population.un.org/wpp/assets/Excel%20Files/1_Indicator%20(Standard)/CSV_FILES/WPP2024_PopulationByAge5GroupSex_Medium.csv.gz"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

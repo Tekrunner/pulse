@@ -1,0 +1,21 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+# Only the fields the provider populates on every row are required. Low, High,
+# ParentLocation and ParentLocationCode are deliberately absent: the provider
+# publishes them as null on some rows, and a required field may not be null.
+required_fields:
+  Id: integer
+  IndicatorCode: string
+  SpatialDimType: string
+  SpatialDim: string
+  TimeDimType: string
+  TimeDim: integer
+  Dim1Type: string
+  Dim1: string
+  Value: string
+  NumericValue: number
+  Date: string
+  TimeDimensionValue: string
+  TimeDimensionBegin: string
+  TimeDimensionEnd: string

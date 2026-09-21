@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-16T21:15:05Z",
+  "acquisition_id": "acq-1f9a4c56eacd43cb8b053e654154fa4c",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "7967ce345a22cebc45a6c0be9a6d23acef765f24158a8b0e4d4963ac34a5eb76"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every-row-matches-the-requested-series-key",
+      "passed": true
+    },
+    {
+      "check": "every-observation-value-is-a-number-or-empty",
+      "passed": true
+    },
+    {
+      "check": "the-latest-year-is-published-for-more-than-one-reporting-country",
+      "passed": true
+    },
+    {
+      "check": "no-reporting-country-repeats-a-year",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: Eurostat, emigration by age group, sex and citizenship (migr_emi1ctz).",
+  "decoder_version": "eurostat-emigration-sdmx-csv-v1",
+  "format": "parquet",
+  "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+  "observed_schema_sha256": "69f5796f3655b89b5f150ce0092d0e01aba6649eeff0f90cc5d54221b822dafa",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-1f9a4c56eacd43cb8b053e654154fa4c-7967ce345a22",
+  "source_data_date": "2024-12-31",
+  "source_id": "eurostat-emigration",
+  "source_urls": [
+    "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/migr_emi1ctz/A.TOTAL.COMPLET.TOTAL.NR.T.?format=SDMX-CSV"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

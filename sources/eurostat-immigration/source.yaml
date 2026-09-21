@@ -1,0 +1,33 @@
+id: eurostat-immigration
+snapshot_contract: snapshot-contract.yaml
+name: Eurostat immigration by citizenship, annual totals
+visibility: public
+acquisition:
+  method: Eurostat dissemination SDMX 2.1 REST, SDMX-CSV 1.0 representation
+  url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/migr_imm1ctz/A.TOTAL.COMPLET.TOTAL.NR.T.?format=SDMX-CSV
+  # The dissemination API's own JSON-stat representation would have to be
+  # flattened into rows before it could be archived, which is a decoding
+  # decision this layer should not be making. SDMX-CSV is already one row per
+  # observation, so the archive keeps what the provider sends.
+  dataflow: ESTAT:MIGR_IMM1CTZ(1.0)
+  # The key pins one series per reporting country so the response cannot widen
+  # into other citizenships, ages, sexes or units without being noticed. The
+  # dimension order is the provider's: freq, citizen, agedef, age, unit, sex,
+  # geo. The trailing position is left open, because which reporting countries
+  # exist is a question about Eurostat's own membership, answered by whichever
+  # package declares them, not by this acquisition.
+  key:
+    freq: A
+    citizen: TOTAL
+    agedef: COMPLET
+    age: TOTAL
+    unit: NR
+    sex: T
+fetch_cadence: annual, after the Eurostat migration-flows release in March
+expected_publication_advance: one reference year per release; a reference year is collected by 31 December of the following year and released in March of the year after that, so the represented year advances by one each March
+publication_schedule:
+  period: annual
+  expected_within_days: 455
+  grace_days: 30
+licence: "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)"
+attribution: "Source: Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz)."

@@ -1,0 +1,45 @@
+name: Refresh WHO healthy life expectancy
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 12 1,4,7,10 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/who-healthy-life-expectancy/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh who-healthy-life-expectancy --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication who-healthy-life-expectancy
+          if ! git diff --cached --quiet; then
+            git commit -m "data(who-healthy-life-expectancy): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

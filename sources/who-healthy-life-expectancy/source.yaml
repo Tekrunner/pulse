@@ -1,0 +1,32 @@
+id: who-healthy-life-expectancy
+snapshot_contract: snapshot-contract.yaml
+name: WHO Global Health Observatory healthy life expectancy (HALE) at birth
+visibility: public
+acquisition:
+  method: WHO Global Health Observatory OData API, whole-indicator request
+  url: https://ghoapi.azureedge.net/api/WHOSIS_000002
+  indicator_code: WHOSIS_000002
+  # The API answers one indicator per path segment and has no dimension
+  # filtering that would narrow the response without also choosing which
+  # locations and sexes exist. Which countries and which sexes the provider
+  # publishes are questions about the Global Health Estimates, so the whole
+  # indicator is requested and everything it returns is retained as observed.
+  sex_dimension: SEX
+  # The sex codes the provider publishes for this indicator. An absent code is
+  # an assertion failure rather than an incompatibility.
+  sex_codes:
+    - SEX_BTSX
+    - SEX_MLE
+    - SEX_FMLE
+fetch_cadence: irregular, with each revision of the WHO Global Health Estimates rather than on an annual calendar
+expected_publication_advance: a revision restates the whole series and extends it; the 2021 revision added reference years through 2021 and was disseminated in August 2024, so the represented year advances in steps of several years and stands still between revisions
+publication_schedule:
+  period: biennial
+  expected_within_days: 950
+  grace_days: 60
+# Not a Creative Commons licence. WHO grants its own terms, which restrict use
+# to public health purposes and require prior written authorization for any
+# alteration beyond matching a publication's style. See source-contract.md for
+# the quoted clauses and the recorded human decision to accept them.
+licence: "WHO Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses: a royalty-free, worldwide, non-exclusive right to use, reproduce, extract, download, copy, distribute, display or include the Datasets for public health purposes, with attribution, no onward sale or transfer, no commercial promotion, and prior written WHO authorization for any alteration or modification"
+attribution: "WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024. Date of access is the acquisition timestamp recorded in each snapshot manifest. The underlying data were provided by the WHO Member States identified in each row's SpatialDim field."
