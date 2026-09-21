@@ -211,20 +211,42 @@ test("the report says where each family's data stops", async ({ page }) => {
   await expect(header).toContainText("to 2021");
 });
 
+// A viewport change always has a frame in which the old plots are still the
+// old width, so the settled layout is what a reader sees and what these
+// assertions are about. Waiting for every plot to fit is itself the check
+// that the figures remeasured; a plot that never redrew never settles.
+async function settled(page) {
+  await page.waitForFunction(() => [...document.querySelectorAll(".report-visual svg")]
+    .every((svg) => svg.getBoundingClientRect().width <= window.innerWidth + 1), null, { timeout: 30_000 });
+}
+
 test("the layout reflows at a narrow width and at 400% zoom without losing a figure", async ({ page }) => {
   await page.setViewportSize({ width: 740, height: 420 });
   await ready(page);
   for (const id of FIGURES) {
     await expect(page.locator(`.figure-body[data-slot="${id}"][data-state=ready]`)).toBeVisible();
   }
+  await settled(page);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+
+  const wide = await page.evaluate(() =>
+    Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
 
   await page.setViewportSize({ width: 320, height: 512 });
   await expect(page.locator(".report-content[data-state=ready]")).toBeVisible();
   for (const id of FIGURES) {
     await expect(page.locator(`.figure-body[data-slot="${id}"]`)).toBeVisible();
   }
+  await settled(page);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth + 1)).toBe(true);
+
+  // The plots were redrawn for the narrower viewport rather than merely
+  // clipped by their frame: a figure kept at its old width would leave the
+  // reader scrolling inside every figure on a phone.
+  const narrow = await page.evaluate(() =>
+    Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
+  expect(narrow).toBeLessThan(wide);
+  expect(narrow).toBeLessThanOrEqual(320);
 });
 
 test("changing the year never puts a loading message over a drawn figure", async ({ page }) => {
