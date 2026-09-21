@@ -19,17 +19,28 @@ ROOT = Path(__file__).resolve().parents[2]
 # Dataset conformance exercises two dbt builds over the full public snapshot;
 # allow the reproducible suite to complete on slower CI and Firefox hosts.
 SUBPROCESS_TIMEOUT_SECONDS = 600
+# The two full suites are budgeted apart from the short stages, because their
+# cost grows with the repository rather than with the machine: the Python
+# suite rebuilds every dataset package with dbt, and the frontend suite runs
+# every browser specification in two engines. Both outgrew the 600 second
+# stage budget the first time six datasets and a report were added, and the
+# resulting timeout reads as a broken toolchain rather than a suite that needs
+# longer. Measured on 2026-09-21: 826 seconds for 385 Python tests, 690 for
+# 194 browser tests. The budget leaves room for a slower CI host and for the
+# next report; raise it when a measurement approaches it, and shorten the
+# suites when raising it stops being defensible.
+SUITE_TIMEOUT_SECONDS = 2400
 
 
-def _run(name: str, command: list[str]) -> None:
+def _run(name: str, command: list[str], timeout: int = SUBPROCESS_TIMEOUT_SECONDS) -> None:
     print(f"[{name}] {' '.join(command)}", flush=True)
     try:
         completed = subprocess.run(
-            command, cwd=ROOT, text=True, check=False, timeout=SUBPROCESS_TIMEOUT_SECONDS
+            command, cwd=ROOT, text=True, check=False, timeout=timeout
         )
     except subprocess.TimeoutExpired as error:
         raise VerificationError(
-            f"stage '{name}' timed out after {SUBPROCESS_TIMEOUT_SECONDS} seconds; "
+            f"stage '{name}' timed out after {timeout} seconds; "
             "inspect the command or its prerequisites."
         ) from error
     except OSError as error:
@@ -76,7 +87,7 @@ def _python_smoke() -> None:
             f"{platform.python_implementation()} {sys.version.split()[0]}); "
             "install CPython 3.13, then run uv sync --frozen."
         )
-    _run("python smoke", [sys.executable, "-m", "pytest", "-q"])
+    _run("python smoke", [sys.executable, "-m", "pytest", "-q"], timeout=SUITE_TIMEOUT_SECONDS)
 
 
 def _skill_mirror_smoke() -> None:
@@ -114,7 +125,7 @@ def _node_smoke() -> None:
             "stage 'node smoke' requires npm 11 bundled with Node 24 (found "
             f"{npm_version or 'unavailable'}); reinstall the documented Node 24 prerequisite."
         )
-    _run("node smoke", [npm, "run", "verify:frontend"])
+    _run("node smoke", [npm, "run", "verify:frontend"], timeout=SUITE_TIMEOUT_SECONDS)
 
 
 def _status_smoke() -> None:
@@ -208,7 +219,14 @@ def _workflow_smoke() -> None:
             seen.add(source_id)
         datasets_root = ROOT / "datasets"
         datasets = discover_datasets(datasets_root) if datasets_root.is_dir() else {}
-        if any(dataset_id in content for dataset_id in datasets):
+        # A workflow legitimately says its own source ID many times, and a
+        # dataset ID can be a substring of one: the source 'who-healthy-life-
+        # expectancy' contains the dataset 'healthy-life-expectancy'. Reading
+        # that as dataset knowledge would make naming a source after its
+        # indicator an error. The source's own name is removed first, so what
+        # remains is only what the workflow says about something else.
+        remainder = content.replace(matching[0], "") if matching else content
+        if any(dataset_id in remainder for dataset_id in datasets):
             raise VerificationError(
                 "stage 'workflow contract' rejects dataset knowledge in source workflow YAML"
             )

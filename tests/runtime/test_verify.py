@@ -48,6 +48,31 @@ def test_subprocess_start_failures_are_actionable(
         verify._run("fixture stage", ["tool"])
 
 
+def test_both_full_suites_run_on_the_longer_budget(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Both suites grow with the repository, not with the machine.
+
+    The Python suite rebuilds every dataset package and the frontend suite
+    runs every browser specification in two engines, so a budget sized for the
+    short stages is outgrown as soon as datasets or reports are added, and the
+    resulting failure reads as a broken toolchain.
+    """
+    observed: list[tuple[str, int]] = []
+
+    def record(command: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        observed.append((command[-1], int(kwargs["timeout"])))
+        return subprocess.CompletedProcess(command, 0)
+
+    monkeypatch.setattr(verify.subprocess, "run", record)
+    verify._python_smoke()
+    verify._run("status contract", ["tool", "status"])
+
+    assert observed == [
+        ("-q", verify.SUITE_TIMEOUT_SECONDS),
+        ("status", verify.SUBPROCESS_TIMEOUT_SECONDS),
+    ]
+    assert verify.SUITE_TIMEOUT_SECONDS > verify.SUBPROCESS_TIMEOUT_SECONDS
+
+
 def test_nonzero_subprocess_is_actionable(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(
         verify.subprocess,
@@ -143,18 +168,24 @@ def test_incompatible_npm_is_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 def test_node_smoke_runs_the_explicit_frontend_suite(monkeypatch: pytest.MonkeyPatch) -> None:
-    calls: list[tuple[str, list[str]]] = []
+    calls: list[tuple[str, list[str], int]] = []
     monkeypatch.setattr(verify.shutil, "which", lambda name: f"/tool/bin/{name}")
     monkeypatch.setattr(
         verify,
         "_probe",
         lambda name, _command: "v24.0.0" if name == "Node" else "11.0.0",
     )
-    monkeypatch.setattr(verify, "_run", lambda name, command: calls.append((name, command)))
+    monkeypatch.setattr(
+        verify,
+        "_run",
+        lambda name, command, **kwargs: calls.append((name, command, int(kwargs["timeout"]))),
+    )
 
     verify._node_smoke()
 
-    assert calls == [("node smoke", ["/tool/bin/npm", "run", "verify:frontend"])]
+    assert calls == [
+        ("node smoke", ["/tool/bin/npm", "run", "verify:frontend"], verify.SUITE_TIMEOUT_SECONDS)
+    ]
 
 
 def test_skill_mirror_smoke_uses_project_interpreter(monkeypatch: pytest.MonkeyPatch) -> None:

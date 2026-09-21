@@ -67,6 +67,45 @@ attribution: Example
     verify._workflow_smoke()
 
 
+def test_a_source_named_after_its_indicator_is_not_dataset_knowledge() -> None:
+    """A dataset ID can be a substring of the source ID a workflow legitimately
+    repeats: the source 'who-healthy-life-expectancy' contains the dataset
+    'healthy-life-expectancy'. Reading that as dataset knowledge would make
+    naming a source after the indicator it acquires an error."""
+    from pulse.datasets import discover_datasets
+    from pulse.sources import discover_sources
+
+    sources, datasets = discover_sources(), discover_datasets()
+    overlapping = [
+        (source_id, dataset_id)
+        for source_id in sources
+        for dataset_id in datasets
+        if dataset_id != source_id and dataset_id in source_id
+    ]
+
+    assert overlapping, "this guard is only meaningful while such a pair exists"
+    verify._workflow_smoke()
+
+
+def test_a_source_workflow_that_really_names_a_dataset_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    shutil.copytree(ROOT / ".github/workflows", tmp_path / ".github/workflows")
+    shutil.copytree(ROOT / "sources", tmp_path / "sources")
+    shutil.copytree(ROOT / "datasets", tmp_path / "datasets")
+    from pulse.datasets import discover_datasets
+
+    dataset_id = next(iter(discover_datasets(tmp_path / "datasets")))
+    workflow = tmp_path / ".github/workflows/insee-cpi.yml"
+    workflow.write_text(
+        workflow.read_text(encoding="utf-8") + f"\n# builds {dataset_id}\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(verify, "ROOT", tmp_path)
+
+    with pytest.raises(verify.VerificationError, match="dataset knowledge"):
+        verify._workflow_smoke()
+
+
 def test_pages_workflow_uploads_only_the_verified_latest_wins_artifact() -> None:
     verify._workflow_smoke()
     workflow = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
