@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "age-structure",
+  "handoffSection": "design/Main.dc.html — Age structure at the selected year",
+  "handoffSha256": "76f1ce30c92cd95ec120ed3e8e989850799c8094449aab96c3798333a2f69fce",
+  "renderedViews": [
+    {
+      "view": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-desktop.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    },
+    {
+      "view": "narrow-smartphone-landscape",
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "screenshot": "view-narrow-smartphone-landscape.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    },
+    {
+      "view": "zoom-400",
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "screenshot": "view-zoom-400.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    }
+  ],
+  "slotLocalFailure": {
+    "screenshot": "view-slot-local-failure.png",
+    "scenario": "slot-query",
+    "observed": {
+      "figureStates": [
+        [
+          "world-population-path",
+          "ready"
+        ],
+        [
+          "country-population-paths",
+          "ready"
+        ],
+        [
+          "change-composition",
+          "ready"
+        ],
+        [
+          "migration-flows",
+          "ready"
+        ],
+        [
+          "fertility-longevity",
+          "ready"
+        ],
+        [
+          "age-structure",
+          "query-error"
+        ]
+      ],
+      "reportState": "ready",
+      "retryOffered": true,
+      "alerts": [
+        "The query did not complete. Retry"
+      ]
+    }
+  },
+  "differencesFromHandoff": [
+    "The broad bands are the provider's own 0-14 / 15-64 / 65+ grouping, summed in the dataset package. The brief asked for below 18 / 18-65 / 65+ or whichever split the provider publishes; the provider publishes this one.",
+    "Every dynamic label is placed by the repository's own overlay mechanism in site/visuals/report-shared.js rather than the prototype's SVG text. The canvas runtime wraps an interpolated text node in a span, which renders nothing inside an SVG <text> element, so the prototype's own dynamic labels were blank; the approval permits this substitution and what binds is each label's position, alignment, colour and content.",
+    "The accessible table runs to the full represented window rather than the prototype's truncation, as the approval permits."
+  ]
+}

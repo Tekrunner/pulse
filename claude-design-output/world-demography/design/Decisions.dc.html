@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #161826; color: #e9e9ed; font-family: Inter, system-ui, sans-serif; }
+    a { color: #b5abfc; } a:hover { color: #d2cefd; }
+    .wd * { box-sizing: border-box; }
+    .wd h1, .wd h2, .wd h3 { margin: 0; font-weight: 500; }
+    .wd p, .wd ul, .wd ol { margin: 0; }
+    .wd ul, .wd ol { padding-inline-start: 20px; }
+    .wd li { margin-bottom: 5px; }
+    .wd code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #d2cefd; }
+    .wd table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .wd th, .wd td { text-align: left; padding: 6px 8px; border-bottom: 1px solid #3f424d; vertical-align: top; }
+    .wd thead th { color: #9397ab; font-weight: 500; }
+    .card { padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 9px; }
+  </style>
+</helmet>
+<div class="wd" style="width: 1180px; height: 3520px; padding: 26px 28px 36px; display: flex; flex-direction: column; gap: 18px; background: #161826;">
+
+  <header style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid #2e3140;">
+    <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">World demography · design decisions</p>
+    <h1 style="font-size: 32px; letter-spacing: -.015em;">What was decided, and what it binds</h1>
+    <p style="max-width: 92ch; font-size: 13.5px; color: #cfd3e5;">Everything on this artboard is binding on implementation once approved. Copy, layout, geometry, colour, behaviour and state treatments are fixed; the only permitted substitution is replacing a prototype value with the same value read from a verified query.</p>
+  </header>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Six figures, and why these six</h2>
+    <table>
+      <thead><tr><th scope="col">Visual</th><th scope="col">Answers</th><th scope="col">Row spine</th><th scope="col">Also reads</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>world-population-path</code></th><td>How large the world's population is, how fast it changes, and the range the projection spans</td><td><code>world-demography-indicators</code></td><td><code>world-demography-scenarios</code></td></tr>
+        <tr><th scope="row"><code>country-population-paths</code></th><td>Each selected country's population and its own rate of change, estimate and projection</td><td><code>world-demography-indicators</code></td><td><code>world-demography-scenarios</code></td></tr>
+        <tr><th scope="row"><code>change-composition</code></th><td>How much of a year's change is natural and how much is migration, in people or per 1,000</td><td><code>world-demography-indicators</code></td><td>—</td></tr>
+        <tr><th scope="row"><code>migration-flows</code></th><td>Gross arrivals and departures where a provider publishes them, beside the UN balance</td><td><code>world-demography-indicators</code></td><td><code>european-immigration-flows</code>, <code>european-emigration-flows</code></td></tr>
+        <tr><th scope="row"><code>fertility-longevity</code></th><td>Fertility rate, life expectancy, and years lived in full health</td><td><code>world-demography-indicators</code></td><td><code>healthy-life-expectancy</code></td></tr>
+        <tr><th scope="row"><code>age-structure</code></th><td>Population by age band and sex at the selected year, and the young/working/old split</td><td><code>world-demography-age-structure</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p style="font-size: 13px; color: #b2b6ca;">Two visuals were considered and rejected. A separate rate-of-change figure: its curve is already the lower panel of the two population figures, and a third plot of the same quantity is repetition. A choropleth of any measure: the reader compares a handful of named countries over time, and a map answers "where" when the question asked is "how fast".</p>
+    <p style="font-size: 13px; color: #b2b6ca;"><strong style="color: #e9e9ed;">Spine choice.</strong> Four visuals take the UN indicator table as their spine even where another dataset carries the headline measure. That table has every country and every year, so a country with no Eurostat rows and a year with no WHO estimate still produce a row, and the figure can draw the not-published treatment instead of dropping the country silently.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">The four controls</h2>
+    <ol style="font-size: 13px; color: #cfd3e5;">
+      <li><strong style="color: #e9e9ed;">Represented period.</strong> Four presets — 1950–2100, Observed only, Last 50 years, This century — plus independent From and To year selects. Changing either select moves the selection to Custom and a fifth segment appears reading Custom. Presets that end at the estimate boundary use the boundary read from the data, never a literal year.</li>
+      <li><strong style="color: #e9e9ed;">Observation year.</strong> A range input labelled "Observation year — or click any point on a figure", plus click-to-select on every figure at year grain. Every figure shows the same year. The age-structure figure is the whole point of this control: it renders the pyramid at whatever year is selected anywhere on the page.</li>
+      <li><strong style="color: #e9e9ed;">Countries compared.</strong> A removable chip per selected country, each carrying its series colour, plus a native select to add one. Default France, Germany, United Kingdom. The legend says "N of 184 selectable" so the universe rule is discoverable without prose about it.</li>
+      <li><strong style="color: #e9e9ed;">Projection shown.</strong> Four segments — 95% interval, High and low fertility, All published bounds, Medium only — governing the two population figures. Default is the 95% interval, because it is the only range on offer that carries a stated likelihood.</li>
+    </ol>
+    <p style="font-size: 13px; color: #b2b6ca;">One figure-local control exists: the components figure switches between people and per 1,000 population. It is figure-local because it changes what that figure measures and nothing else on the page.</p>
+    <p style="font-size: 13px; color: #b2b6ca;"><strong style="color: #e9e9ed;">Departure recorded.</strong> The standard observation control is a slider over a fine grain. Here the grain is a year and the span is 151 of them, so the slider is paired with a live numeric readout and with click-to-select on the figures, which is how a reader reaches an exact year without dragging.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Estimates and projections on one axis</h2>
+    <p style="font-size: 13px; color: #cfd3e5;">Every series is solid through the estimate period and dashed after it. A labelled vertical rule sits at the boundary reading "estimates" to its left and "projection" to its right. The boundary comes from the dataset's own <code>series_kind</code>, so it moves with the revision rather than being drawn at a remembered year.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">Dash is reserved for that distinction alone. Country identity is carried by colour <em>and</em> by a direct label at the end of each line — never by a dash pattern, which is already spoken for, and never by colour alone.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">The peak of the world's medium path is marked with a ring and a label computed from the rows. It is a mark, not a sentence: the next revision will move it, and a mark moves with it.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">The projection range, and what it is not</h2>
+    <p style="font-size: 13px; color: #cfd3e5;">The shaded band is the provider's 95% prediction interval. The named scenarios — High, Low, Constant fertility, Zero migration and the rest — are drawn as thin dashed lines with direct labels when selected, never as a filled band, because a filled band reads as a likelihood and they carry none.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">At 2100 the world spans 6.99bn under Low to 18.19bn under Constant fertility, against 9.05bn to 11.44bn for the 95% interval. Those are values the figure renders, which is why they appear on this artboard and in no sentence that ships.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">The probabilistic <code>Mean</code> scenario is never offered on a population plot: it publishes fertility alone. The probabilistic lower bounds round a small country's population to exactly zero at the far end and publish a median age no population could have; a country whose band touches zero gets the band clipped at the axis and the tail is not drawn as if it were a population.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Values reach the reader as marks, not sentences</h2>
+    <p style="font-size: 13px; color: #cfd3e5;"><strong style="color: #e9e9ed;">A value strip above each plot, in the same place every time.</strong> The values for the selected year sit in a strip between the figure's caption and its plot: the year, then one item per measure with its swatch, its name and its number. It is in the same position on every figure and every panel, it does not move with the selection, it does not change sides, and it never covers a mark.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">This replaces both earlier attempts. A chip per series stacked six boxes into a plot at six countries. A single box beside the selection point solved that but kept two faults the reader named: it sat in a different place on every figure because it tracked a different anchor on each, and it flipped from one side of the selection line to the other at the midpoint, so the same value was in two places depending on which year was chosen. On the small multiples it was worse than untidy — a box wide enough for three labelled numbers covers half of a 364-pixel panel.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">The eye travel a strip costs is small and, more to the point, it is constant: the reader learns one place and keeps using it. On the small multiples the panels are a few hundred pixels tall, so the distance from a mark to the strip above it is shorter than the distance across the panel. Inside the plot the selection keeps a dashed vertical line and a filled dot on each series, so where the reader is looking is still marked; only the numbers moved out.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">Units are what a reader says out loud: 8.09bn, 66.4M, +0.87% a year, −3.7‰. Axes are scaled to match. A strip carries only what its own figure answers for — the components strip carries the count and, in per-1,000 mode, the rate, which is what removes the need for a second plot of the same quantity.</p>
+    <p style="font-size: 13px; color: #cfd3e5;"><strong style="color: #e9e9ed;">Every sentence on the page was checked against one test:</strong> could a figure on the same screen show this instead? Where the answer was yes, the sentence was deleted. What remains is definitional — what a measure counts, what a provider does not publish, why two panels are not one — or a warning about the data. No sentence states a value, a direction, a ranking or a period.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Where the data stops, the mark says so</h2>
+    <ul style="font-size: 13px; color: #cfd3e5;">
+      <li>The United Kingdom's Eurostat flows end in 2019. Its lines end there with a label reading "to 2019" at the terminus, and its strip at any later year reads "arrivals — not published". No gap, no zero, no last-known value carried forward.</li>
+      <li>A country outside Eurostat's collection gets a panel with no plot at all: a dashed frame, the marker ✕, a sentence naming which collection it falls outside, and its UN net migration for the selected year so the panel still answers something.</li>
+      <li>Healthy life expectancy ends at 2021 for every country. Each line ends with a dot and a direct label, and the strip at a later year reads "not published".</li>
+      <li>These are the three places where the report's families disagree about how current they are. The header states each family's own edge, so the difference is legible before any interaction.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Two providers, one panel, and the one sentence that has to stay</h2>
+    <p style="font-size: 13px; color: #cfd3e5;">The migration figure puts Eurostat's arrivals and departures beside the United Nations' net migration. They come from different providers on different bases and the difference of the first two is not the third. No mark can carry that, so it is the figure's standfirst — one of the few sentences in the report that earns its place.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">The UN series is drawn thinner and dashed in the report accent, visibly a reference rather than a third flow of the same kind.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Colour, and what carries meaning without it</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 12.5px; color: #cfd3e5;">
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #b5abfc;"></span>France / world medium</span>
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #8fb0d1;"></span>Germany / arrivals / men</span>
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #9dc0ae;"></span>United Kingdom / natural change / 0–14</span>
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #d09a6a;"></span>Italy / net migration / departures / 65+</span>
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #c98fb0;"></span>Spain / women</span>
+      <span style="display: inline-flex; align-items: center; gap: 7px;"><span style="width: 22px; height: 4px; border-radius: 2px; background: #8c93a8;"></span>Poland / named scenarios</span>
+    </div>
+    <p style="font-size: 13px; color: #b2b6ca;">Ten hues, shared chroma, on the repository's existing dark ground. They are local to this report: no shared design role is added or changed. Every one of them is paired with a text label at the mark, so a reader who cannot separate two hues still reads the figure.</p>
+    <p style="font-size: 13px; color: #b2b6ca;">States never rely on colour: suspect and stale carry ⚠ and ◷, errors carry ✕, empty carries ◯, and each names itself in words.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Accessibility requirements, binding</h2>
+    <ul style="font-size: 13px; color: #cfd3e5;">
+      <li>Every figure is a <code>&lt;figure&gt;</code> with an <code>aria-labelledby</code> heading and an SVG carrying <code>role="img"</code> and a sentence-length <code>aria-label</code> naming the measure, the countries and the period.</li>
+      <li>Every figure has an accessible table under a disclosure, carrying the same rows the plot draws over the represented window — not a summary of them.</li>
+      <li>Controls are real <code>&lt;input&gt;</code>, <code>&lt;select&gt;</code> and <code>&lt;button&gt;</code> elements with real <code>&lt;label&gt;</code>s, inside <code>&lt;fieldset&gt;</code>/<code>&lt;legend&gt;</code> groups. Targets are 44px. Focus is a visible 2px ring at 2px offset, drawn on the label where the input itself is visually hidden.</li>
+      <li>Text is 4.5:1 on its ground; the muted grey used for captions was darkened from the repository's default for that reason.</li>
+      <li>Reduced motion removes the loading skeleton's animation; motion is never the only signal.</li>
+      <li>Click-to-select is an enhancement. The year is fully reachable from the range input alone, and the plot's selection is mirrored in the table.</li>
+    </ul>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">What implementation may and may not change</h2>
+    <p style="font-size: 13px; color: #cfd3e5;"><strong style="color: #e9e9ed;">May:</strong> replace any value in this prototype with the same value read from a verified query; let the value strip wrap differently under the shipped font's metrics; extend the accessible tables to the full represented window where the prototype truncates them.</p>
+    <p style="font-size: 13px; color: #cfd3e5;"><strong style="color: #e9e9ed;">May not:</strong> change copy, add a sentence carrying a number, move the value strip into the plot or below the figure, replace a figure's type, add a chart library, introduce a shared design role, drop a state treatment, or reduce a figure at any viewport.</p>
+    <p style="font-size: 13px; color: #b2b6ca;">The prototype's fixture file is design-only and must not be ported. It is a compact extract of the published Parquet built solely so these artboards could be drawn from real rows; production reads the datasets through the report's own parameter-bound queries.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">A constraint of the prototype runtime, recorded so it is not mistaken for a design choice</h2>
+    <p style="font-size: 13px; color: #cfd3e5;">In the canvas runtime a template hole used as the text content of an element is rendered as an HTML <code>span</code>. Inside an SVG <code>text</code> element an HTML span draws nothing, so every dynamic label written as SVG text was invisible — axis values, tick years, direct series labels, terminus labels and the selected values alike. Static SVG text was unaffected, which is why the boundary rule read correctly while the numbers beside it did not.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">Every dynamic label now lives in an HTML layer positioned over the SVG, which leaves the SVG carrying geometry alone. That is also what the repository's own <code>report-shared.js</code> does, for the same reason, so the production implementation inherits the pattern rather than working around a prototype quirk. The binding requirement is the arrangement — label positions, alignment, colour and content — not the mechanism.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Scope of the responsive artboards</h2>
+    <p style="font-size: 13px; color: #cfd3e5;">The Narrow artboard draws figures 1, 3 and 6 at 740px because those three carry the three distinct layout behaviours: a full-width time series, a small-multiple grid, and a pyramid. Figures 2 and 5 follow figure 1's rule and figure 4 follows figure 3's; that is stated rather than redrawn.</p>
+    <p style="font-size: 13px; color: #cfd3e5;">The Zoom artboard draws figure 1 at 400% magnification, where the binding behaviours are the one-column reflow, the in-frame horizontal scroll for the plot, and the disclosure opening by default.</p>
+  </section>
+
+  <section class="card">
+    <h2 style="font-size: 20px;">Open questions for approval</h2>
+    <ul style="font-size: 13px; color: #cfd3e5;">
+      <li><strong style="color: #e9e9ed;">Per 1,000 or per cent.</strong> The components figure defaults to people and offers per 1,000, which is the provider's unit and the conventional one. If a percentage is wanted instead, it should be added to the dataset rather than divided by ten in a visual.</li>
+      <li><strong style="color: #e9e9ed;">How many countries at once.</strong> The value strip scales to any number of countries: it wraps. What still collides past about six is the direct label at each line's end, which is what carries country identity without a legend. A cap, or dropping the direct labels past a threshold and letting the strip carry identity alone, is a decision worth taking before implementation.</li>
+      <li><strong style="color: #e9e9ed;">The overseas departments.</strong> The provider publishes Guadeloupe, Martinique, French Guiana, Mayotte and Réunion as separate locations, and its France excludes them. They are selectable; whether the report should say so anywhere beyond the caption on figure 2 is open.</li>
+    </ul>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1180,"height":3520}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

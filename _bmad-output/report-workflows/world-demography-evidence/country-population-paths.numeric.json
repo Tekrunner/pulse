@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "country-population-paths",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "country-population + country-scenarios",
+  "parameters": [
+    "250",
+    "276",
+    "826",
+    "1950-01-01",
+    "2100-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023-01-01",
+      "column": "France: population_thousands",
+      "storedParquet": "Decimal('66438.822')",
+      "queryOutput": 66438.822,
+      "mappedJavaScript": 66438.822,
+      "displayedText": "66.4M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: population_growth_rate_pct",
+      "storedParquet": "Decimal('0.1730')",
+      "queryOutput": 0.173,
+      "mappedJavaScript": 0.173,
+      "displayedText": "+0.17% a year"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: population_thousands",
+      "storedParquet": "Decimal('84548.231')",
+      "queryOutput": 84548.231,
+      "mappedJavaScript": 84548.231,
+      "displayedText": "84.5M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: population_growth_rate_pct",
+      "storedParquet": "Decimal('0.3490')",
+      "queryOutput": 0.349,
+      "mappedJavaScript": 0.349,
+      "displayedText": "+0.35% a year"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: population_thousands",
+      "storedParquet": "Decimal('68682.962')",
+      "queryOutput": 68682.962,
+      "mappedJavaScript": 68682.962,
+      "displayedText": "68.7M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: population_growth_rate_pct",
+      "storedParquet": "Decimal('0.6990')",
+      "queryOutput": 0.699,
+      "mappedJavaScript": 0.699,
+      "displayedText": "+0.70% a year"
+    },
+    {
+      "observation": "2100-01-01",
+      "column": "United Kingdom: population_thousands",
+      "storedParquet": "Decimal('74305.411')",
+      "queryOutput": 74305.411,
+      "mappedJavaScript": 74305.411,
+      "displayedText": "74.3M"
+    }
+  ],
+  "displayedOnPage": {
+    "valueStrip": [
+      "2023France66.4M+0.17% a yearGermany84.5M+0.35% a yearUnited Kingdom68.7M+0.70% a year"
+    ],
+    "lastTableRow": [
+      "2100",
+      "United Kingdom",
+      "projection",
+      "74.3M",
+      "−0.18% a year"
+    ]
+  },
+  "note": "France here is the provider's France, which excludes the overseas departments; they are separate locations in the same table."
+}

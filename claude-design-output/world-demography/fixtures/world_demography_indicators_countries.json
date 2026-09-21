@@ -1,0 +1,119 @@
+[
+  {
+    "period": "1950-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "population_thousands": 69847.782,
+    "population_growth_rate_pct": -0.2
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "population_thousands": 84548.231,
+    "population_growth_rate_pct": 0.349
+  },
+  {
+    "period": "2024-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "projection",
+    "population_thousands": 84552.242,
+    "population_growth_rate_pct": -0.339
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "projection",
+    "population_thousands": 70899.863,
+    "population_growth_rate_pct": -0.049
+  },
+  {
+    "period": "1950-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "population_thousands": 41883.119,
+    "population_growth_rate_pct": 1.106
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "population_thousands": 66438.822,
+    "population_growth_rate_pct": 0.173
+  },
+  {
+    "period": "2024-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "projection",
+    "population_thousands": 66548.53,
+    "population_growth_rate_pct": 0.157
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "projection",
+    "population_thousands": 68484.558,
+    "population_growth_rate_pct": -0.033
+  },
+  {
+    "period": "1950-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "population_thousands": 50121.017,
+    "population_growth_rate_pct": 0.758
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "population_thousands": 68682.962,
+    "population_growth_rate_pct": 0.699
+  },
+  {
+    "period": "2024-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "projection",
+    "population_thousands": 69138.192,
+    "population_growth_rate_pct": 0.622
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "projection",
+    "population_thousands": 74305.411,
+    "population_growth_rate_pct": -0.184
+  },
+  {
+    "period": "1990-01-01",
+    "location_id": 414,
+    "iso3_code": "KWT",
+    "location_name": "Kuwait",
+    "series_kind": "estimate",
+    "population_thousands": 1684.819,
+    "population_growth_rate_pct": -71.064
+  }
+]

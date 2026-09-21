@@ -1,0 +1,122 @@
+[
+  {
+    "period": "1950-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "population_change_thousands": -139.502,
+    "natural_change_thousands": 488.901,
+    "natural_change_rate_per_1000": 7.0,
+    "net_migration_thousands": -628.404,
+    "net_migration_rate_per_1000": -8.997
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "population_change_thousands": 294.664,
+    "natural_change_thousands": -314.891,
+    "natural_change_rate_per_1000": -3.724,
+    "net_migration_thousands": 609.553,
+    "net_migration_rate_per_1000": 7.21
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 276,
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "projection",
+    "population_change_thousands": -34.584,
+    "natural_change_thousands": -175.963,
+    "natural_change_rate_per_1000": -2.482,
+    "net_migration_thousands": 141.38,
+    "net_migration_rate_per_1000": 1.994
+  },
+  {
+    "period": "1950-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "population_change_thousands": 463.046,
+    "natural_change_thousands": 332.515,
+    "natural_change_rate_per_1000": 7.939,
+    "net_migration_thousands": 130.529,
+    "net_migration_rate_per_1000": 3.117
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "population_change_thousands": 114.674,
+    "natural_change_thousands": 22.796,
+    "natural_change_rate_per_1000": 0.343,
+    "net_migration_thousands": 91.862,
+    "net_migration_rate_per_1000": 1.383
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 250,
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "projection",
+    "population_change_thousands": -22.301,
+    "natural_change_thousands": -115.6,
+    "natural_change_rate_per_1000": -1.688,
+    "net_migration_thousands": 93.308,
+    "net_migration_rate_per_1000": 1.362
+  },
+  {
+    "period": "1950-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "population_change_thousands": 379.95,
+    "natural_change_thousands": 228.299,
+    "natural_change_rate_per_1000": 4.555,
+    "net_migration_thousands": 151.663,
+    "net_migration_rate_per_1000": 3.026
+  },
+  {
+    "period": "2023-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "population_change_thousands": 480.161,
+    "natural_change_thousands": 34.641,
+    "natural_change_rate_per_1000": 0.505,
+    "net_migration_thousands": 445.523,
+    "net_migration_rate_per_1000": 6.487
+  },
+  {
+    "period": "2100-01-01",
+    "location_id": 826,
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "projection",
+    "population_change_thousands": -136.518,
+    "natural_change_thousands": -233.85,
+    "natural_change_rate_per_1000": -3.147,
+    "net_migration_thousands": 97.329,
+    "net_migration_rate_per_1000": 1.31
+  },
+  {
+    "period": "1989-01-01",
+    "location_id": 804,
+    "iso3_code": "UKR",
+    "location_name": "Ukraine",
+    "series_kind": "estimate",
+    "population_change_thousands": 148.285,
+    "natural_change_thousands": 106.445,
+    "natural_change_rate_per_1000": 2.05,
+    "net_migration_thousands": 36.978,
+    "net_migration_rate_per_1000": 0.712
+  }
+]

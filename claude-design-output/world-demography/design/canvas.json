@@ -1,0 +1,71 @@
+{
+  "v": 3,
+  "attachments": {},
+  "boards": {
+    "Decisions.dc.html": {
+      "h": 3520,
+      "title": "Design decisions — binding on approval",
+      "w": 1180,
+      "x": 1360,
+      "y": 1700
+    },
+    "Main.dc.html": {
+      "h": 3400,
+      "is_interactive": true,
+      "title": "Desktop — the whole report",
+      "w": 1280,
+      "x": 0,
+      "y": 0
+    },
+    "Narrow.dc.html": {
+      "h": 1580,
+      "is_interactive": true,
+      "title": "Narrow — smartphone landscape",
+      "w": 740,
+      "x": 1360,
+      "y": 0
+    },
+    "States.dc.html": {
+      "h": 1720,
+      "title": "States and slot-local isolation",
+      "w": 1280,
+      "x": 0,
+      "y": 3520
+    },
+    "Zoom.dc.html": {
+      "h": 1560,
+      "is_interactive": true,
+      "title": "400% zoom and reflow",
+      "w": 420,
+      "x": 2180,
+      "y": 0
+    }
+  },
+  "createdOnFiles": {
+    "at": "2026-09-17T09:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "launch": {
+    "view": "canvas"
+  },
+  "notes": {
+    "title": {
+      "kind": "title1",
+      "maxW": 2600,
+      "text": "World demography — report design",
+      "w": 240,
+      "x": 0,
+      "y": -300
+    }
+  },
+  "order": [
+    "Main.dc.html",
+    "Narrow.dc.html",
+    "Zoom.dc.html",
+    "States.dc.html",
+    "Decisions.dc.html"
+  ],
+  "pages": [],
+  "title": "World demography report"
+}

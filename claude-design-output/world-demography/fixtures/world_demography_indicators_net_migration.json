@@ -1,0 +1,74 @@
+[
+  {
+    "period": "2019-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "net_migration_thousands": 319.082
+  },
+  {
+    "period": "2020-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "net_migration_thousands": 203.468
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "net_migration_thousands": 36.954
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "net_migration_thousands": 71.972
+  },
+  {
+    "period": "2020-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "net_migration_thousands": 145.593
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "net_migration_thousands": 90.527
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "net_migration_thousands": 232.727
+  },
+  {
+    "period": "2020-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "net_migration_thousands": 144.221
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "net_migration_thousands": 417.114
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "JPN",
+    "location_name": "Japan",
+    "net_migration_thousands": 318.19
+  },
+  {
+    "period": "2020-01-01",
+    "iso3_code": "JPN",
+    "location_name": "Japan",
+    "net_migration_thousands": 42.001
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "JPN",
+    "location_name": "Japan",
+    "net_migration_thousands": 153.357
+  }
+]

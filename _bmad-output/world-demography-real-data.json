@@ -1,0 +1,1664 @@
+{
+  "world_population_path": [
+    {
+      "period": "1950-01-01",
+      "location_name": "World",
+      "series_kind": "estimate",
+      "population_thousands": 2493092.848,
+      "population_growth_rate_pct": 1.738,
+      "natural_change_thousands": 43337.044,
+      "natural_change_rate_per_1000": 17.383,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 4.8519,
+      "life_expectancy_years": 46.3944,
+      "median_age_years": 22.1587
+    },
+    {
+      "period": "1968-01-01",
+      "location_name": "World",
+      "series_kind": "estimate",
+      "population_thousands": 3545187.251,
+      "population_growth_rate_pct": 2.093,
+      "natural_change_thousands": 74196.644,
+      "natural_change_rate_per_1000": 20.929,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 4.9628,
+      "life_expectancy_years": 55.6181,
+      "median_age_years": 20.3926
+    },
+    {
+      "period": "2000-01-01",
+      "location_name": "World",
+      "series_kind": "estimate",
+      "population_thousands": 6171702.994,
+      "population_growth_rate_pct": 1.353,
+      "natural_change_thousands": 83518.114,
+      "natural_change_rate_per_1000": 13.533,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 2.7537,
+      "life_expectancy_years": 66.4333,
+      "median_age_years": 25.1309
+    },
+    {
+      "period": "2023-01-01",
+      "location_name": "World",
+      "series_kind": "estimate",
+      "population_thousands": 8091734.93,
+      "population_growth_rate_pct": 0.871,
+      "natural_change_thousands": 70458.656,
+      "natural_change_rate_per_1000": 8.708,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 2.2505,
+      "life_expectancy_years": 73.1694,
+      "median_age_years": 30.3637
+    },
+    {
+      "period": "2024-01-01",
+      "location_name": "World",
+      "series_kind": "projection",
+      "population_thousands": 8161972.572,
+      "population_growth_rate_pct": 0.858,
+      "natural_change_thousands": 70016.429,
+      "natural_change_rate_per_1000": 8.578,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 2.2477,
+      "life_expectancy_years": 73.3217,
+      "median_age_years": 30.6211
+    },
+    {
+      "period": "2050-01-01",
+      "location_name": "World",
+      "series_kind": "projection",
+      "population_thousands": 9664378.587,
+      "population_growth_rate_pct": 0.421,
+      "natural_change_thousands": 40678.556,
+      "natural_change_rate_per_1000": 4.209,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 2.0966,
+      "life_expectancy_years": 77.023,
+      "median_age_years": 36.068
+    },
+    {
+      "period": "2100-01-01",
+      "location_name": "World",
+      "series_kind": "projection",
+      "population_thousands": 10180160.751,
+      "population_growth_rate_pct": -0.127,
+      "natural_change_thousands": -12893.868,
+      "natural_change_rate_per_1000": -1.267,
+      "net_migration_thousands": 0.0,
+      "total_fertility_rate": 1.838,
+      "life_expectancy_years": 81.7342,
+      "median_age_years": 42.1254
+    }
+  ],
+  "world_population_peak_medium": [
+    {
+      "period": "2084-01-01",
+      "population_thousands": 10289315.244,
+      "population_growth_rate_pct": -0.004
+    }
+  ],
+  "default_countries_latest_estimate": [
+    {
+      "period": "2023-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "series_kind": "estimate",
+      "population_thousands": 84548.231,
+      "population_growth_rate_pct": 0.349,
+      "population_change_thousands": 294.664,
+      "natural_change_thousands": -314.891,
+      "natural_change_rate_per_1000": -3.724,
+      "net_migration_thousands": 609.553,
+      "net_migration_rate_per_1000": 7.21,
+      "births_thousands": 719.249,
+      "deaths_thousands": 1034.14,
+      "total_fertility_rate": 1.4414,
+      "life_expectancy_years": 81.3777,
+      "life_expectancy_male_years": 79.0169,
+      "life_expectancy_female_years": 83.7559,
+      "median_age_years": 45.1468
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "FRA",
+      "location_name": "France",
+      "series_kind": "estimate",
+      "population_thousands": 66438.822,
+      "population_growth_rate_pct": 0.173,
+      "population_change_thousands": 114.674,
+      "natural_change_thousands": 22.796,
+      "natural_change_rate_per_1000": 0.343,
+      "net_migration_thousands": 91.862,
+      "net_migration_rate_per_1000": 1.383,
+      "births_thousands": 638.891,
+      "deaths_thousands": 616.095,
+      "total_fertility_rate": 1.6389,
+      "life_expectancy_years": 83.3253,
+      "life_expectancy_male_years": 80.4282,
+      "life_expectancy_female_years": 86.088,
+      "median_age_years": 41.8171
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "GBR",
+      "location_name": "United Kingdom",
+      "series_kind": "estimate",
+      "population_thousands": 68682.962,
+      "population_growth_rate_pct": 0.699,
+      "population_change_thousands": 480.161,
+      "natural_change_thousands": 34.641,
+      "natural_change_rate_per_1000": 0.505,
+      "net_migration_thousands": 445.523,
+      "net_migration_rate_per_1000": 6.487,
+      "births_thousands": 688.388,
+      "deaths_thousands": 653.747,
+      "total_fertility_rate": 1.56,
+      "life_expectancy_years": 81.3015,
+      "life_expectancy_male_years": 79.3619,
+      "life_expectancy_female_years": 83.2082,
+      "median_age_years": 39.7818
+    }
+  ],
+  "default_countries_selected_years": [
+    {
+      "period": "1950-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "estimate",
+      "population_thousands": 69847.782,
+      "population_growth_rate_pct": -0.2,
+      "natural_change_thousands": 488.901,
+      "net_migration_thousands": -628.404,
+      "total_fertility_rate": 2.1938,
+      "life_expectancy_years": 66.8112
+    },
+    {
+      "period": "1975-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "estimate",
+      "population_thousands": 78701.865,
+      "population_growth_rate_pct": -0.531,
+      "natural_change_thousands": -210.093,
+      "net_migration_thousands": -207.74,
+      "total_fertility_rate": 1.4772,
+      "life_expectancy_years": 71.5162
+    },
+    {
+      "period": "2000-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "estimate",
+      "population_thousands": 81797.258,
+      "population_growth_rate_pct": 0.12,
+      "natural_change_thousands": -76.847,
+      "net_migration_thousands": 174.594,
+      "total_fertility_rate": 1.3862,
+      "life_expectancy_years": 78.0563
+    },
+    {
+      "period": "2015-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "estimate",
+      "population_thousands": 82077.55,
+      "population_growth_rate_pct": 1.189,
+      "natural_change_thousands": -199.118,
+      "net_migration_thousands": 1175.283,
+      "total_fertility_rate": 1.5007,
+      "life_expectancy_years": 80.5658
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "estimate",
+      "population_thousands": 84548.231,
+      "population_growth_rate_pct": 0.349,
+      "natural_change_thousands": -314.891,
+      "net_migration_thousands": 609.553,
+      "total_fertility_rate": 1.4414,
+      "life_expectancy_years": 81.3777
+    },
+    {
+      "period": "2024-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "projection",
+      "population_thousands": 84552.242,
+      "population_growth_rate_pct": -0.339,
+      "natural_change_thousands": -323.591,
+      "net_migration_thousands": 36.954,
+      "total_fertility_rate": 1.4481,
+      "life_expectancy_years": 81.5387
+    },
+    {
+      "period": "2060-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "projection",
+      "population_thousands": 75604.604,
+      "population_growth_rate_pct": -0.338,
+      "natural_change_thousands": -420.175,
+      "net_migration_thousands": 164.408,
+      "total_fertility_rate": 1.5578,
+      "life_expectancy_years": 86.4021
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "DEU",
+      "series_kind": "projection",
+      "population_thousands": 70899.863,
+      "population_growth_rate_pct": -0.049,
+      "natural_change_thousands": -175.963,
+      "net_migration_thousands": 141.38,
+      "total_fertility_rate": 1.597,
+      "life_expectancy_years": 90.7835
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "estimate",
+      "population_thousands": 41883.119,
+      "population_growth_rate_pct": 1.106,
+      "natural_change_thousands": 332.515,
+      "net_migration_thousands": 130.529,
+      "total_fertility_rate": 2.9648,
+      "life_expectancy_years": 66.3819
+    },
+    {
+      "period": "1975-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "estimate",
+      "population_thousands": 52746.325,
+      "population_growth_rate_pct": 0.386,
+      "natural_change_thousands": 187.673,
+      "net_migration_thousands": 16.139,
+      "total_fertility_rate": 1.9346,
+      "life_expectancy_years": 72.9001
+    },
+    {
+      "period": "2000-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "estimate",
+      "population_thousands": 59483.717,
+      "population_growth_rate_pct": 0.705,
+      "natural_change_thousands": 247.459,
+      "net_migration_thousands": 171.637,
+      "total_fertility_rate": 1.8757,
+      "life_expectancy_years": 79.0438
+    },
+    {
+      "period": "2015-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "estimate",
+      "population_thousands": 64916.336,
+      "population_growth_rate_pct": 0.261,
+      "natural_change_thousands": 169.917,
+      "net_migration_thousands": -0.345,
+      "total_fertility_rate": 1.9266,
+      "life_expectancy_years": 82.1487
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "estimate",
+      "population_thousands": 66438.822,
+      "population_growth_rate_pct": 0.173,
+      "natural_change_thousands": 22.796,
+      "net_migration_thousands": 91.862,
+      "total_fertility_rate": 1.6389,
+      "life_expectancy_years": 83.3253
+    },
+    {
+      "period": "2024-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "projection",
+      "population_thousands": 66548.53,
+      "population_growth_rate_pct": 0.157,
+      "natural_change_thousands": 14.228,
+      "net_migration_thousands": 90.527,
+      "total_fertility_rate": 1.636,
+      "life_expectancy_years": 83.4582
+    },
+    {
+      "period": "2060-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "projection",
+      "population_thousands": 67850.295,
+      "population_growth_rate_pct": -0.061,
+      "natural_change_thousands": -150.283,
+      "net_migration_thousands": 109.227,
+      "total_fertility_rate": 1.6508,
+      "life_expectancy_years": 87.7359
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "FRA",
+      "series_kind": "projection",
+      "population_thousands": 68484.558,
+      "population_growth_rate_pct": -0.033,
+      "natural_change_thousands": -115.6,
+      "net_migration_thousands": 93.308,
+      "total_fertility_rate": 1.6463,
+      "life_expectancy_years": 92.1419
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "estimate",
+      "population_thousands": 50121.017,
+      "population_growth_rate_pct": 0.758,
+      "natural_change_thousands": 228.299,
+      "net_migration_thousands": 151.663,
+      "total_fertility_rate": 2.224,
+      "life_expectancy_years": 68.631
+    },
+    {
+      "period": "1975-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "estimate",
+      "population_thousands": 56220.143,
+      "population_growth_rate_pct": -0.016,
+      "natural_change_thousands": 31.492,
+      "net_migration_thousands": -40.241,
+      "total_fertility_rate": 1.8068,
+      "life_expectancy_years": 72.65
+    },
+    {
+      "period": "2000-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "estimate",
+      "population_thousands": 59057.338,
+      "population_growth_rate_pct": 0.375,
+      "natural_change_thousands": 67.744,
+      "net_migration_thousands": 153.917,
+      "total_fertility_rate": 1.641,
+      "life_expectancy_years": 77.8491
+    },
+    {
+      "period": "2015-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "estimate",
+      "population_thousands": 65382.11,
+      "population_growth_rate_pct": 0.797,
+      "natural_change_thousands": 173.339,
+      "net_migration_thousands": 347.839,
+      "total_fertility_rate": 1.8011,
+      "life_expectancy_years": 80.919
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "estimate",
+      "population_thousands": 68682.962,
+      "population_growth_rate_pct": 0.699,
+      "natural_change_thousands": 34.641,
+      "net_migration_thousands": 445.523,
+      "total_fertility_rate": 1.56,
+      "life_expectancy_years": 81.3015
+    },
+    {
+      "period": "2024-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "projection",
+      "population_thousands": 69138.192,
+      "population_growth_rate_pct": 0.622,
+      "natural_change_thousands": 13.18,
+      "net_migration_thousands": 417.114,
+      "total_fertility_rate": 1.5511,
+      "life_expectancy_years": 81.4484
+    },
+    {
+      "period": "2060-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "projection",
+      "population_thousands": 76010.356,
+      "population_growth_rate_pct": -0.001,
+      "natural_change_thousands": -163.06,
+      "net_migration_thousands": 162.55,
+      "total_fertility_rate": 1.5631,
+      "life_expectancy_years": 86.2867
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "GBR",
+      "series_kind": "projection",
+      "population_thousands": 74305.411,
+      "population_growth_rate_pct": -0.184,
+      "natural_change_thousands": -233.85,
+      "net_migration_thousands": 97.329,
+      "total_fertility_rate": 1.5953,
+      "life_expectancy_years": 90.5874
+    }
+  ],
+  "negative_natural_change": [
+    {
+      "period": "1972-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "natural_change_thousands": -73.178,
+      "natural_change_rate_per_1000": -0.929,
+      "net_migration_thousands": 336.015,
+      "population_change_thousands": 262.835
+    },
+    {
+      "period": "1973-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "natural_change_thousands": -155.608,
+      "natural_change_rate_per_1000": -1.97,
+      "net_migration_thousands": 386.881,
+      "population_change_thousands": 231.271
+    },
+    {
+      "period": "1974-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "natural_change_thousands": -156.705,
+      "natural_change_rate_per_1000": -1.983,
+      "net_migration_thousands": -15.126,
+      "population_change_thousands": -171.829
+    },
+    {
+      "period": "1975-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "natural_change_thousands": -210.093,
+      "natural_change_rate_per_1000": -2.67,
+      "net_migration_thousands": -207.74,
+      "population_change_thousands": -417.826
+    },
+    {
+      "period": "1976-01-01",
+      "iso3_code": "DEU",
+      "location_name": "Germany",
+      "natural_change_thousands": -177.122,
+      "natural_change_rate_per_1000": -2.26,
+      "net_migration_thousands": -79.761,
+      "population_change_thousands": -256.894
+    },
+    {
+      "period": "1976-01-01",
+      "iso3_code": "GBR",
+      "location_name": "United Kingdom",
+      "natural_change_thousands": -10.118,
+      "natural_change_rate_per_1000": -0.18,
+      "net_migration_thousands": -19.135,
+      "population_change_thousands": -29.262
+    }
+  ],
+  "extreme_growth_rates": [
+    {
+      "period": "1990-01-01",
+      "location_name": "Kuwait",
+      "population_growth_rate_pct": -71.064,
+      "population_thousands": 1684.819
+    },
+    {
+      "period": "1994-01-01",
+      "location_name": "Rwanda",
+      "population_growth_rate_pct": -41.785,
+      "population_thousands": 6792.352
+    },
+    {
+      "period": "1967-01-01",
+      "location_name": "China, Hong Kong SAR",
+      "population_growth_rate_pct": -33.038,
+      "population_thousands": 3474.128
+    },
+    {
+      "period": "1964-01-01",
+      "location_name": "China, Hong Kong SAR",
+      "population_growth_rate_pct": 37.887,
+      "population_thousands": 3136.028
+    },
+    {
+      "period": "1964-01-01",
+      "location_name": "China, Macao SAR",
+      "population_growth_rate_pct": 37.095,
+      "population_thousands": 225.655
+    },
+    {
+      "period": "1991-01-01",
+      "location_name": "Kuwait",
+      "population_growth_rate_pct": 36.09,
+      "population_thousands": 1351.399
+    }
+  ],
+  "world_scenario_band_2100": [
+    {
+      "scenario": "Low",
+      "scenario_kind": "deterministic",
+      "population_thousands": 6986813.938,
+      "total_fertility_rate": 1.3637,
+      "life_expectancy_years": 81.256
+    },
+    {
+      "scenario": "Constant mortality",
+      "scenario_kind": "deterministic",
+      "population_thousands": 8638490.068,
+      "total_fertility_rate": 1.8286,
+      "life_expectancy_years": 69.5952
+    },
+    {
+      "scenario": "Lower 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 9046832.166,
+      "total_fertility_rate": 1.628,
+      "life_expectancy_years": 79.04
+    },
+    {
+      "scenario": "Lower 80 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 9405148.763,
+      "total_fertility_rate": 1.694,
+      "life_expectancy_years": 80.09
+    },
+    {
+      "scenario": "Accelerated ABR decline",
+      "scenario_kind": "deterministic",
+      "population_thousands": 9413956.606,
+      "total_fertility_rate": 1.7907,
+      "life_expectancy_years": 81.9902
+    },
+    {
+      "scenario": "Momentum",
+      "scenario_kind": "deterministic",
+      "population_thousands": 9595882.761,
+      "total_fertility_rate": 2.17,
+      "life_expectancy_years": 71.5736
+    },
+    {
+      "scenario": "Accelerated ABR decline with rec",
+      "scenario_kind": "deterministic",
+      "population_thousands": 9710747.494,
+      "total_fertility_rate": 1.8179,
+      "life_expectancy_years": 81.9011
+    },
+    {
+      "scenario": "No fertility below age 18",
+      "scenario_kind": "deterministic",
+      "population_thousands": 9761491.365,
+      "total_fertility_rate": 1.8087,
+      "life_expectancy_years": 81.859
+    },
+    {
+      "scenario": "Zero migration",
+      "scenario_kind": "deterministic",
+      "population_thousands": 10104461.603,
+      "total_fertility_rate": 1.8517,
+      "life_expectancy_years": 81.5234
+    },
+    {
+      "scenario": "Median PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 10180160.751,
+      "total_fertility_rate": 1.838,
+      "life_expectancy_years": 81.73
+    },
+    {
+      "scenario": "Instant replacement zero migration",
+      "scenario_kind": "deterministic",
+      "population_thousands": 10670548.184,
+      "total_fertility_rate": 2.0843,
+      "life_expectancy_years": 83.367
+    },
+    {
+      "scenario": "Instant replacement",
+      "scenario_kind": "deterministic",
+      "population_thousands": 10838342.46,
+      "total_fertility_rate": 2.0837,
+      "life_expectancy_years": 83.5783
+    },
+    {
+      "scenario": "Upper 80 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 11034825.45,
+      "total_fertility_rate": 2.048,
+      "life_expectancy_years": 83.14
+    },
+    {
+      "scenario": "Upper 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 11437364.416,
+      "total_fertility_rate": 2.247,
+      "life_expectancy_years": 83.91
+    },
+    {
+      "scenario": "High",
+      "scenario_kind": "deterministic",
+      "population_thousands": 14395160.444,
+      "total_fertility_rate": 2.3218,
+      "life_expectancy_years": 82.0428
+    },
+    {
+      "scenario": "No change",
+      "scenario_kind": "deterministic",
+      "population_thousands": 15589383.042,
+      "total_fertility_rate": 3.7475,
+      "life_expectancy_years": 67.089
+    },
+    {
+      "scenario": "Constant fertility",
+      "scenario_kind": "deterministic",
+      "population_thousands": 18193393.697,
+      "total_fertility_rate": 3.8114,
+      "life_expectancy_years": 80.3165
+    }
+  ],
+  "france_scenario_band_2100": [
+    {
+      "scenario": "Lower 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 39209.983,
+      "total_fertility_rate": 0.975
+    },
+    {
+      "scenario": "Low",
+      "scenario_kind": "deterministic",
+      "population_thousands": 49035.515,
+      "total_fertility_rate": 1.1463
+    },
+    {
+      "scenario": "Lower 80 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 51416.713,
+      "total_fertility_rate": 1.246
+    },
+    {
+      "scenario": "Zero migration",
+      "scenario_kind": "deterministic",
+      "population_thousands": 51636.904,
+      "total_fertility_rate": 1.6463
+    },
+    {
+      "scenario": "No change",
+      "scenario_kind": "deterministic",
+      "population_thousands": 61803.16,
+      "total_fertility_rate": 1.6389
+    },
+    {
+      "scenario": "Constant mortality",
+      "scenario_kind": "deterministic",
+      "population_thousands": 62116.29,
+      "total_fertility_rate": 1.6463
+    },
+    {
+      "scenario": "Momentum",
+      "scenario_kind": "deterministic",
+      "population_thousands": 64502.644,
+      "total_fertility_rate": 2.0684
+    },
+    {
+      "scenario": "Constant fertility",
+      "scenario_kind": "deterministic",
+      "population_thousands": 68168.066,
+      "total_fertility_rate": 1.6389
+    },
+    {
+      "scenario": "No fertility below age 18",
+      "scenario_kind": "deterministic",
+      "population_thousands": 68358.001,
+      "total_fertility_rate": 1.6433
+    },
+    {
+      "scenario": "Accelerated ABR decline",
+      "scenario_kind": "deterministic",
+      "population_thousands": 68484.558,
+      "total_fertility_rate": 1.6463
+    },
+    {
+      "scenario": "Accelerated ABR decline with rec",
+      "scenario_kind": "deterministic",
+      "population_thousands": 68484.558,
+      "total_fertility_rate": 1.6463
+    },
+    {
+      "scenario": "Median PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 68484.558,
+      "total_fertility_rate": 1.653
+    },
+    {
+      "scenario": "Instant replacement zero migration",
+      "scenario_kind": "deterministic",
+      "population_thousands": 70300.579,
+      "total_fertility_rate": 2.0563
+    },
+    {
+      "scenario": "Upper 80 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 86957.079,
+      "total_fertility_rate": 2.027
+    },
+    {
+      "scenario": "Instant replacement",
+      "scenario_kind": "deterministic",
+      "population_thousands": 90378.042,
+      "total_fertility_rate": 2.0563
+    },
+    {
+      "scenario": "High",
+      "scenario_kind": "deterministic",
+      "population_thousands": 93434.011,
+      "total_fertility_rate": 2.1463
+    },
+    {
+      "scenario": "Upper 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 100437.51,
+      "total_fertility_rate": 2.284
+    },
+    {
+      "scenario": "Mean",
+      "scenario_kind": "probabilistic",
+      "population_thousands": null,
+      "total_fertility_rate": 1.646
+    }
+  ],
+  "scenario_null_and_degenerate_cases": [
+    {
+      "period": "2024-01-01",
+      "location_name": "France",
+      "scenario": "Mean",
+      "scenario_kind": "probabilistic",
+      "population_thousands": null,
+      "total_fertility_rate": 1.636,
+      "median_age_years": null
+    },
+    {
+      "period": "2100-01-01",
+      "location_name": "France",
+      "scenario": "Mean",
+      "scenario_kind": "probabilistic",
+      "population_thousands": null,
+      "total_fertility_rate": 1.646,
+      "median_age_years": null
+    },
+    {
+      "period": "2100-01-01",
+      "location_name": "China, Hong Kong SAR",
+      "scenario": "Lower 80 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 0.0,
+      "total_fertility_rate": 0.715,
+      "median_age_years": 16.074
+    },
+    {
+      "period": "2085-01-01",
+      "location_name": "Andorra",
+      "scenario": "Lower 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 0.0,
+      "total_fertility_rate": 0.694,
+      "median_age_years": 36.985
+    },
+    {
+      "period": "2086-01-01",
+      "location_name": "Andorra",
+      "scenario": "Lower 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 0.0,
+      "total_fertility_rate": 0.675,
+      "median_age_years": 35.313
+    },
+    {
+      "period": "2087-01-01",
+      "location_name": "Andorra",
+      "scenario": "Lower 95 PI",
+      "scenario_kind": "probabilistic",
+      "population_thousands": 0.0,
+      "total_fertility_rate": 0.674,
+      "median_age_years": 34.009
+    }
+  ],
+  "france_age_pyramid_2023": [
+    {
+      "age_group": "0-4",
+      "age_start": 0,
+      "age_end": 4,
+      "population_male_thousands": 1737.8,
+      "population_female_thousands": 1659.103,
+      "population_total_thousands": 3396.903,
+      "share_of_population_pct": 5.1128
+    },
+    {
+      "age_group": "5-9",
+      "age_start": 5,
+      "age_end": 9,
+      "population_male_thousands": 1902.075,
+      "population_female_thousands": 1818.121,
+      "population_total_thousands": 3720.197,
+      "share_of_population_pct": 5.5994
+    },
+    {
+      "age_group": "10-14",
+      "age_start": 10,
+      "age_end": 14,
+      "population_male_thousands": 2067.736,
+      "population_female_thousands": 1966.774,
+      "population_total_thousands": 4034.51,
+      "share_of_population_pct": 6.0725
+    },
+    {
+      "age_group": "15-19",
+      "age_start": 15,
+      "age_end": 19,
+      "population_male_thousands": 2106.28,
+      "population_female_thousands": 1997.801,
+      "population_total_thousands": 4104.08,
+      "share_of_population_pct": 6.1772
+    },
+    {
+      "age_group": "20-24",
+      "age_start": 20,
+      "age_end": 24,
+      "population_male_thousands": 2062.786,
+      "population_female_thousands": 1960.835,
+      "population_total_thousands": 4023.621,
+      "share_of_population_pct": 6.0561
+    },
+    {
+      "age_group": "25-29",
+      "age_start": 25,
+      "age_end": 29,
+      "population_male_thousands": 1902.211,
+      "population_female_thousands": 1871.895,
+      "population_total_thousands": 3774.106,
+      "share_of_population_pct": 5.6806
+    },
+    {
+      "age_group": "30-34",
+      "age_start": 30,
+      "age_end": 34,
+      "population_male_thousands": 1914.381,
+      "population_female_thousands": 1941.752,
+      "population_total_thousands": 3856.133,
+      "share_of_population_pct": 5.804
+    },
+    {
+      "age_group": "35-39",
+      "age_start": 35,
+      "age_end": 39,
+      "population_male_thousands": 1944.476,
+      "population_female_thousands": 2037.706,
+      "population_total_thousands": 3982.182,
+      "share_of_population_pct": 5.9938
+    },
+    {
+      "age_group": "40-44",
+      "age_start": 40,
+      "age_end": 44,
+      "population_male_thousands": 2036.985,
+      "population_female_thousands": 2109.783,
+      "population_total_thousands": 4146.768,
+      "share_of_population_pct": 6.2415
+    },
+    {
+      "age_group": "45-49",
+      "age_start": 45,
+      "age_end": 49,
+      "population_male_thousands": 2056.613,
+      "population_female_thousands": 2070.99,
+      "population_total_thousands": 4127.602,
+      "share_of_population_pct": 6.2126
+    },
+    {
+      "age_group": "50-54",
+      "age_start": 50,
+      "age_end": 54,
+      "population_male_thousands": 2151.581,
+      "population_female_thousands": 2237.401,
+      "population_total_thousands": 4388.983,
+      "share_of_population_pct": 6.6061
+    },
+    {
+      "age_group": "55-59",
+      "age_start": 55,
+      "age_end": 59,
+      "population_male_thousands": 2080.469,
+      "population_female_thousands": 2207.658,
+      "population_total_thousands": 4288.127,
+      "share_of_population_pct": 6.4542
+    },
+    {
+      "age_group": "60-64",
+      "age_start": 60,
+      "age_end": 64,
+      "population_male_thousands": 1985.834,
+      "population_female_thousands": 2159.905,
+      "population_total_thousands": 4145.739,
+      "share_of_population_pct": 6.2399
+    },
+    {
+      "age_group": "65-69",
+      "age_start": 65,
+      "age_end": 69,
+      "population_male_thousands": 1817.397,
+      "population_female_thousands": 2061.063,
+      "population_total_thousands": 3878.459,
+      "share_of_population_pct": 5.8376
+    },
+    {
+      "age_group": "70-74",
+      "age_start": 70,
+      "age_end": 74,
+      "population_male_thousands": 1674.679,
+      "population_female_thousands": 1978.153,
+      "population_total_thousands": 3652.832,
+      "share_of_population_pct": 5.498
+    },
+    {
+      "age_group": "75-79",
+      "age_start": 75,
+      "age_end": 79,
+      "population_male_thousands": 1252.963,
+      "population_female_thousands": 1565.469,
+      "population_total_thousands": 2818.432,
+      "share_of_population_pct": 4.2421
+    },
+    {
+      "age_group": "80-84",
+      "age_start": 80,
+      "age_end": 84,
+      "population_male_thousands": 751.386,
+      "population_female_thousands": 1040.315,
+      "population_total_thousands": 1791.701,
+      "share_of_population_pct": 2.6968
+    },
+    {
+      "age_group": "85-89",
+      "age_start": 85,
+      "age_end": 89,
+      "population_male_thousands": 493.983,
+      "population_female_thousands": 849.828,
+      "population_total_thousands": 1343.811,
+      "share_of_population_pct": 2.0226
+    },
+    {
+      "age_group": "90-94",
+      "age_start": 90,
+      "age_end": 94,
+      "population_male_thousands": 212.944,
+      "population_female_thousands": 509.144,
+      "population_total_thousands": 722.087,
+      "share_of_population_pct": 1.0868
+    },
+    {
+      "age_group": "95-99",
+      "age_start": 95,
+      "age_end": 99,
+      "population_male_thousands": 45.433,
+      "population_female_thousands": 167.643,
+      "population_total_thousands": 213.076,
+      "share_of_population_pct": 0.3207
+    },
+    {
+      "age_group": "100+",
+      "age_start": 100,
+      "age_end": null,
+      "population_male_thousands": 4.277,
+      "population_female_thousands": 25.198,
+      "population_total_thousands": 29.475,
+      "share_of_population_pct": 0.0444
+    }
+  ],
+  "broad_shares_default_countries": [
+    {
+      "period": "1950-01-01",
+      "iso3_code": "DEU",
+      "age_group": "0-14",
+      "population_total_thousands": 16811.571,
+      "share_of_population_pct": 24.0689
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "DEU",
+      "age_group": "15-64",
+      "population_total_thousands": 46763.188,
+      "share_of_population_pct": 66.9501
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "DEU",
+      "age_group": "65+",
+      "population_total_thousands": 6273.023,
+      "share_of_population_pct": 8.981
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "DEU",
+      "age_group": "0-14",
+      "population_total_thousands": 11765.369,
+      "share_of_population_pct": 13.9156
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "DEU",
+      "age_group": "15-64",
+      "population_total_thousands": 53514.283,
+      "share_of_population_pct": 63.2944
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "DEU",
+      "age_group": "65+",
+      "population_total_thousands": 19268.579,
+      "share_of_population_pct": 22.79
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "DEU",
+      "age_group": "0-14",
+      "population_total_thousands": 9689.105,
+      "share_of_population_pct": 13.6659
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "DEU",
+      "age_group": "15-64",
+      "population_total_thousands": 39096.46,
+      "share_of_population_pct": 55.1432
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "DEU",
+      "age_group": "65+",
+      "population_total_thousands": 22114.3,
+      "share_of_population_pct": 31.1909
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "FRA",
+      "age_group": "0-14",
+      "population_total_thousands": 9515.026,
+      "share_of_population_pct": 22.718
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "FRA",
+      "age_group": "15-64",
+      "population_total_thousands": 27599.982,
+      "share_of_population_pct": 65.8976
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "FRA",
+      "age_group": "65+",
+      "population_total_thousands": 4768.111,
+      "share_of_population_pct": 11.3843
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "FRA",
+      "age_group": "0-14",
+      "population_total_thousands": 11151.61,
+      "share_of_population_pct": 16.7848
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "FRA",
+      "age_group": "15-64",
+      "population_total_thousands": 40837.341,
+      "share_of_population_pct": 61.4661
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "FRA",
+      "age_group": "65+",
+      "population_total_thousands": 14449.873,
+      "share_of_population_pct": 21.7491
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "FRA",
+      "age_group": "0-14",
+      "population_total_thousands": 9586.175,
+      "share_of_population_pct": 13.9976
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "FRA",
+      "age_group": "15-64",
+      "population_total_thousands": 37703.641,
+      "share_of_population_pct": 55.0542
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "FRA",
+      "age_group": "65+",
+      "population_total_thousands": 21194.742,
+      "share_of_population_pct": 30.9482
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "GBR",
+      "age_group": "0-14",
+      "population_total_thousands": 11255.327,
+      "share_of_population_pct": 22.4563
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "GBR",
+      "age_group": "15-64",
+      "population_total_thousands": 33440.134,
+      "share_of_population_pct": 66.7188
+    },
+    {
+      "period": "1950-01-01",
+      "iso3_code": "GBR",
+      "age_group": "65+",
+      "population_total_thousands": 5425.558,
+      "share_of_population_pct": 10.8249
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "GBR",
+      "age_group": "0-14",
+      "population_total_thousands": 11957.114,
+      "share_of_population_pct": 17.4091
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "GBR",
+      "age_group": "15-64",
+      "population_total_thousands": 43512.532,
+      "share_of_population_pct": 63.3527
+    },
+    {
+      "period": "2023-01-01",
+      "iso3_code": "GBR",
+      "age_group": "65+",
+      "population_total_thousands": 13213.318,
+      "share_of_population_pct": 19.2381
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "GBR",
+      "age_group": "0-14",
+      "population_total_thousands": 9922.247,
+      "share_of_population_pct": 13.3533
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "GBR",
+      "age_group": "15-64",
+      "population_total_thousands": 41103.455,
+      "share_of_population_pct": 55.3169
+    },
+    {
+      "period": "2100-01-01",
+      "iso3_code": "GBR",
+      "age_group": "65+",
+      "population_total_thousands": 23279.712,
+      "share_of_population_pct": 31.3298
+    }
+  ],
+  "world_broad_shares_2023": [
+    {
+      "age_group": "0-14",
+      "population_total_thousands": 2024582.755,
+      "share_of_population_pct": 25.0204
+    },
+    {
+      "age_group": "15-64",
+      "population_total_thousands": 5258236.093,
+      "share_of_population_pct": 64.9828
+    },
+    {
+      "age_group": "65+",
+      "population_total_thousands": 808916.086,
+      "share_of_population_pct": 9.9968
+    }
+  ],
+  "migration_flows_default_countries": [
+    {
+      "period": "1998-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 802456,
+      "emigration_persons": 755358,
+      "net_persons": 47098
+    },
+    {
+      "period": "2006-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 661855,
+      "emigration_persons": 639064,
+      "net_persons": 22791
+    },
+    {
+      "period": "2015-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 1595865,
+      "emigration_persons": 321915,
+      "net_persons": 1273950
+    },
+    {
+      "period": "2019-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 834338,
+      "emigration_persons": 496613,
+      "net_persons": 337725
+    },
+    {
+      "period": "2020-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 666639,
+      "emigration_persons": 404026,
+      "net_persons": 262613
+    },
+    {
+      "period": "2024-01-01",
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "immigration_persons": 1078504,
+      "emigration_persons": 584230,
+      "net_persons": 494274
+    },
+    {
+      "period": "2006-01-01",
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "immigration_persons": 301544,
+      "emigration_persons": 189403,
+      "net_persons": 112141
+    },
+    {
+      "period": "2015-01-01",
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "immigration_persons": 364221,
+      "emigration_persons": 324517,
+      "net_persons": 39704
+    },
+    {
+      "period": "2019-01-01",
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "immigration_persons": 385596,
+      "emigration_persons": 259143,
+      "net_persons": 126453
+    },
+    {
+      "period": "2020-01-01",
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "immigration_persons": 331137,
+      "emigration_persons": 191893,
+      "net_persons": 139244
+    },
+    {
+      "period": "2024-01-01",
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "immigration_persons": 438626,
+      "emigration_persons": 263233,
+      "net_persons": 175393
+    },
+    {
+      "period": "1998-01-01",
+      "geo_code": "UK",
+      "iso3_code": "GBR",
+      "immigration_persons": 332390,
+      "emigration_persons": 198934,
+      "net_persons": 133456
+    },
+    {
+      "period": "2006-01-01",
+      "geo_code": "UK",
+      "iso3_code": "GBR",
+      "immigration_persons": 529008,
+      "emigration_persons": 369470,
+      "net_persons": 159538
+    },
+    {
+      "period": "2015-01-01",
+      "geo_code": "UK",
+      "iso3_code": "GBR",
+      "immigration_persons": 631452,
+      "emigration_persons": 299183,
+      "net_persons": 332269
+    },
+    {
+      "period": "2019-01-01",
+      "geo_code": "UK",
+      "iso3_code": "GBR",
+      "immigration_persons": 680906,
+      "emigration_persons": 368385,
+      "net_persons": 312521
+    }
+  ],
+  "migration_flow_coverage": [
+    {
+      "geo_code": "DE",
+      "iso3_code": "DEU",
+      "first_year": "1998-01-01",
+      "last_year": "2024-01-01",
+      "published": 27
+    },
+    {
+      "geo_code": "EU27_2020",
+      "iso3_code": null,
+      "first_year": "2013-01-01",
+      "last_year": "2024-01-01",
+      "published": 12
+    },
+    {
+      "geo_code": "FR",
+      "iso3_code": "FRA",
+      "first_year": "2006-01-01",
+      "last_year": "2024-01-01",
+      "published": 19
+    },
+    {
+      "geo_code": "UK",
+      "iso3_code": "GBR",
+      "first_year": "1998-01-01",
+      "last_year": "2019-01-01",
+      "published": 21
+    }
+  ],
+  "healthy_life_expectancy_default_countries": [
+    {
+      "period": "2000-01-01",
+      "location_code": "DEU",
+      "sex": "female",
+      "healthy_life_expectancy_years": 68.55691,
+      "uncertainty_low_years": 67.6217,
+      "uncertainty_high_years": 69.37377
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "DEU",
+      "sex": "male",
+      "healthy_life_expectancy_years": 66.20483,
+      "uncertainty_low_years": 65.61021,
+      "uncertainty_high_years": 66.82838
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "DEU",
+      "sex": "total",
+      "healthy_life_expectancy_years": 67.4711,
+      "uncertainty_low_years": 66.8416,
+      "uncertainty_high_years": 68.23908
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "DEU",
+      "sex": "female",
+      "healthy_life_expectancy_years": 69.85818,
+      "uncertainty_low_years": 68.70372,
+      "uncertainty_high_years": 70.79425
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "DEU",
+      "sex": "male",
+      "healthy_life_expectancy_years": 68.99589,
+      "uncertainty_low_years": 68.41406,
+      "uncertainty_high_years": 69.72031
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "DEU",
+      "sex": "total",
+      "healthy_life_expectancy_years": 69.44498,
+      "uncertainty_low_years": 68.59516,
+      "uncertainty_high_years": 70.21014
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "DEU",
+      "sex": "female",
+      "healthy_life_expectancy_years": 69.40858,
+      "uncertainty_low_years": 68.5759,
+      "uncertainty_high_years": 70.33207
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "DEU",
+      "sex": "male",
+      "healthy_life_expectancy_years": 68.43486,
+      "uncertainty_low_years": 67.76235,
+      "uncertainty_high_years": 69.20732
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "DEU",
+      "sex": "total",
+      "healthy_life_expectancy_years": 68.93389,
+      "uncertainty_low_years": 68.11718,
+      "uncertainty_high_years": 69.77883
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "FRA",
+      "sex": "female",
+      "healthy_life_expectancy_years": 69.70474,
+      "uncertainty_low_years": 68.85723,
+      "uncertainty_high_years": 70.58822
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "FRA",
+      "sex": "male",
+      "healthy_life_expectancy_years": 66.20633,
+      "uncertainty_low_years": 65.66644,
+      "uncertainty_high_years": 66.88345
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "FRA",
+      "sex": "total",
+      "healthy_life_expectancy_years": 67.97792,
+      "uncertainty_low_years": 67.16904,
+      "uncertainty_high_years": 68.85777
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "FRA",
+      "sex": "female",
+      "healthy_life_expectancy_years": 71.59532,
+      "uncertainty_low_years": 70.71964,
+      "uncertainty_high_years": 72.54941
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "FRA",
+      "sex": "male",
+      "healthy_life_expectancy_years": 69.77737,
+      "uncertainty_low_years": 69.03062,
+      "uncertainty_high_years": 70.57547
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "FRA",
+      "sex": "total",
+      "healthy_life_expectancy_years": 70.71715,
+      "uncertainty_low_years": 69.99061,
+      "uncertainty_high_years": 71.6055
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "FRA",
+      "sex": "female",
+      "healthy_life_expectancy_years": 70.98478,
+      "uncertainty_low_years": 70.06015,
+      "uncertainty_high_years": 71.9616
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "FRA",
+      "sex": "male",
+      "healthy_life_expectancy_years": 69.14204,
+      "uncertainty_low_years": 68.53015,
+      "uncertainty_high_years": 69.92675
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "FRA",
+      "sex": "total",
+      "healthy_life_expectancy_years": 70.08346,
+      "uncertainty_low_years": 69.20249,
+      "uncertainty_high_years": 70.90382
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "GBR",
+      "sex": "female",
+      "healthy_life_expectancy_years": 68.11416,
+      "uncertainty_low_years": 67.24153,
+      "uncertainty_high_years": 68.97467
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "GBR",
+      "sex": "male",
+      "healthy_life_expectancy_years": 66.35937,
+      "uncertainty_low_years": 65.76512,
+      "uncertainty_high_years": 66.87022
+    },
+    {
+      "period": "2000-01-01",
+      "location_code": "GBR",
+      "sex": "total",
+      "healthy_life_expectancy_years": 67.27734,
+      "uncertainty_low_years": 66.5932,
+      "uncertainty_high_years": 68.05959
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "GBR",
+      "sex": "female",
+      "healthy_life_expectancy_years": 70.07471,
+      "uncertainty_low_years": 69.21533,
+      "uncertainty_high_years": 70.99745
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "GBR",
+      "sex": "male",
+      "healthy_life_expectancy_years": 69.38016,
+      "uncertainty_low_years": 68.81193,
+      "uncertainty_high_years": 69.97811
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "GBR",
+      "sex": "total",
+      "healthy_life_expectancy_years": 69.73675,
+      "uncertainty_low_years": 68.89909,
+      "uncertainty_high_years": 70.51193
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "GBR",
+      "sex": "female",
+      "healthy_life_expectancy_years": 69.02959,
+      "uncertainty_low_years": 68.21067,
+      "uncertainty_high_years": 69.86241
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "GBR",
+      "sex": "male",
+      "healthy_life_expectancy_years": 68.23657,
+      "uncertainty_low_years": 67.63764,
+      "uncertainty_high_years": 68.94523
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "GBR",
+      "sex": "total",
+      "healthy_life_expectancy_years": 68.63631,
+      "uncertainty_low_years": 67.84411,
+      "uncertainty_high_years": 69.49394
+    }
+  ],
+  "healthy_life_expectancy_without_an_interval": [
+    {
+      "period": "2019-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "female",
+      "healthy_life_expectancy_years": 66.30837,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "male",
+      "healthy_life_expectancy_years": 65.15582,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    },
+    {
+      "period": "2019-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "total",
+      "healthy_life_expectancy_years": 65.78406,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    },
+    {
+      "period": "2020-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "female",
+      "healthy_life_expectancy_years": 67.93717,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "female",
+      "healthy_life_expectancy_years": 67.03335,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    },
+    {
+      "period": "2021-01-01",
+      "location_code": "ATG",
+      "location_kind": "country",
+      "sex": "male",
+      "healthy_life_expectancy_years": 65.90072,
+      "uncertainty_low_years": null,
+      "uncertainty_high_years": null
+    }
+  ],
+  "publication_edges": [
+    {
+      "dataset": "world-demography-indicators",
+      "last_estimate": "2023-01-01",
+      "last_row": "2100-01-01"
+    },
+    {
+      "dataset": "european-immigration-flows",
+      "last_estimate": null,
+      "last_row": "2024-01-01"
+    },
+    {
+      "dataset": "european-emigration-flows",
+      "last_estimate": null,
+      "last_row": "2024-01-01"
+    },
+    {
+      "dataset": "healthy-life-expectancy",
+      "last_estimate": null,
+      "last_row": "2021-01-01"
+    }
+  ],
+  "country_universe": [
+    {
+      "countries_published": 237,
+      "countries_over_300k_in_2023": 184
+    }
+  ]
+}

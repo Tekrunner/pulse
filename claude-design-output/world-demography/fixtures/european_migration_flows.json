@@ -1,0 +1,93 @@
+[
+  {
+    "period": "1998-01-01",
+    "iso3_code": "DEU",
+    "geo_code": "DE",
+    "immigration_persons": 802456,
+    "emigration_persons": 755358
+  },
+  {
+    "period": "2006-01-01",
+    "iso3_code": "DEU",
+    "geo_code": "DE",
+    "immigration_persons": 661855,
+    "emigration_persons": 639064
+  },
+  {
+    "period": "2015-01-01",
+    "iso3_code": "DEU",
+    "geo_code": "DE",
+    "immigration_persons": 1595865,
+    "emigration_persons": 321915
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "DEU",
+    "geo_code": "DE",
+    "immigration_persons": 834338,
+    "emigration_persons": 496613
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "DEU",
+    "geo_code": "DE",
+    "immigration_persons": 1078504,
+    "emigration_persons": 584230
+  },
+  {
+    "period": "2006-01-01",
+    "iso3_code": "FRA",
+    "geo_code": "FR",
+    "immigration_persons": 301544,
+    "emigration_persons": 189403
+  },
+  {
+    "period": "2015-01-01",
+    "iso3_code": "FRA",
+    "geo_code": "FR",
+    "immigration_persons": 364221,
+    "emigration_persons": 324517
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "FRA",
+    "geo_code": "FR",
+    "immigration_persons": 385596,
+    "emigration_persons": 259143
+  },
+  {
+    "period": "2024-01-01",
+    "iso3_code": "FRA",
+    "geo_code": "FR",
+    "immigration_persons": 438626,
+    "emigration_persons": 263233
+  },
+  {
+    "period": "1998-01-01",
+    "iso3_code": "GBR",
+    "geo_code": "UK",
+    "immigration_persons": 332390,
+    "emigration_persons": 198934
+  },
+  {
+    "period": "2006-01-01",
+    "iso3_code": "GBR",
+    "geo_code": "UK",
+    "immigration_persons": 529008,
+    "emigration_persons": 369470
+  },
+  {
+    "period": "2015-01-01",
+    "iso3_code": "GBR",
+    "geo_code": "UK",
+    "immigration_persons": 631452,
+    "emigration_persons": 299183
+  },
+  {
+    "period": "2019-01-01",
+    "iso3_code": "GBR",
+    "geo_code": "UK",
+    "immigration_persons": 680906,
+    "emigration_persons": 368385
+  }
+]

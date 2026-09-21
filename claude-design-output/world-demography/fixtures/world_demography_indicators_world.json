@@ -1,0 +1,32 @@
+[
+  {
+    "period": "1950-01-01",
+    "series_kind": "estimate",
+    "population_thousands": 2493092.848,
+    "population_growth_rate_pct": 1.738
+  },
+  {
+    "period": "2023-01-01",
+    "series_kind": "estimate",
+    "population_thousands": 8091734.93,
+    "population_growth_rate_pct": 0.871
+  },
+  {
+    "period": "2024-01-01",
+    "series_kind": "projection",
+    "population_thousands": 8161972.572,
+    "population_growth_rate_pct": 0.858
+  },
+  {
+    "period": "2084-01-01",
+    "series_kind": "projection",
+    "population_thousands": 10289315.244,
+    "population_growth_rate_pct": -0.004
+  },
+  {
+    "period": "2100-01-01",
+    "series_kind": "projection",
+    "population_thousands": 10180160.751,
+    "population_growth_rate_pct": -0.127
+  }
+]

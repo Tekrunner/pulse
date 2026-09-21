@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "fertility-longevity",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "country-longevity + healthy-years",
+  "parameters": [
+    "250",
+    "276",
+    "826",
+    "1950-01-01",
+    "2100-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023-01-01",
+      "column": "France: total_fertility_rate",
+      "storedParquet": "Decimal('1.6389')",
+      "queryOutput": 1.6389,
+      "mappedJavaScript": 1.6389,
+      "displayedText": "1.64"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: life_expectancy_years",
+      "storedParquet": "Decimal('83.3253')",
+      "queryOutput": 83.3253,
+      "mappedJavaScript": 83.3253,
+      "displayedText": "83.3"
+    },
+    {
+      "observation": "2023",
+      "column": "France: healthy_life_expectancy_years",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": null,
+      "displayedText": "not published"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: total_fertility_rate",
+      "storedParquet": "Decimal('1.4414')",
+      "queryOutput": 1.4414,
+      "mappedJavaScript": 1.4414,
+      "displayedText": "1.44"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: life_expectancy_years",
+      "storedParquet": "Decimal('81.3777')",
+      "queryOutput": 81.3777,
+      "mappedJavaScript": 81.3777,
+      "displayedText": "81.4"
+    },
+    {
+      "observation": "2023",
+      "column": "Germany: healthy_life_expectancy_years",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": null,
+      "displayedText": "not published"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: total_fertility_rate",
+      "storedParquet": "Decimal('1.5600')",
+      "queryOutput": 1.56,
+      "mappedJavaScript": 1.56,
+      "displayedText": "1.56"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: life_expectancy_years",
+      "storedParquet": "Decimal('81.3015')",
+      "queryOutput": 81.3015,
+      "mappedJavaScript": 81.3015,
+      "displayedText": "81.3"
+    },
+    {
+      "observation": "2023",
+      "column": "United Kingdom: healthy_life_expectancy_years",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": null,
+      "displayedText": "not published"
+    },
+    {
+      "observation": "2021",
+      "column": "France: healthy_life_expectancy_years",
+      "storedParquet": "Decimal('70.08346')",
+      "queryOutput": 70.08346,
+      "mappedJavaScript": 70.08346,
+      "displayedText": "70.1"
+    },
+    {
+      "observation": "2021",
+      "column": "Germany: healthy_life_expectancy_years",
+      "storedParquet": "Decimal('68.93389')",
+      "queryOutput": 68.93389,
+      "mappedJavaScript": 68.93389,
+      "displayedText": "68.9"
+    },
+    {
+      "observation": "2021",
+      "column": "United Kingdom: healthy_life_expectancy_years",
+      "storedParquet": "Decimal('68.63631')",
+      "queryOutput": 68.63631,
+      "mappedJavaScript": 68.63631,
+      "displayedText": "68.6"
+    }
+  ],
+  "displayedOnPage": {
+    "valueStripsAt2023": [
+      "2023France1.64Germany1.44United Kingdom1.56",
+      "2023France83.3Germany81.4United Kingdom81.3",
+      "2023Francenot publishedGermanynot publishedUnited Kingdomnot published"
+    ],
+    "valueStripsAt2021": [
+      "2021France1.80Germany1.58United Kingdom1.58",
+      "2021France82.3Germany81.1United Kingdom80.7",
+      "2021France70.1Germany68.9United Kingdom68.6"
+    ],
+    "panelTitles": [
+      "Total fertility rate",
+      "Life expectancy at birth",
+      "Healthy life expectancy"
+    ],
+    "lastTableRow": [
+      "2100",
+      "United Kingdom",
+      "1.60",
+      "90.6",
+      "not published"
+    ]
+  },
+  "note": "Healthy life expectancy stops at 2021-01-01: at a later year the panel says 'not published' rather than extending the two United Nations series across a gap the third provider has not filled."
+}

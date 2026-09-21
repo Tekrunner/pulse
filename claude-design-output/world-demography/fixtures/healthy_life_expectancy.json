@@ -1,0 +1,74 @@
+[
+  {
+    "period": "2000-01-01",
+    "location_code": "DEU",
+    "iso3_code": "DEU",
+    "sex": "total",
+    "healthy_life_expectancy_years": 67.4711,
+    "uncertainty_low_years": 66.8416,
+    "uncertainty_high_years": 68.23908
+  },
+  {
+    "period": "2021-01-01",
+    "location_code": "DEU",
+    "iso3_code": "DEU",
+    "sex": "total",
+    "healthy_life_expectancy_years": 68.93389,
+    "uncertainty_low_years": 68.11718,
+    "uncertainty_high_years": 69.77883
+  },
+  {
+    "period": "2000-01-01",
+    "location_code": "FRA",
+    "iso3_code": "FRA",
+    "sex": "total",
+    "healthy_life_expectancy_years": 67.97792,
+    "uncertainty_low_years": 67.16904,
+    "uncertainty_high_years": 68.85777
+  },
+  {
+    "period": "2021-01-01",
+    "location_code": "FRA",
+    "iso3_code": "FRA",
+    "sex": "total",
+    "healthy_life_expectancy_years": 70.08346,
+    "uncertainty_low_years": 69.20249,
+    "uncertainty_high_years": 70.90382
+  },
+  {
+    "period": "2000-01-01",
+    "location_code": "GBR",
+    "iso3_code": "GBR",
+    "sex": "total",
+    "healthy_life_expectancy_years": 67.27734,
+    "uncertainty_low_years": 66.5932,
+    "uncertainty_high_years": 68.05959
+  },
+  {
+    "period": "2021-01-01",
+    "location_code": "GBR",
+    "iso3_code": "GBR",
+    "sex": "total",
+    "healthy_life_expectancy_years": 68.63631,
+    "uncertainty_low_years": 67.84411,
+    "uncertainty_high_years": 69.49394
+  },
+  {
+    "period": "2019-01-01",
+    "location_code": "ATG",
+    "location_kind": "country",
+    "sex": "female",
+    "healthy_life_expectancy_years": 66.30837,
+    "uncertainty_low_years": null,
+    "uncertainty_high_years": null
+  },
+  {
+    "period": "2019-01-01",
+    "location_code": "ATG",
+    "location_kind": "country",
+    "sex": "male",
+    "healthy_life_expectancy_years": 65.15582,
+    "uncertainty_low_years": null,
+    "uncertainty_high_years": null
+  }
+]

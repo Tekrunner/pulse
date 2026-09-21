@@ -1,0 +1,122 @@
+[
+  {
+    "period": "1950-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "total_fertility_rate": 2.1938,
+    "life_expectancy_years": 66.8112
+  },
+  {
+    "period": "2000-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.3862,
+    "life_expectancy_years": 78.0563
+  },
+  {
+    "period": "2021-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.5767,
+    "life_expectancy_years": 81.1059
+  },
+  {
+    "period": "2022-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.46,
+    "life_expectancy_years": 80.5796
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "DEU",
+    "location_name": "Germany",
+    "series_kind": "projection",
+    "total_fertility_rate": 1.597,
+    "life_expectancy_years": 90.7835
+  },
+  {
+    "period": "1950-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "total_fertility_rate": 2.9648,
+    "life_expectancy_years": 66.3819
+  },
+  {
+    "period": "2000-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.8757,
+    "life_expectancy_years": 79.0438
+  },
+  {
+    "period": "2021-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.7994,
+    "life_expectancy_years": 82.3216
+  },
+  {
+    "period": "2022-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.76,
+    "life_expectancy_years": 82.4753
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "FRA",
+    "location_name": "France",
+    "series_kind": "projection",
+    "total_fertility_rate": 1.6463,
+    "life_expectancy_years": 92.1419
+  },
+  {
+    "period": "1950-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "total_fertility_rate": 2.224,
+    "life_expectancy_years": 68.631
+  },
+  {
+    "period": "2000-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.641,
+    "life_expectancy_years": 77.8491
+  },
+  {
+    "period": "2021-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.5834,
+    "life_expectancy_years": 80.708
+  },
+  {
+    "period": "2022-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "estimate",
+    "total_fertility_rate": 1.56,
+    "life_expectancy_years": 81.0744
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "GBR",
+    "location_name": "United Kingdom",
+    "series_kind": "projection",
+    "total_fertility_rate": 1.5953,
+    "life_expectancy_years": 90.5874
+  }
+]

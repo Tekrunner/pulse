@@ -1,0 +1,65 @@
+[
+  {
+    "period": "2100-01-01",
+    "iso3_code": "DEU",
+    "scenario": "Lower 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 43292.609
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "DEU",
+    "scenario": "Median PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 70899.863
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "DEU",
+    "scenario": "Upper 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 110665.421
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "FRA",
+    "scenario": "Lower 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 39209.983
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "FRA",
+    "scenario": "Median PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 68484.558
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "FRA",
+    "scenario": "Upper 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 100437.51
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "GBR",
+    "scenario": "Lower 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 37571.204
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "GBR",
+    "scenario": "Median PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 74305.411
+  },
+  {
+    "period": "2100-01-01",
+    "iso3_code": "GBR",
+    "scenario": "Upper 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 161647.358
+  }
+]

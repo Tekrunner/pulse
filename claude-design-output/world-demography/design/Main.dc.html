@@ -1,0 +1,1190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+  <script src="/_blob/8bb6b8925729d987f5696cef92ef8b68"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #161826; color: #e9e9ed; font-family: Inter, system-ui, sans-serif; }
+    a { color: #b5abfc; } a:hover { color: #d2cefd; }
+    .wd * { box-sizing: border-box; }
+    .wd h1, .wd h2, .wd h3 { margin: 0; font-weight: 500; }
+    .wd p { margin: 0; }
+    .wd figure { margin: 0; }
+    .wd :focus-visible { outline: 2px solid #b5abfc; outline-offset: 2px; }
+    .wd table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .wd th, .wd td { text-align: left; padding: 4px 6px; border-bottom: 1px solid #3f424d; font-variant-numeric: tabular-nums; }
+    .wd thead th { color: #9397ab; font-weight: 500; }
+    .wd summary { min-height: 44px; display: flex; align-items: center; color: #b5abfc; cursor: pointer; font-size: 13px; }
+    .wd details { border-top: 1px solid #292b31; }
+    .wd .scroll { max-height: 220px; overflow: auto; }
+    .wd select, .wd input, .wd button { min-height: 44px; padding: 0 8px; border: 1px solid #3f424d; border-radius: 8px; background: #232532; color: #e9e9ed; font: inherit; }
+    .wd input[type=range] { padding: 0; }
+    .wd label.seg { display: inline-flex; align-items: center; min-height: 44px; padding: 0 13px; border-inline-start: 1px solid #3f424d; cursor: pointer; font-size: 13px; color: #b2b6ca; }
+    .wd label.seg:first-child { border-inline-start: 0; }
+    .wd label.seg.on { color: #d2cefd; background: #232532; }
+    .wd label.chk { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 11px; border: 1px solid #3f424d; border-radius: 8px; cursor: pointer; font-size: 13px; }
+    .wd label.chk.on { border-color: #595d6c; background: #232532; }
+    .plot { position: relative; min-width: 0; }
+    .ov { position: absolute; inset: 0; pointer-events: none; font-size: 11px; color: #9397ab; }
+    .ov > span { position: absolute; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .values { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 18px; padding: 8px 11px; border-radius: 8px; background: #1c1f2c; box-shadow: inset 0 0 0 1px #32364a; font-size: 12.5px; }
+    .values .yr { font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: #b5abfc; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .values .v { display: inline-flex; align-items: baseline; gap: 6px; color: #b2b6ca; white-space: nowrap; }
+    .values i { width: 8px; height: 8px; border-radius: 2px; flex: none; align-self: center; }
+    .values b { color: #e9e9ed; font-variant-numeric: tabular-nums; font-weight: 500; }
+    .values em { font-style: normal; color: #9397ab; font-variant-numeric: tabular-nums; }
+    .values.mini { gap: 4px 13px; padding: 6px 8px; font-size: 11.5px; }
+    .values.mini .yr { font-size: 10px; }
+    @media (prefers-reduced-motion: reduce) { .wd * { transition-duration: .001ms !important; animation-duration: .001ms !important; } }
+  </style>
+</helmet>
+<div class="wd" style="width: 1280px; height: 3400px; padding: 26px 28px 40px; display: flex; flex-direction: column; gap: 22px; background: #161826;">
+
+  <header style="display: flex; flex-direction: column; gap: 8px; padding-bottom: 16px; border-bottom: 1px solid #2e3140;">
+    <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">Pulse standing report</p>
+    <h1 style="font-size: 40px; line-height: 1.1; letter-spacing: -.015em; max-width: 22ch;">World demography</h1>
+    <p style="max-width: 68ch; font-size: 15px; color: #cfd3e5;">For the world and for every country above 300,000 people.</p>
+    <dl style="display: flex; flex-wrap: wrap; gap: 4px 26px; margin: 8px 0 0; font-size: 12px; color: #b2b6ca;">
+      <div style="display: flex; gap: 6px;"><dt>UN World Population Prospects 2024</dt><dd style="margin: 0; color: #e9e9ed;">estimates to 2023 · projection to 2100</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>Eurostat migration flows</dt><dd style="margin: 0; color: #e9e9ed;">to 2024</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>WHO healthy life expectancy</dt><dd style="margin: 0; color: #e9e9ed;">to 2021</dd></div>
+    </dl>
+  </header>
+
+  <section aria-label="Exploration controls" style="position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 20px; padding: 12px 14px; border-radius: 8px; background: #161826; box-shadow: 0 0 0 1px #3f424d;">
+
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Represented period</legend>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+        <div role="radiogroup" aria-label="Represented period presets" style="display: flex; overflow: hidden; width: fit-content; border: 1px solid #3f424d; border-radius: 8px;">
+          <sc-for list="{{presets}}" as="p" hint-placeholder-count="4">
+            <label class="{{p.cls}}">
+              <input type="radio" name="period" checked="{{p.on}}" onChange="{{p.pick}}" style="position: absolute; width: 0; height: 0; opacity: 0;">
+              <span>{{p.label}}</span>
+            </label>
+          </sc-for>
+        </div>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b2b6ca;">
+          <span>From</span>
+          <select aria-label="Represented period start year" value="{{fromYear}}" onChange="{{setFrom}}">
+            <sc-for list="{{yearOptions}}" as="y" hint-placeholder-count="3"><option value="{{y.v}}">{{y.v}}</option></sc-for>
+          </select>
+        </label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b2b6ca;">
+          <span>To</span>
+          <select aria-label="Represented period end year" value="{{toYear}}" onChange="{{setTo}}">
+            <sc-for list="{{yearOptions}}" as="y" hint-placeholder-count="3"><option value="{{y.v}}">{{y.v}}</option></sc-for>
+          </select>
+        </label>
+      </div>
+    </fieldset>
+
+    <label style="flex: 1 1 280px; min-width: 240px; display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-size: 12px; color: #b2b6ca;">Observation year — or click any point on a figure</span>
+      <input type="range" min="{{fromYear}}" max="{{toYear}}" step="1" value="{{year}}" aria-label="Observation year" aria-valuetext="{{yearReadout}}" onInput="{{setYear}}" style="width: 100%;">
+      <output style="font-size: 13px; font-weight: 500; font-variant-numeric: tabular-nums;">{{yearReadout}}</output>
+    </label>
+
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Countries compared — {{selectedLabel}}</legend>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px;">
+        <sc-for list="{{countryChips}}" as="c" hint-placeholder-count="3">
+          <label class="{{c.cls}}">
+            <input type="checkbox" checked="{{c.on}}" onChange="{{c.toggle}}" style="width: 16px; height: 16px; min-height: 16px; accent-color: #b5abfc;">
+            <span style="width: 14px; height: 3px; border-radius: 2px; background: {{c.color}};"></span>
+            <span>{{c.name}}</span>
+          </label>
+        </sc-for>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b2b6ca;">
+          <span>Add</span>
+          <select aria-label="Add a country to the comparison" value="" onChange="{{addCountry}}">
+            <option value="">Choose…</option>
+            <sc-for list="{{addable}}" as="a" hint-placeholder-count="3"><option value="{{a.iso3}}">{{a.name}}</option></sc-for>
+          </select>
+        </label>
+      </div>
+    </fieldset>
+
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Projection shown</legend>
+      <div role="radiogroup" aria-label="Projection scenarios shown" style="display: flex; overflow: hidden; width: fit-content; border: 1px solid #3f424d; border-radius: 8px;">
+        <sc-for list="{{scenarioModes}}" as="s" hint-placeholder-count="4">
+          <label class="{{s.cls}}">
+            <input type="radio" name="scenario" checked="{{s.on}}" onChange="{{s.pick}}" style="position: absolute; width: 0; height: 0; opacity: 0;">
+            <span>{{s.label}}</span>
+          </label>
+        </sc-for>
+      </div>
+    </fieldset>
+  </section>
+
+  <div style="display: flex; flex-direction: column; gap: 28px;">
+
+    <figure aria-labelledby="fig1-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig1-h" style="font-size: 20px;">The world's population, and the range the projection spans</h3>
+        <p style="max-width: 78ch; font-size: 13px; color: #b2b6ca;">Population on 1 July each year. The shaded range is the provider's 95% prediction interval; the named scenarios hold one assumption fixed and are bounds for reasoning rather than forecasts.</p>
+      </figcaption>
+      <div class="values">
+        <span class="yr">{{f1.selected.title}}</span>
+        <sc-for list="{{f1.selected.rows}}" as="r" hint-placeholder-count="3">
+          <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+        </sc-for>
+      </div>
+      <div class="plot">
+        <svg viewBox="0 0 1188 372" width="1188" height="372" role="img" aria-label="{{f1.aria}}" onClick="{{f1.pick}}" style="cursor: pointer; display: block;">
+          <sc-for list="{{f1.gridLines}}" as="g" hint-placeholder-count="5">
+            <line x1="52" x2="1178" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}" stroke-width="1"></line>
+          </sc-for>
+          <polygon points="{{f1.bandPoints}}" fill="#b5abfc" opacity="{{f1.bandOpacity}}"></polygon>
+          <sc-for list="{{f1.extraScenarios}}" as="s" hint-placeholder-count="2">
+            <polyline points="{{s.points}}" fill="none" stroke="#8c93a8" stroke-width="1.5" stroke-dasharray="5 4" opacity=".8"></polyline>
+          </sc-for>
+          <polyline points="{{f1.estimatePoints}}" fill="none" stroke="#b5abfc" stroke-width="2.5" stroke-linejoin="round"></polyline>
+          <polyline points="{{f1.projectionPoints}}" fill="none" stroke="#b5abfc" stroke-width="2.5" stroke-dasharray="7 5" stroke-linejoin="round"></polyline>
+          <sc-if value="{{f1.showBoundary}}" hint-placeholder-val="{{true}}">
+            <line x1="{{f1.boundaryX}}" x2="{{f1.boundaryX}}" y1="8" y2="258" stroke="#75798c" stroke-width="1"></line>
+          </sc-if>
+          <sc-if value="{{f1.showPeak}}" hint-placeholder-val="{{true}}">
+            <circle cx="{{f1.peakX}}" cy="{{f1.peakY}}" r="4.5" fill="none" stroke="#e9e9ed" stroke-width="1.5"></circle>
+          </sc-if>
+          <line x1="52" x2="1178" y1="{{f1.zeroY}}" y2="{{f1.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+          <polyline points="{{f1.growthEstimate}}" fill="none" stroke="#9dc0ae" stroke-width="2"></polyline>
+          <polyline points="{{f1.growthProjection}}" fill="none" stroke="#9dc0ae" stroke-width="2" stroke-dasharray="7 5"></polyline>
+          <line x1="{{f1.selX}}" x2="{{f1.selX}}" y1="8" y2="350" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+          <circle cx="{{f1.selX}}" cy="{{f1.selPopY}}" r="3.5" fill="#b5abfc" stroke="#161826" stroke-width="1.5"></circle>
+          <circle cx="{{f1.selX}}" cy="{{f1.selGrowthY}}" r="3.5" fill="#9dc0ae" stroke="#161826" stroke-width="1.5"></circle>
+        </svg>
+        <div class="ov">
+          <sc-for list="{{f1.labels}}" as="l" hint-placeholder-count="8">
+            <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+          </sc-for>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. CC BY 3.0 IGO.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">World population and rate of change, by year</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Kind</th><th scope="col">Population</th><th scope="col">Rate of change</th><th scope="col">95% interval</th></tr></thead>
+            <tbody>
+              <sc-for list="{{f1.table}}" as="r" hint-placeholder-count="4">
+                <tr><th scope="row">{{r.year}}</th><td>{{r.kind}}</td><td>{{r.pop}}</td><td>{{r.growth}}</td><td>{{r.band}}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+
+    <figure aria-labelledby="fig2-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig2-h" style="font-size: 20px;">Population of the selected countries</h3>
+        <p style="max-width: 78ch; font-size: 13px; color: #b2b6ca;">Each country's population on 1 July. France here is the provider's France, which excludes the overseas departments; they are published as separate locations.</p>
+      </figcaption>
+      <div class="values">
+        <span class="yr">{{f2.selected.title}}</span>
+        <sc-for list="{{f2.selected.rows}}" as="r" hint-placeholder-count="3">
+          <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b><em>{{r.extra}}</em></span>
+        </sc-for>
+      </div>
+      <div class="plot">
+        <svg viewBox="0 0 1188 372" width="1188" height="372" role="img" aria-label="{{f2.aria}}" onClick="{{f2.pick}}" style="cursor: pointer; display: block;">
+          <sc-for list="{{f2.gridLines}}" as="g" hint-placeholder-count="5">
+            <line x1="52" x2="1178" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}" stroke-width="1"></line>
+          </sc-for>
+          <sc-for list="{{f2.bands}}" as="b" hint-placeholder-count="3">
+            <polygon points="{{b.points}}" fill="{{b.color}}" opacity=".14"></polygon>
+          </sc-for>
+          <sc-if value="{{f2.showBoundary}}" hint-placeholder-val="{{true}}">
+            <line x1="{{f2.boundaryX}}" x2="{{f2.boundaryX}}" y1="8" y2="258" stroke="#75798c" stroke-width="1"></line>
+          </sc-if>
+          <sc-for list="{{f2.series}}" as="s" hint-placeholder-count="3">
+            <g>
+              <polyline points="{{s.estimate}}" fill="none" stroke="{{s.color}}" stroke-width="2.5" stroke-linejoin="round"></polyline>
+              <polyline points="{{s.projection}}" fill="none" stroke="{{s.color}}" stroke-width="2.5" stroke-dasharray="7 5" stroke-linejoin="round"></polyline>
+              <polyline points="{{s.growthEstimate}}" fill="none" stroke="{{s.color}}" stroke-width="1.8"></polyline>
+              <polyline points="{{s.growthProjection}}" fill="none" stroke="{{s.color}}" stroke-width="1.8" stroke-dasharray="7 5"></polyline>
+              <circle cx="{{f2.selX}}" cy="{{s.selY}}" r="3.5" fill="{{s.color}}" stroke="#161826" stroke-width="1.5"></circle>
+            </g>
+          </sc-for>
+          <line x1="52" x2="1178" y1="{{f2.zeroY}}" y2="{{f2.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+          <line x1="{{f2.selX}}" x2="{{f2.selX}}" y1="8" y2="350" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+        </svg>
+        <div class="ov">
+          <sc-for list="{{f2.labels}}" as="l" hint-placeholder-count="8">
+            <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+          </sc-for>
+        </div>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. CC BY 3.0 IGO.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">Population and rate of change by country and year</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Kind</th><sc-for list="{{f2.headers}}" as="h" hint-placeholder-count="3"><th scope="col">{{h.name}}</th></sc-for></tr></thead>
+            <tbody>
+              <sc-for list="{{f2.table}}" as="r" hint-placeholder-count="4">
+                <tr><th scope="row">{{r.year}}</th><td>{{r.kind}}</td><sc-for list="{{r.cells}}" as="c" hint-placeholder-count="3"><td>{{c.v}}</td></sc-for></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+
+    <figure aria-labelledby="fig3-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig3-h" style="font-size: 20px;">What changes a population: natural change and net migration</h3>
+      </figcaption>
+      <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; align-items: center; gap: 10px;">
+        <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Measured in</legend>
+        <div role="radiogroup" aria-label="Unit for components of change" style="display: flex; overflow: hidden; width: fit-content; border: 1px solid #3f424d; border-radius: 8px;">
+          <sc-for list="{{unitModes}}" as="u" hint-placeholder-count="2">
+            <label class="{{u.cls}}">
+              <input type="radio" name="unit" checked="{{u.on}}" onChange="{{u.pick}}" style="position: absolute; width: 0; height: 0; opacity: 0;">
+              <span>{{u.label}}</span>
+            </label>
+          </sc-for>
+        </div>
+      </fieldset>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{f3.panels}}" as="p" hint-placeholder-count="3">
+          <div style="min-width: 0; padding: 10px; border-radius: 8px; background: #161826;">
+            <span style="font-size: 14px; font-weight: 500; color: {{p.color}};">{{p.name}}</span>
+            <div class="values mini">
+              <span class="yr">{{p.selected.title}}</span>
+              <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="3">
+                <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+              </sc-for>
+            </div>
+            <div class="plot" style="margin-top: 6px;">
+              <svg viewBox="0 0 364 168" width="364" height="168" role="img" aria-label="{{p.aria}}" onClick="{{p.pick}}" style="cursor: pointer; display: block;">
+                <line x1="44" x2="358" y1="{{p.zeroY}}" y2="{{p.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+                <polygon points="{{p.naturalArea}}" fill="#9dc0ae" opacity=".38"></polygon>
+                <polygon points="{{p.migrationArea}}" fill="#d09a6a" opacity=".38"></polygon>
+                <polyline points="{{p.naturalLine}}" fill="none" stroke="#9dc0ae" stroke-width="1.6"></polyline>
+                <polyline points="{{p.migrationLine}}" fill="none" stroke="#d09a6a" stroke-width="1.6"></polyline>
+                <polyline points="{{p.changeLine}}" fill="none" stroke="#e9e9ed" stroke-width="1.2" stroke-dasharray="2 3" opacity=".8"></polyline>
+                <line x1="{{p.selX}}" x2="{{p.selX}}" y1="6" y2="146" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+              </svg>
+              <div class="ov">
+                <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="6">
+                  <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: #b2b6ca;">
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; border-radius: 2px; background: #9dc0ae;"></span>Natural change</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; border-radius: 2px; background: #d09a6a;"></span>Net migration</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 0; border-top: 2px dashed #e9e9ed;"></span>Population change</span>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. CC BY 3.0 IGO.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">Components of population change, by country and year</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Country</th><th scope="col">Natural change</th><th scope="col">Net migration</th><th scope="col">Population change</th></tr></thead>
+            <tbody>
+              <sc-for list="{{f3.table}}" as="r" hint-placeholder-count="4">
+                <tr><th scope="row">{{r.year}}</th><td>{{r.country}}</td><td>{{r.natural}}</td><td>{{r.migration}}</td><td>{{r.change}}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+
+    <figure aria-labelledby="fig4-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig4-h" style="font-size: 20px;">Arrivals and departures, where a provider publishes them</h3>
+        <p style="max-width: 78ch; font-size: 13px; color: #b2b6ca;">Eurostat counts everyone who changed their country of usual residence for at least twelve months, in both directions and regardless of citizenship. Its arrivals and departures are differenceable against each other. They are not the components of the United Nations balance drawn beside them, which comes from a different provider on a different basis.</p>
+      </figcaption>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{f4.panels}}" as="p" hint-placeholder-count="3">
+          <div style="min-width: 0; padding: 10px; border-radius: 8px; background: #161826;">
+            <span style="font-size: 14px; font-weight: 500; color: {{p.color}};">{{p.name}}</span>
+            <div class="values mini">
+              <span class="yr">{{p.selected.title}}</span>
+              <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="3">
+                <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+              </sc-for>
+            </div>
+            <sc-if value="{{p.hasFlows}}" hint-placeholder-val="{{true}}">
+              <div class="plot" style="margin-top: 6px;">
+                <svg viewBox="0 0 364 186" width="364" height="186" role="img" aria-label="{{p.aria}}" onClick="{{p.pick}}" style="cursor: pointer; display: block;">
+                  <line x1="48" x2="358" y1="{{p.zeroY}}" y2="{{p.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+                  <polyline points="{{p.arrivals}}" fill="none" stroke="#8fb0d1" stroke-width="2"></polyline>
+                  <polyline points="{{p.departures}}" fill="none" stroke="#d09a6a" stroke-width="2"></polyline>
+                  <polyline points="{{p.net}}" fill="none" stroke="#b5abfc" stroke-width="1.4" stroke-dasharray="4 3"></polyline>
+                  <sc-if value="{{p.stops}}" hint-placeholder-val="{{true}}">
+                    <circle cx="{{p.stopDotX}}" cy="{{p.stopDotY}}" r="3" fill="#f2994a"></circle>
+                  </sc-if>
+                  <line x1="{{p.selX}}" x2="{{p.selX}}" y1="6" y2="164" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+                </svg>
+                <div class="ov">
+                  <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="5">
+                    <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{p.noFlows}}" hint-placeholder-val="{{true}}">
+              <div style="margin-top: 6px; height: 186px; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 14px; border-radius: 8px; border: 1px dashed #595d6c;">
+                <span style="font-size: 12.5px; color: #f2994a;">✕ No gross flows published</span>
+                <p style="font-size: 12px; color: #b2b6ca;">{{p.absence}}</p>
+                <span style="font-size: 12px; color: #cfd3e5; font-variant-numeric: tabular-nums;">{{p.netOnly}}</span>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: #b2b6ca;">
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; border-radius: 2px; background: #8fb0d1;"></span>Arrivals, Eurostat</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; border-radius: 2px; background: #d09a6a;"></span>Departures, Eurostat</span>
+        <span style="display: inline-flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 0; border-top: 2px dashed #b5abfc;"></span>Net migration, United Nations</span>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">Eurostat, immigration and emigration by age group, sex and citizenship (migr_imm1ctz, migr_emi1ctz), reuse authorised with acknowledgement · United Nations World Population Prospects 2024, CC BY 3.0 IGO.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">Arrivals, departures and net migration by country and year</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Country</th><th scope="col">Arrivals</th><th scope="col">Departures</th><th scope="col">Net migration, UN</th></tr></thead>
+            <tbody>
+              <sc-for list="{{f4.table}}" as="r" hint-placeholder-count="4">
+                <tr><th scope="row">{{r.year}}</th><td>{{r.country}}</td><td>{{r.arrivals}}</td><td>{{r.departures}}</td><td>{{r.net}}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+
+    <figure aria-labelledby="fig5-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig5-h" style="font-size: 20px;">Fertility, life expectancy, and years lived in full health</h3>
+        <p style="max-width: 78ch; font-size: 13px; color: #b2b6ca;">Healthy life expectancy is a modelled quantity from the World Health Organization, weighting years lived by disability across causes. It is published for a much shorter period than life expectancy, and on a different basis, so the two are drawn in their own panels.</p>
+      </figcaption>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{f5.panels}}" as="p" hint-placeholder-count="3">
+          <div style="min-width: 0; padding: 10px; border-radius: 8px; background: #161826;">
+            <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 8px;">
+              <span style="font-size: 14px; font-weight: 500;">{{p.title}}</span>
+              <span style="font-size: 11px; color: #9397ab;">{{p.unit}}</span>
+            </div>
+            <div class="values mini">
+              <span class="yr">{{p.selected.title}}</span>
+              <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="3">
+                <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+              </sc-for>
+            </div>
+            <div class="plot" style="margin-top: 6px;">
+              <svg viewBox="0 0 364 186" width="364" height="186" role="img" aria-label="{{p.aria}}" onClick="{{p.pick}}" style="cursor: pointer; display: block;">
+                <sc-for list="{{p.gridLines}}" as="g" hint-placeholder-count="4">
+                  <line x1="44" x2="358" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}" stroke-width="1"></line>
+                </sc-for>
+                <sc-if value="{{p.hasReference}}" hint-placeholder-val="{{true}}">
+                  <line x1="44" x2="358" y1="{{p.referenceY}}" y2="{{p.referenceY}}" stroke="#9397ab" stroke-width="1" stroke-dasharray="2 4"></line>
+                </sc-if>
+                <sc-for list="{{p.series}}" as="s" hint-placeholder-count="3">
+                  <g>
+                    <polyline points="{{s.estimate}}" fill="none" stroke="{{s.color}}" stroke-width="2"></polyline>
+                    <polyline points="{{s.projection}}" fill="none" stroke="{{s.color}}" stroke-width="2" stroke-dasharray="7 5"></polyline>
+                    <sc-if value="{{s.stops}}" hint-placeholder-val="{{true}}">
+                      <circle cx="{{s.endX}}" cy="{{s.endY}}" r="3" fill="{{s.color}}"></circle>
+                    </sc-if>
+                  </g>
+                </sc-for>
+                <line x1="{{p.selX}}" x2="{{p.selX}}" y1="6" y2="164" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+              </svg>
+              <div class="ov">
+                <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="6">
+                  <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">Fertility and life expectancy: United Nations World Population Prospects 2024, CC BY 3.0 IGO. Healthy life expectancy: WHO, Global Health Observatory, healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024 — used under WHO's terms for data, which permit use for public health purposes with attribution and no commercial use.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">Fertility, life expectancy and healthy life expectancy by country and year</caption>
+            <thead><tr><th scope="col">Year</th><th scope="col">Country</th><th scope="col">Fertility rate</th><th scope="col">Life expectancy</th><th scope="col">Healthy life expectancy</th></tr></thead>
+            <tbody>
+              <sc-for list="{{f5.table}}" as="r" hint-placeholder-count="4">
+                <tr><th scope="row">{{r.year}}</th><td>{{r.country}}</td><td>{{r.tfr}}</td><td>{{r.lex}}</td><td>{{r.hale}}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+
+    <figure aria-labelledby="fig6-h" style="padding: 18px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 10px;">
+      <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+        <h3 id="fig6-h" style="font-size: 20px;">Age structure at the selected year</h3>
+        <p style="max-width: 78ch; font-size: 13px; color: #b2b6ca;">Population by five-year age band and sex, and the same people split into young, working age and old. The provider's bands are five years wide, so the working-age split falls at 15 and 65 rather than at 18. This figure follows the observation year selected anywhere on the page.</p>
+      </figcaption>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+        <sc-for list="{{f6.panels}}" as="p" hint-placeholder-count="3">
+          <div style="min-width: 0; padding: 10px; border-radius: 8px; background: #161826;">
+            <span style="font-size: 14px; font-weight: 500; color: {{p.color}};">{{p.name}}</span>
+            <div class="values mini">
+              <span class="yr">{{p.selected.title}}</span>
+              <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="2">
+                <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+              </sc-for>
+            </div>
+            <div class="plot" style="margin-top: 6px;">
+              <svg viewBox="0 0 364 252" width="364" height="252" role="img" aria-label="{{p.aria}}" style="display: block;">
+                <sc-for list="{{p.bars}}" as="b" hint-placeholder-count="8">
+                  <g>
+                    <rect x="{{b.maleX}}" y="{{b.y}}" width="{{b.maleW}}" height="{{b.h}}" fill="#8fb0d1" opacity=".85"></rect>
+                    <rect x="{{b.femaleX}}" y="{{b.y}}" width="{{b.femaleW}}" height="{{b.h}}" fill="#c98fb0" opacity=".85"></rect>
+                  </g>
+                </sc-for>
+              </svg>
+              <div class="ov">
+                <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="12">
+                  <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+                </sc-for>
+              </div>
+            </div>
+            <div style="margin-top: 8px; display: flex; height: 22px; border-radius: 4px; overflow: hidden;">
+              <sc-for list="{{p.broad}}" as="s" hint-placeholder-count="3">
+                <div style="width: {{s.width}}; background: {{s.color}}; display: flex; align-items: center; justify-content: center;">
+                  <span style="font-size: 10.5px; color: #161826; font-weight: 600;">{{s.pct}}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="margin-top: 5px; display: flex; justify-content: space-between; font-size: 10.5px; color: #b2b6ca;">
+              <span>0–14</span><span>15–64</span><span>65+</span>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. CC BY 3.0 IGO.</p>
+      <details>
+        <summary>Provenance, query and data table</summary>
+        <div class="scroll">
+          <table>
+            <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">Population by five-year age band and sex at the selected year</caption>
+            <thead><tr><th scope="col">Age band</th><th scope="col">Country</th><th scope="col">Men</th><th scope="col">Women</th><th scope="col">Share of population</th></tr></thead>
+            <tbody>
+              <sc-for list="{{f6.table}}" as="r" hint-placeholder-count="6">
+                <tr><th scope="row">{{r.band}}</th><td>{{r.country}}</td><td>{{r.male}}</td><td>{{r.female}}</td><td>{{r.share}}</td></tr>
+              </sc-for>
+            </tbody>
+          </table>
+        </div>
+      </details>
+    </figure>
+  </div>
+
+  <footer style="padding-top: 14px; border-top: 1px solid #2e3140; display: flex; flex-direction: column; gap: 5px;">
+    <p style="font-size: 12px; color: #b2b6ca;">The country list offers every country the United Nations publishes whose population reached 300,000 in the latest estimate year, which is 184 of the 237 it covers. The provider's regional and income groupings are not included; its world aggregate is the first figure.</p>
+    <p style="font-size: 12px; color: #b2b6ca;">Healthy life expectancy is published under the World Health Organization's own terms for data, which permit use for public health purposes with attribution, bar commercial use, and require written authorization to modify. Every other measure here is CC BY 3.0 IGO or Eurostat's reuse policy.</p>
+  </footer>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1280,"height":3400}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = {
+      preset: "all", from: 1950, to: 2100, year: 2023,
+      selected: ["FRA", "DEU", "GBR"], scenarioMode: "interval95", unit: "people"
+    };
+  }
+
+  data() { return window.__pulseDemography || null; }
+
+  // ---- formatting -------------------------------------------------------
+
+  fmtPeople(thousands, opts) {
+    if (thousands === null || thousands === undefined || !isFinite(thousands)) return "—";
+    var v = Number(thousands), sign = (opts && opts.signed && v > 0) ? "+" : (v < 0 ? "−" : "");
+    var a = Math.abs(v);
+    if (a >= 1000000) return sign + (a / 1000000).toFixed(2) + "bn";
+    if (a >= 1000) return sign + (a / 1000).toFixed(a >= 10000 ? 1 : 2) + "M";
+    return sign + (Math.round(a * 10) / 10) + "k";
+  }
+
+  fmtPersons(persons, opts) {
+    if (persons === null || persons === undefined) return "—";
+    return this.fmtPeople(Number(persons) / 1000, opts);
+  }
+
+  fmtRate(v, dp, suffix) {
+    if (v === null || v === undefined || !isFinite(v)) return "—";
+    var n = Number(v);
+    return (n > 0 ? "+" : (n < 0 ? "−" : "")) + Math.abs(n).toFixed(dp === undefined ? 2 : dp) + (suffix || "");
+  }
+
+  fmtPlain(v, dp) {
+    if (v === null || v === undefined || !isFinite(v)) return "—";
+    return Number(v).toFixed(dp === undefined ? 2 : dp);
+  }
+
+  // ---- scales -----------------------------------------------------------
+
+  nice(lo, hi, anchorZero) {
+    if (!isFinite(lo) || !isFinite(hi)) { lo = 0; hi = 1; }
+    if (anchorZero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+    if (lo === hi) { lo -= 0.5; hi += 0.5; }
+    var pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+    if (anchorZero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+    var raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var step = [1, 2, 2.5, 5, 10].map(function (x) { return x * mag; }).find(function (x) { return x >= raw; }) || 10 * mag;
+    return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step: step };
+  }
+
+  xOf(year, from, to, padL, padR, width) {
+    var inner = width - padL - padR;
+    return to === from ? padL + inner / 2 : padL + ((year - from) / (to - from)) * inner;
+  }
+
+  yOf(v, dom, top, height) { return top + height - ((v - dom.lo) / (dom.hi - dom.lo)) * height; }
+
+  points(win, values, dom, from, to, padL, padR, width, top, height, filter) {
+    var self = this, parts = [];
+    win.forEach(function (w) {
+      if (filter && !filter(w.year)) return;
+      var v = values[w.i];
+      if (v === null || v === undefined) return;
+      parts.push(self.xOf(w.year, from, to, padL, padR, width).toFixed(1) + "," + self.yOf(v, dom, top, height).toFixed(1));
+    });
+    return parts.join(" ");
+  }
+
+  // ---- overlay labels ---------------------------------------------------
+  // Every dynamic label lives in an HTML layer over the SVG. A hole inside an
+  // SVG <text> is rendered by the runtime as an HTML <span>, which SVG does
+  // not draw, so dynamic text in SVG is invisible. The repository's own
+  // report-shared.js positions labels the same way, for the same reason.
+
+  axisLabels(dom, top, height, gutterRight, format) {
+    var out = [], self = this;
+    for (var v = dom.lo; v <= dom.hi + 1e-9; v += dom.step) {
+      out.push({
+        text: format(v), left: 0, top: self.yOf(v, dom, top, height) - 8,
+        width: gutterRight, align: "right", color: "#9397ab"
+      });
+    }
+    return out;
+  }
+
+  tickLabels(from, to, padL, padR, width, count, top) {
+    var out = [], self = this, n = count || 6;
+    for (var i = 0; i < n; i += 1) {
+      var year = Math.round(from + ((to - from) * i) / (n - 1));
+      var x = self.xOf(year, from, to, padL, padR, width);
+      out.push({ text: String(year), left: Math.max(0, Math.min(width - 56, x - 28)), top: top, width: 56, align: "center", color: "#9397ab" });
+    }
+    return out;
+  }
+
+  // The selected values sit in a strip above the plot, in the same place on
+  // every figure: never over the marks, never moving with the selection, and
+  // never on one side of it or the other. On a panel a few hundred pixels
+  // wide a box beside the point covers the plot it is describing, and a box
+  // that jumps sides is read twice before it is read once.
+  selectedValues(title, rows) {
+    return { title: title, rows: rows };
+  }
+
+  picker(padL, padR, viewWidth) {
+    var self = this, from = this.state.from, to = this.state.to;
+    return function (event) {
+      var svg = event.currentTarget, box = svg.getBoundingClientRect();
+      if (!box.width) return;
+      var x = (event.clientX - box.left) * (viewWidth / box.width);
+      var inner = viewWidth - padL - padR;
+      var year = Math.round(from + (inner <= 0 ? 0 : (x - padL) / inner) * (to - from));
+      self.setState({ year: Math.max(from, Math.min(to, year)) });
+    };
+  }
+
+  colorOf(iso3) {
+    var palette = {
+      FRA: "#b5abfc", DEU: "#8fb0d1", GBR: "#9dc0ae", ITA: "#d09a6a", ESP: "#c98fb0",
+      POL: "#8c93a8", USA: "#7fc7c0", JPN: "#d4b06a", NGA: "#c08fd4", IND: "#e0888a"
+    };
+    return palette[iso3] || "#b2b6ca";
+  }
+
+  // ---- render -----------------------------------------------------------
+
+  renderVals() {
+    var self = this, d = this.data();
+    var noSelection = { title: "", rows: [] };
+    if (!d) {
+      return {
+        presets: [], yearOptions: [], countryChips: [], addable: [], scenarioModes: [], unitModes: [],
+        fromYear: 1950, toYear: 2100, year: 2023, yearReadout: "…", selectedLabel: "loading",
+        f1: { gridLines: [], labels: [], selected: noSelection, extraScenarios: [], table: [] },
+        f2: { gridLines: [], labels: [], selected: noSelection, series: [], bands: [], headers: [], table: [] },
+        f3: { panels: [], table: [] }, f4: { panels: [], table: [] },
+        f5: { panels: [], table: [] }, f6: { panels: [], table: [] },
+        setFrom: function () {}, setTo: function () {}, setYear: function () {}, addCountry: function () {}
+      };
+    }
+
+    var s = this.state, from = s.from, to = s.to, year = Math.max(from, Math.min(to, s.year));
+    var boundary = d.boundary, base = d.years[0];
+    var win = []; for (var y = from; y <= to; y += 1) win.push({ year: y, i: y - base });
+    var W = 1188, PADL = 52, PADR = 10;
+    var selX = this.xOf(year, from, to, PADL, PADR, W);
+    var est = function (yr) { return yr <= boundary; };
+    var proj = function (yr) { return yr >= boundary; };
+    var billions = function (v) { return (v / 1000000).toFixed(v >= 1000000 ? 1 : 2) + "bn"; };
+
+    // Controls -----------------------------------------------------------
+    var presetDefs = [
+      { key: "all", label: "1950–2100", from: 1950, to: 2100 },
+      { key: "observed", label: "Observed only", from: 1950, to: boundary },
+      { key: "fifty", label: "Last 50 years", from: boundary - 49, to: boundary },
+      { key: "century", label: "This century", from: 2000, to: 2100 }
+    ];
+    var presets = presetDefs.map(function (p) {
+      return {
+        label: p.label, on: s.preset === p.key, cls: s.preset === p.key ? "seg on" : "seg",
+        pick: function () { self.setState({ preset: p.key, from: p.from, to: p.to, year: Math.max(p.from, Math.min(p.to, s.year)) }); }
+      };
+    });
+    if (s.preset === "custom") presets.push({ label: "Custom", on: true, cls: "seg on", pick: function () {} });
+
+    var yearOptions = []; for (var yo = 1950; yo <= 2100; yo += 1) yearOptions.push({ v: yo });
+
+    var countryChips = s.selected.map(function (iso3) {
+      var entry = d.countries[iso3];
+      return {
+        name: entry ? entry.name : iso3, color: self.colorOf(iso3), on: true, cls: "chk on",
+        toggle: function () { self.setState({ selected: s.selected.filter(function (k) { return k !== iso3; }) }); }
+      };
+    });
+    var addable = d.universe.filter(function (u) { return s.selected.indexOf(u.iso3) === -1 && d.countries[u.iso3]; });
+
+    var scenarioDefs = [
+      { key: "interval95", label: "95% interval" },
+      { key: "highlow", label: "High and low fertility" },
+      { key: "bounds", label: "All published bounds" },
+      { key: "medium", label: "Medium only" }
+    ];
+    var scenarioModes = scenarioDefs.map(function (m) {
+      return { label: m.label, on: s.scenarioMode === m.key, cls: s.scenarioMode === m.key ? "seg on" : "seg", pick: function () { self.setState({ scenarioMode: m.key }); } };
+    });
+    var unitModes = [{ key: "people", label: "People" }, { key: "rate", label: "Per 1,000 population" }].map(function (m) {
+      return { label: m.label, on: s.unit === m.key, cls: s.unit === m.key ? "seg on" : "seg", pick: function () { self.setState({ unit: m.key }); } };
+    });
+
+    var showBand = s.scenarioMode === "interval95" || s.scenarioMode === "bounds";
+    var showHighLow = s.scenarioMode === "highlow" || s.scenarioMode === "bounds";
+
+    // Figure 1: world ------------------------------------------------------
+    var world = d.countries.WORLD, scen = d.scenarios.WORLD || {};
+    var si = function (yr) { return yr - d.scenarioYears[0]; };
+    var TOP = 12, H = 236, GTOP = 274, GH = 62;
+    var popValues = [];
+    win.forEach(function (w) { if (world.pop[w.i] !== null) popValues.push(world.pop[w.i]); });
+    win.forEach(function (w) {
+      if (w.year < d.scenarioYears[0]) return;
+      var i = si(w.year);
+      if (showBand && scen["Lower 95 PI"] && scen["Lower 95 PI"][i] !== undefined) { popValues.push(scen["Lower 95 PI"][i]); popValues.push(scen["Upper 95 PI"][i]); }
+      if (showHighLow && scen.Low && scen.Low[i] !== undefined) { popValues.push(scen.Low[i]); popValues.push(scen.High[i]); }
+    });
+    var f1Dom = this.nice(Math.min.apply(null, popValues), Math.max.apply(null, popValues), false);
+    var f1GridLines = [];
+    for (var gv = f1Dom.lo; gv <= f1Dom.hi + 1e-9; gv += f1Dom.step) {
+      f1GridLines.push({ y: this.yOf(gv, f1Dom, TOP, H).toFixed(1), stroke: "rgba(233,233,237,.10)" });
+    }
+    var bandPoints = "";
+    if (showBand && scen["Lower 95 PI"]) {
+      var up = [], down = [];
+      win.forEach(function (w) {
+        if (w.year < d.scenarioYears[0]) return;
+        var i = si(w.year), lo = scen["Lower 95 PI"][i];
+        if (lo === undefined || lo === null) return;
+        var x = self.xOf(w.year, from, to, PADL, PADR, W).toFixed(1);
+        up.push(x + "," + self.yOf(scen["Upper 95 PI"][i], f1Dom, TOP, H).toFixed(1));
+        down.unshift(x + "," + self.yOf(lo, f1Dom, TOP, H).toFixed(1));
+      });
+      bandPoints = up.concat(down).join(" ");
+    }
+    var extraScenarios = [], extraLabels = [];
+    if (showHighLow && scen.Low) {
+      [["High fertility", scen.High], ["Low fertility", scen.Low]].forEach(function (pair) {
+        var pts = [], lastX = 0, lastY = 0;
+        win.forEach(function (w) {
+          if (w.year < d.scenarioYears[0]) return;
+          var v = pair[1][si(w.year)];
+          if (v === undefined || v === null) return;
+          lastX = self.xOf(w.year, from, to, PADL, PADR, W); lastY = self.yOf(v, f1Dom, TOP, H);
+          pts.push(lastX.toFixed(1) + "," + lastY.toFixed(1));
+        });
+        if (pts.length) {
+          extraScenarios.push({ points: pts.join(" ") });
+          extraLabels.push({ text: pair[0], left: lastX - 104, top: lastY - 16, width: 100, align: "right", color: "#8c93a8" });
+        }
+      });
+    }
+    var growthValues = [];
+    win.forEach(function (w) { if (world.growth[w.i] !== null) growthValues.push(world.growth[w.i]); });
+    var f1GDom = this.nice(Math.min.apply(null, growthValues), Math.max.apply(null, growthValues), true);
+    var peakIndex = 0, peakValue = -1;
+    win.forEach(function (w) { if (world.pop[w.i] !== null && world.pop[w.i] > peakValue) { peakValue = world.pop[w.i]; peakIndex = w.i; } });
+    var peakYear = base + peakIndex;
+    var peakX = this.xOf(peakYear, from, to, PADL, PADR, W), peakY = this.yOf(peakValue, f1Dom, TOP, H);
+    var showPeak = peakYear > boundary && peakYear >= from && peakYear <= to;
+    var f1SelPop = world.pop[year - base], f1SelGrowth = world.growth[year - base];
+    var boundaryX = this.xOf(boundary, from, to, PADL, PADR, W);
+    var f1Labels = this.axisLabels(f1Dom, TOP, H, 46, billions)
+      .concat(this.axisLabels(f1GDom, GTOP, GH, 46, function (v) { return self.fmtRate(v, 1, "%"); }))
+      .concat(this.tickLabels(from, to, PADL, PADR, W, 7, 354))
+      .concat(extraLabels)
+      .concat([{ text: "Rate of change, % a year", left: 58, top: GTOP - 16, width: 190, align: "left", color: "#9dc0ae" }]);
+    if (from <= boundary && to > boundary) {
+      f1Labels.push({ text: "estimates", left: boundaryX - 76, top: 10, width: 70, align: "right", color: "#9397ab" });
+      f1Labels.push({ text: "projection", left: boundaryX + 6, top: 10, width: 70, align: "left", color: "#9397ab" });
+    }
+    if (showPeak) {
+      f1Labels.push({
+        text: "peak · " + peakYear + " · " + this.fmtPeople(peakValue),
+        left: peakX > W * 0.7 ? peakX - 184 : peakX + 10, top: peakY - 22, width: 174,
+        align: peakX > W * 0.7 ? "right" : "left", color: "#cfd3e5"
+      });
+    }
+    var f1Table = win.map(function (w) {
+      var i = w.year >= d.scenarioYears[0] ? si(w.year) : -1;
+      var lo = i >= 0 && scen["Lower 95 PI"] ? scen["Lower 95 PI"][i] : null;
+      var hi = i >= 0 && scen["Upper 95 PI"] ? scen["Upper 95 PI"][i] : null;
+      return {
+        year: w.year, kind: w.year <= boundary ? "estimate" : "projection",
+        pop: self.fmtPeople(world.pop[w.i]), growth: self.fmtRate(world.growth[w.i], 2, "%"),
+        band: lo === null || lo === undefined ? "—" : self.fmtPeople(lo) + " to " + self.fmtPeople(hi)
+      };
+    });
+    var f1Rows = [
+      { color: "#b5abfc", label: "Population", value: this.fmtPeople(f1SelPop) },
+      { color: "#9dc0ae", label: "Rate of change", value: this.fmtRate(f1SelGrowth, 2, "% a year") }
+    ];
+    if (showBand && year >= d.scenarioYears[0] && scen["Lower 95 PI"]) {
+      var bi = si(year);
+      f1Rows.push({ color: "rgba(181,171,252,.45)", label: "95% interval", value: this.fmtPeople(scen["Lower 95 PI"][bi]) + "–" + this.fmtPeople(scen["Upper 95 PI"][bi]) });
+    }
+
+    // Figure 2: countries --------------------------------------------------
+    var f2Values = [], f2GrowthValues = [];
+    s.selected.forEach(function (iso3) {
+      var e = d.countries[iso3]; if (!e) return;
+      win.forEach(function (w) {
+        if (e.pop[w.i] !== null) f2Values.push(e.pop[w.i]);
+        if (e.growth[w.i] !== null) f2GrowthValues.push(e.growth[w.i]);
+      });
+      var sc = d.scenarios[iso3];
+      if (showBand && sc && sc["Lower 95 PI"]) {
+        win.forEach(function (w) {
+          if (w.year < d.scenarioYears[0]) return;
+          var i = si(w.year);
+          if (sc["Lower 95 PI"][i] !== undefined) { f2Values.push(sc["Lower 95 PI"][i]); f2Values.push(sc["Upper 95 PI"][i]); }
+        });
+      }
+    });
+    if (!f2Values.length) { f2Values = [0, 1]; f2GrowthValues = [0, 1]; }
+    var f2Dom = this.nice(Math.min.apply(null, f2Values), Math.max.apply(null, f2Values), false);
+    var f2GDom = this.nice(Math.min.apply(null, f2GrowthValues), Math.max.apply(null, f2GrowthValues), true);
+    var f2GridLines = [];
+    for (var g2 = f2Dom.lo; g2 <= f2Dom.hi + 1e-9; g2 += f2Dom.step) {
+      f2GridLines.push({ y: this.yOf(g2, f2Dom, TOP, H).toFixed(1), stroke: "rgba(233,233,237,.10)" });
+    }
+    var f2Series = [], f2Bands = [], f2Labels = [], f2Rows = [], f2Headers = [];
+    s.selected.forEach(function (iso3) {
+      var e = d.countries[iso3]; if (!e) return;
+      var color = self.colorOf(iso3), lastX = 0, lastY = 0;
+      win.forEach(function (w) {
+        if (e.pop[w.i] !== null) { lastX = self.xOf(w.year, from, to, PADL, PADR, W); lastY = self.yOf(e.pop[w.i], f2Dom, TOP, H); }
+      });
+      var pv = e.pop[year - base];
+      f2Headers.push({ name: e.name });
+      f2Series.push({
+        color: color,
+        estimate: self.points(win, e.pop, f2Dom, from, to, PADL, PADR, W, TOP, H, est),
+        projection: self.points(win, e.pop, f2Dom, from, to, PADL, PADR, W, TOP, H, proj),
+        growthEstimate: self.points(win, e.growth, f2GDom, from, to, PADL, PADR, W, GTOP, GH, est),
+        growthProjection: self.points(win, e.growth, f2GDom, from, to, PADL, PADR, W, GTOP, GH, proj),
+        selY: (pv === null || pv === undefined ? -20 : self.yOf(pv, f2Dom, TOP, H)).toFixed(1)
+      });
+      f2Labels.push({ text: e.name, left: lastX - 124, top: lastY - 19, width: 120, align: "right", color: color });
+      var sc = d.scenarios[iso3];
+      if (showBand && sc && sc["Lower 95 PI"]) {
+        var up2 = [], down2 = [];
+        win.forEach(function (w) {
+          if (w.year < d.scenarioYears[0]) return;
+          var i = si(w.year), lo = sc["Lower 95 PI"][i];
+          if (lo === undefined || lo === null) return;
+          var x = self.xOf(w.year, from, to, PADL, PADR, W).toFixed(1);
+          up2.push(x + "," + self.yOf(sc["Upper 95 PI"][i], f2Dom, TOP, H).toFixed(1));
+          down2.unshift(x + "," + self.yOf(lo, f2Dom, TOP, H).toFixed(1));
+        });
+        if (up2.length) f2Bands.push({ points: up2.concat(down2).join(" "), color: color });
+      }
+      f2Rows.push({ color: color, label: e.name, value: self.fmtPeople(pv), extra: self.fmtRate(e.growth[year - base], 2, "%") });
+    });
+    f2Labels = f2Labels
+      .concat(this.axisLabels(f2Dom, TOP, H, 46, function (v) { return self.fmtPeople(v); }))
+      .concat(this.axisLabels(f2GDom, GTOP, GH, 46, function (v) { return self.fmtRate(v, 1, "%"); }))
+      .concat(this.tickLabels(from, to, PADL, PADR, W, 7, 354))
+      .concat([{ text: "Rate of change, % a year", left: 58, top: GTOP - 16, width: 190, align: "left", color: "#9397ab" }]);
+    if (from <= boundary && to > boundary) {
+      f2Labels.push({ text: "estimates", left: boundaryX - 76, top: 10, width: 70, align: "right", color: "#9397ab" });
+      f2Labels.push({ text: "projection", left: boundaryX + 6, top: 10, width: 70, align: "left", color: "#9397ab" });
+    }
+    var f2Table = win.map(function (w) {
+      return {
+        year: w.year, kind: w.year <= boundary ? "estimate" : "projection",
+        cells: s.selected.map(function (iso3) { var e = d.countries[iso3]; return { v: e ? self.fmtPeople(e.pop[w.i]) : "—" }; })
+      };
+    });
+
+    // Figure 3: components -------------------------------------------------
+    var perThousand = s.unit === "rate";
+    var f3Panels = s.selected.map(function (iso3) {
+      var e = d.countries[iso3];
+      var PW = 364, PL = 44, PR = 6, PT = 10, PH = 128;
+      if (!e) return { name: iso3, color: self.colorOf(iso3), aria: iso3, labels: [], selected: noSelection, zeroY: 74, selX: 0, naturalArea: "", migrationArea: "", naturalLine: "", migrationLine: "", changeLine: "", pick: function () {} };
+      var natural = perThousand ? e.naturalRate : e.natural;
+      var migration = perThousand ? e.migrationRate : e.migration;
+      var vals = [];
+      win.forEach(function (w) {
+        if (natural[w.i] !== null) vals.push(natural[w.i]);
+        if (migration[w.i] !== null) vals.push(migration[w.i]);
+        if (!perThousand && e.change[w.i] !== null) vals.push(e.change[w.i]);
+      });
+      if (!vals.length) vals = [0, 1];
+      var dom = self.nice(Math.min.apply(null, vals), Math.max.apply(null, vals), true);
+      var zeroY = self.yOf(0, dom, PT, PH);
+      var areaOf = function (values) {
+        var top = [], bottom = [];
+        win.forEach(function (w) {
+          var v = values[w.i]; if (v === null || v === undefined) return;
+          var x = self.xOf(w.year, from, to, PL, PR, PW).toFixed(1);
+          top.push(x + "," + self.yOf(v, dom, PT, PH).toFixed(1));
+          bottom.unshift(x + "," + zeroY.toFixed(1));
+        });
+        return top.concat(bottom).join(" ");
+      };
+      var pSelX = self.xOf(year, from, to, PL, PR, PW);
+      var fmt = perThousand
+        ? function (v) { return self.fmtRate(v, 1, "‰"); }
+        : function (v) { return self.fmtPeople(v, { signed: true }); };
+      var rows = [
+        { color: "#9dc0ae", label: "Natural change", value: fmt(natural[year - base]) },
+        { color: "#d09a6a", label: "Net migration", value: fmt(migration[year - base]) }
+      ];
+      if (!perThousand) rows.push({ color: "#e9e9ed", label: "Population change", value: fmt(e.change[year - base]) });
+      return {
+        name: e.name, color: self.colorOf(iso3),
+        aria: e.name + ": natural change and net migration" + (perThousand ? " per 1,000 population" : "") + ", " + from + " to " + to,
+        zeroY: zeroY.toFixed(1), selX: pSelX.toFixed(1),
+        naturalArea: areaOf(natural), migrationArea: areaOf(migration),
+        naturalLine: self.points(win, natural, dom, from, to, PL, PR, PW, PT, PH),
+        migrationLine: self.points(win, migration, dom, from, to, PL, PR, PW, PT, PH),
+        changeLine: perThousand ? "" : self.points(win, e.change, dom, from, to, PL, PR, PW, PT, PH),
+        labels: self.axisLabels(dom, PT, PH, 38, fmt).concat(self.tickLabels(from, to, PL, PR, PW, 4, 150)),
+        selected: self.selectedValues(String(year), rows),
+        pick: self.picker(PL, PR, PW)
+      };
+    });
+    var f3Table = [];
+    win.forEach(function (w) {
+      s.selected.forEach(function (iso3) {
+        var e = d.countries[iso3]; if (!e) return;
+        f3Table.push({
+          year: w.year, country: e.name,
+          natural: self.fmtPeople(e.natural[w.i], { signed: true }) + " (" + self.fmtRate(e.naturalRate[w.i], 2, "‰") + ")",
+          migration: self.fmtPeople(e.migration[w.i], { signed: true }) + " (" + self.fmtRate(e.migrationRate[w.i], 2, "‰") + ")",
+          change: self.fmtPeople(e.change[w.i], { signed: true })
+        });
+      });
+    });
+
+    // Figure 4: gross flows ------------------------------------------------
+    var f4Panels = s.selected.map(function (iso3) {
+      var e = d.countries[iso3], flows = d.flows[iso3];
+      var PW = 364, PL = 48, PR = 6, PT = 10, PH = 144;
+      var color = self.colorOf(iso3), name = e ? e.name : iso3;
+      if (!flows || !Object.keys(flows).length) {
+        return {
+          name: name, color: color, hasFlows: false, noFlows: true, labels: [],
+          selected: self.selectedValues(String(year), [
+            { color: "#8fb0d1", label: "Arrivals", value: "not published" },
+            { color: "#d09a6a", label: "Departures", value: "not published" },
+            { color: "#b5abfc", label: "Net, UN", value: self.fmtPeople(e ? e.migration[year - base] : null, { signed: true }) }
+          ]),
+          absence: "Eurostat publishes arrivals and departures for European reporting countries. " + name + " is outside that collection, so this panel has no flows to draw.",
+          netOnly: "United Nations net migration at " + year + ": " + self.fmtPeople(e ? e.migration[year - base] : null, { signed: true }) + " people"
+        };
+      }
+      var years = Object.keys(flows).map(Number).sort(function (a, b) { return a - b; });
+      var inWindow = years.filter(function (yy) { return yy >= from && yy <= to; });
+      var vals = [0];
+      inWindow.forEach(function (yy) {
+        var pair = flows[yy];
+        if (pair[0] !== null && pair[0] !== undefined) vals.push(pair[0] / 1000);
+        if (pair[1] !== null && pair[1] !== undefined) vals.push(pair[1] / 1000);
+      });
+      win.forEach(function (w) { if (e && e.migration[w.i] !== null) vals.push(e.migration[w.i]); });
+      var dom = self.nice(Math.min.apply(null, vals), Math.max.apply(null, vals), true);
+      var lineOf = function (index) {
+        var pts = [];
+        inWindow.forEach(function (yy) {
+          var v = flows[yy][index];
+          if (v === null || v === undefined) return;
+          pts.push(self.xOf(yy, from, to, PL, PR, PW).toFixed(1) + "," + self.yOf(v / 1000, dom, PT, PH).toFixed(1));
+        });
+        return pts.join(" ");
+      };
+      var lastPublished = inWindow.length ? inWindow[inWindow.length - 1] : null;
+      var stops = lastPublished !== null && lastPublished < Math.min(to, 2024);
+      var pSelX = self.xOf(year, from, to, PL, PR, PW);
+      var pair = flows[year] || [null, null];
+      var stopX = lastPublished === null ? 0 : self.xOf(lastPublished, from, to, PL, PR, PW);
+      var stopY = lastPublished === null ? 0 : self.yOf((flows[lastPublished][0] === null ? 0 : flows[lastPublished][0] / 1000), dom, PT, PH);
+      var labels = self.axisLabels(dom, PT, PH, 42, function (v) { return self.fmtPeople(v); })
+        .concat(self.tickLabels(from, to, PL, PR, PW, 4, 168));
+      if (stops) labels.push({ text: "to " + lastPublished, left: Math.max(2, stopX - 92), top: stopY - 20, width: 88, align: "right", color: "#f2994a" });
+      return {
+        name: name, color: color, hasFlows: true, noFlows: false,
+        aria: name + ": arrivals, departures and net migration, " + from + " to " + to,
+        zeroY: self.yOf(0, dom, PT, PH).toFixed(1),
+        arrivals: lineOf(0), departures: lineOf(1),
+        net: self.points(win, e ? e.migration : [], dom, from, to, PL, PR, PW, PT, PH),
+        stops: stops, stopDotX: stopX.toFixed(1), stopDotY: stopY.toFixed(1),
+        selX: pSelX.toFixed(1), labels: labels,
+        selected: self.selectedValues(String(year), [
+          { color: "#8fb0d1", label: "Arrivals", value: pair[0] === null || pair[0] === undefined ? "not published" : self.fmtPersons(pair[0]) },
+          { color: "#d09a6a", label: "Departures", value: pair[1] === null || pair[1] === undefined ? "not published" : self.fmtPersons(pair[1]) },
+          { color: "#b5abfc", label: "Net, UN", value: self.fmtPeople(e ? e.migration[year - base] : null, { signed: true }) }
+        ]),
+        pick: self.picker(PL, PR, PW)
+      };
+    });
+    var f4Table = [];
+    win.forEach(function (w) {
+      s.selected.forEach(function (iso3) {
+        var e = d.countries[iso3], flows = d.flows[iso3] || {};
+        var pair = flows[w.year] || [null, null];
+        f4Table.push({
+          year: w.year, country: e ? e.name : iso3,
+          arrivals: pair[0] === null || pair[0] === undefined ? "not published" : self.fmtPersons(pair[0]),
+          departures: pair[1] === null || pair[1] === undefined ? "not published" : self.fmtPersons(pair[1]),
+          net: e ? self.fmtPeople(e.migration[w.i], { signed: true }) : "—"
+        });
+      });
+    });
+
+    // Figure 5: fertility and longevity ------------------------------------
+    var f5Defs = [
+      { key: "tfr", title: "Total fertility rate", unit: "births per woman", reference: 2.1, referenceLabel: "replacement, about 2.1", dp: 2 },
+      { key: "lex", title: "Life expectancy at birth", unit: "years", reference: null, dp: 1 },
+      { key: "hale", title: "Healthy life expectancy", unit: "years, WHO", reference: null, dp: 1 }
+    ];
+    var f5Panels = f5Defs.map(function (def) {
+      var PW = 364, PL = 44, PR = 6, PT = 14, PH = 140;
+      var vals = [];
+      s.selected.forEach(function (iso3) {
+        var e = d.countries[iso3]; if (!e) return;
+        if (def.key === "hale") {
+          var h = d.hale[iso3] || {};
+          Object.keys(h).forEach(function (yy) { if (Number(yy) >= from && Number(yy) <= to) vals.push(h[yy]); });
+        } else {
+          win.forEach(function (w) { if (e[def.key][w.i] !== null) vals.push(e[def.key][w.i]); });
+        }
+      });
+      if (def.reference !== null) vals.push(def.reference);
+      if (!vals.length) vals = [0, 1];
+      var dom = self.nice(Math.min.apply(null, vals), Math.max.apply(null, vals), false);
+      var gridLines = [];
+      for (var gv5 = dom.lo; gv5 <= dom.hi + 1e-9; gv5 += dom.step) gridLines.push({ y: self.yOf(gv5, dom, PT, PH).toFixed(1), stroke: "rgba(233,233,237,.10)" });
+      var pSelX = self.xOf(year, from, to, PL, PR, PW);
+      var series = [], rows = [], labels = [];
+      s.selected.forEach(function (iso3) {
+        var e = d.countries[iso3]; if (!e) return;
+        var color = self.colorOf(iso3);
+        if (def.key === "hale") {
+          var h = d.hale[iso3] || {};
+          var yrs = Object.keys(h).map(Number).filter(function (yy) { return yy >= from && yy <= to; }).sort(function (a, b) { return a - b; });
+          var pts = yrs.map(function (yy) { return self.xOf(yy, from, to, PL, PR, PW).toFixed(1) + "," + self.yOf(h[yy], dom, PT, PH).toFixed(1); });
+          var lastYear = yrs.length ? yrs[yrs.length - 1] : null;
+          var stops = lastYear !== null && lastYear < to;
+          series.push({
+            estimate: pts.join(" "), projection: "", color: color, stops: stops,
+            endX: lastYear === null ? 0 : self.xOf(lastYear, from, to, PL, PR, PW).toFixed(1),
+            endY: lastYear === null ? 0 : self.yOf(h[lastYear], dom, PT, PH).toFixed(1)
+          });
+          if (stops) {
+            labels.push({
+              text: e.name + " — to " + lastYear,
+              left: Math.max(2, self.xOf(lastYear, from, to, PL, PR, PW) - 146), top: self.yOf(h[lastYear], dom, PT, PH) - 20,
+              width: 142, align: "right", color: color
+            });
+          }
+          var hv = h[year];
+          rows.push({ color: color, label: e.name, value: hv === undefined ? "not published" : self.fmtPlain(hv, 1) });
+        } else {
+          series.push({
+            estimate: self.points(win, e[def.key], dom, from, to, PL, PR, PW, PT, PH, est),
+            projection: self.points(win, e[def.key], dom, from, to, PL, PR, PW, PT, PH, proj),
+            color: color, stops: false, endX: 0, endY: 0
+          });
+          rows.push({ color: color, label: e.name, value: self.fmtPlain(e[def.key][year - base], def.dp) });
+        }
+      });
+      labels = labels.concat(self.axisLabels(dom, PT, PH, 38, function (v) { return v.toFixed(dom.step < 1 ? 1 : 0); }))
+        .concat(self.tickLabels(from, to, PL, PR, PW, 4, 168));
+      if (def.reference !== null) {
+        labels.push({ text: def.referenceLabel, left: PW - 168, top: self.yOf(def.reference, dom, PT, PH) - 17, width: 160, align: "right", color: "#9397ab" });
+      }
+      return {
+        title: def.title, unit: def.unit, gridLines: gridLines, series: series, labels: labels,
+        aria: def.title + " for the selected countries, " + from + " to " + to,
+        hasReference: def.reference !== null,
+        referenceY: def.reference === null ? 0 : self.yOf(def.reference, dom, PT, PH).toFixed(1),
+        selX: pSelX.toFixed(1),
+        selected: self.selectedValues(String(year), rows),
+        pick: self.picker(PL, PR, PW)
+      };
+    });
+    var f5Table = [];
+    win.forEach(function (w) {
+      s.selected.forEach(function (iso3) {
+        var e = d.countries[iso3]; if (!e) return;
+        var h = (d.hale[iso3] || {})[w.year];
+        f5Table.push({
+          year: w.year, country: e.name,
+          tfr: self.fmtPlain(e.tfr[w.i], 2), lex: self.fmtPlain(e.lex[w.i], 1),
+          hale: h === undefined ? "not published" : self.fmtPlain(h, 1)
+        });
+      });
+    });
+
+    // Figure 6: age structure ----------------------------------------------
+    var f6Panels = s.selected.map(function (iso3) {
+      var e = d.countries[iso3];
+      var pyramid = (d.pyramid[iso3] || {})[year] || [];
+      var shares = (d.broad[iso3] || {})[year] || {};
+      var maxBand = 1;
+      pyramid.forEach(function (b) { maxBand = Math.max(maxBand, b[0] || 0, b[1] || 0); });
+      var centre = 182, gap = 30, half = 146, rowH = 10.4;
+      var bars = [], labels = [];
+      pyramid.forEach(function (b, i) {
+        var top = 18 + (pyramid.length - 1 - i) * rowH;
+        var mw = ((b[0] || 0) / maxBand) * half, fw = ((b[1] || 0) / maxBand) * half;
+        bars.push({
+          y: top.toFixed(1), h: (rowH - 1.8).toFixed(1),
+          maleX: (centre - gap / 2 - mw).toFixed(1), maleW: mw.toFixed(1),
+          femaleX: (centre + gap / 2).toFixed(1), femaleW: fw.toFixed(1)
+        });
+        if (i % 2 === 0) labels.push({ text: d.ageBands[i], left: centre - 15, top: top - 3, width: 30, align: "center", color: "#9397ab" });
+      });
+      var total = 0;
+      pyramid.forEach(function (b) { total += (b[0] || 0) + (b[1] || 0); });
+      labels.push({ text: "Men", left: centre - gap / 2 - half, top: 2, width: half, align: "center", color: "#8fb0d1" });
+      labels.push({ text: "Women", left: centre + gap / 2, top: 2, width: half, align: "center", color: "#c98fb0" });
+      var order = ["0-14", "15-64", "65+"], colors = ["#9dc0ae", "#8fb0d1", "#d09a6a"];
+      return {
+        name: e ? e.name : iso3, color: self.colorOf(iso3),
+        selected: self.selectedValues(String(year), [
+          { color: self.colorOf(iso3), label: "Population", value: self.fmtPeople(total) },
+          { color: "#8fb0d1", label: "Widest band", value: self.fmtPeople(maxBand) }
+        ]),
+        aria: (e ? e.name : iso3) + ": population by five-year age band and sex at " + year,
+        bars: bars, labels: labels,
+        broad: order.map(function (k, i) {
+          var pct = shares[k];
+          return { width: (pct === undefined ? 0 : pct) + "%", color: colors[i], pct: pct === undefined ? "—" : pct.toFixed(1) + "%" };
+        })
+      };
+    });
+    var f6Table = [];
+    s.selected.forEach(function (iso3) {
+      var e = d.countries[iso3];
+      var pyramid = (d.pyramid[iso3] || {})[year] || [];
+      var total = 0;
+      pyramid.forEach(function (b) { total += (b[0] || 0) + (b[1] || 0); });
+      pyramid.forEach(function (b, i) {
+        var bandTotal = (b[0] || 0) + (b[1] || 0);
+        f6Table.push({
+          band: d.ageBands[i], country: e ? e.name : iso3,
+          male: self.fmtPeople(b[0]), female: self.fmtPeople(b[1]),
+          share: total ? ((bandTotal / total) * 100).toFixed(2) + "%" : "—"
+        });
+      });
+    });
+
+    return {
+      presets: presets, yearOptions: yearOptions, countryChips: countryChips, addable: addable,
+      scenarioModes: scenarioModes, unitModes: unitModes,
+      fromYear: from, toYear: to, year: year, yearReadout: String(year),
+      selectedLabel: s.selected.length + " of 184 selectable",
+      setFrom: function (event) {
+        var v = Number(event.target.value);
+        self.setState({ from: Math.min(v, s.to - 1), preset: "custom", year: Math.max(v, s.year) });
+      },
+      setTo: function (event) {
+        var v = Number(event.target.value);
+        self.setState({ to: Math.max(v, s.from + 1), preset: "custom", year: Math.min(v, s.year) });
+      },
+      setYear: function (event) { self.setState({ year: Number(event.target.value) }); },
+      addCountry: function (event) { if (event.target.value) self.setState({ selected: s.selected.concat([event.target.value]) }); },
+      f1: {
+        aria: "World population from " + from + " to " + to + ", with the 95 per cent prediction interval and the annual rate of change",
+        gridLines: f1GridLines, bandPoints: bandPoints, bandOpacity: showBand ? ".16" : "0",
+        extraScenarios: extraScenarios,
+        estimatePoints: this.points(win, world.pop, f1Dom, from, to, PADL, PADR, W, TOP, H, est),
+        projectionPoints: this.points(win, world.pop, f1Dom, from, to, PADL, PADR, W, TOP, H, proj),
+        showBoundary: from <= boundary && to > boundary, boundaryX: boundaryX.toFixed(1),
+        showPeak: showPeak, peakX: peakX.toFixed(1), peakY: peakY.toFixed(1),
+        zeroY: this.yOf(0, f1GDom, GTOP, GH).toFixed(1),
+        growthEstimate: this.points(win, world.growth, f1GDom, from, to, PADL, PADR, W, GTOP, GH, est),
+        growthProjection: this.points(win, world.growth, f1GDom, from, to, PADL, PADR, W, GTOP, GH, proj),
+        selX: selX.toFixed(1),
+        selPopY: (f1SelPop === null || f1SelPop === undefined ? -20 : this.yOf(f1SelPop, f1Dom, TOP, H)).toFixed(1),
+        selGrowthY: (f1SelGrowth === null || f1SelGrowth === undefined ? -20 : this.yOf(f1SelGrowth, f1GDom, GTOP, GH)).toFixed(1),
+        labels: f1Labels,
+        selected: this.selectedValues(String(year), f1Rows),
+        table: f1Table, pick: this.picker(PADL, PADR, W)
+      },
+      f2: {
+        aria: "Population of the selected countries from " + from + " to " + to + ", with each country's annual rate of change",
+        gridLines: f2GridLines, bands: f2Bands, series: f2Series, labels: f2Labels, headers: f2Headers,
+        showBoundary: from <= boundary && to > boundary, boundaryX: boundaryX.toFixed(1),
+        zeroY: this.yOf(0, f2GDom, GTOP, GH).toFixed(1), selX: selX.toFixed(1),
+        selected: this.selectedValues(String(year), f2Rows),
+        table: f2Table, pick: this.picker(PADL, PADR, W)
+      },
+      f3: { panels: f3Panels, table: f3Table },
+      f4: { panels: f4Panels, table: f4Table },
+      f5: { panels: f5Panels, table: f5Table },
+      f6: { panels: f6Panels, table: f6Table }
+    };
+  }
+}
+</script>
+</body>
+</html>

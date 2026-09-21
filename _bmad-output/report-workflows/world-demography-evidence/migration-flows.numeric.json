@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "migration-flows",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "country-net-migration + immigration-flows + emigration-flows",
+  "parameters": [
+    "FRA",
+    "DEU",
+    "GBR",
+    "1950-01-01",
+    "2100-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023",
+      "column": "France: immigration_persons",
+      "storedParquet": "467548",
+      "queryOutput": 467548.0,
+      "mappedJavaScript": 467548.0,
+      "displayedText": "467.5k"
+    },
+    {
+      "observation": "2023",
+      "column": "France: emigration_persons",
+      "storedParquet": "266368",
+      "queryOutput": 266368.0,
+      "mappedJavaScript": 266368.0,
+      "displayedText": "266.4k"
+    },
+    {
+      "observation": "2023",
+      "column": "Germany: immigration_persons",
+      "storedParquet": "1303251",
+      "queryOutput": 1303251.0,
+      "mappedJavaScript": 1303251.0,
+      "displayedText": "1.30M"
+    },
+    {
+      "observation": "2023",
+      "column": "Germany: emigration_persons",
+      "storedParquet": "580499",
+      "queryOutput": 580499.0,
+      "mappedJavaScript": 580499.0,
+      "displayedText": "580.5k"
+    },
+    {
+      "observation": "2023",
+      "column": "United Kingdom: immigration_persons",
+      "storedParquet": null,
+      "queryOutput": null,
+      "mappedJavaScript": null,
+      "displayedText": "not published",
+      "note": "The provider's last published United Kingdom year is 2019-01-01; there is no 2023 row, and the figure draws the absence rather than carrying the last value forward."
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Japan: net_migration_thousands",
+      "storedParquet": "Decimal('175.003')",
+      "queryOutput": 175.003,
+      "mappedJavaScript": 175.003,
+      "displayedText": "+175k",
+      "note": "Japan is outside the Eurostat collection entirely: the panel says so and still shows the United Nations balance."
+    }
+  ],
+  "displayedOnPage": {
+    "valueStrips": [
+      "2023Arrivals467.5kDepartures266.4kNet, UN+91.9k",
+      "2023Arrivals1.30MDepartures580.5kNet, UN+609.6k",
+      "2023Arrivalsnot publishedDeparturesnot publishedNet, UN+445.5k"
+    ],
+    "withJapan": [
+      "✕ No gross flows publishedEurostat publishes arrivals and departures for European reporting countries. Japan is outside that collection, so this panel has no flows to draw.United Nations net migration at 2023: +175k people"
+    ],
+    "lastTableRow": [
+      "2100",
+      "United Kingdom",
+      "not published",
+      "not published",
+      "+97.3k"
+    ]
+  },
+  "note": "The row spine is the United Nations table, so a country the flow provider does not cover still renders a panel."
+}

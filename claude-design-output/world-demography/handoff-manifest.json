@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "world-demography",
+  "visual_ids": [
+    "world-population-path",
+    "country-population-paths",
+    "change-composition",
+    "migration-flows",
+    "fertility-longevity",
+    "age-structure"
+  ],
+  "prototype": [
+    "design/Main.dc.html",
+    "design/Narrow.dc.html",
+    "design/Zoom.dc.html",
+    "design/States.dc.html",
+    "design/canvas.json"
+  ],
+  "decisions": [
+    "design/Decisions.dc.html"
+  ],
+  "contracts": [
+    "contracts/world-population-path.contract.js",
+    "contracts/country-population-paths.contract.js",
+    "contracts/change-composition.contract.js",
+    "contracts/migration-flows.contract.js",
+    "contracts/fertility-longevity.contract.js",
+    "contracts/age-structure.contract.js"
+  ],
+  "fixtures": [
+    "fixtures/european_migration_flows.json",
+    "fixtures/healthy_life_expectancy.json",
+    "fixtures/world_demography_age_structure.json",
+    "fixtures/world_demography_indicators_components.json",
+    "fixtures/world_demography_indicators_countries.json",
+    "fixtures/world_demography_indicators_longevity.json",
+    "fixtures/world_demography_indicators_net_migration.json",
+    "fixtures/world_demography_indicators_world.json",
+    "fixtures/world_demography_scenarios_countries.json",
+    "fixtures/world_demography_scenarios_world.json"
+  ],
+  "rationale": [
+    "README.md"
+  ],
+  "assets": [],
+  "design_only_support": [
+    "design/prototype-fixtures.js"
+  ],
+  "remote_assets": [],
+  "states": [
+    "ready",
+    "loading",
+    "empty",
+    "suspect",
+    "stale",
+    "query-error",
+    "schema-incompatibility",
+    "render-error",
+    "shared-engine-failure"
+  ],
+  "views": [
+    "desktop",
+    "narrow-smartphone-landscape",
+    "400%-zoom-reflow"
+  ]
+}

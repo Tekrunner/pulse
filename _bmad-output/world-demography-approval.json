@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "handoffSha256": "76f1ce30c92cd95ec120ed3e8e989850799c8094449aab96c3798333a2f69fce",
+  "approvedBy": "yfontana",
+  "approvedAt": "2026-09-21T09:36:33Z",
+  "permittedChanges": [
+    "Replace any value shown in the prototype with the same value read from a verified query.",
+    "Let the value strip wrap onto more or fewer lines under the shipped font's metrics; its position between the caption and the plot is fixed, and it never moves into the plot or below the figure.",
+    "Extend each figure's accessible table to the full represented window where the prototype truncates it.",
+    "Use the repository's own overlay-label mechanism in site/visuals/report-shared.js in place of the prototype's; what binds is each label's position, alignment, colour and content, not the technique that places it.",
+    "Resolve the behaviour past six selected countries without a further approval, by either capping the selection or dropping the direct end labels so that the value strip carries country identity alone."
+  ]
+}

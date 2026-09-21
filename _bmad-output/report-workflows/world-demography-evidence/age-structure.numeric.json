@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "age-structure",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "age-bands",
+  "parameters": [
+    "250",
+    "276",
+    "826",
+    "2023-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023-01-01",
+      "column": "France: sum(population_total_thousands), five-year",
+      "storedParquet": "Decimal('66438.824')",
+      "queryOutput": 66438.824,
+      "mappedJavaScript": 66438.824,
+      "displayedText": "66.4M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: widest single-sex bar, 50-54",
+      "storedParquet": "Decimal('2237.401')",
+      "queryOutput": 2237.401,
+      "mappedJavaScript": 2237.401,
+      "displayedText": "2.24M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: sum(population_total_thousands), five-year",
+      "storedParquet": "Decimal('84548.231')",
+      "queryOutput": 84548.231,
+      "mappedJavaScript": 84548.231,
+      "displayedText": "84.5M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: widest single-sex bar, 55-59",
+      "storedParquet": "Decimal('3480.202')",
+      "queryOutput": 3480.202,
+      "mappedJavaScript": 3480.202,
+      "displayedText": "3.48M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: sum(population_total_thousands), five-year",
+      "storedParquet": "Decimal('68682.964')",
+      "queryOutput": 68682.964,
+      "mappedJavaScript": 68682.964,
+      "displayedText": "68.7M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: widest single-sex bar, 50-54",
+      "storedParquet": "Decimal('2366.950')",
+      "queryOutput": 2366.95,
+      "mappedJavaScript": 2366.95,
+      "displayedText": "2.37M"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: broad band 0-14, share_of_population_pct",
+      "storedParquet": "Decimal('16.7848')",
+      "queryOutput": 16.7848,
+      "mappedJavaScript": 16.7848,
+      "displayedText": "16.8%"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: broad band 15-64, share_of_population_pct",
+      "storedParquet": "Decimal('61.4661')",
+      "queryOutput": 61.4661,
+      "mappedJavaScript": 61.4661,
+      "displayedText": "61.5%"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: broad band 65+, share_of_population_pct",
+      "storedParquet": "Decimal('21.7491')",
+      "queryOutput": 21.7491,
+      "mappedJavaScript": 21.7491,
+      "displayedText": "21.7%"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: broad band 0-14, share_of_population_pct",
+      "storedParquet": "Decimal('13.9156')",
+      "queryOutput": 13.9156,
+      "mappedJavaScript": 13.9156,
+      "displayedText": "13.9%"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: broad band 15-64, share_of_population_pct",
+      "storedParquet": "Decimal('63.2944')",
+      "queryOutput": 63.2944,
+      "mappedJavaScript": 63.2944,
+      "displayedText": "63.3%"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: broad band 65+, share_of_population_pct",
+      "storedParquet": "Decimal('22.7900')",
+      "queryOutput": 22.79,
+      "mappedJavaScript": 22.79,
+      "displayedText": "22.8%"
+    }
+  ],
+  "displayedOnPage": {
+    "valueStrips": [
+      "2023Population66.4MWidest band2.24M",
+      "2023Population84.5MWidest band3.48M",
+      "2023Population68.7MWidest band2.37M"
+    ],
+    "broadBands": [
+      "16.8%61.5%21.7%",
+      "13.9%63.3%22.8%",
+      "17.4%63.4%19.2%"
+    ],
+    "panelTitles": [
+      "France",
+      "Germany",
+      "United Kingdom"
+    ],
+    "lastTableRow": [
+      "100+",
+      "United Kingdom",
+      "five-year",
+      "3.4k",
+      "14.2k",
+      "0.03%"
+    ]
+  },
+  "note": "The broad bands are the provider's own published grouping, summed in the dataset package, not bucketed in the browser."
+}

@@ -1,0 +1,92 @@
+{
+  "renderedViews": [
+    {
+      "view": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-desktop.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    },
+    {
+      "view": "narrow-smartphone-landscape",
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "screenshot": "view-narrow-smartphone-landscape.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    },
+    {
+      "view": "zoom-400",
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "screenshot": "view-zoom-400.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "world-population-path": "ready",
+        "country-population-paths": "ready",
+        "change-composition": "ready",
+        "migration-flows": "ready",
+        "fertility-longevity": "ready",
+        "age-structure": "ready"
+      }
+    }
+  ],
+  "slotLocalFailure": {
+    "screenshot": "view-slot-local-failure.png",
+    "scenario": "slot-query",
+    "observed": {
+      "figureStates": [
+        [
+          "world-population-path",
+          "ready"
+        ],
+        [
+          "country-population-paths",
+          "ready"
+        ],
+        [
+          "change-composition",
+          "ready"
+        ],
+        [
+          "migration-flows",
+          "ready"
+        ],
+        [
+          "fertility-longevity",
+          "ready"
+        ],
+        [
+          "age-structure",
+          "query-error"
+        ]
+      ],
+      "reportState": "ready",
+      "retryOffered": true,
+      "alerts": [
+        "The query did not complete. Retry"
+      ]
+    }
+  }
+}

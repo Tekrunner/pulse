@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+  <script src="/_blob/8bb6b8925729d987f5696cef92ef8b68"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #161826; color: #e9e9ed; font-family: Inter, system-ui, sans-serif; }
+    a { color: #b5abfc; } a:hover { color: #d2cefd; }
+    .wd * { box-sizing: border-box; }
+    .wd h1, .wd h3 { margin: 0; font-weight: 500; }
+    .wd p { margin: 0; }
+    .wd figure { margin: 0; }
+    .wd :focus-visible { outline: 2px solid #b5abfc; outline-offset: 2px; }
+    .wd summary { min-height: 44px; display: flex; align-items: center; color: #b5abfc; cursor: pointer; font-size: 13px; }
+    .wd select, .wd input { min-height: 44px; padding: 0 8px; border: 1px solid #3f424d; border-radius: 8px; background: #232532; color: #e9e9ed; font: inherit; }
+    .wd input[type=range] { padding: 0; }
+    .wd label.seg { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; border-inline-start: 1px solid #3f424d; cursor: pointer; font-size: 13px; color: #b2b6ca; }
+    .wd label.seg:first-child { border-inline-start: 0; }
+    .wd label.seg.on { color: #d2cefd; background: #232532; }
+    .wd label.chk { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 11px; border: 1px solid #3f424d; border-radius: 8px; cursor: pointer; font-size: 13px; }
+    .wd label.chk.on { border-color: #595d6c; background: #232532; }
+    .plot { position: relative; min-width: 0; }
+    .ov { position: absolute; inset: 0; pointer-events: none; font-size: 10.5px; color: #9397ab; }
+    .ov > span { position: absolute; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .values { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 16px; padding: 7px 10px; border-radius: 8px; background: #1c1f2c; box-shadow: inset 0 0 0 1px #32364a; font-size: 12px; }
+    .values .yr { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: #b5abfc; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .values .v { display: inline-flex; align-items: baseline; gap: 6px; color: #b2b6ca; white-space: nowrap; }
+    .values i { width: 8px; height: 8px; border-radius: 2px; flex: none; align-self: center; }
+    .values b { color: #e9e9ed; font-variant-numeric: tabular-nums; font-weight: 500; }
+  </style>
+</helmet>
+<div class="wd" style="width: 740px; height: 1580px; padding: 18px 16px 28px; display: flex; flex-direction: column; gap: 16px; background: #161826;">
+
+  <header style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; border-bottom: 1px solid #2e3140;">
+    <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">Pulse standing report</p>
+    <h1 style="font-size: 27px; line-height: 1.12; letter-spacing: -.015em;">World demography</h1>
+    <dl style="display: flex; flex-direction: column; gap: 2px; margin: 6px 0 0; font-size: 11.5px; color: #b2b6ca;">
+      <div style="display: flex; gap: 6px;"><dt>UN WPP 2024</dt><dd style="margin: 0; color: #e9e9ed;">estimates to 2023 · projection to 2100</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>Eurostat flows</dt><dd style="margin: 0; color: #e9e9ed;">to 2024</dd></div>
+      <div style="display: flex; gap: 6px;"><dt>WHO healthy years</dt><dd style="margin: 0; color: #e9e9ed;">to 2021</dd></div>
+    </dl>
+  </header>
+
+  <section aria-label="Exploration controls" style="display: flex; flex-direction: column; gap: 12px; padding: 11px 12px; border-radius: 8px; background: #161826; box-shadow: 0 0 0 1px #3f424d;">
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Represented period</legend>
+      <div role="radiogroup" aria-label="Represented period presets" style="display: flex; flex-wrap: wrap; overflow: hidden; width: fit-content; border: 1px solid #3f424d; border-radius: 8px;">
+        <sc-for list="{{presets}}" as="p" hint-placeholder-count="4">
+          <label class="{{p.cls}}">
+            <input type="radio" name="period" checked="{{p.on}}" onChange="{{p.pick}}" style="position: absolute; width: 0; height: 0; opacity: 0;">
+            <span>{{p.label}}</span>
+          </label>
+        </sc-for>
+      </div>
+      <div style="display: flex; gap: 10px;">
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b2b6ca;"><span>From</span>
+          <select aria-label="Represented period start year" value="{{fromYear}}" onChange="{{setFrom}}">
+            <sc-for list="{{yearOptions}}" as="y" hint-placeholder-count="3"><option value="{{y.v}}">{{y.v}}</option></sc-for>
+          </select></label>
+        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #b2b6ca;"><span>To</span>
+          <select aria-label="Represented period end year" value="{{toYear}}" onChange="{{setTo}}">
+            <sc-for list="{{yearOptions}}" as="y" hint-placeholder-count="3"><option value="{{y.v}}">{{y.v}}</option></sc-for>
+          </select></label>
+      </div>
+    </fieldset>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-size: 12px; color: #b2b6ca;">Observation year — or tap any point on a figure</span>
+      <input type="range" min="{{fromYear}}" max="{{toYear}}" step="1" value="{{year}}" aria-label="Observation year" aria-valuetext="{{yearReadout}}" onInput="{{setYear}}" style="width: 100%;">
+      <output style="font-size: 13px; font-weight: 500;">{{yearReadout}}</output>
+    </label>
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Countries compared</legend>
+      <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+        <sc-for list="{{countryChips}}" as="c" hint-placeholder-count="3">
+          <label class="{{c.cls}}">
+            <input type="checkbox" checked="{{c.on}}" onChange="{{c.toggle}}" style="width: 16px; height: 16px; min-height: 16px; accent-color: #b5abfc;">
+            <span style="width: 14px; height: 3px; border-radius: 2px; background: {{c.color}};"></span>
+            <span>{{c.name}}</span>
+          </label>
+        </sc-for>
+      </div>
+    </fieldset>
+  </section>
+
+  <figure aria-labelledby="n1-h" style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+    <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+      <h3 id="n1-h" style="font-size: 17px;">The world's population, and the range the projection spans</h3>
+      <p style="font-size: 12.5px; color: #b2b6ca;">The shaded range is the 95% prediction interval. Migration nets to zero globally, so the world has no migration component.</p>
+    </figcaption>
+    <div class="values">
+      <span class="yr">{{f1.selected.title}}</span>
+      <sc-for list="{{f1.selected.rows}}" as="r" hint-placeholder-count="2">
+        <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+      </sc-for>
+    </div>
+    <div class="plot">
+      <svg viewBox="0 0 676 300" width="676" height="300" role="img" aria-label="{{f1.aria}}" onClick="{{f1.pick}}" style="cursor: pointer; display: block;">
+        <sc-for list="{{f1.gridLines}}" as="g" hint-placeholder-count="4">
+          <line x1="46" x2="670" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}" stroke-width="1"></line>
+        </sc-for>
+        <polygon points="{{f1.bandPoints}}" fill="#b5abfc" opacity=".16"></polygon>
+        <polyline points="{{f1.estimatePoints}}" fill="none" stroke="#b5abfc" stroke-width="2.4"></polyline>
+        <polyline points="{{f1.projectionPoints}}" fill="none" stroke="#b5abfc" stroke-width="2.4" stroke-dasharray="7 5"></polyline>
+        <line x1="{{f1.boundaryX}}" x2="{{f1.boundaryX}}" y1="8" y2="196" stroke="#75798c" stroke-width="1"></line>
+        <line x1="46" x2="670" y1="{{f1.zeroY}}" y2="{{f1.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+        <polyline points="{{f1.growthEstimate}}" fill="none" stroke="#9dc0ae" stroke-width="1.8"></polyline>
+        <polyline points="{{f1.growthProjection}}" fill="none" stroke="#9dc0ae" stroke-width="1.8" stroke-dasharray="7 5"></polyline>
+        <line x1="{{f1.selX}}" x2="{{f1.selX}}" y1="8" y2="278" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+        <circle cx="{{f1.selX}}" cy="{{f1.selPopY}}" r="3.5" fill="#b5abfc" stroke="#161826" stroke-width="1.5"></circle>
+      </svg>
+      <div class="ov">
+        <sc-for list="{{f1.labels}}" as="l" hint-placeholder-count="8">
+          <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+        </sc-for>
+      </div>
+    </div>
+    <details><summary>Provenance, query and data table</summary></details>
+  </figure>
+
+  <figure aria-labelledby="n3-h" style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+    <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+      <h3 id="n3-h" style="font-size: 17px;">What changes a population</h3>
+      <p style="font-size: 12.5px; color: #b2b6ca;">Small multiples stack to one column below 900px. Each panel keeps its own axis labels rather than borrowing a neighbour's.</p>
+    </figcaption>
+    <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px;">
+      <sc-for list="{{f3.panels}}" as="p" hint-placeholder-count="3">
+        <div style="min-width: 0; padding: 9px; border-radius: 8px; background: #161826;">
+          <span style="font-size: 13.5px; font-weight: 500; color: {{p.color}};">{{p.name}}</span>
+          <div class="values">
+            <span class="yr">{{p.selected.title}}</span>
+            <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="3">
+              <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+            </sc-for>
+          </div>
+          <div class="plot" style="margin-top: 5px;">
+            <svg viewBox="0 0 658 150" width="658" height="150" role="img" aria-label="{{p.aria}}" onClick="{{p.pick}}" style="cursor: pointer; display: block;">
+              <line x1="46" x2="652" y1="{{p.zeroY}}" y2="{{p.zeroY}}" stroke="#75798c" stroke-width="1"></line>
+              <polygon points="{{p.naturalArea}}" fill="#9dc0ae" opacity=".38"></polygon>
+              <polygon points="{{p.migrationArea}}" fill="#d09a6a" opacity=".38"></polygon>
+              <polyline points="{{p.naturalLine}}" fill="none" stroke="#9dc0ae" stroke-width="1.6"></polyline>
+              <polyline points="{{p.migrationLine}}" fill="none" stroke="#d09a6a" stroke-width="1.6"></polyline>
+              <line x1="{{p.selX}}" x2="{{p.selX}}" y1="6" y2="130" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+            </svg>
+            <div class="ov">
+              <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="6">
+                <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </figure>
+
+  <figure aria-labelledby="n6-h" style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+    <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+      <h3 id="n6-h" style="font-size: 17px;">Age structure at the selected year</h3>
+      <p style="font-size: 12.5px; color: #b2b6ca;">Pyramids keep their proportions and their band labels at every width; they narrow rather than dropping bands.</p>
+    </figcaption>
+    <div style="display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 10px;">
+      <sc-for list="{{f6.panels}}" as="p" hint-placeholder-count="3">
+        <div style="min-width: 0; padding: 9px; border-radius: 8px; background: #161826;">
+          <span style="font-size: 13.5px; font-weight: 500; color: {{p.color}};">{{p.name}}</span>
+          <div class="values">
+            <span class="yr">{{p.selected.title}}</span>
+            <sc-for list="{{p.selected.rows}}" as="r" hint-placeholder-count="2">
+              <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+            </sc-for>
+          </div>
+          <div class="plot" style="margin-top: 5px;">
+            <svg viewBox="0 0 658 200" width="658" height="200" role="img" aria-label="{{p.aria}}" style="display: block;">
+              <sc-for list="{{p.bars}}" as="b" hint-placeholder-count="8">
+                <g>
+                  <rect x="{{b.maleX}}" y="{{b.y}}" width="{{b.maleW}}" height="{{b.h}}" fill="#8fb0d1" opacity=".85"></rect>
+                  <rect x="{{b.femaleX}}" y="{{b.y}}" width="{{b.femaleW}}" height="{{b.h}}" fill="#c98fb0" opacity=".85"></rect>
+                </g>
+              </sc-for>
+            </svg>
+            <div class="ov">
+              <sc-for list="{{p.labels}}" as="l" hint-placeholder-count="12">
+                <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+              </sc-for>
+            </div>
+          </div>
+          <div style="margin-top: 7px; display: flex; height: 20px; border-radius: 4px; overflow: hidden;">
+            <sc-for list="{{p.broad}}" as="s" hint-placeholder-count="3">
+              <div style="width: {{s.width}}; background: {{s.color}}; display: flex; align-items: center; justify-content: center;">
+                <span style="font-size: 10px; color: #161826; font-weight: 600;">{{s.pct}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </figure>
+
+  <section style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 7px;">
+    <h3 style="font-size: 15px;">Reflow rules this width fixes</h3>
+    <p style="font-size: 12.5px; color: #cfd3e5;">Below 900px the control row stops being sticky and stacks: period, year, countries, projection, each full width. Small-multiple grids go to one column. Figures 2 and 5 follow figure 1's rule and figure 4 follows figure 3's, so they are not drawn again here.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">The value strip keeps its place directly above each plot, exactly as at desktop. It wraps to more lines rather than shrinking, and it never moves into the plot: at this width a box over the marks would cover most of what it describes.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">The country control keeps its 44px targets and wraps. The add-a-country select stays a native select so the platform's own picker does the work on a phone.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">Nothing is dropped at this width: every figure, every band and every accessible table is still present. The page gets longer instead.</p>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":740,"height":1580}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { preset: "all", from: 1950, to: 2100, year: 2023, selected: ["FRA", "DEU", "GBR"] };
+  }
+  data() { return window.__pulseDemography || null; }
+  fmtPeople(t, o) {
+    if (t === null || t === undefined || !isFinite(t)) return "—";
+    var v = Number(t), sign = (o && o.signed && v > 0) ? "+" : (v < 0 ? "−" : ""), a = Math.abs(v);
+    if (a >= 1000000) return sign + (a / 1000000).toFixed(2) + "bn";
+    if (a >= 1000) return sign + (a / 1000).toFixed(a >= 10000 ? 1 : 2) + "M";
+    return sign + (Math.round(a * 10) / 10) + "k";
+  }
+  fmtRate(v, dp, suffix) {
+    if (v === null || v === undefined || !isFinite(v)) return "—";
+    var n = Number(v);
+    return (n > 0 ? "+" : (n < 0 ? "−" : "")) + Math.abs(n).toFixed(dp) + (suffix || "");
+  }
+  nice(lo, hi, zero) {
+    if (!isFinite(lo) || !isFinite(hi)) { lo = 0; hi = 1; }
+    if (zero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+    if (lo === hi) { lo -= 0.5; hi += 0.5; }
+    var pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+    if (zero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+    var raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var step = [1, 2, 2.5, 5, 10].map(function (x) { return x * mag; }).find(function (x) { return x >= raw; }) || 10 * mag;
+    return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step: step };
+  }
+  xOf(y, from, to, padL, padR, w) { var i = w - padL - padR; return to === from ? padL + i / 2 : padL + ((y - from) / (to - from)) * i; }
+  yOf(v, dom, top, h) { return top + h - ((v - dom.lo) / (dom.hi - dom.lo)) * h; }
+  axisLabels(dom, top, height, gutter, format) {
+    var out = [], self = this;
+    for (var v = dom.lo; v <= dom.hi + 1e-9; v += dom.step) {
+      out.push({ text: format(v), left: 0, top: self.yOf(v, dom, top, height) - 7, width: gutter, align: "right", color: "#9397ab" });
+    }
+    return out;
+  }
+  tickLabels(from, to, padL, padR, width, count, top) {
+    var out = [], self = this;
+    for (var i = 0; i < count; i += 1) {
+      var year = Math.round(from + ((to - from) * i) / (count - 1));
+      var x = self.xOf(year, from, to, padL, padR, width);
+      out.push({ text: String(year), left: Math.max(0, Math.min(width - 52, x - 26)), top: top, width: 52, align: "center", color: "#9397ab" });
+    }
+    return out;
+  }
+  selectedValues(title, rows) { return { title: title, rows: rows }; }
+  picker(padL, padR, viewWidth) {
+    var self = this, from = this.state.from, to = this.state.to;
+    return function (event) {
+      var box = event.currentTarget.getBoundingClientRect(); if (!box.width) return;
+      var x = (event.clientX - box.left) * (viewWidth / box.width), inner = viewWidth - padL - padR;
+      var year = Math.round(from + (inner <= 0 ? 0 : (x - padL) / inner) * (to - from));
+      self.setState({ year: Math.max(from, Math.min(to, year)) });
+    };
+  }
+  points(win, values, dom, from, to, padL, padR, w, top, h, filter) {
+    var self = this, parts = [];
+    win.forEach(function (p) {
+      if (filter && !filter(p.year)) return;
+      var v = values[p.i]; if (v === null || v === undefined) return;
+      parts.push(self.xOf(p.year, from, to, padL, padR, w).toFixed(1) + "," + self.yOf(v, dom, top, h).toFixed(1));
+    });
+    return parts.join(" ");
+  }
+  colorOf(iso3) {
+    var p = { FRA: "#b5abfc", DEU: "#8fb0d1", GBR: "#9dc0ae", ITA: "#d09a6a", ESP: "#c98fb0", POL: "#8c93a8", USA: "#7fc7c0", JPN: "#d4b06a", NGA: "#c08fd4", IND: "#e0888a" };
+    return p[iso3] || "#b2b6ca";
+  }
+  renderVals() {
+    var self = this, d = this.data();
+    var noSelection = { title: "", rows: [] };
+    if (!d) return { presets: [], yearOptions: [], countryChips: [], fromYear: 1950, toYear: 2100, year: 2023, yearReadout: "…", f1: { gridLines: [], labels: [], selected: noSelection }, f3: { panels: [] }, f6: { panels: [] }, setFrom: function () {}, setTo: function () {}, setYear: function () {} };
+    var s = this.state, from = s.from, to = s.to, year = s.year, base = d.years[0], boundary = d.boundary;
+    var win = []; for (var y = from; y <= to; y += 1) win.push({ year: y, i: y - base });
+    var est = function (yy) { return yy <= boundary; }, proj = function (yy) { return yy >= boundary; };
+
+    var presetDefs = [
+      { key: "all", label: "1950–2100", from: 1950, to: 2100 },
+      { key: "observed", label: "Observed", from: 1950, to: boundary },
+      { key: "fifty", label: "Last 50", from: boundary - 49, to: boundary },
+      { key: "century", label: "This century", from: 2000, to: 2100 }
+    ];
+    var presets = presetDefs.map(function (p) {
+      return { label: p.label, on: s.preset === p.key, cls: s.preset === p.key ? "seg on" : "seg", pick: function () { self.setState({ preset: p.key, from: p.from, to: p.to, year: Math.max(p.from, Math.min(p.to, s.year)) }); } };
+    });
+    var yearOptions = []; for (var yo = 1950; yo <= 2100; yo += 1) yearOptions.push({ v: yo });
+    var countryChips = s.selected.map(function (iso3) {
+      var e = d.countries[iso3];
+      return { name: e ? e.name : iso3, color: self.colorOf(iso3), on: true, cls: "chk on", toggle: function () { self.setState({ selected: s.selected.filter(function (k) { return k !== iso3; }) }); } };
+    });
+
+    var W = 676, PADL = 46, PADR = 6, TOP = 12, H = 178, GTOP = 216, GH = 52;
+    var world = d.countries.WORLD, scen = d.scenarios.WORLD || {}, si = function (yr) { return yr - d.scenarioYears[0]; };
+    var vals = [];
+    win.forEach(function (p) { if (world.pop[p.i] !== null) vals.push(world.pop[p.i]); });
+    win.forEach(function (p) { if (p.year < d.scenarioYears[0]) return; var i = si(p.year); if (scen["Lower 95 PI"] && scen["Lower 95 PI"][i] !== undefined) { vals.push(scen["Lower 95 PI"][i]); vals.push(scen["Upper 95 PI"][i]); } });
+    var dom = this.nice(Math.min.apply(null, vals), Math.max.apply(null, vals), false);
+    var gridLines = [];
+    for (var gv = dom.lo; gv <= dom.hi + 1e-9; gv += dom.step) gridLines.push({ y: this.yOf(gv, dom, TOP, H).toFixed(1), stroke: "rgba(233,233,237,.10)" });
+    var up = [], down = [];
+    win.forEach(function (p) {
+      if (p.year < d.scenarioYears[0]) return;
+      var i = si(p.year), lo = scen["Lower 95 PI"] ? scen["Lower 95 PI"][i] : undefined;
+      if (lo === undefined) return;
+      up.push(self.xOf(p.year, from, to, PADL, PADR, W).toFixed(1) + "," + self.yOf(scen["Upper 95 PI"][i], dom, TOP, H).toFixed(1));
+      down.unshift(self.xOf(p.year, from, to, PADL, PADR, W).toFixed(1) + "," + self.yOf(lo, dom, TOP, H).toFixed(1));
+    });
+    var gVals = []; win.forEach(function (p) { if (world.growth[p.i] !== null) gVals.push(world.growth[p.i]); });
+    var gDom = this.nice(Math.min.apply(null, gVals), Math.max.apply(null, gVals), true);
+    var selX = this.xOf(year, from, to, PADL, PADR, W);
+    var boundaryX = this.xOf(boundary, from, to, PADL, PADR, W);
+    var selPop = world.pop[year - base], selGrowth = world.growth[year - base];
+    var f1Labels = this.axisLabels(dom, TOP, H, 40, function (v) { return (v / 1000000).toFixed(1) + "bn"; })
+      .concat(this.axisLabels(gDom, GTOP, GH, 40, function (v) { return self.fmtRate(v, 1, "%"); }))
+      .concat(this.tickLabels(from, to, PADL, PADR, W, 5, 284))
+      .concat([{ text: "Rate of change, % a year", left: 52, top: GTOP - 15, width: 180, align: "left", color: "#9dc0ae" }]);
+    if (from <= boundary && to > boundary) {
+      f1Labels.push({ text: "estimates", left: boundaryX - 70, top: 8, width: 64, align: "right", color: "#9397ab" });
+      f1Labels.push({ text: "projection", left: boundaryX + 6, top: 8, width: 64, align: "left", color: "#9397ab" });
+    }
+
+    var f3Panels = s.selected.map(function (iso3) {
+      var e = d.countries[iso3];
+      var PW = 658, PL = 46, PR = 6, PT = 10, PH = 112;
+      if (!e) return { name: iso3, color: self.colorOf(iso3), aria: iso3, labels: [], selected: noSelection, zeroY: 60, selX: 0, naturalArea: "", migrationArea: "", naturalLine: "", migrationLine: "", pick: function () {} };
+      var v3 = [];
+      win.forEach(function (p) { if (e.natural[p.i] !== null) v3.push(e.natural[p.i]); if (e.migration[p.i] !== null) v3.push(e.migration[p.i]); });
+      var d3 = self.nice(Math.min.apply(null, v3), Math.max.apply(null, v3), true);
+      var zeroY = self.yOf(0, d3, PT, PH);
+      var areaOf = function (values) {
+        var top = [], bottom = [];
+        win.forEach(function (p) {
+          var v = values[p.i]; if (v === null) return;
+          var x = self.xOf(p.year, from, to, PL, PR, PW).toFixed(1);
+          top.push(x + "," + self.yOf(v, d3, PT, PH).toFixed(1)); bottom.unshift(x + "," + zeroY.toFixed(1));
+        });
+        return top.concat(bottom).join(" ");
+      };
+      var pSel = self.xOf(year, from, to, PL, PR, PW);
+      return {
+        name: e.name, color: self.colorOf(iso3),
+        aria: e.name + ": natural change and net migration, " + from + " to " + to,
+        zeroY: zeroY.toFixed(1), selX: pSel.toFixed(1),
+        naturalArea: areaOf(e.natural), migrationArea: areaOf(e.migration),
+        naturalLine: self.points(win, e.natural, d3, from, to, PL, PR, PW, PT, PH),
+        migrationLine: self.points(win, e.migration, d3, from, to, PL, PR, PW, PT, PH),
+        labels: self.axisLabels(d3, PT, PH, 40, function (v) { return self.fmtPeople(v, { signed: true }); })
+          .concat(self.tickLabels(from, to, PL, PR, PW, 5, 134)),
+        selected: self.selectedValues(String(year), [
+          { color: "#9dc0ae", label: "Natural change", value: self.fmtPeople(e.natural[year - base], { signed: true }) },
+          { color: "#d09a6a", label: "Net migration", value: self.fmtPeople(e.migration[year - base], { signed: true }) },
+          { color: "#e9e9ed", label: "Population change", value: self.fmtPeople(e.change[year - base], { signed: true }) }
+        ]),
+        pick: self.picker(PL, PR, PW)
+      };
+    });
+
+    var f6Panels = s.selected.map(function (iso3) {
+      var e = d.countries[iso3], pyramid = (d.pyramid[iso3] || {})[year] || [], shares = (d.broad[iso3] || {})[year] || {};
+      var maxBand = 1; pyramid.forEach(function (b) { maxBand = Math.max(maxBand, b[0] || 0, b[1] || 0); });
+      var centre = 329, gap = 34, half = 274, rowH = 8;
+      var bars = [], labels = [];
+      pyramid.forEach(function (b, i) {
+        var top = 16 + (pyramid.length - 1 - i) * rowH;
+        var mw = ((b[0] || 0) / maxBand) * half, fw = ((b[1] || 0) / maxBand) * half;
+        bars.push({ y: top.toFixed(1), h: (rowH - 1.4).toFixed(1), maleX: (centre - gap / 2 - mw).toFixed(1), maleW: mw.toFixed(1), femaleX: (centre + gap / 2).toFixed(1), femaleW: fw.toFixed(1) });
+        if (i % 2 === 0) labels.push({ text: d.ageBands[i], left: centre - 17, top: top - 4, width: 34, align: "center", color: "#9397ab" });
+      });
+      var total = 0; pyramid.forEach(function (b) { total += (b[0] || 0) + (b[1] || 0); });
+      labels.push({ text: "Men", left: centre - gap / 2 - half, top: 1, width: half, align: "center", color: "#8fb0d1" });
+      labels.push({ text: "Women", left: centre + gap / 2, top: 1, width: half, align: "center", color: "#c98fb0" });
+      var order = ["0-14", "15-64", "65+"], colors = ["#9dc0ae", "#8fb0d1", "#d09a6a"];
+      return {
+        name: e ? e.name : iso3, color: self.colorOf(iso3),
+        selected: self.selectedValues(String(year), [
+          { color: self.colorOf(iso3), label: "Population", value: self.fmtPeople(total) }
+        ]),
+        aria: (e ? e.name : iso3) + ": population by five-year age band and sex at " + year,
+        bars: bars, labels: labels,
+        broad: order.map(function (k, i) { var p = shares[k]; return { width: (p === undefined ? 0 : p) + "%", color: colors[i], pct: p === undefined ? "—" : p.toFixed(1) + "%" }; })
+      };
+    });
+
+    return {
+      presets: presets, yearOptions: yearOptions, countryChips: countryChips,
+      fromYear: from, toYear: to, year: year, yearReadout: String(year),
+      setFrom: function (e) { var v = Number(e.target.value); self.setState({ from: Math.min(v, s.to - 1), preset: "custom" }); },
+      setTo: function (e) { var v = Number(e.target.value); self.setState({ to: Math.max(v, s.from + 1), preset: "custom" }); },
+      setYear: function (e) { self.setState({ year: Number(e.target.value) }); },
+      f1: {
+        aria: "World population from " + from + " to " + to + " with its 95 per cent prediction interval and annual rate of change",
+        gridLines: gridLines, bandPoints: up.concat(down).join(" "),
+        estimatePoints: this.points(win, world.pop, dom, from, to, PADL, PADR, W, TOP, H, est),
+        projectionPoints: this.points(win, world.pop, dom, from, to, PADL, PADR, W, TOP, H, proj),
+        boundaryX: boundaryX.toFixed(1),
+        zeroY: this.yOf(0, gDom, GTOP, GH).toFixed(1),
+        growthEstimate: this.points(win, world.growth, gDom, from, to, PADL, PADR, W, GTOP, GH, est),
+        growthProjection: this.points(win, world.growth, gDom, from, to, PADL, PADR, W, GTOP, GH, proj),
+        selX: selX.toFixed(1),
+        selPopY: (selPop === null || selPop === undefined ? -20 : this.yOf(selPop, dom, TOP, H)).toFixed(1),
+        labels: f1Labels,
+        selected: this.selectedValues(String(year), [
+          { color: "#b5abfc", label: "Population", value: this.fmtPeople(selPop) },
+          { color: "#9dc0ae", label: "Rate of change", value: this.fmtRate(selGrowth, 2, "% a year") }
+        ]),
+        pick: this.picker(PADL, PADR, W)
+      },
+      f3: { panels: f3Panels },
+      f6: { panels: f6Panels }
+    };
+  }
+}
+</script>
+</body>
+</html>

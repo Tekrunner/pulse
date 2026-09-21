@@ -1,0 +1,74 @@
+[
+  {
+    "period": "2024-01-01",
+    "scenario": "Constant fertility",
+    "scenario_kind": "deterministic",
+    "population_thousands": 8162514.774
+  },
+  {
+    "period": "2024-01-01",
+    "scenario": "High",
+    "scenario_kind": "deterministic",
+    "population_thousands": 8169247.456
+  },
+  {
+    "period": "2024-01-01",
+    "scenario": "Low",
+    "scenario_kind": "deterministic",
+    "population_thousands": 8154697.457
+  },
+  {
+    "period": "2024-01-01",
+    "scenario": "Lower 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 8159134.526
+  },
+  {
+    "period": "2024-01-01",
+    "scenario": "Median PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 8161972.572
+  },
+  {
+    "period": "2024-01-01",
+    "scenario": "Upper 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 8164764.091
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "Constant fertility",
+    "scenario_kind": "deterministic",
+    "population_thousands": 18193393.697
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "High",
+    "scenario_kind": "deterministic",
+    "population_thousands": 14395160.444
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "Low",
+    "scenario_kind": "deterministic",
+    "population_thousands": 6986813.938
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "Lower 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 9046832.166
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "Median PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 10180160.751
+  },
+  {
+    "period": "2100-01-01",
+    "scenario": "Upper 95 PI",
+    "scenario_kind": "probabilistic",
+    "population_thousands": 11437364.416
+  }
+]

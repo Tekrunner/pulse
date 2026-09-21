@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "change-composition",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "country-components",
+  "parameters": [
+    "250",
+    "276",
+    "826",
+    "1950-01-01",
+    "2100-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023-01-01",
+      "column": "France: natural_change_thousands",
+      "storedParquet": "Decimal('22.796')",
+      "queryOutput": 22.796,
+      "mappedJavaScript": 22.796,
+      "displayedText": "+22.8k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: net_migration_thousands",
+      "storedParquet": "Decimal('91.862')",
+      "queryOutput": 91.862,
+      "mappedJavaScript": 91.862,
+      "displayedText": "+91.9k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "France: population_change_thousands",
+      "storedParquet": "Decimal('114.674')",
+      "queryOutput": 114.674,
+      "mappedJavaScript": 114.674,
+      "displayedText": "+114.7k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: natural_change_thousands",
+      "storedParquet": "Decimal('-314.891')",
+      "queryOutput": -314.891,
+      "mappedJavaScript": -314.891,
+      "displayedText": "−314.9k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: net_migration_thousands",
+      "storedParquet": "Decimal('609.553')",
+      "queryOutput": 609.553,
+      "mappedJavaScript": 609.553,
+      "displayedText": "+609.6k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: population_change_thousands",
+      "storedParquet": "Decimal('294.664')",
+      "queryOutput": 294.664,
+      "mappedJavaScript": 294.664,
+      "displayedText": "+294.7k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: natural_change_rate_per_1000",
+      "storedParquet": "Decimal('-3.7240')",
+      "queryOutput": -3.724,
+      "mappedJavaScript": -3.724,
+      "displayedText": "−3.7‰"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "Germany: net_migration_rate_per_1000",
+      "storedParquet": "Decimal('7.2100')",
+      "queryOutput": 7.21,
+      "mappedJavaScript": 7.21,
+      "displayedText": "+7.2‰"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: natural_change_thousands",
+      "storedParquet": "Decimal('34.641')",
+      "queryOutput": 34.641,
+      "mappedJavaScript": 34.641,
+      "displayedText": "+34.6k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: net_migration_thousands",
+      "storedParquet": "Decimal('445.523')",
+      "queryOutput": 445.523,
+      "mappedJavaScript": 445.523,
+      "displayedText": "+445.5k"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "United Kingdom: population_change_thousands",
+      "storedParquet": "Decimal('480.161')",
+      "queryOutput": 480.161,
+      "mappedJavaScript": 480.161,
+      "displayedText": "+480.2k"
+    }
+  ],
+  "displayedOnPage": {
+    "valueStrips": [
+      "2023Natural change+22.8kNet migration+91.9kPopulation change+114.7k",
+      "2023Natural change−314.9kNet migration+609.6kPopulation change+294.7k",
+      "2023Natural change+34.6kNet migration+445.5kPopulation change+480.2k"
+    ],
+    "panelTitles": [
+      "France",
+      "Germany",
+      "United Kingdom"
+    ],
+    "perThousandStrips": [
+      "2023Natural change+22.8kNet migration+91.9kPopulation change+114.7k",
+      "2023Natural change−314.9kNet migration+609.6kPopulation change+294.7k",
+      "2023Natural change+34.6kNet migration+445.5kPopulation change+480.2k"
+    ],
+    "lastTableRow": [
+      "2100",
+      "United Kingdom",
+      "−233.9k (−3.15‰)",
+      "+97.3k (+1.31‰)",
+      "−136.5k"
+    ]
+  },
+  "note": "Germany 2023: population change minus the two components leaves a residual of 2 people. The figure draws two areas from zero and a separate change line, never a stack, because the provider's change is accounted for by its components but is not their sum."
+}

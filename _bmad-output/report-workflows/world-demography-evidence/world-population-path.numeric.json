@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "visualId": "world-population-path",
+  "comparedLayers": [
+    "stored Parquet",
+    "declared query output",
+    "mapped JavaScript value",
+    "text displayed by the built page"
+  ],
+  "sourceOfDisplayedLayer": "displayed.json, harvested from dist/ in Chromium",
+  "query": "world-indicators + world-scenarios",
+  "parameters": [
+    "1950-01-01",
+    "2100-01-01"
+  ],
+  "pinnedObservations": [
+    {
+      "observation": "2023-01-01",
+      "column": "population_thousands",
+      "storedParquet": "Decimal('8091734.930')",
+      "queryOutput": 8091734.93,
+      "mappedJavaScript": 8091734.93,
+      "displayedText": "8.09bn"
+    },
+    {
+      "observation": "2023-01-01",
+      "column": "population_growth_rate_pct",
+      "storedParquet": "Decimal('0.8710')",
+      "queryOutput": 0.871,
+      "mappedJavaScript": 0.871,
+      "displayedText": "+0.87% a year"
+    },
+    {
+      "observation": "2100-01-01",
+      "column": "population_thousands",
+      "storedParquet": "Decimal('10180160.751')",
+      "queryOutput": 10180160.751,
+      "mappedJavaScript": 10180160.751,
+      "displayedText": "10.18bn"
+    },
+    {
+      "observation": "2100-01-01",
+      "column": "population_growth_rate_pct",
+      "storedParquet": "Decimal('-0.1270')",
+      "queryOutput": -0.127,
+      "mappedJavaScript": -0.127,
+      "displayedText": "−0.13% a year"
+    },
+    {
+      "observation": "2084-01-01",
+      "column": "population_thousands, projected maximum",
+      "storedParquet": "Decimal('10289315.244')",
+      "queryOutput": 10289315.244,
+      "mappedJavaScript": 10289315.244,
+      "displayedText": "peak · 2084 · 10.29bn",
+      "note": "The peak is found in the rows, never assumed: it is the largest projected value in the series."
+    },
+    {
+      "observation": "2100-01-01",
+      "column": "scenario 'Lower 95 PI'",
+      "storedParquet": "Decimal('9046832.166')",
+      "queryOutput": 9046832.166,
+      "mappedJavaScript": 9046832.166,
+      "displayedText": "9.05bn to 11.44bn"
+    },
+    {
+      "observation": "2100-01-01",
+      "column": "scenario 'Upper 95 PI'",
+      "storedParquet": "Decimal('11437364.416')",
+      "queryOutput": 11437364.416,
+      "mappedJavaScript": 11437364.416,
+      "displayedText": "9.05bn to 11.44bn"
+    }
+  ],
+  "displayedOnPage": {
+    "valueStrip": [
+      "2023Population8.09bnRate of change+0.87% a year"
+    ],
+    "lastTableRow": [
+      "2100",
+      "projection",
+      "10.18bn",
+      "−0.13% a year",
+      "9.05bn to 11.44bn"
+    ],
+    "aria": [
+      "World population from 1950 to 2100, with its rate of change"
+    ]
+  },
+  "note": "The shaded band is the provider's own 95% prediction interval, read from the scenario table, not a computed spread."
+}

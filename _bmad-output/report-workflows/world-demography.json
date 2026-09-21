@@ -1,0 +1,635 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "world-demography",
+  "phase": "complete",
+  "discovery": {
+    "standingQuestions": [
+      {
+        "id": "world-population-path",
+        "question": "How large is the world's population each year, how fast is it changing, and where do the published projection scenarios take it?"
+      },
+      {
+        "id": "country-population-path",
+        "question": "How large is each selected country's population each year, how fast is it changing, and where does the published projection take it?"
+      },
+      {
+        "id": "population-change-composition",
+        "question": "For each selected country, how much of a year's population change is natural change and how much is net migration, both as people and relative to the population?"
+      },
+      {
+        "id": "gross-migration-flows",
+        "question": "Where a provider publishes them, how large are the gross immigration and emigration counts behind a country's net migration?"
+      },
+      {
+        "id": "fertility-and-longevity",
+        "question": "For each selected country, what is the total fertility rate, life expectancy at birth, and healthy life expectancy at birth?"
+      },
+      {
+        "id": "age-structure",
+        "question": "For each selected country at a selected year, what is the population by five-year age group and sex, and what share of the population is young, working age, or old?"
+      }
+    ],
+    "indicators": [
+      "Total population on 1 July, by location and year, estimates and projections",
+      "Population growth rate, per cent per year",
+      "Population change, thousands per year",
+      "Natural change of population, thousands per year",
+      "Rate of natural change, per 1,000 population",
+      "Net number of migrants, thousands per year",
+      "Net migration rate, per 1,000 population",
+      "Births and deaths, thousands per year",
+      "Total fertility rate, live births per woman",
+      "Life expectancy at birth, years, both sexes and by sex",
+      "Median age of population, years",
+      "Population by five-year age group and sex, thousands",
+      "Share of population aged 0-14, 15-64 and 65 or over",
+      "Projection scenario variants of the above indicators, 2024-2100",
+      "Immigration count, persons per year, where the provider publishes it",
+      "Emigration count, persons per year, where the provider publishes it",
+      "Healthy life expectancy at birth, years, both sexes and by sex"
+    ],
+    "context": "A standing comparative demography report covering every country in the provider's universe above a declared population floor, not a single country. Three default selections are France, Germany and the United Kingdom, which the reader can change. The world is its own top-level subject, read before any country. Estimates and projections share one time axis, and the provider publishes several projection scenarios rather than one future. Two indicator families are published by different providers on different calendars and for different country sets: gross migration flows and healthy life expectancy.",
+    "readingBehavior": "The reader is an economist reading standing questions repeatedly rather than a visitor arriving once. They open the report at the latest estimate, read the world first, then compare a small set of countries side by side, then pick a single year and read every country figure at that year. They change the country selection often and the year selection often, and they expect a figure to answer at the selected year without their having to leave the mark to find the number.",
+    "privacyExpectation": "public",
+    "explorationNeeded": true
+  },
+  "sourceDecisions": [
+    {
+      "need": "Annual demographic indicators for every country and the world, estimates and the medium projection, over the longest period the provider publishes",
+      "candidates": [
+        {
+          "id": "un-wpp-standard-csv",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division, the body that produces the official UN population estimates and projections rather than redistributing them",
+          "coverage": "237 countries and areas plus the world, geographic regions, subregions, development and income groupings, 1950 to 2100",
+          "granularity": "one row per location, projection variant and calendar year, carrying 54 demographic indicator columns",
+          "stability": "the 2024 revision's files have carried a Last-Modified of 13 December 2024 since publication; a revision supersedes rather than amends, and each revision is published under its own WPP<year> file names",
+          "accessMethod": "anonymous HTTPS download of a gzipped CSV file, no registration and no token",
+          "format": "gzip-compressed UTF-8 CSV, 16.5 MB compressed",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "a full revision approximately every two years; the 2022 revision was published in July 2022 and the 2024 revision in July 2024, with the CSV files last rebuilt in December 2024",
+          "publicationSchedule": "no calendar date is published in advance for the next revision; the provider announces each revision on release, so the schedule must come from an explicit human decision rather than a provider deadline",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution and an indication of any changes; an adaptation must not imply United Nations endorsement"
+        },
+        {
+          "id": "un-data-portal-api",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division, the same body, through its Data Portal service",
+          "coverage": "the same WPP indicators plus family planning and urbanization series, scoped per indicator, location and year range",
+          "granularity": "one record per indicator, location, variant, sex, age and year, requested exactly as needed",
+          "stability": "indicator and location metadata endpoints respond anonymously and are versioned by source year; the data endpoints have changed to require authentication",
+          "accessMethod": "HTTPS REST; the data endpoints answer HTTP 401 with WWW-Authenticate: Bearer, so a registered token is required",
+          "format": "JSON or CSV, request-scoped and small",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "follows the WPP revision cycle",
+          "publicationSchedule": "as for the bulk files, no advance calendar date",
+          "redistributionConstraints": "as for the bulk files, with the additional constraint that a bearer token is a credential"
+        },
+        {
+          "id": "world-bank-wdi-api",
+          "authority": "The World Bank, which redistributes and harmonises indicators it collects from statistical authorities including the UN Population Division",
+          "coverage": "217 economies and a set of aggregates, 1960 to the latest estimate year, with no projections",
+          "granularity": "one observation per indicator, economy and year, requested per indicator code",
+          "stability": "long-lived indicator codes and a stable versionless API; values are restated when an upstream provider revises",
+          "accessMethod": "anonymous HTTPS REST, no registration or token",
+          "format": "JSON or XML, request-scoped and small",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0) for the World Development Indicators",
+          "attribution": "World Bank, World Development Indicators.",
+          "cadence": "the database is refreshed several times a year, typically around April, July, September and December",
+          "publicationSchedule": "the provider publishes an update calendar for World Development Indicators releases",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution"
+        },
+        {
+          "id": "owid-population-series",
+          "authority": "Our World in Data, a research publication that splices HYDE, Gapminder and UN WPP into a single long-run series; not a statistical authority",
+          "coverage": "annual population for countries and regions from 1800, and sparser estimates from 10000 BCE, through 2100",
+          "granularity": "one row per entity and year, total population only",
+          "stability": "series are rebuilt when any constituent upstream is revised, and the splice points move with those rebuilds",
+          "accessMethod": "anonymous HTTPS download of a CSV from the grapher endpoint",
+          "format": "UTF-8 CSV, 1.6 MB",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+          "attribution": "Our World in Data, based on HYDE, Gapminder and UN World Population Prospects.",
+          "cadence": "rebuilt irregularly, following its upstream providers",
+          "publicationSchedule": "no published calendar",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution to Our World in Data and to the underlying sources"
+        }
+      ],
+      "selected": "un-wpp-standard-csv",
+      "rationale": "The UN Population Division produces these estimates rather than redistributing them, and its standard CSV files are the only anonymous route to them: the Data Portal's data endpoints now answer HTTP 401 with WWW-Authenticate: Bearer, and a registered token is a credential a Pulse source may not hold. The World Bank API is request-scoped and far cheaper to archive, but carries no projections at all and begins in 1960, so it can answer neither the projection question nor the start of the estimate period. Our World in Data would extend population to 1900, which the reader had asked about, but it is a publisher's reconstruction rather than an authority's estimate, and the reader chose one authority beginning in 1950 over a longer reach across two kinds of estimate. The accepted cost is 16.5 MB of preserved provider bytes per revision.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Alternative projection scenarios for the same demographic indicators, so that a projected path can be read as a range rather than as a single line",
+      "candidates": [
+        {
+          "id": "un-wpp-other-variants-csv",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division",
+          "coverage": "the same locations as the medium file, 2024 to 2100, for the high fertility, low fertility, constant fertility, instant replacement, zero migration, constant mortality, no change and momentum scenarios",
+          "granularity": "one row per location, projection variant and calendar year, carrying the same 54 indicator columns as the medium file",
+          "stability": "the same file generation and Last-Modified as the medium file; superseded whole by the next revision",
+          "accessMethod": "anonymous HTTPS download of a gzipped CSV file",
+          "format": "gzip-compressed UTF-8 CSV, 75.3 MB compressed",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "published with each WPP revision, approximately every two years",
+          "publicationSchedule": "no advance calendar date; the schedule must come from an explicit human decision",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution and an indication of any changes"
+        },
+        {
+          "id": "un-wpp-total-population-all-scenarios-csv",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division",
+          "coverage": "the same locations, 1950 to 2100, all scenarios, but total population by sex only",
+          "granularity": "one row per location, variant and year, with male, female and total population",
+          "stability": "the same generation and revision behaviour as the other standard files",
+          "accessMethod": "anonymous HTTPS download of a gzipped CSV file",
+          "format": "gzip-compressed UTF-8 CSV, 17.0 MB compressed",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "published with each WPP revision",
+          "publicationSchedule": "no advance calendar date",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution"
+        }
+      ],
+      "selected": "un-wpp-other-variants-csv",
+      "rationale": "The other-variants indicator file carries every scenario for every indicator, so a projected range extends to fertility, life expectancy and net migration rather than to population alone. The total-population-by-scenario file was rejected as redundant rather than as merely more expensive: its scenario rows begin in 2024, and its rows before 2024 are estimates identical to those already preserved in the medium indicator snapshot, so archiving it would add 17.0 MB of provider bytes that answer nothing the other two files leave unanswered.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Population by age group and sex for every country and the world over the same period, so that an age structure can be read at a chosen year",
+      "candidates": [
+        {
+          "id": "un-wpp-age5-medium-csv",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division",
+          "coverage": "the same locations, 1950 to 2100, medium scenario, in five-year age groups to 100 or over",
+          "granularity": "one row per location, variant, year and five-year age group, with male, female and total population",
+          "stability": "the same generation and revision behaviour as the other standard files",
+          "accessMethod": "anonymous HTTPS download of a gzipped CSV file",
+          "format": "gzip-compressed UTF-8 CSV, 29.9 MB compressed",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "published with each WPP revision",
+          "publicationSchedule": "no advance calendar date",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution"
+        },
+        {
+          "id": "un-wpp-single-age-medium-csv",
+          "authority": "United Nations Department of Economic and Social Affairs, Population Division",
+          "coverage": "the same locations and period in single years of age to 100 or over, split across a 1950-2023 file and a 2024-2100 file",
+          "granularity": "one row per location, variant, year and single year of age",
+          "stability": "the same generation and revision behaviour",
+          "accessMethod": "anonymous HTTPS download of two gzipped CSV files",
+          "format": "gzip-compressed UTF-8 CSV, several hundred megabytes compressed across the two files",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+          "cadence": "published with each WPP revision",
+          "publicationSchedule": "no advance calendar date",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution"
+        }
+      ],
+      "selected": "un-wpp-age5-medium-csv",
+      "rationale": "Five-year age groups are the grain at which this provider publishes its own age-structure aggregates, and they resolve an age pyramid and a young, working-age and old split without remainder. The single-year files would answer the same questions at roughly ten times the preserved bytes and would leave a consumer to rebuild bands the provider already publishes, which would make Pulse rather than the provider the authority on where those bands fall.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Annual gross immigration and emigration counts, so that a country's net migration can be read as the difference of two published flows rather than as a single balance",
+      "candidates": [
+        {
+          "id": "eurostat-migration-flows",
+          "authority": "Eurostat, which collects immigration and emigration statistics from national statistical institutes under Regulation (EC) No 862/2007",
+          "coverage": "European Union member states, EFTA and candidate countries; the United Kingdom is present to 2019 and absent afterwards. Germany 1998 to 2024, France 2006 to 2024, United Kingdom 1998 to 2019",
+          "granularity": "one observation per reporting country, year, citizenship, age, sex and age definition, with a total over citizenship published",
+          "stability": "a stable dataset code and dimension vocabulary; national figures are restated as the reporting institutes revise them",
+          "accessMethod": "anonymous HTTPS REST against the Eurostat dissemination API, no registration or token, request-scoped by dimension",
+          "format": "JSON-stat 2.0, tens of kilobytes at the scope required",
+          "licence": "the Eurostat reuse policy, equivalent to Creative Commons Attribution 4.0 International",
+          "attribution": "Source: Eurostat, immigration and emigration by age group, sex and citizenship.",
+          "cadence": "annual, following the reference-year reporting deadline",
+          "publicationSchedule": "member states transmit within twelve months of the end of the reference year, so a reference year normally becomes available during the following calendar year",
+          "redistributionConstraints": "reuse permitted for commercial and non-commercial purposes with acknowledgement of the source"
+        },
+        {
+          "id": "oecd-international-migration-database",
+          "authority": "OECD, which compiles the International Migration Database from national sources for its members",
+          "coverage": "38 OECD countries, as inflows and outflows of foreign population. France inflows 1995 to 2023 but outflows only 2009 to 2023; the United Kingdom inflows only 2012 to 2019 and outflows 1995 to 2019, with nothing after 2019",
+          "granularity": "one observation per reporting country, citizenship, measure, sex and year, with a world citizenship total published",
+          "stability": "a stable SDMX dataflow with long-lived measure codes",
+          "accessMethod": "anonymous HTTPS SDMX REST, no registration or token, request-scoped by key",
+          "format": "SDMX-CSV 2.0, tens of kilobytes at the scope required",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+          "attribution": "Source: OECD, International Migration Database.",
+          "cadence": "annual, published with the International Migration Outlook",
+          "publicationSchedule": "the International Migration Outlook is normally published in the autumn",
+          "redistributionConstraints": "reuse and redistribution permitted with attribution; an adaptation must be identified as such"
+        }
+      ],
+      "selected": "eurostat-migration-flows",
+      "rationale": "Eurostat counts every immigrant and every emigrant regardless of citizenship, so its two flows are components of the same balance the United Nations publishes as net migration, and all three default countries are covered to at least 2019. The OECD database measures inflows and outflows of foreign population only, so its outflow excludes returning nationals and cannot be differenced against net migration without asserting something the provider does not publish; its coverage of the default countries is also thinner, with United Kingdom inflows available for eight years. The OECD's advantage is geographic reach beyond Europe, which does not compensate for measuring a narrower population.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Healthy life expectancy at birth, so that expected years of life can be read beside expected years of life in good health",
+      "candidates": [
+        {
+          "id": "who-gho-hale",
+          "authority": "World Health Organization, which produces the Global Health Estimates from which healthy life expectancy is derived",
+          "coverage": "183 member states, 2000 to 2021, by sex and both sexes combined",
+          "granularity": "one observation per country, year and sex, with an uncertainty interval",
+          "stability": "a stable indicator code, WHOSIS_000002; the whole series is restated when the Global Health Estimates are revised, most recently in August 2024",
+          "accessMethod": "anonymous HTTPS OData REST against the Global Health Observatory API, no registration or token, request-scoped by filter",
+          "format": "JSON, a few hundred kilobytes for the whole indicator",
+          "licence": "WHO's own Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses; not a Creative Commons licence. A royalty-free, worldwide, non-exclusive right to use, reproduce, extract, distribute and display the datasets for public health purposes",
+          "attribution": "Source: World Health Organization, Global Health Observatory, healthy life expectancy (HALE) at birth.",
+          "cadence": "irregular, published with each revision of the Global Health Estimates rather than on an annual calendar",
+          "publicationSchedule": "no advance calendar date is published for the next Global Health Estimates revision, so the schedule must come from an explicit human decision",
+          "redistributionConstraints": "redistribution permitted for public health purposes with attribution in the provider's prescribed format; no onward sale or transfer, no use in commercial promotion, no implication of WHO endorsement, and any alteration or modification beyond restyling a figure requires prior written authorization from WHO"
+        },
+        {
+          "id": "eurostat-healthy-life-years",
+          "authority": "Eurostat, which computes healthy life years from EU-SILC self-reported activity limitation and national life tables",
+          "coverage": "European Union member states, EFTA and candidate countries, 2004 onwards; the United Kingdom ends with its withdrawal from EU-SILC",
+          "granularity": "one observation per country, year, sex and age, in years and as a share of life expectancy",
+          "stability": "a stable dataset code, restated when EU-SILC or the life tables are revised",
+          "accessMethod": "anonymous HTTPS REST against the Eurostat dissemination API",
+          "format": "JSON-stat 2.0, tens of kilobytes",
+          "licence": "the Eurostat reuse policy, equivalent to Creative Commons Attribution 4.0 International",
+          "attribution": "Source: Eurostat, healthy life years.",
+          "cadence": "annual",
+          "publicationSchedule": "published in the year following the reference year, on the EU-SILC release calendar",
+          "redistributionConstraints": "reuse permitted with acknowledgement of the source"
+        }
+      ],
+      "selected": "who-gho-hale",
+      "rationale": "The subject of this report is every country above a population floor, and only the World Health Organization indicator exists outside Europe; an indicator published for a quarter of the report's countries would leave the panel empty for most selections a reader makes. The two are also not interchangeable measures: healthy life expectancy is derived from modelled disability weights across causes of death and illness, while healthy life years counts years free of self-reported activity limitation, so taking both would place two differently defined quantities in one panel. The accepted costs are a window of 2000 to 2021 against life expectancy's 1950 to 2100, and a licence that is narrower than every other source in this report: WHO grants its own terms rather than a Creative Commons licence, restricting use to public health purposes and requiring prior written authorization for any alteration of the datasets. A Pulse dataset restricts rows to a declared country universe and derives columns, which falls under that clause, and publishing the result is distribution under the public-health grant. The repository owner was shown the quoted clauses on 16 September 2026, together with the options of dropping the indicator, substituting Eurostat healthy life years, or publishing an unmodified passthrough, and chose to accept the terms on the judgement that a private, non-commercial report falls within the grant. The decision and its clauses are recorded in sources/who-healthy-life-expectancy/source-contract.md.",
+      "defaultProvider": false
+    }
+  ],
+  "dependencies": [
+    {
+      "kind": "source",
+      "id": "un-wpp-demographic-indicators",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/un-wpp-demographic-indicators/acq-af0adcc0c22f41fc834664ab5a828d9e-286ac36bb141/snapshot.json",
+        "sha256": "98b07ff8553c208aaaef59ce78c2c35c17d4058ec2b9ad2623bdcecb52feb897"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "un-wpp-projection-scenarios",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/un-wpp-projection-scenarios/acq-92a062cf48794ae18b3b4b929fe947c9-a860504df548/snapshot.json",
+        "sha256": "5729510534fb6b123648e152b6bc95e738ffba5ab1126da4138059948e69dccf"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "un-wpp-population-by-age",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/un-wpp-population-by-age/acq-09d3992a60ce4186821d61b0f22e4790-a04d7d1486a5/snapshot.json",
+        "sha256": "910b784e98928c4ddc1178010b82239f7b75a346d563d19009e063bcf84c42ba"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "eurostat-immigration",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/eurostat-immigration/acq-989261c369704eb589fa706629a3238b-3b3f5944f4ce/snapshot.json",
+        "sha256": "d689f61bd78c4e01448364b2c5fcb44130f8aa9e71cda1aeea82384d77347c56"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "eurostat-emigration",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/eurostat-emigration/acq-1f9a4c56eacd43cb8b053e654154fa4c-7967ce345a22/snapshot.json",
+        "sha256": "9f6fbd8463b6349115ef1cbb4150fbc418aa3dc63a2037c64f2753113c69c5cd"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "who-healthy-life-expectancy",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/who-healthy-life-expectancy/acq-b00f124297374e78aed996151ef53029-2420a5ca6a92/snapshot.json",
+        "sha256": "38cf2f3c068692ae4e5cb8c3ada90b045af4ced6c307a2faa5a1435effc99605"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "world-demography-indicators",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/world-demography-indicators/dataset.json",
+        "sha256": "1d886b708e6e7730d2d110a3930d7201f2edec85018cb1e7a00e6420459c3d30"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "world-demography-scenarios",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/world-demography-scenarios/dataset.json",
+        "sha256": "83e562cbee8692835b7aa8dd3b16f477a46c1b929c3f85d5553d1f58fd7ba228"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "world-demography-age-structure",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/world-demography-age-structure/dataset.json",
+        "sha256": "bd331a589380da7f056de8cb7a6a7a44794a69efa063aedcf4cc1bfa3e3275cb"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "european-immigration-flows",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/european-immigration-flows/dataset.json",
+        "sha256": "c92ce9bc8b071c69912fc2a6e2570a698959a307ee2ff8af6e922416ebaccc14"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "european-emigration-flows",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/european-emigration-flows/dataset.json",
+        "sha256": "f5f1f787faddd7520be42d69fcbe7e8d8779afa96dc7a8d2b68452514ebc8305"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "healthy-life-expectancy",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/healthy-life-expectancy/dataset.json",
+        "sha256": "b22760274f0c590e8572d6cfaa65232dfb5a2b1fdc7966ef435a3a1152b29a70"
+      },
+      "verified": true
+    }
+  ],
+  "artifacts": [
+    {
+      "phase": "real-data",
+      "kind": "real-data",
+      "path": "_bmad-output/world-demography-real-data.json",
+      "sha256": "db2c2184d36a9b5855547400999e2dc2088f63df1486a8e3ee47138cfc942cdf"
+    },
+    {
+      "phase": "real-data",
+      "kind": "design-brief",
+      "path": "_bmad-output/world-demography-design-brief.md",
+      "sha256": "f23f6d31a25fe263fbdfa453be66a0ea8f33e858928b9e5c187387ae0aedb6b8"
+    },
+    {
+      "phase": "design-handoff",
+      "kind": "claude-design-export",
+      "path": "claude-design-output/world-demography",
+      "sha256": "76f1ce30c92cd95ec120ed3e8e989850799c8094449aab96c3798333a2f69fce"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-declaration",
+      "path": "site/reports/world-demography/report.yml",
+      "sha256": "315ce4efe71fd943155f5b1c77721dfb6142fcc09af1aa48500ba43581a3f556"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-module",
+      "path": "site/reports/world-demography/report.js",
+      "sha256": "c1c748ed49253f6518ce83f911e3f67f78b3d21012c5368c932e84585574e024"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "contract-test",
+      "path": "tests/node/demography-contract.test.mjs",
+      "sha256": "3e4f332a9e829d928db0eb69ea782f94dda92570545927efadb834a1e57daa54"
+    }
+  ],
+  "approval": {
+    "phase": "design-approval",
+    "kind": "human-approval",
+    "path": "_bmad-output/world-demography-approval.json",
+    "sha256": "a31d7eabd5d1f0bab7303068f49268d8c2b88e2d400f02cfd5247f440ac3ecf9"
+  },
+  "visuals": [
+    {
+      "id": "world-population-path",
+      "handoffSection": "design/Main.dc.html \u2014 The world's population, and the range the projection spans",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/world-population-path.js",
+        "sha256": "800a28c0d023d07cf54c15eacf898efcdf0eba0961864a4db917a2ee88f826b9"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/world-population-path.numeric.json",
+        "sha256": "9d63d83e1db5dccec4f0dd30660b9b67f6e7927bbb7d5a3571f026fe590d36f7"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/world-population-path.fidelity.json",
+        "sha256": "dd411c244634f907b011402c85a493870e77f95546efdf701eb930e295ae85d4"
+      },
+      "verified": true
+    },
+    {
+      "id": "country-population-paths",
+      "handoffSection": "design/Main.dc.html \u2014 Population of the selected countries",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/country-population-paths.js",
+        "sha256": "292a89a3bdbf0194c56cda65a5a0221b6c8d9a08e1429990e7e48e9aa29997e3"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/country-population-paths.numeric.json",
+        "sha256": "3e1f836a5df7240eec0e27a66158805850d422e3ccd254d1af575589260ebaf3"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/country-population-paths.fidelity.json",
+        "sha256": "27e230909e66071a38816279c9b7358b750974366ceab9dd60ddf704bf525465"
+      },
+      "verified": true
+    },
+    {
+      "id": "change-composition",
+      "handoffSection": "design/Main.dc.html \u2014 What changes a population: natural change and net migration",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/change-composition.js",
+        "sha256": "0735611921d170860eaba673d93cad70ecabbec888998b2e944ac53b2a22e7d9"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/change-composition.numeric.json",
+        "sha256": "d25789a35d945397cc71b247829eff3f88efdef7e7ffa7138fa65e285d0cb327"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/change-composition.fidelity.json",
+        "sha256": "4c2dfa1c311dd467e4653630613d1a39fdfdd5c7af0cb396d1a4b8e13a0ffffe"
+      },
+      "verified": true
+    },
+    {
+      "id": "migration-flows",
+      "handoffSection": "design/Main.dc.html \u2014 Arrivals and departures, where a provider publishes them",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/migration-flows.js",
+        "sha256": "95efb5e2be56cb798d37bb7af461e690ef7163fad4d0095ef1eb0573b24be56f"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/migration-flows.numeric.json",
+        "sha256": "6c57015877ead0bc7a8ef4013d5624cbe1da5cbae1e80315360fb43d9bc363ac"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/migration-flows.fidelity.json",
+        "sha256": "728024a47015dc130d22aa09e251965b358ef065ed18d8786e40ea04abcb1e25"
+      },
+      "verified": true
+    },
+    {
+      "id": "fertility-longevity",
+      "handoffSection": "design/Main.dc.html \u2014 Fertility, life expectancy, and years lived in full health",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/fertility-longevity.js",
+        "sha256": "92788dedac3a2b31c8d2b34c96f5e8fa6dcf5f9d1267318ac50281251325d7ae"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/fertility-longevity.numeric.json",
+        "sha256": "bb9029cb978a2df9815af26a0f87efeb6d2954b287d2d63c4838432618cbb7b3"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/fertility-longevity.fidelity.json",
+        "sha256": "f4e12c711d0467edcfe41fe407a3765f322e41e54a2880a2827169d1a4c8ccbc"
+      },
+      "verified": true
+    },
+    {
+      "id": "age-structure",
+      "handoffSection": "design/Main.dc.html \u2014 Age structure at the selected year",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/age-structure.js",
+        "sha256": "21b9badce895832cdee43bd706c91765369d524f5da679418fbe83de045d8da1"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/age-structure.numeric.json",
+        "sha256": "ab55a9413d461d8926b11536b8a1390c6701320d22ab7922542a06a39f429b7e"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/world-demography-evidence/age-structure.fidelity.json",
+        "sha256": "523fe5945facdd08f2a1b9aef15221eb02b927fc06a4b63df93191a7e86eaf49"
+      },
+      "verified": true
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "node tests/node/demography-contract.test.mjs",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/world-demography-evidence/contract-test.log",
+          "sha256": "1b0245df6b76f81941cdf4776e6bb8d0af2e2441480f648d508f43ad88b99394"
+        }
+      },
+      {
+        "command": "npx playwright test --config tests/browser/playwright.config.js demography.spec.js",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/world-demography-evidence/browser-spec.log",
+          "sha256": "b057ec5df11e79cf44689aab19a1a952f34a3993be914b4ed88c23bbc9aadfe4"
+        }
+      },
+      {
+        "command": "uv run --no-sync pulse verify",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/world-demography-evidence/pulse-verify.log",
+          "sha256": "27b0b7780b521891c6248b606130bfd3be333065e5e3ad70ee53cc8a032a79e8"
+        }
+      }
+    ],
+    "complete": true
+  },
+  "resume": {
+    "firstIncomplete": null,
+    "checkedAt": "2026-09-21T13:10:17Z"
+  }
+}

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+  <script src="/_blob/8bb6b8925729d987f5696cef92ef8b68"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #161826; color: #e9e9ed; font-family: Inter, system-ui, sans-serif; }
+    a { color: #b5abfc; } a:hover { color: #d2cefd; }
+    .wd * { box-sizing: border-box; }
+    .wd h1, .wd h2, .wd h3 { margin: 0; font-weight: 500; }
+    .wd p { margin: 0; }
+    .wd figure { margin: 0; }
+    .wd :focus-visible { outline: 2px solid #b5abfc; outline-offset: 2px; }
+    .wd table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .wd th, .wd td { text-align: left; padding: 5px 6px; border-bottom: 1px solid #3f424d; font-variant-numeric: tabular-nums; }
+    .wd summary { min-height: 44px; display: flex; align-items: center; color: #b5abfc; cursor: pointer; font-size: 13px; }
+    .wd select, .wd input { min-height: 44px; width: 100%; padding: 0 8px; border: 1px solid #3f424d; border-radius: 8px; background: #232532; color: #e9e9ed; font: inherit; }
+    .wd input[type=range] { padding: 0; }
+    .wd label.seg { display: flex; align-items: center; min-height: 44px; padding: 0 12px; border-top: 1px solid #3f424d; cursor: pointer; font-size: 13px; color: #b2b6ca; }
+    .wd label.seg:first-child { border-top: 0; }
+    .wd label.seg.on { color: #d2cefd; background: #232532; }
+    .plot { position: relative; min-width: 560px; }
+    .ov { position: absolute; inset: 0; pointer-events: none; font-size: 11px; color: #9397ab; }
+    .ov > span { position: absolute; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .values { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 16px; padding: 7px 10px; border-radius: 8px; background: #1c1f2c; box-shadow: inset 0 0 0 1px #32364a; font-size: 12px; }
+    .values .yr { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: #b5abfc; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .values .v { display: inline-flex; align-items: baseline; gap: 6px; color: #b2b6ca; white-space: nowrap; }
+    .values i { width: 8px; height: 8px; border-radius: 2px; flex: none; align-self: center; }
+    .values b { color: #e9e9ed; font-variant-numeric: tabular-nums; font-weight: 500; }
+    .wd label.chk { display: flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 11px; border: 1px solid #3f424d; border-radius: 8px; cursor: pointer; font-size: 13px; }
+  </style>
+</helmet>
+<div class="wd" style="width: 420px; height: 1560px; padding: 16px 14px 24px; display: flex; flex-direction: column; gap: 14px; background: #161826;">
+
+  <header style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 12px; border-bottom: 1px solid #2e3140;">
+    <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">400% zoom · 320 CSS px of content</p>
+    <h1 style="font-size: 23px; line-height: 1.15; letter-spacing: -.01em;">World demography</h1>
+    <p style="font-size: 12.5px; color: #cfd3e5;">At 400% the page is one column. Nothing is hidden and nothing is summarised away; the reading order is header, controls, then each figure with its own table.</p>
+  </header>
+
+  <section aria-label="Exploration controls" style="display: flex; flex-direction: column; gap: 12px; padding: 10px; border-radius: 8px; background: #161826; box-shadow: 0 0 0 1px #3f424d;">
+    <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+      <legend style="padding: 0; font-size: 12px; color: #b2b6ca;">Represented period</legend>
+      <div role="radiogroup" aria-label="Represented period presets" style="display: flex; flex-direction: column; overflow: hidden; border: 1px solid #3f424d; border-radius: 8px;">
+        <sc-for list="{{presets}}" as="p" hint-placeholder-count="4">
+          <label class="{{p.cls}}">
+            <input type="radio" name="period" checked="{{p.on}}" onChange="{{p.pick}}" style="position: absolute; width: 0; height: 0; opacity: 0;">
+            <span>{{p.label}}</span>
+          </label>
+        </sc-for>
+      </div>
+    </fieldset>
+    <label style="display: flex; flex-direction: column; gap: 6px;">
+      <span style="font-size: 12px; color: #b2b6ca;">Observation year — or activate any point on a figure</span>
+      <input type="range" min="1950" max="2100" step="1" value="{{year}}" aria-label="Observation year" aria-valuetext="{{year}}" onInput="{{setYear}}">
+      <output style="font-size: 14px; font-weight: 500;">{{year}}</output>
+    </label>
+  </section>
+
+  <figure aria-labelledby="z1-h" style="padding: 12px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+    <figcaption style="display: flex; flex-direction: column; gap: 3px;">
+      <h3 id="z1-h" style="font-size: 16px;">The world's population</h3>
+      <p style="font-size: 12.5px; color: #b2b6ca;">The plot keeps its own horizontal scroll rather than compressing a century and a half into 300 pixels. The table below carries the same numbers with no scrolling at all.</p>
+    </figcaption>
+    <div class="values">
+      <span class="yr">{{selected.title}}</span>
+      <sc-for list="{{selected.rows}}" as="r" hint-placeholder-count="2">
+        <span class="v"><i style="background: {{r.color}};"></i>{{r.label}}<b>{{r.value}}</b></span>
+      </sc-for>
+    </div>
+    <div style="overflow-x: auto; overflow-y: hidden; border-radius: 6px; background: #161826;">
+      <div class="plot">
+        <svg viewBox="0 0 560 240" width="560" height="240" role="img" aria-label="{{aria}}" onClick="{{pick}}" style="cursor: pointer; display: block; min-width: 560px;">
+          <sc-for list="{{gridLines}}" as="g" hint-placeholder-count="4">
+            <line x1="52" x2="554" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}" stroke-width="1"></line>
+          </sc-for>
+          <polygon points="{{bandPoints}}" fill="#b5abfc" opacity=".16"></polygon>
+          <polyline points="{{estimatePoints}}" fill="none" stroke="#b5abfc" stroke-width="2.6"></polyline>
+          <polyline points="{{projectionPoints}}" fill="none" stroke="#b5abfc" stroke-width="2.6" stroke-dasharray="7 5"></polyline>
+          <line x1="{{boundaryX}}" x2="{{boundaryX}}" y1="10" y2="196" stroke="#75798c" stroke-width="1"></line>
+          <line x1="{{selX}}" x2="{{selX}}" y1="10" y2="210" stroke="#e9e9ed" stroke-width="1.4" stroke-dasharray="3 3"></line>
+          <circle cx="{{selX}}" cy="{{selY}}" r="4" fill="#b5abfc" stroke="#161826" stroke-width="1.5"></circle>
+        </svg>
+        <div class="ov">
+          <sc-for list="{{labels}}" as="l" hint-placeholder-count="8">
+            <span style="left: {{l.left}}px; top: {{l.top}}px; width: {{l.width}}px; text-align: {{l.align}}; color: {{l.color}};">{{l.text}}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <p style="font-size: 11.5px; color: #9397ab;">↔ Scrolls sideways within its own frame. The page itself never does.</p>
+    <details open="{{yes}}">
+      <summary>Provenance, query and data table</summary>
+      <table>
+        <caption style="text-align: left; padding: 6px; color: #9397ab; font-size: 12px;">World population and rate of change, around the selected year</caption>
+        <thead><tr><th scope="col">Year</th><th scope="col">Kind</th><th scope="col">Population</th><th scope="col">Rate</th></tr></thead>
+        <tbody>
+          <sc-for list="{{table}}" as="r" hint-placeholder-count="5">
+            <tr><th scope="row">{{r.year}}</th><td>{{r.kind}}</td><td>{{r.pop}}</td><td>{{r.growth}}</td></tr>
+          </sc-for>
+        </tbody>
+      </table>
+    </details>
+  </figure>
+
+  <section style="padding: 12px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 7px;">
+    <h2 style="font-size: 15px;">What 400% fixes</h2>
+    <p style="font-size: 12.5px; color: #cfd3e5;">The page reflows to one column with no two-dimensional page scrolling. A figure is content that needs a two-dimensional layout, so it keeps a horizontal scroll inside its own frame; the reader never has to scroll the page sideways to read a sentence or reach a control.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">Every figure's disclosure opens by default at this size. The table is the same data as the plot, so a reader who cannot use the plot at this magnification loses nothing.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">Controls become full-width and stack vertically; the period presets become a vertical radio group. Targets stay at 44px. The control row is no longer sticky, because at this size it would take most of the viewport.</p>
+    <p style="font-size: 12.5px; color: #cfd3e5;">Text never shrinks below its base size to fit. The layout gets taller instead.</p>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":420,"height":1560}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { preset: "all", from: 1950, to: 2100, year: 2023 }; }
+  data() { return window.__pulseDemography || null; }
+  fmtPeople(t) {
+    if (t === null || t === undefined) return "—";
+    var a = Math.abs(Number(t)), sign = Number(t) < 0 ? "−" : "";
+    if (a >= 1000000) return sign + (a / 1000000).toFixed(2) + "bn";
+    if (a >= 1000) return sign + (a / 1000).toFixed(1) + "M";
+    return sign + Math.round(a * 10) / 10 + "k";
+  }
+  nice(lo, hi) {
+    var pad = (hi - lo) * 0.08; lo -= pad; hi += pad;
+    var raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var step = [1, 2, 2.5, 5, 10].map(function (x) { return x * mag; }).find(function (x) { return x >= raw; }) || 10 * mag;
+    return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step: step };
+  }
+  renderVals() {
+    var self = this, d = this.data();
+    var noSelection = { title: "", rows: [] };
+    if (!d) return { presets: [], gridLines: [], labels: [], selected: noSelection, table: [], year: 2023, yes: true, setYear: function () {}, pick: function () {} };
+    var s = this.state, from = s.from, to = s.to, year = s.year, base = d.years[0], boundary = d.boundary;
+    var W = 560, PADL = 52, PADR = 6, TOP = 14, H = 176;
+    var win = []; for (var y = from; y <= to; y += 1) win.push({ year: y, i: y - base });
+    var world = d.countries.WORLD, scen = d.scenarios.WORLD || {}, si = function (yr) { return yr - d.scenarioYears[0]; };
+    var vals = [];
+    win.forEach(function (p) { if (world.pop[p.i] !== null) vals.push(world.pop[p.i]); });
+    win.forEach(function (p) { if (p.year < d.scenarioYears[0]) return; var i = si(p.year); if (scen["Lower 95 PI"] && scen["Lower 95 PI"][i] !== undefined) { vals.push(scen["Lower 95 PI"][i]); vals.push(scen["Upper 95 PI"][i]); } });
+    var dom = this.nice(Math.min.apply(null, vals), Math.max.apply(null, vals));
+    var xOf = function (yy) { return PADL + ((yy - from) / (to - from)) * (W - PADL - PADR); };
+    var yOf = function (v) { return TOP + H - ((v - dom.lo) / (dom.hi - dom.lo)) * H; };
+    var gridLines = [], labels = [];
+    for (var gv = dom.lo; gv <= dom.hi + 1e-9; gv += dom.step) {
+      gridLines.push({ y: yOf(gv).toFixed(1), stroke: "rgba(233,233,237,.10)" });
+      labels.push({ text: (gv / 1000000).toFixed(1) + "bn", left: 0, top: yOf(gv) - 8, width: 46, align: "right", color: "#9397ab" });
+    }
+    var lineOf = function (filter) {
+      var pts = [];
+      win.forEach(function (p) { if (!filter(p.year)) return; var v = world.pop[p.i]; if (v === null) return; pts.push(xOf(p.year).toFixed(1) + "," + yOf(v).toFixed(1)); });
+      return pts.join(" ");
+    };
+    var up = [], down = [];
+    win.forEach(function (p) {
+      if (p.year < d.scenarioYears[0]) return;
+      var i = si(p.year), lo = scen["Lower 95 PI"] ? scen["Lower 95 PI"][i] : undefined;
+      if (lo === undefined) return;
+      up.push(xOf(p.year).toFixed(1) + "," + yOf(scen["Upper 95 PI"][i]).toFixed(1));
+      down.unshift(xOf(p.year).toFixed(1) + "," + yOf(lo).toFixed(1));
+    });
+    for (var k = 0; k < 4; k += 1) {
+      var ty = Math.round(from + ((to - from) * k) / 3);
+      labels.push({ text: String(ty), left: Math.max(0, Math.min(W - 56, xOf(ty) - 28)), top: 222, width: 56, align: "center", color: "#9397ab" });
+    }
+    var boundaryX = xOf(boundary);
+    labels.push({ text: "estimates", left: boundaryX - 76, top: 10, width: 70, align: "right", color: "#9397ab" });
+    labels.push({ text: "projection", left: boundaryX + 6, top: 10, width: 70, align: "left", color: "#9397ab" });
+    var selX = xOf(year), selValue = world.pop[year - base], selGrowth = world.growth[year - base];
+    var presetDefs = [
+      { key: "all", label: "1950–2100", from: 1950, to: 2100 },
+      { key: "observed", label: "Observed only, to 2023", from: 1950, to: boundary },
+      { key: "fifty", label: "Last 50 observed years", from: boundary - 49, to: boundary },
+      { key: "century", label: "This century", from: 2000, to: 2100 }
+    ];
+    var table = [];
+    for (var t2 = Math.max(from, year - 2); t2 <= Math.min(to, year + 2); t2 += 1) {
+      var idx = t2 - base;
+      table.push({
+        year: t2, kind: t2 <= boundary ? "estimate" : "projection",
+        pop: this.fmtPeople(world.pop[idx]),
+        growth: world.growth[idx] === null ? "—" : (world.growth[idx] > 0 ? "+" : "") + world.growth[idx].toFixed(2) + "%"
+      });
+    }
+    return {
+      yes: true, year: year,
+      presets: presetDefs.map(function (p) {
+        return { label: p.label, on: s.preset === p.key, cls: s.preset === p.key ? "seg on" : "seg", pick: function () { self.setState({ preset: p.key, from: p.from, to: p.to, year: Math.max(p.from, Math.min(p.to, s.year)) }); } };
+      }),
+      aria: "World population from " + from + " to " + to + " with its 95 per cent prediction interval",
+      gridLines: gridLines, labels: labels, bandPoints: up.concat(down).join(" "),
+      estimatePoints: lineOf(function (yy) { return yy <= boundary; }),
+      projectionPoints: lineOf(function (yy) { return yy >= boundary; }),
+      boundaryX: boundaryX.toFixed(1), selX: selX.toFixed(1),
+      selY: (selValue === null || selValue === undefined ? -20 : yOf(selValue)).toFixed(1),
+      selected: this.selectedValues(String(year), [
+        { color: "#b5abfc", label: "Population", value: this.fmtPeople(selValue) },
+        { color: "#9dc0ae", label: "Rate of change", value: selGrowth === null ? "—" : (selGrowth > 0 ? "+" : "−") + Math.abs(selGrowth).toFixed(2) + "% a year" }
+      ]),
+      table: table,
+      setYear: function (e) { self.setState({ year: Number(e.target.value) }); },
+      pick: function (event) {
+        var box = event.currentTarget.getBoundingClientRect(); if (!box.width) return;
+        var x = (event.clientX - box.left) * (W / box.width), inner = W - PADL - PADR;
+        self.setState({ year: Math.max(from, Math.min(to, Math.round(from + ((x - PADL) / inner) * (to - from)))) });
+      }
+    };
+  }
+  selectedValues(title, rows) { return { title: title, rows: rows }; }
+}
+</script>
+</body>
+</html>

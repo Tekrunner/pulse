@@ -1,0 +1,622 @@
+{
+  "default": {
+    "header": "UN World Population Prospects 2024\nestimates to 2023 · projection to 2100\nEurostat migration flows\nto 2024\nWHO healthy life expectancy\nto 2021",
+    "figures": {
+      "world-population-path": {
+        "valueStrips": [
+          "2023Population8.09bnRate of change+0.87% a year"
+        ],
+        "panelTitles": [],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "0.00bn5.0bn10.0bn15.0bnestimatesprojectionpeak · 2084 · 10.29bn+3.0%−1.0%Rate of change, % a year195019802010204020702100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "World population from 1950 to 2100, with its rate of change"
+        ],
+        "tableRows": 151,
+        "firstTableRow": [
+          "1950",
+          "estimate",
+          "2.49bn",
+          "+1.74% a year",
+          "—"
+        ],
+        "lastTableRow": [
+          "2100",
+          "projection",
+          "10.18bn",
+          "−0.13% a year",
+          "9.05bn to 11.44bn"
+        ]
+      },
+      "country-population-paths": {
+        "valueStrips": [
+          "2023France66.4M+0.17% a yearGermany84.5M+0.35% a yearUnited Kingdom68.7M+0.70% a year"
+        ],
+        "panelTitles": [],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "0k50.0M100.0M150.0M200.0MFranceGermanyUnited Kingdomestimatesprojection+2.0%−2.0%Rate of change, % a year195019802010204020702100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "Population of France, Germany, United Kingdom from 1950 to 2100, with each country's rate of change"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "estimate",
+          "41.9M",
+          "+1.11% a year"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "projection",
+          "74.3M",
+          "−0.18% a year"
+        ]
+      },
+      "change-composition": {
+        "valueStrips": [
+          "2023Natural change+22.8kNet migration+91.9kPopulation change+114.7k",
+          "2023Natural change−314.9kNet migration+609.6kPopulation change+294.7k",
+          "2023Natural change+34.6kNet migration+445.5kPopulation change+480.2k"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "+600k−200k1950200020502100",
+          "+1.50M−1.00M1950200020502100",
+          "+600k−400k1950200020502100"
+        ],
+        "legend": [
+          "Natural changeNet migrationPopulation change"
+        ],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: natural change and net migration, 1950 to 2100",
+          "Germany: natural change and net migration, 1950 to 2100",
+          "United Kingdom: natural change and net migration, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "+332.5k (+7.94‰)",
+          "+130.5k (+3.12‰)",
+          "+463k"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "−233.9k (−3.15‰)",
+          "+97.3k (+1.31‰)",
+          "−136.5k"
+        ]
+      },
+      "migration-flows": {
+        "valueStrips": [
+          "2023Arrivals467.5kDepartures266.4kNet, UN+91.9k",
+          "2023Arrivals1.30MDepartures580.5kNet, UN+609.6k",
+          "2023Arrivalsnot publishedDeparturesnot publishedNet, UN+445.5k"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "to 2024600k01950200020502100",
+          "to 20242.00M01950200020502100",
+          "to 2019800k01950200020502100"
+        ],
+        "legend": [
+          "Arrivals, EurostatDepartures, EurostatNet migration, United Nations"
+        ],
+        "provenance": "Source: Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz). · United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: arrivals, departures and net migration, 1950 to 2100",
+          "Germany: arrivals, departures and net migration, 1950 to 2100",
+          "United Kingdom: arrivals, departures and net migration, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "not published",
+          "not published",
+          "+130.5k"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "not published",
+          "not published",
+          "+97.3k"
+        ]
+      },
+      "fertility-longevity": {
+        "valueStrips": [
+          "2023France1.64Germany1.44United Kingdom1.56",
+          "2023France83.3Germany81.4United Kingdom81.3",
+          "2023Francenot publishedGermanynot publishedUnited Kingdomnot published"
+        ],
+        "panelTitles": [
+          "Total fertility rate",
+          "Life expectancy at birth",
+          "Healthy life expectancy"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "1.01.52.02.53.03.5replacement, about 2.11950200020502100",
+          "607080901001950200020502100",
+          "6768697071France — to 2021Germany — to 2021United Kingdom — to 20211950200020502100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. · WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024. Date of access is the acquisition timestamp recorded in the snapshot manifest. The underlying data were provided by the WHO Member States identified in each row's location_code.",
+        "aria": [
+          "Total fertility rate for the selected countries, 1950 to 2100",
+          "Life expectancy at birth for the selected countries, 1950 to 2100",
+          "Healthy life expectancy for the selected countries, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "2.96",
+          "66.4",
+          "not published"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "1.60",
+          "90.6",
+          "not published"
+        ]
+      },
+      "age-structure": {
+        "valueStrips": [
+          "2023Population66.4MWidest band2.24M",
+          "2023Population84.5MWidest band3.48M",
+          "2023Population68.7MWidest band2.37M"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [
+          "16.8%61.5%21.7%",
+          "13.9%63.3%22.8%",
+          "17.4%63.4%19.2%"
+        ],
+        "absence": [],
+        "overlay": [
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen",
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen",
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: population by five-year age band and sex at 2023",
+          "Germany: population by five-year age band and sex at 2023",
+          "United Kingdom: population by five-year age band and sex at 2023"
+        ],
+        "tableRows": 72,
+        "firstTableRow": [
+          "0-14",
+          "France",
+          "broad",
+          "5.71M",
+          "5.44M",
+          "16.78%"
+        ],
+        "lastTableRow": [
+          "100+",
+          "United Kingdom",
+          "five-year",
+          "3.4k",
+          "14.2k",
+          "0.03%"
+        ]
+      }
+    }
+  },
+  "at2021": {
+    "figures": {
+      "world-population-path": {
+        "valueStrips": [
+          "2021Population7.95bnRate of change+0.80% a year"
+        ],
+        "panelTitles": [],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "0.00bn5.0bn10.0bn15.0bnestimatesprojectionpeak · 2084 · 10.29bn+3.0%−1.0%Rate of change, % a year195019802010204020702100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "World population from 1950 to 2100, with its rate of change"
+        ],
+        "tableRows": 151,
+        "firstTableRow": [
+          "1950",
+          "estimate",
+          "2.49bn",
+          "+1.74% a year",
+          "—"
+        ],
+        "lastTableRow": [
+          "2100",
+          "projection",
+          "10.18bn",
+          "−0.13% a year",
+          "9.05bn to 11.44bn"
+        ]
+      },
+      "country-population-paths": {
+        "valueStrips": [
+          "2021France66.1M+0.27% a yearGermany83.7M+0.18% a yearUnited Kingdom67.7M+0.73% a year"
+        ],
+        "panelTitles": [],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "0k50.0M100.0M150.0M200.0MFranceGermanyUnited Kingdomestimatesprojection+2.0%−2.0%Rate of change, % a year195019802010204020702100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "Population of France, Germany, United Kingdom from 1950 to 2100, with each country's rate of change"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "estimate",
+          "41.9M",
+          "+1.11% a year"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "projection",
+          "74.3M",
+          "−0.18% a year"
+        ]
+      },
+      "change-composition": {
+        "valueStrips": [
+          "2021Natural change+48.1kNet migration+131.5kPopulation change+179.6k",
+          "2021Natural change−161.3kNet migration+310.3kPopulation change+148.9k",
+          "2021Natural change+30.9kNet migration+463kPopulation change+493.9k"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "+600k−200k1950200020502100",
+          "+1.50M−1.00M1950200020502100",
+          "+600k−400k1950200020502100"
+        ],
+        "legend": [
+          "Natural changeNet migrationPopulation change"
+        ],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: natural change and net migration, 1950 to 2100",
+          "Germany: natural change and net migration, 1950 to 2100",
+          "United Kingdom: natural change and net migration, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "+332.5k (+7.94‰)",
+          "+130.5k (+3.12‰)",
+          "+463k"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "−233.9k (−3.15‰)",
+          "+97.3k (+1.31‰)",
+          "−136.5k"
+        ]
+      },
+      "migration-flows": {
+        "valueStrips": [
+          "2021Arrivals388.5kDepartures147.1kNet, UN+131.5k",
+          "2021Arrivals801.4kDepartures458.6kNet, UN+310.3k",
+          "2021Arrivalsnot publishedDeparturesnot publishedNet, UN+463k"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "to 2024600k01950200020502100",
+          "to 20242.00M01950200020502100",
+          "to 2019800k01950200020502100"
+        ],
+        "legend": [
+          "Arrivals, EurostatDepartures, EurostatNet migration, United Nations"
+        ],
+        "provenance": "Source: Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz). · United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: arrivals, departures and net migration, 1950 to 2100",
+          "Germany: arrivals, departures and net migration, 1950 to 2100",
+          "United Kingdom: arrivals, departures and net migration, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "not published",
+          "not published",
+          "+130.5k"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "not published",
+          "not published",
+          "+97.3k"
+        ]
+      },
+      "fertility-longevity": {
+        "valueStrips": [
+          "2021France1.80Germany1.58United Kingdom1.58",
+          "2021France82.3Germany81.1United Kingdom80.7",
+          "2021France70.1Germany68.9United Kingdom68.6"
+        ],
+        "panelTitles": [
+          "Total fertility rate",
+          "Life expectancy at birth",
+          "Healthy life expectancy"
+        ],
+        "broadBands": [],
+        "absence": [],
+        "overlay": [
+          "1.01.52.02.53.03.5replacement, about 2.11950200020502100",
+          "607080901001950200020502100",
+          "6768697071France — to 2021Germany — to 2021United Kingdom — to 20211950200020502100"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition. · WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024. Date of access is the acquisition timestamp recorded in the snapshot manifest. The underlying data were provided by the WHO Member States identified in each row's location_code.",
+        "aria": [
+          "Total fertility rate for the selected countries, 1950 to 2100",
+          "Life expectancy at birth for the selected countries, 1950 to 2100",
+          "Healthy life expectancy for the selected countries, 1950 to 2100"
+        ],
+        "tableRows": 453,
+        "firstTableRow": [
+          "1950",
+          "France",
+          "2.96",
+          "66.4",
+          "not published"
+        ],
+        "lastTableRow": [
+          "2100",
+          "United Kingdom",
+          "1.60",
+          "90.6",
+          "not published"
+        ]
+      },
+      "age-structure": {
+        "valueStrips": [
+          "2021Population66.1MWidest band2.22M",
+          "2021Population83.7MWidest band3.44M",
+          "2021Population67.7MWidest band2.38M"
+        ],
+        "panelTitles": [
+          "France",
+          "Germany",
+          "United Kingdom"
+        ],
+        "broadBands": [
+          "17.2%61.7%21.1%",
+          "13.9%64.0%22.1%",
+          "17.8%63.4%18.7%"
+        ],
+        "absence": [],
+        "overlay": [
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen",
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen",
+          "0-410-1420-2430-3440-4450-5460-6470-7480-8490-94100+MenWomen"
+        ],
+        "legend": [],
+        "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+        "aria": [
+          "France: population by five-year age band and sex at 2021",
+          "Germany: population by five-year age band and sex at 2021",
+          "United Kingdom: population by five-year age band and sex at 2021"
+        ],
+        "tableRows": 72,
+        "firstTableRow": [
+          "0-14",
+          "France",
+          "broad",
+          "5.84M",
+          "5.56M",
+          "17.25%"
+        ],
+        "lastTableRow": [
+          "100+",
+          "United Kingdom",
+          "five-year",
+          "3.1k",
+          "13.3k",
+          "0.02%"
+        ]
+      }
+    }
+  },
+  "perThousand": {
+    "valueStrips": [
+      "2023Natural change+22.8kNet migration+91.9kPopulation change+114.7k",
+      "2023Natural change−314.9kNet migration+609.6kPopulation change+294.7k",
+      "2023Natural change+34.6kNet migration+445.5kPopulation change+480.2k"
+    ],
+    "panelTitles": [
+      "France",
+      "Germany",
+      "United Kingdom"
+    ],
+    "broadBands": [],
+    "absence": [],
+    "overlay": [
+      "+600k−200k1950200020502100",
+      "+1.50M−1.00M1950200020502100",
+      "+600k−400k1950200020502100"
+    ],
+    "legend": [
+      "Natural changeNet migrationPopulation change"
+    ],
+    "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+    "aria": [
+      "France: natural change and net migration, 1950 to 2100",
+      "Germany: natural change and net migration, 1950 to 2100",
+      "United Kingdom: natural change and net migration, 1950 to 2100"
+    ],
+    "tableRows": 453,
+    "firstTableRow": [
+      "1950",
+      "France",
+      "+332.5k (+7.94‰)",
+      "+130.5k (+3.12‰)",
+      "+463k"
+    ],
+    "lastTableRow": [
+      "2100",
+      "United Kingdom",
+      "−233.9k (−3.15‰)",
+      "+97.3k (+1.31‰)",
+      "−136.5k"
+    ]
+  },
+  "withJapan": {
+    "migration-flows": {
+      "valueStrips": [
+        "2023Arrivals467.5kDepartures266.4kNet, UN+91.9k",
+        "2023Arrivals1.30MDepartures580.5kNet, UN+609.6k",
+        "2023Arrivalsnot publishedDeparturesnot publishedNet, UN+175k",
+        "2023Arrivalsnot publishedDeparturesnot publishedNet, UN+445.5k"
+      ],
+      "panelTitles": [
+        "France",
+        "Germany",
+        "Japan",
+        "United Kingdom"
+      ],
+      "broadBands": [],
+      "absence": [
+        "✕ No gross flows publishedEurostat publishes arrivals and departures for European reporting countries. Japan is outside that collection, so this panel has no flows to draw.United Nations net migration at 2023: +175k people"
+      ],
+      "overlay": [
+        "to 2024600k01950200020502100",
+        "to 20242.00M01950200020502100",
+        "to 2019800k01950200020502100"
+      ],
+      "legend": [
+        "Arrivals, EurostatDepartures, EurostatNet migration, United Nations"
+      ],
+      "provenance": "Source: Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz). · United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "aria": [
+        "France: arrivals, departures and net migration, 1950 to 2100",
+        "Germany: arrivals, departures and net migration, 1950 to 2100",
+        "United Kingdom: arrivals, departures and net migration, 1950 to 2100"
+      ],
+      "tableRows": 604,
+      "firstTableRow": [
+        "1950",
+        "France",
+        "not published",
+        "not published",
+        "+130.5k"
+      ],
+      "lastTableRow": [
+        "2100",
+        "United Kingdom",
+        "not published",
+        "not published",
+        "+97.3k"
+      ]
+    },
+    "change-composition": {
+      "valueStrips": [
+        "2023Natural change+22.8kNet migration+91.9kPopulation change+114.7k",
+        "2023Natural change−314.9kNet migration+609.6kPopulation change+294.7k",
+        "2023Natural change−774.5kNet migration+175kPopulation change−599.5k",
+        "2023Natural change+34.6kNet migration+445.5kPopulation change+480.2k"
+      ],
+      "panelTitles": [
+        "France",
+        "Germany",
+        "Japan",
+        "United Kingdom"
+      ],
+      "broadBands": [],
+      "absence": [],
+      "overlay": [
+        "+600k−200k1950200020502100",
+        "+1.50M−1.00M1950200020502100",
+        "+2.00M−1.00M1950200020502100",
+        "+600k−400k1950200020502100"
+      ],
+      "legend": [
+        "Natural changeNet migrationPopulation change"
+      ],
+      "provenance": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "aria": [
+        "France: natural change and net migration, 1950 to 2100",
+        "Germany: natural change and net migration, 1950 to 2100",
+        "Japan: natural change and net migration, 1950 to 2100",
+        "United Kingdom: natural change and net migration, 1950 to 2100"
+      ],
+      "tableRows": 604,
+      "firstTableRow": [
+        "1950",
+        "France",
+        "+332.5k (+7.94‰)",
+        "+130.5k (+3.12‰)",
+        "+463k"
+      ],
+      "lastTableRow": [
+        "2100",
+        "United Kingdom",
+        "−233.9k (−3.15‰)",
+        "+97.3k (+1.31‰)",
+        "−136.5k"
+      ]
+    }
+  }
+}

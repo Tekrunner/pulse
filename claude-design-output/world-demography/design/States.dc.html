@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body { margin: 0; background: #161826; color: #e9e9ed; font-family: Inter, system-ui, sans-serif; }
+    a { color: #b5abfc; } a:hover { color: #d2cefd; }
+    .wd * { box-sizing: border-box; }
+    .wd h1, .wd h2, .wd h3 { margin: 0; font-weight: 500; }
+    .wd p { margin: 0; }
+    .wd figure { margin: 0; }
+    .wd code { display: block; font-size: 10.5px; color: #d2cefd; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .wd button { min-height: 44px; padding: 0 14px; border: 1px solid #3f424d; border-radius: 8px; background: #232532; color: #e9e9ed; font: inherit; cursor: pointer; }
+    .wd :focus-visible { outline: 2px solid #b5abfc; outline-offset: 2px; }
+    @keyframes sk { 50% { opacity: .45; } }
+    .sk { animation: sk 1.6s ease-in-out infinite; background: #2a2d3c; border-radius: 6px; }
+    @media (prefers-reduced-motion: reduce) { .sk { animation: none; } }
+  </style>
+</helmet>
+<div class="wd" style="width: 1280px; height: 1720px; padding: 26px 28px 36px; display: flex; flex-direction: column; gap: 20px; background: #161826;">
+
+  <header style="display: flex; flex-direction: column; gap: 6px; padding-bottom: 14px; border-bottom: 1px solid #2e3140;">
+    <p style="font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #b5abfc;">World demography · states</p>
+    <h1 style="font-size: 30px; letter-spacing: -.015em;">Every state a figure can be in</h1>
+    <p style="max-width: 84ch; font-size: 13.5px; color: #cfd3e5;">Each state names itself in text and carries a second, non-colour cue: a glyph, a border treatment, or a skeleton. Colour is never the only signal. A figure that cannot draw keeps its accessible table, so the answer is still reachable.</p>
+  </header>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Ready</h3><p style="font-size: 12px; color: #b2b6ca;">Rows validated, figure drawn, selection live.</p></figcaption>
+      <div style="height: 132px; border-radius: 6px; background: #161826; display: flex; align-items: flex-end; gap: 3px; padding: 12px;">
+        <div style="flex: 1; height: 28%; background: #b5abfc; opacity: .8; border-radius: 2px 2px 0 0;"></div>
+        <div style="flex: 1; height: 42%; background: #b5abfc; opacity: .8; border-radius: 2px 2px 0 0;"></div>
+        <div style="flex: 1; height: 58%; background: #b5abfc; opacity: .8; border-radius: 2px 2px 0 0;"></div>
+        <div style="flex: 1; height: 74%; background: #b5abfc; border-radius: 2px 2px 0 0;"></div>
+        <div style="flex: 1; height: 86%; background: #b5abfc; opacity: .8; border-radius: 2px 2px 0 0;"></div>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">data-state="ready"</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Loading</h3><p style="font-size: 12px; color: #b2b6ca;">A skeleton at the figure's own height, so nothing below it moves when the rows land.</p></figcaption>
+      <div role="status" aria-live="polite" style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px;">
+        <span style="font-size: 12px; color: #b2b6ca;">Loading observations…</span>
+        <div class="sk" style="height: 12px; width: 60%;"></div>
+        <div class="sk" style="height: 62px;"></div>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">role="status" · animation removed under reduced motion</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Empty</h3><p style="font-size: 12px; color: #b2b6ca;">The query succeeded and returned nothing. Says which choice produced it.</p></figcaption>
+      <div role="status" style="height: 132px; border-radius: 6px; background: #161826; padding: 14px; display: flex; flex-direction: column; justify-content: center; gap: 8px; border: 1px dashed #595d6c;">
+        <span style="font-size: 13px; color: #cfd3e5;">◯ No countries selected</span>
+        <p style="font-size: 12px; color: #b2b6ca;">Choose at least one country in the control row to draw this figure.</p>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">data-state="empty"</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Suspect</h3><p style="font-size: 12px; color: #b2b6ca;">The snapshot behind these rows failed one of its own plausibility checks. The rows still draw; the banner says which check.</p></figcaption>
+      <div style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #f2994a;">
+        <span style="font-size: 12.5px; color: #f2994a;">⚠ Provider response marked suspect</span>
+        <p style="font-size: 12px; color: #b2b6ca;">world-total-is-published did not pass on the last acquisition. The figure is drawn from the last snapshot that did.</p>
+        <code>un-wpp-demographic-indicators · assertion failed</code>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">data-state="suspect" · usable, flagged</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Stale</h3><p style="font-size: 12px; color: #b2b6ca;">The provider has published nothing by the date its own cadence implied. The rows are the last it did publish.</p></figcaption>
+      <div style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #f2994a;">
+        <span style="font-size: 12.5px; color: #f2994a;">◷ Overdue</span>
+        <p style="font-size: 12px; color: #b2b6ca;">Healthy life expectancy has not moved past its last published reference year. The panel draws what exists and stops there.</p>
+        <code>who-healthy-life-expectancy · past its declared window</code>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">This is the state the healthy-years panel is in today.</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Query error</h3><p style="font-size: 12px; color: #b2b6ca;">The browser could not run this figure's query. Retry is offered; the rest of the page is untouched.</p></figcaption>
+      <div role="alert" style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #ff8a80;">
+        <span style="font-size: 12.5px; color: #ff8a80;">✕ This figure could not be queried</span>
+        <p style="font-size: 12px; color: #b2b6ca;">The report data could not be read. Nothing about your selection caused it.</p>
+        <button type="button">Try again</button>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">role="alert" · retry restores the selection and the open disclosure</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Schema incompatibility</h3><p style="font-size: 12px; color: #b2b6ca;">Rows arrived in a shape the visual's contract does not accept. It refuses to draw rather than drawing something wrong.</p></figcaption>
+      <div role="alert" style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #ff8a80;">
+        <span style="font-size: 12.5px; color: #ff8a80;">✕ Cannot be drawn from the result it was given</span>
+        <p style="font-size: 12px; color: #b2b6ca;">The contract requires a finite population for every row. The rest of the report is unaffected.</p>
+        <code>Visual contract failure · country-population-paths@1.0.0</code>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">Refusing beats drawing a plausible wrong line.</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Render error</h3><p style="font-size: 12px; color: #b2b6ca;">The rows validated and drawing threw. The accessible table stays, so the answer is still available.</p></figcaption>
+      <div role="alert" style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #ff8a80;">
+        <span style="font-size: 12.5px; color: #ff8a80;">✕ Failed while drawing — its numbers are below</span>
+        <p style="font-size: 12px; color: #b2b6ca;">Caught at the figure boundary. Other figures are untouched.</p>
+        <code>RenderError · age-structure@1.0.0</code>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">The disclosure below the figure stays open and usable.</p>
+    </figure>
+
+    <figure style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+      <figcaption><h3 style="font-size: 15px;">Shared engine failure</h3><p style="font-size: 12px; color: #b2b6ca;">Browser data access could not start at all. This one is report-wide, because no figure can have rows.</p></figcaption>
+      <div role="alert" style="height: 132px; border-radius: 6px; background: #161826; padding: 12px; display: flex; flex-direction: column; gap: 8px; border-inline-start: 4px solid #ff8a80;">
+        <span style="font-size: 12.5px; color: #ff8a80;">✕ Browser data access could not start</span>
+        <p style="font-size: 12px; color: #b2b6ca;">The report cannot query anything until it does. Controls are disabled rather than left looking live.</p>
+        <button type="button">Try again</button>
+      </div>
+      <p style="font-size: 11px; color: #9397ab;">The only state that replaces the whole report body.</p>
+    </figure>
+  </div>
+
+  <section style="display: flex; flex-direction: column; gap: 10px;">
+    <h2 style="font-size: 20px;">Slot-local isolation: one figure fails, the report does not</h2>
+    <p style="max-width: 96ch; font-size: 13px; color: #b2b6ca;">Each figure owns its own query, its own validation and its own error boundary. A failure in one never blanks another, never clears the observation year, and never collapses an open disclosure elsewhere. The control row stays live so the reader can change the selection and the failed figure can retry into it.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;">
+      <div style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d;">
+        <p style="font-size: 12.5px; color: #cfd3e5; margin-bottom: 8px;">Figure 3 — ready</p>
+        <div style="height: 96px; border-radius: 6px; background: #161826; display: flex; align-items: flex-end; gap: 3px; padding: 10px;">
+          <div style="flex: 1; height: 40%; background: #9dc0ae; opacity: .7; border-radius: 2px;"></div>
+          <div style="flex: 1; height: 62%; background: #9dc0ae; opacity: .7; border-radius: 2px;"></div>
+          <div style="flex: 1; height: 30%; background: #d09a6a; opacity: .7; border-radius: 2px;"></div>
+          <div style="flex: 1; height: 78%; background: #9dc0ae; opacity: .7; border-radius: 2px;"></div>
+        </div>
+      </div>
+      <div style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d;">
+        <p style="font-size: 12.5px; color: #ff8a80; margin-bottom: 8px;">Figure 4 — query error</p>
+        <div role="alert" style="height: 96px; border-radius: 6px; background: #161826; padding: 10px; border-inline-start: 4px solid #ff8a80; display: flex; flex-direction: column; gap: 6px;">
+          <span style="font-size: 12px; color: #ff8a80;">✕ Could not be queried</span>
+          <button type="button" style="min-height: 34px; align-self: flex-start;">Try again</button>
+        </div>
+      </div>
+      <div style="padding: 14px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d;">
+        <p style="font-size: 12.5px; color: #cfd3e5; margin-bottom: 8px;">Figure 5 — ready, selection intact</p>
+        <div style="height: 96px; border-radius: 6px; background: #161826; padding: 10px; position: relative;">
+          <svg viewBox="0 0 220 76" width="220" height="76" style="width: 100%; height: 100%;" role="img" aria-label="Illustrative panel showing that a neighbouring figure keeps its selection">
+            <polyline points="6,60 50,52 94,40 138,30 182,22 214,18" fill="none" stroke="#b5abfc" stroke-width="2"></polyline>
+            <line x1="138" x2="138" y1="6" y2="70" stroke="#e9e9ed" stroke-width="1" stroke-dasharray="3 3"></line>
+            <rect x="82" y="22" width="52" height="16" rx="4" fill="#1f2233" stroke="#b5abfc" stroke-width="1"></rect>
+            <text x="88" y="33" fill="#b5abfc" font-size="10">selected</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 16px; border-radius: 8px; background: #232532; box-shadow: 0 0 0 1px #3f424d; display: flex; flex-direction: column; gap: 8px;">
+    <h2 style="font-size: 18px;">What survives an asynchronous refresh</h2>
+    <p style="max-width: 96ch; font-size: 13px; color: #cfd3e5;">When a figure re-queries — because the period, the countries or the scenario changed — these are restored by stable identity, not by position: the focused control, the observation year, the scroll position, the open disclosures, and any partly typed custom range. A reader half way through setting a custom end year does not lose it because a figure finished loading.</p>
+  </section>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"$preview":{"width":1280,"height":1720}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
