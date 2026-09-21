@@ -126,7 +126,15 @@ export function setAccessibleState(element, state, message, { retry } = {}) {
  * slot. A rejected slot never clears or disables its siblings.
  */
 export async function runReportSlot({ element, query, annotations, anchorColumn, mapRows, render, retry }) {
-  setAccessibleState(element, "loading", "Loading visual data…");
+  // A slot that is already showing a figure keeps showing it while the next
+  // one is prepared. Announcing the load would insert a line above the plot,
+  // push the page down and pull it back up a moment later, which is worse
+  // than the wait it reports. aria-busy still marks the refresh for assistive
+  // technology, and a first mount — where there is nothing to look at yet —
+  // still gets the visible message.
+  const refreshing = element.dataset.state === "ready";
+  if (refreshing) element.setAttribute("aria-busy", "true");
+  else setAccessibleState(element, "loading", "Loading visual data…");
   try {
     const rows = await query();
     if (!Array.isArray(rows) || rows.length === 0) throw new DataClientError("empty", "No data is available for this visual.");
