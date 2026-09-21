@@ -48,3 +48,7 @@ storage — but it is a backstop for the principle above, not a statement of it.
 - Project-owned `pulse-*` skills are canonical under `.agents/skills/`; never edit their generated `.claude/skills/` mirrors directly.
 - After changing or adding a Pulse skill, run `uv run --no-sync python scripts/sync_agent_skills.py --write` and commit both trees.
 - `pulse verify` checks that every Pulse skill mirror is present and byte-identical. BMad-installed skills remain managed by the BMad installer in both trees and are outside this synchronizer.
+
+# Commit messages
+
+Keep commit messages concise. No wall of text that no one will bother reading.
