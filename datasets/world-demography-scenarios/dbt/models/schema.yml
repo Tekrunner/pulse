@@ -1,0 +1,28 @@
+version: 2
+models:
+  - name: world_demography_scenarios
+    description: >-
+      One row per location, projected year and published projection scenario.
+      Measure columns are deliberately nullable: a scenario need not publish
+      every measure, and the probabilistic mean publishes fertility alone.
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: location_id
+        data_tests: [not_null]
+      - name: location_name
+        data_tests: [not_null]
+      - name: location_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [world, country]
+      - name: scenario_id
+        data_tests: [not_null]
+      - name: scenario
+        data_tests: [not_null]
+      - name: scenario_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [deterministic, probabilistic]

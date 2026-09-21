@@ -1,0 +1,283 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the represented calendar year.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "The provider's numeric location code, which follows ISO 3166-1 numeric for countries and areas and is 900 for the world total.",
+      "name": "location_id",
+      "type": "INTEGER"
+    },
+    {
+      "description": "ISO 3166-1 alpha-3 code for the location, or null for the world total, for which the provider publishes none.",
+      "name": "iso3_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The provider's name for the location.",
+      "name": "location_name",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Whether the row is the provider's world aggregate or one of its countries and areas; one of 'world' or 'country'.",
+      "name": "location_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Whether the year falls in the provider's estimated period or its projected period; one of 'estimate' or 'projection'. The boundary is the represented date of the snapshot this table was built from.",
+      "name": "series_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Which of the two groupings of the same population the row belongs to; one of 'five-year' for the provider's own bands or 'broad' for the three summed from them. Rows from the two groupings must never be added together.",
+      "name": "age_grouping",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "The age band the row describes, as the provider labels it for the five-year grouping and as '0-14', '15-64' or '65+' for the broad grouping.",
+      "name": "age_group",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "First year of age included in the band, which is also the order a consumer should read the bands in.",
+      "name": "age_start",
+      "type": "INTEGER"
+    },
+    {
+      "description": "Last year of age included in the band, or null where the band is open-ended at the top.",
+      "name": "age_end",
+      "type": "INTEGER"
+    },
+    {
+      "description": "Male population in the band on 1 July of the year, in thousands.",
+      "name": "population_male_thousands",
+      "type": "DECIMAL(18,3)"
+    },
+    {
+      "description": "Female population in the band on 1 July of the year, in thousands.",
+      "name": "population_female_thousands",
+      "type": "DECIMAL(18,3)"
+    },
+    {
+      "description": "Population in the band on 1 July of the year, in thousands.",
+      "name": "population_total_thousands",
+      "type": "DECIMAL(18,3)"
+    },
+    {
+      "description": "The band's population as a percentage of the location's total for that year, computed within its own grouping so that each grouping sums to one hundred.",
+      "name": "share_of_population_pct",
+      "type": "DECIMAL(9,4)"
+    }
+  ],
+  "content_sha256": "60bea39c5c1cfb9f3ae285d6039f247e4bf1d3b27b2e62a60e2d13607d174872",
+  "dataset_id": "world-demography-age-structure",
+  "indicators": [
+    {
+      "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "column": "population_male_thousands",
+      "definition": "The provider's estimated or projected male population in the age band on 1 July, typed without further reinterpretation for the five-year grouping and summed over the constituent bands for the broad grouping.",
+      "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+      "source": "UN World Population Prospects 2024 population by five-year age group and sex, column PopMale",
+      "unit": "Thousands of people"
+    },
+    {
+      "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "column": "population_female_thousands",
+      "definition": "The provider's estimated or projected female population in the age band on 1 July, typed for the five-year grouping and summed over the constituent bands for the broad grouping.",
+      "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+      "source": "UN World Population Prospects 2024 population by five-year age group and sex, column PopFemale",
+      "unit": "Thousands of people"
+    },
+    {
+      "attribution": "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "column": "population_total_thousands",
+      "definition": "The provider's estimated or projected population in the age band on 1 July, typed for the five-year grouping and summed over the constituent bands for the broad grouping.",
+      "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+      "source": "UN World Population Prospects 2024 population by five-year age group and sex, column PopTotal",
+      "unit": "Thousands of people"
+    },
+    {
+      "attribution": "Derived from United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition.",
+      "column": "share_of_population_pct",
+      "definition": "The band's share of the location's population for the year, computed within its own grouping as the band's total divided by the sum of that grouping's totals. It is a derivation over the provider's own exhaustive, non-overlapping bands, not a figure the provider publishes.",
+      "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+      "source": "Derived from UN World Population Prospects 2024 population by five-year age group and sex, column PopTotal",
+      "unit": "Per cent"
+    }
+  ],
+  "lineage": {
+    "broad_bands": 3,
+    "estimate_boundary_year": 2023,
+    "five_year_bands": 21,
+    "input_format": "original-file",
+    "locations": 238,
+    "snapshot_id": "acq-09d3992a60ce4186821d61b0f22e4790-a04d7d1486a5",
+    "snapshot_sha256": "a04d7d1486a5eb2832cc812d599448f0a71e8ac9e1e7e6fa4066673d6a2487cd"
+  },
+  "logical_table": "world_demography_age_structure",
+  "model": {
+    "description": "One row per location, calendar year, age grouping and age group, for the world total and every country or area the provider publishes. The table carries the same population twice over: once in the provider's twenty-one five-year age groups, and once in the three broad groups summed from them.",
+    "name": "world_demography_age_structure"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "location_name",
+        "age_grouping",
+        "age_group",
+        "age_start",
+        "age_end",
+        "population_male_thousands",
+        "population_female_thousands"
+      ],
+      "derivation": "Select the five-year grouping's bands for the location and year, ordered by the first year of age, with the male and female populations in each.",
+      "id": "age-pyramid",
+      "question": "What is a location's population by age and sex in a given year?"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "age_grouping",
+        "age_group",
+        "age_start",
+        "population_total_thousands",
+        "share_of_population_pct"
+      ],
+      "derivation": "Select the broad grouping's three bands for the location and year, with each band's share of that year's population.",
+      "id": "young-working-and-old-shares",
+      "question": "What share of a location's population is young, of working age, or old?"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "series_kind",
+        "age_grouping",
+        "age_group",
+        "share_of_population_pct"
+      ],
+      "derivation": "Select a band's share of the population by year, within either grouping, with the estimate or projection marker for that year.",
+      "id": "age-structure-over-time",
+      "question": "How has a location's age structure shifted over the years the provider covers?"
+    }
+  ],
+  "represented_period": {
+    "end": "2100-12-31",
+    "start": "1950-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "un-wpp-population-by-age",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the calendar year the observation describes, from the provider's Time column. Populations are measured on 1 July of that year. The grain is one row per period, location_id, age_grouping and age_group, and the two groupings describe the same people: a consumer that mixes them counts everyone twice. Within a grouping the bands are exhaustive and do not overlap, so their totals sum to the location's population and their shares sum to one hundred. The panel is rectangular: every location carries every year from 1950 to 2100 and every band in both groupings. Years up to the snapshot's represented date are the provider's estimates and later years are its medium-scenario projection, which series_kind records. The top band of the five-year grouping and the old band of the broad grouping are open-ended, which age_end records as null.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "age_grouping",
+        "age_group"
+      ],
+      "description": "There is exactly one observation for each location, calendar year, age grouping and age band.",
+      "name": "one-row-per-location-year-grouping-and-band"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "location_name",
+        "location_kind",
+        "series_kind",
+        "age_grouping",
+        "age_group",
+        "age_start",
+        "population_male_thousands",
+        "population_female_thousands",
+        "population_total_thousands"
+      ],
+      "description": "Period, location identity, grouping markers, band identity and the three populations are never null.",
+      "name": "required-identity-and-population"
+    },
+    {
+      "columns": [
+        "iso3_code",
+        "location_kind"
+      ],
+      "description": "Every country or area carries an ISO 3166-1 alpha-3 code, and only the world total does not.",
+      "name": "only-the-world-total-lacks-an-iso3-code"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "age_grouping",
+        "population_total_thousands"
+      ],
+      "description": "For each location and year, the five-year bands and the broad bands sum to the same total, so neither grouping is missing or double-counting anyone.",
+      "name": "the-two-groupings-describe-the-same-population"
+    },
+    {
+      "columns": [
+        "population_male_thousands",
+        "population_female_thousands",
+        "population_total_thousands"
+      ],
+      "description": "Male and female populations sum to the band total, to the precision the provider publishes.",
+      "name": "the-sexes-sum-to-the-band-total"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "age_grouping",
+        "share_of_population_pct"
+      ],
+      "description": "Each grouping's bands account for the whole population of the location and year, so their shares sum to one hundred.",
+      "name": "shares-sum-to-one-hundred-within-a-grouping"
+    },
+    {
+      "columns": [
+        "age_grouping",
+        "age_group",
+        "age_start",
+        "age_end"
+      ],
+      "description": "Within a grouping the bands cover every age from zero upward without a gap or an overlap, and exactly one band is open-ended at the top.",
+      "name": "bands-are-exhaustive-and-do-not-overlap"
+    },
+    {
+      "columns": [
+        "period",
+        "location_id",
+        "age_grouping",
+        "age_group"
+      ],
+      "description": "Every location carries the same years and every location-year the same bands, so a consumer reaching any year finds a complete structure.",
+      "name": "the-panel-is-rectangular"
+    },
+    {
+      "columns": [
+        "population_male_thousands",
+        "population_female_thousands",
+        "population_total_thousands"
+      ],
+      "description": "No band carries a negative population.",
+      "name": "populations-are-never-negative"
+    }
+  ],
+  "visibility": "public"
+}

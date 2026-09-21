@@ -1,0 +1,6 @@
+id: european-emigration-flows
+name: European emigration flows by country and year
+source: eurostat-emigration
+visibility: public
+logical_table: european_emigration_flows
+contract: dataset-contract.yaml

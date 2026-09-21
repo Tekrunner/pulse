@@ -1,0 +1,40 @@
+version: 2
+models:
+  - name: world_demography_age_structure
+    description: >-
+      One row per location, calendar year, age grouping and age band, carrying
+      the provider's five-year bands and the three broad bands summed from them.
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: location_id
+        data_tests: [not_null]
+      - name: location_name
+        data_tests: [not_null]
+      - name: location_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [world, country]
+      - name: series_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [estimate, projection]
+      - name: age_grouping
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [five-year, broad]
+      - name: age_group
+        data_tests: [not_null]
+      - name: age_start
+        data_tests: [not_null]
+      - name: population_male_thousands
+        data_tests: [not_null]
+      - name: population_female_thousands
+        data_tests: [not_null]
+      - name: population_total_thousands
+        data_tests: [not_null]
+      - name: share_of_population_pct
+        data_tests: [not_null]

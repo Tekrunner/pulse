@@ -1,0 +1,207 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the represented reference year.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "The provider's spatial code, which is an ISO 3166-1 alpha-3 code for a country and its own code for a region, an income group or the world.",
+      "name": "location_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "What the location is; one of 'country', 'region', 'income-group' or 'global'.",
+      "name": "location_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "ISO 3166-1 alpha-3 code for the location, or null for the provider's own aggregates, which are not countries.",
+      "name": "iso3_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Which population the estimate describes; one of 'total', 'male' or 'female'.",
+      "name": "sex",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Healthy life expectancy at birth, in years.",
+      "name": "healthy_life_expectancy_years",
+      "type": "DECIMAL(9,5)"
+    },
+    {
+      "description": "Lower bound of the provider's uncertainty interval around the estimate, in years, or null where it publishes none.",
+      "name": "uncertainty_low_years",
+      "type": "DECIMAL(9,5)"
+    },
+    {
+      "description": "Upper bound of the provider's uncertainty interval around the estimate, in years, or null where it publishes none.",
+      "name": "uncertainty_high_years",
+      "type": "DECIMAL(9,5)"
+    }
+  ],
+  "content_sha256": "251c3fe5cbd6ee2a7c91dee70e56e61a7b174024735763e5da161886b4f6cfa8",
+  "dataset_id": "healthy-life-expectancy",
+  "indicators": [
+    {
+      "attribution": "WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024. Date of access is the acquisition timestamp recorded in the snapshot manifest. The underlying data were provided by the WHO Member States identified in each row's location_code.",
+      "column": "healthy_life_expectancy_years",
+      "definition": "The provider's healthy life expectancy at birth: the average number of years a newborn would live in full health if subject throughout life to the year's rates of death and of ill health. It is derived from the provider's Global Health Estimates, which weight years lived by modelled disability across causes, so it is a modelled quantity rather than an observed one, and it is not comparable with a self-reported measure such as a survey-based count of years free of activity limitation.",
+      "licence": "WHO Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses: use for public health purposes with attribution, no onward sale or transfer, no commercial promotion, and prior written WHO authorization for any alteration or modification",
+      "source": "WHO Global Health Observatory indicator WHOSIS_000002, Healthy life expectancy (HALE) at birth (years)",
+      "unit": "Years"
+    },
+    {
+      "attribution": "WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024.",
+      "column": "uncertainty_low_years",
+      "definition": "The lower bound of the provider's published uncertainty interval around the estimate.",
+      "licence": "WHO Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses: use for public health purposes with attribution, no onward sale or transfer, no commercial promotion, and prior written WHO authorization for any alteration or modification",
+      "source": "WHO Global Health Observatory indicator WHOSIS_000002, field Low",
+      "unit": "Years"
+    },
+    {
+      "attribution": "WHO, Global Health Observatory: healthy life expectancy (HALE) at birth (WHOSIS_000002), 2024.",
+      "column": "uncertainty_high_years",
+      "definition": "The upper bound of the provider's published uncertainty interval around the estimate.",
+      "licence": "WHO Terms and conditions of use for WHO data compilations, aggregations, evaluations and analyses: use for public health purposes with attribution, no onward sale or transfer, no commercial promotion, and prior written WHO authorization for any alteration or modification",
+      "source": "WHO Global Health Observatory indicator WHOSIS_000002, field High",
+      "unit": "Years"
+    }
+  ],
+  "lineage": {
+    "countries": 185,
+    "input_format": "parquet",
+    "locations": 196,
+    "observations_with_an_uncertainty_interval": 12916,
+    "snapshot_id": "acq-b00f124297374e78aed996151ef53029-2420a5ca6a92",
+    "snapshot_sha256": "2420a5ca6a92593e4e391b5f00dc7e2062b040dc8a74041045600c80f0e7110d"
+  },
+  "logical_table": "healthy_life_expectancy",
+  "model": {
+    "description": "One row per location, reference year and sex, carrying the number of years a newborn could expect to live in full health under the year's mortality and morbidity, together with the uncertainty interval the provider publishes around it. Every location the provider covers is kept, including its own regional, income-group and world aggregates.",
+    "name": "healthy_life_expectancy"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "iso3_code",
+        "location_kind",
+        "sex",
+        "healthy_life_expectancy_years",
+        "uncertainty_low_years",
+        "uncertainty_high_years"
+      ],
+      "derivation": "Select the provider's estimate for the location, year and sex, with the uncertainty interval it publishes around it.",
+      "id": "healthy-years-at-birth",
+      "question": "How many years of full health can a newborn expect in a given location and year?"
+    },
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "sex",
+        "healthy_life_expectancy_years"
+      ],
+      "derivation": "Select the male and female estimates for the same location and year alongside the total.",
+      "id": "healthy-years-by-sex",
+      "question": "How far apart are the healthy years men and women can expect in a location?"
+    },
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "sex",
+        "healthy_life_expectancy_years"
+      ],
+      "derivation": "Select the estimate by year for one location and sex, across the reference years the current round publishes.",
+      "id": "healthy-years-over-time",
+      "question": "How has a location's healthy life expectancy moved over the years the provider covers?"
+    }
+  ],
+  "represented_period": {
+    "end": "2021-12-31",
+    "start": "2000-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "who-healthy-life-expectancy",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the reference year the estimate describes, from the provider's TimeDim. The grain is one row per period, location_code and sex. The provider publishes this indicator only for the reference years of the current Global Health Estimates round, and it restates the whole series when it revises rather than appending to it, so the period this table covers can move at both ends between snapshots. It is much shorter than the period a life-expectancy series covers, and it carries no projection: a consumer placing the two on one time axis will find this one stopping well short.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "sex"
+      ],
+      "description": "There is exactly one observation for each location, reference year and sex.",
+      "name": "one-row-per-location-year-and-sex"
+    },
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "location_kind",
+        "sex",
+        "healthy_life_expectancy_years"
+      ],
+      "description": "Period, location identity, kind, sex and the estimate itself are never null.",
+      "name": "required-identity-and-estimate"
+    },
+    {
+      "columns": [
+        "location_code",
+        "iso3_code",
+        "location_kind"
+      ],
+      "description": "Every location the provider classifies as a country carries an ISO 3166-1 alpha-3 code, and only its own aggregates do not.",
+      "name": "only-aggregates-lack-an-iso3-code"
+    },
+    {
+      "columns": [
+        "period",
+        "location_code",
+        "sex"
+      ],
+      "description": "Where the provider publishes a location and year it publishes the total and both sexes, so a consumer comparing men and women never finds one of them missing.",
+      "name": "every-location-year-carries-all-three-sexes"
+    },
+    {
+      "columns": [
+        "healthy_life_expectancy_years",
+        "uncertainty_low_years",
+        "uncertainty_high_years"
+      ],
+      "description": "Where the provider publishes an interval, the estimate lies inside it.",
+      "name": "the-estimate-lies-in-its-uncertainty-interval"
+    },
+    {
+      "columns": [
+        "uncertainty_low_years",
+        "uncertainty_high_years"
+      ],
+      "description": "A row carries both bounds or neither, so a half-open interval never reaches a consumer.",
+      "name": "the-interval-is-published-as-a-pair-or-not-at-all"
+    },
+    {
+      "columns": [
+        "healthy_life_expectancy_years"
+      ],
+      "description": "Healthy life expectancy at birth is positive and below any life expectancy a human population has recorded.",
+      "name": "estimates-lie-in-a-range-a-human-population-can-take"
+    }
+  ],
+  "visibility": "public"
+}

@@ -1,0 +1,242 @@
+contract_version: 1.1.0
+model:
+  name: world_demography_indicators
+  description: >-
+    One row per location and calendar year for the world total and every country
+    or area the provider publishes, carrying its population, the components of
+    its annual change, and its headline fertility and mortality measures, across
+    both the estimated and the projected period.
+columns:
+  - name: period
+    type: DATE
+    description: First day of the represented calendar year.
+  - name: location_id
+    type: INTEGER
+    description: The provider's numeric location code, which follows ISO 3166-1 numeric for countries and areas and is 900 for the world total.
+  - name: iso3_code
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the location, or null for the world total, for which the provider publishes none.
+  - name: location_name
+    type: VARCHAR
+    description: The provider's name for the location.
+  - name: location_kind
+    type: VARCHAR
+    description: Whether the row is the provider's world aggregate or one of its countries and areas; one of 'world' or 'country'.
+  - name: series_kind
+    type: VARCHAR
+    description: Whether the year falls in the provider's estimated period or its projected period; one of 'estimate' or 'projection'. The boundary is the represented date of the snapshot this table was built from.
+  - name: population_thousands
+    type: DECIMAL(18,3)
+    description: Population on 1 July of the year, in thousands of people.
+  - name: population_change_thousands
+    type: DECIMAL(18,3)
+    description: Change in population over the year, in thousands of people.
+  - name: population_growth_rate_pct
+    type: DECIMAL(9,4)
+    description: Annual rate of population change, in per cent per year.
+  - name: natural_change_thousands
+    type: DECIMAL(18,3)
+    description: Births minus deaths over the year, in thousands of people.
+  - name: natural_change_rate_per_1000
+    type: DECIMAL(9,4)
+    description: Births minus deaths over the year, per 1,000 population.
+  - name: net_migration_thousands
+    type: DECIMAL(18,3)
+    description: Net number of migrants over the year, in thousands of people; negative where more people left than arrived.
+  - name: net_migration_rate_per_1000
+    type: DECIMAL(9,4)
+    description: Net number of migrants over the year, per 1,000 population; negative where more people left than arrived.
+  - name: births_thousands
+    type: DECIMAL(18,3)
+    description: Live births over the year, in thousands.
+  - name: crude_birth_rate_per_1000
+    type: DECIMAL(9,4)
+    description: Live births over the year, per 1,000 population.
+  - name: deaths_thousands
+    type: DECIMAL(18,3)
+    description: Deaths over the year, in thousands.
+  - name: crude_death_rate_per_1000
+    type: DECIMAL(9,4)
+    description: Deaths over the year, per 1,000 population.
+  - name: total_fertility_rate
+    type: DECIMAL(9,4)
+    description: Total fertility rate, in live births per woman.
+  - name: life_expectancy_years
+    type: DECIMAL(9,4)
+    description: Life expectancy at birth for both sexes combined, in years.
+  - name: life_expectancy_male_years
+    type: DECIMAL(9,4)
+    description: Male life expectancy at birth, in years.
+  - name: life_expectancy_female_years
+    type: DECIMAL(9,4)
+    description: Female life expectancy at birth, in years.
+  - name: median_age_years
+    type: DECIMAL(9,4)
+    description: Median age of the population on 1 July, in years.
+indicators:
+  - column: population_thousands
+    definition: The provider's estimated or projected population on 1 July of the year, typed without further reinterpretation.
+    unit: Thousands of people
+    source: UN World Population Prospects 2024 standard indicator file, column TPopulation1July
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: population_change_thousands
+    definition: The provider's change in population over the calendar year. It is accounted for by natural change and net migration but is not exactly their sum in the provider's published figures, so it is carried as its own measure rather than derived.
+    unit: Thousands of people per year
+    source: UN World Population Prospects 2024 standard indicator file, column PopChange
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: population_growth_rate_pct
+    definition: The provider's annual rate of population change, expressed as a percentage of the population.
+    unit: Per cent per year
+    source: UN World Population Prospects 2024 standard indicator file, column PopGrowthRate
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: natural_change_thousands
+    definition: The provider's births minus deaths over the calendar year.
+    unit: Thousands of people per year
+    source: UN World Population Prospects 2024 standard indicator file, column NatChange
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: natural_change_rate_per_1000
+    definition: The provider's rate of natural change, the crude birth rate minus the crude death rate.
+    unit: Per 1,000 population per year
+    source: UN World Population Prospects 2024 standard indicator file, column NatChangeRT
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: net_migration_thousands
+    definition: The provider's net number of migrants over the calendar year, that is arrivals minus departures. The provider publishes no gross arrival or departure count in this file, so this balance cannot be decomposed from it.
+    unit: Thousands of people per year
+    source: UN World Population Prospects 2024 standard indicator file, column NetMigrations
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: net_migration_rate_per_1000
+    definition: The provider's net migration rate, arrivals minus departures per 1,000 population.
+    unit: Per 1,000 population per year
+    source: UN World Population Prospects 2024 standard indicator file, column CNMR
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: births_thousands
+    definition: The provider's live births over the calendar year.
+    unit: Thousands per year
+    source: UN World Population Prospects 2024 standard indicator file, column Births
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: crude_birth_rate_per_1000
+    definition: The provider's crude birth rate, live births per 1,000 population.
+    unit: Per 1,000 population per year
+    source: UN World Population Prospects 2024 standard indicator file, column CBR
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: deaths_thousands
+    definition: The provider's deaths over the calendar year.
+    unit: Thousands per year
+    source: UN World Population Prospects 2024 standard indicator file, column Deaths
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: crude_death_rate_per_1000
+    definition: The provider's crude death rate, deaths per 1,000 population.
+    unit: Per 1,000 population per year
+    source: UN World Population Prospects 2024 standard indicator file, column CDR
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: total_fertility_rate
+    definition: The provider's total fertility rate, the number of live births a woman would have if she experienced the year's age-specific fertility rates throughout her childbearing years.
+    unit: Live births per woman
+    source: UN World Population Prospects 2024 standard indicator file, column TFR
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: life_expectancy_years
+    definition: The provider's life expectancy at birth for both sexes combined, the average number of years a newborn would live under the year's age-specific mortality rates.
+    unit: Years
+    source: UN World Population Prospects 2024 standard indicator file, column LEx
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: life_expectancy_male_years
+    definition: The provider's male life expectancy at birth.
+    unit: Years
+    source: UN World Population Prospects 2024 standard indicator file, column LExMale
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: life_expectancy_female_years
+    definition: The provider's female life expectancy at birth.
+    unit: Years
+    source: UN World Population Prospects 2024 standard indicator file, column LExFemale
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+  - column: median_age_years
+    definition: The provider's median age of the population on 1 July.
+    unit: Years
+    source: UN World Population Prospects 2024 standard indicator file, column MedianAgePop
+    licence: Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)
+    attribution: "United Nations, Department of Economic and Social Affairs, Population Division (2024). World Population Prospects 2024, Online Edition."
+questions:
+  - id: population-path
+    question: How large is a location's population in each year, and where does the projection take it?
+    derivation: Select the provider's 1 July population by location and year, with the estimate or projection marker for that year.
+    columns: [period, location_id, location_name, location_kind, series_kind, population_thousands]
+  - id: population-rate-of-change
+    question: How fast is a location's population changing each year?
+    derivation: Select the provider's annual rate of population change, and the change in people that goes with it.
+    columns: [period, location_id, series_kind, population_growth_rate_pct, population_change_thousands]
+  - id: components-of-population-change
+    question: How much of a year's population change is natural change and how much is net migration, in people and relative to the population?
+    derivation: Select the provider's natural change and net migration, each as a count and as the provider's own rate per 1,000 population, beside the population change they sum to.
+    columns: [period, location_id, series_kind, population_change_thousands, natural_change_thousands, natural_change_rate_per_1000, net_migration_thousands, net_migration_rate_per_1000]
+  - id: births-and-deaths
+    question: How many births and deaths does a location record each year, and at what rates?
+    derivation: Select the provider's births and deaths as counts and as crude rates per 1,000 population.
+    columns: [period, location_id, series_kind, births_thousands, crude_birth_rate_per_1000, deaths_thousands, crude_death_rate_per_1000]
+  - id: fertility-and-longevity
+    question: What is a location's fertility rate and life expectancy at birth, overall and by sex?
+    derivation: Select the provider's total fertility rate and its life expectancy at birth for both sexes and for each sex.
+    columns: [period, location_id, series_kind, total_fertility_rate, life_expectancy_years, life_expectancy_male_years, life_expectancy_female_years]
+  - id: population-ageing
+    question: How old is a location's population?
+    derivation: Select the provider's median age of the population on 1 July.
+    columns: [period, location_id, series_kind, median_age_years]
+temporal:
+  grain: year
+  period_column: period
+  meaning: >-
+    Each period is the first day of the calendar year the observation describes,
+    from the provider's Time column. The grain is one row per period and
+    location_id. Stocks are measured on 1 July of that year and flows are
+    totals over it. The panel is rectangular: every location carries every year
+    from 1950 to 2100. Years up to the snapshot's represented date are the
+    provider's estimates and later years are its medium-scenario projection,
+    which series_kind records; a consumer that treats the two as one continuous
+    observed series will read a model as a measurement. The provider's own
+    1 January row for the year after the projection horizon is excluded,
+    because it carries a population stock and none of this table's flows or
+    rates. Natural change and net migration do not sum exactly to population
+    change in the provider's own figures: the residual is a few people for most
+    country-years but reaches roughly 4,900 people for a country and 7,300 for
+    the world aggregate, so the two components account for the change rather
+    than decomposing it, and a consumer that stacks them will not close the
+    total.
+validations:
+  - name: one-row-per-location-and-year
+    description: There is exactly one observation for each location and calendar year.
+    columns: [period, location_id]
+  - name: required-identity-and-population
+    description: Period, location identity, kind markers and population are never null.
+    columns: [period, location_id, location_name, location_kind, series_kind, population_thousands]
+  - name: the-world-total-is-present-in-every-year
+    description: The provider's world aggregate is published for every year the table covers.
+    columns: [period, location_id, location_kind]
+  - name: only-the-world-total-lacks-an-iso3-code
+    description: Every country or area carries an ISO 3166-1 alpha-3 code, and only the world total does not.
+    columns: [iso3_code, location_kind]
+  - name: the-panel-is-rectangular
+    description: Every location carries the same set of years, so a consumer reaching any year finds every location.
+    columns: [period, location_id]
+  - name: natural-change-is-births-minus-deaths
+    description: The provider's natural change equals its births minus its deaths, to the precision it publishes.
+    columns: [natural_change_thousands, births_thousands, deaths_thousands]
+  - name: the-estimate-boundary-splits-the-series-once
+    description: Every location's estimated years precede all of its projected years, and both are present.
+    columns: [period, location_id, series_kind]
+  - name: measures-lie-in-their-published-ranges
+    description: Populations and counts are non-negative, life expectancies and fertility rates lie in ranges a human population can take, and only migration and natural change may be negative.
+    columns: [population_thousands, births_thousands, deaths_thousands, total_fertility_rate, life_expectancy_years, median_age_years]

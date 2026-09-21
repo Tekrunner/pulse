@@ -1,0 +1,6 @@
+id: european-immigration-flows
+name: European immigration flows by country and year
+source: eurostat-immigration
+visibility: public
+logical_table: european_immigration_flows
+contract: dataset-contract.yaml

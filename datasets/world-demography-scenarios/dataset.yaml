@@ -1,0 +1,6 @@
+id: world-demography-scenarios
+name: World demography projection scenarios by country and year
+source: un-wpp-projection-scenarios
+visibility: public
+logical_table: world_demography_scenarios
+contract: dataset-contract.yaml

@@ -1,0 +1,6 @@
+id: world-demography-age-structure
+name: World demography age structure by country, year and age band
+source: un-wpp-population-by-age
+visibility: public
+logical_table: world_demography_age_structure
+contract: dataset-contract.yaml

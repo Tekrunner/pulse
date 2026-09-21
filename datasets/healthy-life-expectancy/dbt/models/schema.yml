@@ -1,0 +1,24 @@
+version: 2
+models:
+  - name: healthy_life_expectancy
+    description: >-
+      One row per location, reference year and sex. The uncertainty bounds are
+      deliberately nullable: the provider publishes an estimate without an
+      interval on a small number of rows.
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: location_code
+        data_tests: [not_null]
+      - name: location_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [country, region, income-group, global]
+      - name: sex
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [total, male, female]
+      - name: healthy_life_expectancy_years
+        data_tests: [not_null]

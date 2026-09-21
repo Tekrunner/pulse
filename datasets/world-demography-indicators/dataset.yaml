@@ -1,0 +1,6 @@
+id: world-demography-indicators
+name: World demography indicators by country and year
+source: un-wpp-demographic-indicators
+visibility: public
+logical_table: world_demography_indicators
+contract: dataset-contract.yaml

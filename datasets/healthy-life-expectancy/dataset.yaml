@@ -1,0 +1,6 @@
+id: healthy-life-expectancy
+name: Healthy life expectancy at birth by location, year and sex
+source: who-healthy-life-expectancy
+visibility: public
+logical_table: healthy_life_expectancy
+contract: dataset-contract.yaml

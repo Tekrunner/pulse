@@ -1,0 +1,153 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the represented reference year.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "The provider's reporting-area code, which is ISO 3166-1 alpha-2 except for its own EL for Greece and UK for the United Kingdom, or an aggregate code such as EU27_2020.",
+      "name": "geo_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "ISO 3166-1 alpha-3 code for the reporting country, or null for the provider's aggregates, which are not countries.",
+      "name": "iso3_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Whether the row is a reporting country or one of the provider's own aggregates; one of 'country' or 'aggregate'.",
+      "name": "geo_kind",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "People who ceased to have usual residence in the reporting country during the year, counted regardless of citizenship; null where the provider publishes no value for that country and year.",
+      "name": "emigration_persons",
+      "type": "BIGINT"
+    },
+    {
+      "description": "The provider's flag on the observation, such as a provisional or estimated marker, or null where it publishes none.",
+      "name": "observation_flag",
+      "type": "VARCHAR"
+    }
+  ],
+  "content_sha256": "06d751d1923a8bc454bfaa958e57094c2c6ac2e2b0c03d692fb5e9896f798a20",
+  "dataset_id": "european-emigration-flows",
+  "indicators": [
+    {
+      "attribution": "Source: Eurostat, emigration by age group, sex and citizenship (migr_emi1ctz).",
+      "column": "emigration_persons",
+      "definition": "The provider's emigration count under Regulation (EC) No 862/2007: the action by which a person, having previously been usually resident in the territory of a member state, ceases to have usual residence there for a period that is, or is expected to be, at least twelve months. The citizenship dimension is the provider's total, so the count includes departing nationals rather than foreign nationals only, which is what makes it differenceable against the arrival count published on the same basis.",
+      "licence": "Eurostat reuse policy under Commission Decision 2011/833/EU: reuse authorised for commercial and non-commercial purposes provided the source is acknowledged",
+      "source": "Eurostat, emigration by age group, sex and citizenship (migr_emi1ctz), series A.TOTAL.COMPLET.TOTAL.NR.T",
+      "unit": "People per year"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "published_observations": 835,
+    "reporting_areas": 36,
+    "reporting_countries": 35,
+    "snapshot_id": "acq-1f9a4c56eacd43cb8b053e654154fa4c-7967ce345a22",
+    "snapshot_sha256": "7967ce345a22cebc45a6c0be9a6d23acef765f24158a8b0e4d4963ac34a5eb76"
+  },
+  "logical_table": "european_emigration_flows",
+  "model": {
+    "description": "One row per reporting country and reference year, carrying the number of people who ceased to have their usual residence in that country during the year, regardless of their citizenship, together with the provider's own aggregate of its member states.",
+    "name": "european_emigration_flows"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "geo_code",
+        "iso3_code",
+        "geo_kind",
+        "emigration_persons"
+      ],
+      "derivation": "Select the provider's emigration count by reporting country and reference year.",
+      "id": "emigration-over-time",
+      "question": "How many people left a country to live elsewhere in each year the provider covers?"
+    },
+    {
+      "columns": [
+        "period",
+        "geo_code",
+        "emigration_persons",
+        "observation_flag"
+      ],
+      "derivation": "Read which country and year combinations carry a value, and which carry the provider's flag instead.",
+      "id": "where-emigration-is-published",
+      "question": "For which countries and years does this provider publish a departure count at all?"
+    }
+  ],
+  "represented_period": {
+    "end": "2024-12-31",
+    "start": "1998-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "eurostat-emigration",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the calendar year the flow occurred in, from the provider's TIME_PERIOD. The grain is one row per period and geo_code. The panel is not rectangular and cannot be made so: reporting begins in different years for different countries, and the United Kingdom's series ends with its withdrawal from the European Union, so a consumer reaching a recent year must show it as unpublished rather than as zero or as an absent shape. The provider collects a reference year by 31 December of the following year and releases it in March of the year after that, and revises published years continuously as national statistical institutes restate them.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "geo_code"
+      ],
+      "description": "There is exactly one observation for each reporting area and reference year.",
+      "name": "one-row-per-area-and-year"
+    },
+    {
+      "columns": [
+        "period",
+        "geo_code",
+        "geo_kind"
+      ],
+      "description": "Period, area code and area kind are never null, however sparse the counts are.",
+      "name": "required-identity-is-never-null"
+    },
+    {
+      "columns": [
+        "geo_code",
+        "iso3_code",
+        "geo_kind"
+      ],
+      "description": "Every area the provider classifies as a country maps to an ISO 3166-1 alpha-3 code, and only its aggregates do not.",
+      "name": "every-reporting-country-carries-an-iso3-code"
+    },
+    {
+      "columns": [
+        "geo_code",
+        "iso3_code"
+      ],
+      "description": "No two reporting areas map to the same alpha-3 code.",
+      "name": "an-iso3-code-identifies-one-reporting-area"
+    },
+    {
+      "columns": [
+        "emigration_persons"
+      ],
+      "description": "No year records a negative number of departures.",
+      "name": "counts-are-never-negative"
+    },
+    {
+      "columns": [
+        "emigration_persons"
+      ],
+      "description": "Where the provider publishes a value it is a whole number of people; an absent value stays null rather than becoming a zero.",
+      "name": "a-published-count-is-a-count-and-not-a-placeholder"
+    }
+  ],
+  "visibility": "public"
+}

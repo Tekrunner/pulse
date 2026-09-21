@@ -1,0 +1,55 @@
+version: 2
+models:
+  - name: world_demography_indicators
+    description: >-
+      One row per location and calendar year for the world total and every
+      country or area the provider publishes.
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: location_id
+        data_tests: [not_null]
+      - name: location_name
+        data_tests: [not_null]
+      - name: location_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [world, country]
+      - name: series_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [estimate, projection]
+      - name: population_thousands
+        data_tests: [not_null]
+      - name: population_change_thousands
+        data_tests: [not_null]
+      - name: population_growth_rate_pct
+        data_tests: [not_null]
+      - name: natural_change_thousands
+        data_tests: [not_null]
+      - name: natural_change_rate_per_1000
+        data_tests: [not_null]
+      - name: net_migration_thousands
+        data_tests: [not_null]
+      - name: net_migration_rate_per_1000
+        data_tests: [not_null]
+      - name: births_thousands
+        data_tests: [not_null]
+      - name: crude_birth_rate_per_1000
+        data_tests: [not_null]
+      - name: deaths_thousands
+        data_tests: [not_null]
+      - name: crude_death_rate_per_1000
+        data_tests: [not_null]
+      - name: total_fertility_rate
+        data_tests: [not_null]
+      - name: life_expectancy_years
+        data_tests: [not_null]
+      - name: life_expectancy_male_years
+        data_tests: [not_null]
+      - name: life_expectancy_female_years
+        data_tests: [not_null]
+      - name: median_age_years
+        data_tests: [not_null]

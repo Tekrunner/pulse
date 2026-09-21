@@ -1,0 +1,82 @@
+contract_version: 1.1.0
+model:
+  name: european_immigration_flows
+  description: >-
+    One row per reporting country and reference year, carrying the number of
+    people who established their usual residence in that country during the
+    year, regardless of their citizenship, together with the provider's own
+    aggregate of its member states.
+columns:
+  - name: period
+    type: DATE
+    description: First day of the represented reference year.
+  - name: geo_code
+    type: VARCHAR
+    description: The provider's reporting-area code, which is ISO 3166-1 alpha-2 except for its own EL for Greece and UK for the United Kingdom, or an aggregate code such as EU27_2020.
+  - name: iso3_code
+    type: VARCHAR
+    description: ISO 3166-1 alpha-3 code for the reporting country, or null for the provider's aggregates, which are not countries.
+  - name: geo_kind
+    type: VARCHAR
+    description: Whether the row is a reporting country or one of the provider's own aggregates; one of 'country' or 'aggregate'.
+  - name: immigration_persons
+    type: BIGINT
+    description: People who established usual residence in the reporting country during the year, counted regardless of citizenship; null where the provider publishes no value for that country and year.
+  - name: observation_flag
+    type: VARCHAR
+    description: The provider's flag on the observation, such as a provisional or estimated marker, or null where it publishes none.
+indicators:
+  - column: immigration_persons
+    definition: >-
+      The provider's immigration count under Regulation (EC) No 862/2007: the
+      action by which a person establishes usual residence in the territory of a
+      member state for a period that is, or is expected to be, at least twelve
+      months, having previously been usually resident elsewhere. The citizenship
+      dimension is the provider's total, so the count includes returning
+      nationals rather than foreign nationals only.
+    unit: People per year
+    source: "Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz), series A.TOTAL.COMPLET.TOTAL.NR.T"
+    licence: "Eurostat reuse policy under Commission Decision 2011/833/EU: reuse authorised for commercial and non-commercial purposes provided the source is acknowledged"
+    attribution: "Source: Eurostat, immigration by age group, sex and citizenship (migr_imm1ctz)."
+questions:
+  - id: immigration-over-time
+    question: How many people arrived to live in a country in each year the provider covers?
+    derivation: Select the provider's immigration count by reporting country and reference year.
+    columns: [period, geo_code, iso3_code, geo_kind, immigration_persons]
+  - id: where-immigration-is-published
+    question: For which countries and years does this provider publish an arrival count at all?
+    derivation: Read which country and year combinations carry a value, and which carry the provider's flag instead.
+    columns: [period, geo_code, immigration_persons, observation_flag]
+temporal:
+  grain: year
+  period_column: period
+  meaning: >-
+    Each period is the first day of the calendar year the flow occurred in, from
+    the provider's TIME_PERIOD. The grain is one row per period and geo_code.
+    The panel is not rectangular and cannot be made so: reporting begins in
+    different years for different countries, and the United Kingdom's series
+    ends with its withdrawal from the European Union, so a consumer reaching a
+    recent year must show it as unpublished rather than as zero or as an absent
+    shape. The provider collects a reference year by 31 December of the
+    following year and releases it in March of the year after that, and revises
+    published years continuously as national statistical institutes restate
+    them.
+validations:
+  - name: one-row-per-area-and-year
+    description: There is exactly one observation for each reporting area and reference year.
+    columns: [period, geo_code]
+  - name: required-identity-is-never-null
+    description: Period, area code and area kind are never null, however sparse the counts are.
+    columns: [period, geo_code, geo_kind]
+  - name: every-reporting-country-carries-an-iso3-code
+    description: Every area the provider classifies as a country maps to an ISO 3166-1 alpha-3 code, and only its aggregates do not.
+    columns: [geo_code, iso3_code, geo_kind]
+  - name: an-iso3-code-identifies-one-reporting-area
+    description: No two reporting areas map to the same alpha-3 code.
+    columns: [geo_code, iso3_code]
+  - name: counts-are-never-negative
+    description: No year records a negative number of arrivals.
+    columns: [immigration_persons]
+  - name: a-published-count-is-a-count-and-not-a-placeholder
+    description: Where the provider publishes a value it is a whole number of people; an absent value stays null rather than becoming a zero.
+    columns: [immigration_persons]

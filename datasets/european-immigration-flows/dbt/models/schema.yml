@@ -1,0 +1,17 @@
+version: 2
+models:
+  - name: european_immigration_flows
+    description: >-
+      One row per reporting country and reference year. The count is
+      deliberately nullable: a country that did not report a year publishes
+      nothing, which is not the same as reporting nobody.
+    columns:
+      - name: period
+        data_tests: [not_null]
+      - name: geo_code
+        data_tests: [not_null]
+      - name: geo_kind
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: [country, aggregate]
