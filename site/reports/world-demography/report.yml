@@ -1,0 +1,376 @@
+contract_version: 1.0.0
+id: world-demography
+title: World demography
+route: reports/world-demography
+visibility: public
+questions:
+  - id: world-population-path
+    question: How large is the world's population each year, how fast is it changing, and where do the published projection scenarios take it?
+  - id: country-population-path
+    question: How large is each selected country's population each year, how fast is it changing, and where does the published projection take it?
+  - id: population-change-composition
+    question: For each selected country, how much of a year's population change is natural change and how much is net migration, both as people and relative to the population?
+  - id: gross-migration-flows
+    question: Where a provider publishes them, how large are the gross immigration and emigration counts behind a country's net migration?
+  - id: fertility-and-longevity
+    question: For each selected country, what is the total fertility rate, life expectancy at birth, and healthy life expectancy at birth?
+  - id: age-structure
+    question: For each selected country at a selected year, what is the population by five-year age group and sex, and what share of the population is young, working age, or old?
+datasets:
+  - world-demography-indicators
+  - world-demography-scenarios
+  - world-demography-age-structure
+  - european-immigration-flows
+  - european-emigration-flows
+  - healthy-life-expectancy
+
+# A query selects only from its own dataset's table. Three of the six figures
+# draw on more than one dataset, so each declares the query that supplies its
+# row spine on its slot, and the others are declared here and joined by the
+# report before the visual is called. The spine is always the table that
+# decides which rows must appear: for the migration figure that is the United
+# Nations indicator table, because a country Eurostat does not cover still has
+# to render its not-published treatment rather than vanishing from the figure.
+#
+# The country selection is six fixed parameter slots rather than a variable
+# list, because a parameterised query has a fixed arity. Six is also the
+# selection cap the design settled on: past six, the direct labels at the line
+# ends collide. Unused slots are passed a location code no row carries.
+queries:
+  - id: world-indicators
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, series_kind,
+      CAST(population_thousands AS DOUBLE) AS population_thousands,
+      CAST(population_growth_rate_pct AS DOUBLE) AS population_growth_rate_pct
+      FROM world_demography_indicators
+      WHERE location_kind = 'world' AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, series_kind, population_thousands, population_growth_rate_pct]
+
+  - id: world-scenarios
+    dataset: world-demography-scenarios
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, scenario, scenario_kind,
+      CAST(population_thousands AS DOUBLE) AS population_thousands
+      FROM world_demography_scenarios
+      WHERE location_kind = 'world' AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY scenario, period
+    parameters: [period-start, period-end]
+    columns: [period, scenario, scenario_kind, population_thousands]
+
+  - id: country-population
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, location_id, location_name, series_kind,
+      CAST(population_thousands AS DOUBLE) AS population_thousands,
+      CAST(population_growth_rate_pct AS DOUBLE) AS population_growth_rate_pct
+      FROM world_demography_indicators
+      WHERE location_id IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY location_id, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, location_id, location_name, series_kind, population_thousands, population_growth_rate_pct]
+
+  - id: country-scenarios
+    dataset: world-demography-scenarios
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, location_id, scenario, scenario_kind,
+      CAST(population_thousands AS DOUBLE) AS population_thousands
+      FROM world_demography_scenarios
+      WHERE location_id IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY location_id, scenario, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, location_id, scenario, scenario_kind, population_thousands]
+
+  - id: country-components
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, location_id, location_name, series_kind,
+      CAST(population_change_thousands AS DOUBLE) AS population_change_thousands,
+      CAST(natural_change_thousands AS DOUBLE) AS natural_change_thousands,
+      CAST(natural_change_rate_per_1000 AS DOUBLE) AS natural_change_rate_per_1000,
+      CAST(net_migration_thousands AS DOUBLE) AS net_migration_thousands,
+      CAST(net_migration_rate_per_1000 AS DOUBLE) AS net_migration_rate_per_1000
+      FROM world_demography_indicators
+      WHERE location_id IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY location_id, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, location_id, location_name, series_kind, population_change_thousands, natural_change_thousands, natural_change_rate_per_1000, net_migration_thousands, net_migration_rate_per_1000]
+
+  - id: country-net-migration
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, location_id, location_name, iso3_code,
+      CAST(net_migration_thousands AS DOUBLE) AS net_migration_thousands
+      FROM world_demography_indicators
+      WHERE location_id IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY location_id, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, location_id, location_name, iso3_code, net_migration_thousands]
+
+  - id: immigration-flows
+    dataset: european-immigration-flows
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, iso3_code, immigration_persons
+      FROM european_immigration_flows
+      WHERE iso3_code IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY iso3_code, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, iso3_code, immigration_persons]
+
+  - id: emigration-flows
+    dataset: european-emigration-flows
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, iso3_code, emigration_persons
+      FROM european_emigration_flows
+      WHERE iso3_code IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY iso3_code, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, iso3_code, emigration_persons]
+
+  - id: country-longevity
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, location_id, location_name, iso3_code, series_kind,
+      CAST(total_fertility_rate AS DOUBLE) AS total_fertility_rate,
+      CAST(life_expectancy_years AS DOUBLE) AS life_expectancy_years
+      FROM world_demography_indicators
+      WHERE location_id IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY location_id, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, location_id, location_name, iso3_code, series_kind, total_fertility_rate, life_expectancy_years]
+
+  - id: healthy-years
+    dataset: healthy-life-expectancy
+    sql: >-
+      SELECT CAST(period AS VARCHAR) AS period, iso3_code,
+      CAST(healthy_life_expectancy_years AS DOUBLE) AS healthy_life_expectancy_years
+      FROM healthy_life_expectancy
+      WHERE sex = 'total' AND iso3_code IN (?, ?, ?, ?, ?, ?)
+      AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE)
+      ORDER BY iso3_code, period
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, period-start, period-end]
+    columns: [period, iso3_code, healthy_life_expectancy_years]
+
+  - id: age-bands
+    dataset: world-demography-age-structure
+    sql: >-
+      SELECT location_id, location_name, age_grouping, age_group, age_start, age_end,
+      CAST(population_male_thousands AS DOUBLE) AS population_male_thousands,
+      CAST(population_female_thousands AS DOUBLE) AS population_female_thousands,
+      CAST(population_total_thousands AS DOUBLE) AS population_total_thousands,
+      CAST(share_of_population_pct AS DOUBLE) AS share_of_population_pct
+      FROM world_demography_age_structure
+      WHERE location_id IN (?, ?, ?, ?, ?, ?) AND period = CAST(? AS DATE)
+      ORDER BY location_id, age_grouping, age_start
+    parameters: [country-1, country-2, country-3, country-4, country-5, country-6, observation-year]
+    columns: [location_id, location_name, age_grouping, age_group, age_start, age_end, population_male_thousands, population_female_thousands, population_total_thousands, share_of_population_pct]
+
+  - id: country-universe
+    dataset: world-demography-indicators
+    sql: >-
+      SELECT location_id, location_name, iso3_code,
+      CAST(population_thousands AS DOUBLE) AS population_thousands
+      FROM world_demography_indicators
+      WHERE location_kind = 'country' AND period = CAST(? AS DATE) AND population_thousands >= CAST(? AS DOUBLE)
+      ORDER BY location_name
+    parameters: [universe-year, universe-floor]
+    columns: [location_id, location_name, iso3_code, population_thousands]
+
+schemas:
+  world-population-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: series_kind, type: string, nullable: false}
+    - {name: population_thousands, type: number, nullable: false}
+    - {name: population_growth_rate_pct, type: number, nullable: false}
+  world-scenario-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: scenario, type: string, nullable: false}
+    - {name: scenario_kind, type: string, nullable: false}
+    - {name: population_thousands, type: number, nullable: true}
+  country-population-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: series_kind, type: string, nullable: false}
+    - {name: population_thousands, type: number, nullable: false}
+    - {name: population_growth_rate_pct, type: number, nullable: false}
+  country-scenario-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: location_id, type: integer, nullable: false}
+    - {name: scenario, type: string, nullable: false}
+    - {name: scenario_kind, type: string, nullable: false}
+    - {name: population_thousands, type: number, nullable: true}
+  change-composition-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: series_kind, type: string, nullable: false}
+    - {name: population_change_thousands, type: number, nullable: false}
+    - {name: natural_change_thousands, type: number, nullable: false}
+    - {name: natural_change_rate_per_1000, type: number, nullable: false}
+    - {name: net_migration_thousands, type: number, nullable: false}
+    - {name: net_migration_rate_per_1000, type: number, nullable: false}
+  migration-spine-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: true}
+    - {name: net_migration_thousands, type: number, nullable: false}
+  immigration-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: false}
+    - {name: immigration_persons, type: integer, nullable: true}
+  emigration-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: false}
+    - {name: emigration_persons, type: integer, nullable: true}
+  longevity-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: true}
+    - {name: series_kind, type: string, nullable: false}
+    - {name: total_fertility_rate, type: number, nullable: false}
+    - {name: life_expectancy_years, type: number, nullable: false}
+  healthy-years-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: false}
+    - {name: healthy_life_expectancy_years, type: number, nullable: false}
+  age-structure-schema:
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: age_grouping, type: string, nullable: false}
+    - {name: age_group, type: string, nullable: false}
+    - {name: age_start, type: integer, nullable: false}
+    - {name: age_end, type: integer, nullable: true}
+    - {name: population_male_thousands, type: number, nullable: false}
+    - {name: population_female_thousands, type: number, nullable: false}
+    - {name: population_total_thousands, type: number, nullable: false}
+    - {name: share_of_population_pct, type: number, nullable: false}
+  country-universe-schema:
+    - {name: location_id, type: integer, nullable: false}
+    - {name: location_name, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: true}
+    - {name: population_thousands, type: number, nullable: false}
+
+visuals:
+  - id: world-population-path
+    contract: 1.0.0
+    dataset: world-demography-indicators
+    question: world-population-path
+    query: world-indicators
+    schema: world-population-schema
+    columns: [period, series_kind, population_thousands, population_growth_rate_pct]
+  - id: country-population-paths
+    contract: 1.0.0
+    dataset: world-demography-indicators
+    question: country-population-path
+    query: country-population
+    schema: country-population-schema
+    columns: [period, location_id, location_name, series_kind, population_thousands, population_growth_rate_pct]
+  - id: change-composition
+    contract: 1.0.0
+    dataset: world-demography-indicators
+    question: population-change-composition
+    query: country-components
+    schema: change-composition-schema
+    columns: [period, location_id, location_name, series_kind, population_change_thousands, natural_change_thousands, natural_change_rate_per_1000, net_migration_thousands, net_migration_rate_per_1000]
+  - id: migration-flows
+    contract: 1.0.0
+    dataset: world-demography-indicators
+    question: gross-migration-flows
+    query: country-net-migration
+    schema: migration-spine-schema
+    columns: [period, location_id, location_name, iso3_code, net_migration_thousands]
+  - id: fertility-longevity
+    contract: 1.0.0
+    dataset: world-demography-indicators
+    question: fertility-and-longevity
+    query: country-longevity
+    schema: longevity-schema
+    columns: [period, location_id, location_name, iso3_code, series_kind, total_fertility_rate, life_expectancy_years]
+  - id: age-structure
+    contract: 1.0.0
+    dataset: world-demography-age-structure
+    question: age-structure
+    query: age-bands
+    schema: age-structure-schema
+    columns: [location_id, location_name, age_grouping, age_group, age_start, age_end, population_male_thousands, population_female_thousands, population_total_thousands, share_of_population_pct]
+
+# Every column any declared query reads, including the secondary queries no
+# slot references. Public closure and privacy resolve against this list, so a
+# column read but not declared here would be a lineage claim that is no longer
+# true.
+lineage:
+  world-demography-indicators:
+    - period
+    - location_id
+    - location_name
+    - location_kind
+    - iso3_code
+    - series_kind
+    - population_thousands
+    - population_growth_rate_pct
+    - population_change_thousands
+    - natural_change_thousands
+    - natural_change_rate_per_1000
+    - net_migration_thousands
+    - net_migration_rate_per_1000
+    - total_fertility_rate
+    - life_expectancy_years
+  world-demography-scenarios:
+    - period
+    - location_id
+    - location_kind
+    - scenario
+    - scenario_kind
+    - population_thousands
+  world-demography-age-structure:
+    - period
+    - location_id
+    - location_name
+    - age_grouping
+    - age_group
+    - age_start
+    - age_end
+    - population_male_thousands
+    - population_female_thousands
+    - population_total_thousands
+    - share_of_population_pct
+  european-immigration-flows:
+    - period
+    - iso3_code
+    - immigration_persons
+  european-emigration-flows:
+    - period
+    - iso3_code
+    - emigration_persons
+  healthy-life-expectancy:
+    - period
+    - iso3_code
+    - sex
+    - healthy_life_expectancy_years
+
+state_topology:
+  report: [ready, loading, empty, query-error, engine-error]
+  slot: [ready, loading, empty, suspect, stale, query-error, schema-error, render-error, engine-error]
+  failure_scope: slot-local
+  retry: safe
+
+exploration:
+  enabled: true
+  default_period: all
+  controls: [represented-period, observation-year, countries, projection-scenario, change-unit]
+
+change:
+  version: 1.0.0
+  summary: Initial world demography report declaration
