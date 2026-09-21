@@ -8,12 +8,13 @@ the same artifacts the site serves.
 from __future__ import annotations
 
 from copy import deepcopy
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 import json
 from pathlib import Path
 import shutil
 
 import pytest
+import yaml
 
 from pulse import cli, verify
 from pulse.catalog import (
@@ -25,6 +26,7 @@ from pulse.catalog import (
 from pulse.contracts.snapshot import ContractError
 from pulse.contracts.status import (
     DATASET_STAGES,
+    MAX_EXPECTED_WITHIN_DAYS,
     PUBLISHED_STATES,
     SOURCE_STAGES,
     STATE_PRECEDENCE,
@@ -166,10 +168,20 @@ def test_public_build_status_records_site_preparation_before_hashing(tmp_path: P
     assert site["state"] == "succeeded"
     assert site["lastAttemptAt"] == timestamp
     assert [stage["state"] for stage in site["stages"]] == ["succeeded"] * 4
-    assert site["representedPeriod"] == {"start": "2026-09-22", "end": "2026-09-22"}
     assert site["schedule"] is None
-    assert display_state(site, datetime(2026, 9, 22, tzinfo=timezone.utc)) == "succeeded"
-    assert display_state(site, datetime(2026, 9, 22, 0, 0, 1, tzinfo=timezone.utc)) == "stale"
+    # The site's window ends at the earliest deadline in the public lineage.
+    # Deriving it states that rule; a literal date here would turn "a source
+    # with a slower provider was added" into a failure that says nothing about
+    # whether the catalog is correct.
+    limiting = min(
+        publication_deadline(entry["representedPeriod"]["end"], entry["schedule"])
+        for entry in catalog["pipelines"].values()
+        if entry["schedule"] is not None and entry["representedPeriod"] is not None
+    )
+    expiry = limiting.date().isoformat()
+    assert site["representedPeriod"] == {"start": expiry, "end": expiry}
+    assert display_state(site, limiting) == "succeeded"
+    assert display_state(site, limiting + timedelta(seconds=1)) == "stale"
 
 
 def test_first_run_is_not_run_without_a_diagnostic(tmp_path: Path) -> None:
@@ -496,7 +508,7 @@ def test_published_dataset_may_not_publish_a_derived_or_failed_state(tmp_path: P
         None,
         {},
         {"period": "weekly", "expected_within_days": 15, "grace_days": 7},
-        {"period": "monthly", "expected_within_days": 366, "grace_days": 7},
+        {"period": "monthly", "expected_within_days": MAX_EXPECTED_WITHIN_DAYS + 1, "grace_days": 7},
         {"period": "monthly", "expected_within_days": -1, "grace_days": 7},
         {"period": "monthly", "expected_within_days": 15, "grace_days": -1},
         {"period": "monthly", "expected_within_days": 15, "grace_days": 61},
@@ -507,6 +519,28 @@ def test_published_dataset_may_not_publish_a_derived_or_failed_state(tmp_path: P
 def test_declared_schedule_is_validated_with_an_exact_field_set(schedule: object) -> None:
     with pytest.raises(ContractError):
         validate_publication_schedule(schedule)
+
+
+def test_the_ceiling_admits_every_declared_release_lag_in_the_repository() -> None:
+    """No source may be forced to declare the ceiling because its evidence does not fit.
+
+    The ceiling exists to reject nonsense. When a source's own observed lag
+    reaches it, the value that ships stops describing the provider and starts
+    describing the contract, and the pipeline reports lateness the provider's
+    record does not support.
+    """
+    declared = []
+    for path in sorted(Path("sources").glob("*/source.yaml")):
+        schedule = yaml.safe_load(path.read_text(encoding="utf-8")).get("publication_schedule")
+        if schedule is not None:
+            declared.append((path.parent.name, schedule["expected_within_days"]))
+
+    assert declared, "no source declares a publication schedule"
+    at_ceiling = [name for name, days in declared if days >= MAX_EXPECTED_WITHIN_DAYS]
+    assert not at_ceiling, (
+        f"{at_ceiling} declare the ceiling itself; raise MAX_EXPECTED_WITHIN_DAYS to fit the "
+        "provider's observed lag rather than clipping the evidence to the bound"
+    )
 
 
 @pytest.mark.parametrize(
@@ -616,9 +650,19 @@ def test_status_report_resolves_staleness_against_the_given_clock(tmp_path: Path
     catalog = _compile(tmp_path)
 
     fresh = status_report(catalog, datetime(2026, 9, 9, tzinfo=timezone.utc))
-    overdue = status_report(catalog, datetime(2029, 1, 1, tzinfo=timezone.utc))
+    # Far enough past every declared deadline that nothing is merely early: one
+    # of these tables is a projection published to 2100, so a clock a few years
+    # out would leave it legitimately fresh.
+    overdue = status_report(catalog, datetime(2110, 1, 1, tzinfo=timezone.utc))
 
-    assert all("succeeded" in line for line in fresh if SITE not in line)
+    # Not every pipeline is fresh at the same instant: a provider that
+    # publishes once every two years is legitimately further behind than one
+    # that publishes monthly, so the invariant is that staleness only ever
+    # grows with the clock, never that everything is fresh at one of them.
+    assert any("succeeded" in line for line in fresh if SITE not in line)
+    stale_early = {line.split()[0] for line in fresh if "stale" in line}
+    stale_late = {line.split()[0] for line in overdue if "stale" in line}
+    assert stale_early <= stale_late
     assert any(line.startswith(SITE) and "not-run" in line for line in fresh)
     assert all("stale" in line for line in overdue if SITE not in line)
     assert any(line.startswith(SITE) and "not-run" in line for line in overdue)

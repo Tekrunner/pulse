@@ -55,7 +55,10 @@ function isPeriod(value) {
 
 // A period's length in months. The deadline math needs nothing else about a
 // period, so adding one here is the whole cost of supporting it.
-const SCHEDULE_PERIOD_MONTHS = { monthly: 1, quarterly: 3, annual: 12 };
+// Mirrors MAX_EXPECTED_WITHIN_DAYS in runtime/pulse/contracts/status.py; the
+// built page and the runtime must agree on what a source may declare.
+const MAX_EXPECTED_WITHIN_DAYS = 1000;
+const SCHEDULE_PERIOD_MONTHS = { monthly: 1, quarterly: 3, annual: 12, biennial: 24 };
 
 function validateSchedule(schedule) {
   if (schedule === null) return null;
@@ -65,7 +68,7 @@ function validateSchedule(schedule) {
     !Object.hasOwn(SCHEDULE_PERIOD_MONTHS, schedule.period) ||
     !Number.isInteger(schedule.expectedWithinDays) ||
     schedule.expectedWithinDays < 0 ||
-    schedule.expectedWithinDays > 365 ||
+    schedule.expectedWithinDays > MAX_EXPECTED_WITHIN_DAYS ||
     !Number.isInteger(schedule.graceDays) ||
     schedule.graceDays < 0 ||
     schedule.graceDays > 60

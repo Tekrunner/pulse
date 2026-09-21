@@ -43,7 +43,11 @@ PUBLISHED_STATES = ("not-run", "succeeded", "suspect", "failed")
 
 # A period's length in months. The deadline math needs nothing else about a
 # period, so adding one here is the whole cost of supporting it.
-SCHEDULE_PERIOD_MONTHS = {"monthly": 1, "quarterly": 3, "annual": 12}
+SCHEDULE_PERIOD_MONTHS = {"monthly": 1, "quarterly": 3, "annual": 12, "biennial": 24}
+# The widest release lag any source may declare. Raise it when a provider
+# demonstrably publishes later than this, never to let one source reach a
+# round number: it bounds nonsense, it does not supply a value.
+MAX_EXPECTED_WITHIN_DAYS = 1000
 SCHEDULE_PERIODS = tuple(SCHEDULE_PERIOD_MONTHS)
 _DECLARED_SCHEDULE_FIELDS = {"period", "expected_within_days", "grace_days"}
 _BROWSER_SCHEDULE_FIELDS = {"period", "expectedWithinDays", "graceDays"}
@@ -86,7 +90,16 @@ def validate_publication_schedule(value: Any) -> dict[str, Any]:
     # Measured from the end of the period, not as a day-of-month, because real
     # release lags routinely exceed one month: INSEE publishes its localised
     # unemployment rates roughly eighty days after the quarter they describe.
-    _positive_integer(value["expected_within_days"], "expected_within_days", low=0, high=365)
+    # The ceiling admits a lag several times the period itself, because some
+    # are: WHO disseminated the 2021 reference year of its Global Health
+    # Estimates in August 2024, 945 days after that year ended. The ceiling
+    # exists to reject a nonsensical declaration, and a source must derive its
+    # own value from that provider's observed releases; a source that declares
+    # the ceiling because its evidence did not fit is reporting the contract's
+    # limit rather than the provider's behaviour.
+    _positive_integer(
+        value["expected_within_days"], "expected_within_days", low=0, high=MAX_EXPECTED_WITHIN_DAYS
+    )
     _positive_integer(value["grace_days"], "grace_days", low=0, high=60)
     return value
 
@@ -106,7 +119,9 @@ def validate_browser_schedule(value: Any) -> dict[str, Any]:
         raise ContractError("browser publication schedule fields are not exact")
     if value["period"] not in SCHEDULE_PERIODS:
         raise ContractError("browser publication schedule period is unsupported")
-    _positive_integer(value["expectedWithinDays"], "expectedWithinDays", low=0, high=365)
+    _positive_integer(
+        value["expectedWithinDays"], "expectedWithinDays", low=0, high=MAX_EXPECTED_WITHIN_DAYS
+    )
     _positive_integer(value["graceDays"], "graceDays", low=0, high=60)
     return value
 
