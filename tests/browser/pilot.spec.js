@@ -612,6 +612,35 @@ test("homepage links every included report and lists pipeline health quietly", a
   await expect(page).toHaveURL(/\/pulse\/reports\/french-consumer-prices$/);
 });
 
+/**
+ * The board is asserted over the whole committed catalog, not the one family
+ * the tests above name. A pipeline the repository grows, or a state the
+ * catalog starts carrying and the shell has no word for, shows up here as a
+ * blank cell rather than going unnoticed until a reader meets it.
+ */
+test("every pipeline in the catalog reaches the board with a state this build can name", async ({
+  page,
+}) => {
+  await page.goto("");
+  const health = page.locator("[data-pipeline-health]");
+  await expect(health).toHaveAttribute("data-state", "ready");
+  const rows = health.locator("[data-pipeline]");
+  const total = await rows.count();
+  expect(total).toBeGreaterThanOrEqual(4);
+  const resolved = await rows.evaluateAll((nodes) => nodes.map((node) => ({
+    state: node.dataset.state,
+    word: node.querySelector(".pipeline-state")?.textContent?.trim() ?? "",
+    marker: node.querySelector(".pipeline-marker")?.textContent?.trim() ?? "",
+  })));
+  expect(resolved).toHaveLength(total);
+  for (const row of resolved) {
+    expect(["not-run", "succeeded", "suspect", "stale", "failed"]).toContain(row.state);
+    expect(row.word).not.toBe("");
+    expect(row.marker).not.toBe("");
+  }
+  await expect(health).not.toContainText(/Traceback|password|token|\/home\//i);
+});
+
 test("production artifact serves cataloged Parquet byte ranges", async ({ request }) => {
   const response = await request.get(
     "_import/data/datasets/insee-cpi-monthly/dataset.parquet",
