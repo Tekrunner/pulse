@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
 import { access } from "node:fs/promises";
-import { basename, resolve } from "node:path";
+import { basename, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const root = resolve(import.meta.dirname, "..");
@@ -46,6 +46,11 @@ async function main(arguments_) {
     );
   }
   const spec = await resolveReportSpec(reportId);
+  // Playwright matches this positionally as a regular expression against each
+  // test file's path, so it takes a repository-relative POSIX path. An
+  // absolute Windows path is not a valid pattern -- its separators read as
+  // escapes -- and so selects nothing rather than failing loudly.
+  const pattern = relative(root, spec).split(sep).join("/");
   const executable = resolve(
     root,
     "node_modules",
@@ -58,7 +63,7 @@ async function main(arguments_) {
       "test",
       "--config",
       resolve(root, "tests/browser/playwright.config.js"),
-      spec,
+      pattern,
       ...playwrightArguments,
     ],
     {
