@@ -35,7 +35,14 @@ The verification command is the repository-local automation API used by both loc
 ```sh
 uv run pytest tests/runtime/test_reports.py -q
 node tests/node/report-workflow.test.mjs
+npm run browser:test:report -- french-unemployment --project=chromium
 ```
+
+The focused browser command rebuilds the site, then runs only the specification
+owned by the named report. Omit `--project=chromium` to exercise that report in
+both Chromium and Firefox. New reports use the convention
+`tests/browser/<report-id>.spec.js`; the final `pulse verify` remains the one
+complete cross-report run after implementation is finished.
 
 Use `npm run verify:frontend` only when intentionally running the complete frontend gate without Python, status, or workflow checks. Do not run it alongside `pulse verify`: the aggregate command already invokes it. After the final code change, run `uv run --no-sync pulse verify` once. The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 

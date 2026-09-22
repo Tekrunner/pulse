@@ -41,4 +41,11 @@ For each visual, compare the same pinned observations across stored Parquet, bro
 
 A declaration of `failure_scope: slot-local` is a claim about behaviour, so demonstrate it: give the report a scenario that fails exactly one slot's dataset, and assert both that the slot reports its own error with a retry **and** that every sibling stays ready and the report itself does not enter an error state. A scenario that fails every query proves only that the report can show an error. Assert horizontal overflow directly at each captured view — a plot that takes a fixed width below its container's minimum pushes the whole page sideways at 400% zoom, and a figure-height assertion will not catch it.
 
-Use focused tests while implementing. After the final code change and consolidated review fixes, run `uv run --no-sync pulse verify` once as the complete repository gate; it already includes the full Python and frontend suites. Do not run those full suites separately before or after it.
+Use focused tests while implementing. For browser behavior, run
+`npm run browser:test:report -- <report-id> --project=chromium`; omit the project
+option only when the current evidence needs both supported browsers. This command
+rebuilds the site and runs only that report's specification, so do not use the
+complete browser suite for ordinary report iteration. After the final code change
+and consolidated review fixes, run `uv run --no-sync pulse verify` once as the
+complete repository gate; it already includes the full Python and frontend suites.
+Do not run those full suites separately before or after it.

@@ -10,10 +10,20 @@ The conservative scanner combines dataset/table identity with repository searche
 
 Removed or retyped columns are breaking. Metadata/semantic edits to retained columns are compatible modifications. Pure new columns are compatible additions. Mixed changes take the most severe classification. Advance the v1 minor contract for any schema edit and keep `previous_contract_version` exact.
 
-For atomic migration, commit the dbt model/tests, contract, `schema-change.yaml`, every affected query/schema/fixture/lineage declaration, and conformance tests together. A breaking plan must list all affected consumers as `migrated`; publication rejects an empty or unresolved plan. Then run:
+For atomic migration, commit the dbt model/tests, contract, `schema-change.yaml`, every affected query/schema/fixture/lineage declaration, and conformance tests together. A breaking plan must list all affected consumers as `migrated`; publication rejects an empty or unresolved plan. During implementation, start with the smallest relevant test files, then expand to:
 
 ```sh
 uv run --no-sync pytest tests/datasets tests/runtime -q
+npm run browser:test:report -- <affected-report-id> --project=chromium
+```
+
+Run the focused browser command once for each affected report while implementing;
+omit the project option only when the current evidence needs both supported
+browsers. If the impact inventory contains no report consumer, skip it. After the
+final code change and consolidated review fixes, run the complete gate once rather
+than separately repeating its full Python or frontend suites:
+
+```sh
 uv run --no-sync pulse verify
 git diff --check
 ```

@@ -16,12 +16,24 @@ Before completion:
 4. Exercise ready, loading, empty, suspect, stale, query error, schema incompatibility, render error, and shared-engine failure on the actual route. Verify slot-local isolation and accessible equivalents.
 5. Complete `assets/fidelity-checklist.md` with behavior assertions or rendered evidence. Compare approved and implemented output at matching desktop, narrow smartphone landscape, designed states, and 400% zoom/reflow. Explain and approve every difference.
 6. Verify no chart-library dependency and no visual-owned SQL, DuckDB, routes, storage, framework globals, fetching, or shared resource lifecycle.
-7. Run:
+7. During implementation, run the browser specification for the report that owns
+   the visual:
+
+   ```bash
+   npm run browser:test:report -- <report-id> --project=chromium
+   ```
+
+   Omit the project option only when the current evidence needs both supported
+   browsers. Do not run the complete browser suite for ordinary visual iteration.
+8. After the final code change and consolidated review fixes, run:
 
 ```bash
 uv run --no-sync python .agents/skills/pulse-add-visual/scripts/fidelity_gate.py <completed-fidelity-checklist.md>
 uv run --no-sync pulse verify
 git diff --check
 ```
+
+Run the complete repository gate once; it already includes the full browser suite.
+Do not run the full frontend or Python suites separately before or after it.
 
 Map every design requirement and acceptance criterion to evidence. Passing tests without completed rendered comparison is not completion; leave the work open and report what remains unchecked.
