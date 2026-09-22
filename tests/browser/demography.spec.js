@@ -266,8 +266,49 @@ for (const [metrics, stylesheet] of [["the shipped font", null], ["a wider font"
       Math.round(document.querySelector(".report-visual svg").getBoundingClientRect().width));
     expect(narrow).toBeLessThan(wide);
     expect(narrow).toBeLessThanOrEqual(320);
+
+    // A figure that fits the page but scrolls inside its own frame is what
+    // the page-level assertion above cannot see, and it is what a phone
+    // reader actually meets. The frames keep `overflow-x: auto` as a
+    // backstop; nothing is supposed to reach it.
+    expect(await page.evaluate(() => [...document.querySelectorAll(".figure-body, .multiple-panel")]
+      .filter((frame) => frame.scrollWidth > frame.clientWidth + 1)
+      .map((frame) => `${frame.dataset.slot ?? frame.querySelector(".multiple-title")?.textContent}: ${frame.scrollWidth} in ${frame.clientWidth}`)))
+      .toEqual([]);
+
+    // A visual draws its marks in the coordinate space of the width it was
+    // given and puts the labels beside them in that same space, but only the
+    // SVG rescales. Drawn at one width and rendered at another, every mark
+    // slides away from its own label -- which is how the age bands ended up
+    // over the men's bars.
+    expect(await page.evaluate(() => [...document.querySelectorAll(".report-visual svg")]
+      .map((svg) => ({ drawn: svg.viewBox.baseVal.width, rendered: svg.getBoundingClientRect().width }))
+      .filter(({ drawn, rendered }) => Math.abs(drawn - rendered) > 1)
+      .map(({ drawn, rendered }) => `drawn ${drawn}, rendered ${Math.round(rendered)}`)))
+      .toEqual([]);
   });
 }
+
+// The year control is the one control a reader holds rather than clicks, and
+// a drag survives only if the element under the pointer survives with it.
+// Rebuilding the bar on every tick removed it, which Firefox on Android reads
+// as the gesture ending: the slider could not be moved at all.
+test("dragging the year never replaces the control being dragged", async ({ page }) => {
+  await ready(page);
+  const stable = await page.evaluate(async () => {
+    const slider = document.querySelector('[data-control="observation-year"]');
+    const before = slider;
+    for (const year of [2020, 2010, 1999]) {
+      slider.value = String(year);
+      slider.dispatchEvent(new Event("input", { bubbles: true }));
+      await new Promise((resume) => setTimeout(resume, 60));
+    }
+    const after = document.querySelector('[data-control="observation-year"]');
+    return { same: after === before, connected: before.isConnected, value: after.value, reading: document.querySelector(".observation-control output").textContent };
+  });
+  expect(stable).toEqual({ same: true, connected: true, value: "1999", reading: "1999" });
+  await expect(page.locator('figure[data-figure="world-population-path"] .values .yr')).toHaveText("1999");
+});
 
 test("changing the year never puts a loading message over a drawn figure", async ({ page }) => {
   await ready(page);

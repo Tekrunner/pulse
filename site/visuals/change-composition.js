@@ -7,13 +7,14 @@
  * does not hold.
  */
 import {
-  chart, dataTable, enablePicking, line, niceDomain, overlayLabel, people,
-  periodYear, polyline, provenanceLine, signedPercent, valueStrip, node,
+  axisGutter, chart, dataTable, enablePicking, line, niceDomain, overlayLabel,
+  panelGrid, people, periodYear, polyline, provenanceLine, signedPercent,
+  valueStrip, node,
 } from "./report-shared.js";
 import { validateChangeCompositionRows } from "./change-composition.contract.js";
 
 const NATURAL = "#9dc0ae", MIGRATION = "#d09a6a", CHANGE = "#e9e9ed";
-const PAD_LEFT = 44, PAD_RIGHT = 6, TOP = 10, HEIGHT = 128, SVG_HEIGHT = 168;
+const MAX_PAD_LEFT = 44, PAD_RIGHT = 6, TOP = 10, HEIGHT = 128, SVG_HEIGHT = 168;
 
 function perMille(value, digits = 1) {
   if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
@@ -38,8 +39,19 @@ export function renderChangeComposition(rows, display = {}, provenance = "") {
 
   const grid = node("div");
   grid.className = "multiples";
-  grid.style.setProperty("--multiple-columns", String(Math.min(columns, Math.max(1, byCountry.size))));
-  const panelWidth = Math.max(260, Math.floor((width - (Math.min(columns, byCountry.size) - 1) * 12) / Math.min(columns, byCountry.size)) - 20);
+  const { columns: panelColumns, width: panelWidth } = panelGrid(width, Math.min(columns, Math.max(1, byCountry.size)));
+  grid.style.setProperty("--multiple-columns", String(panelColumns));
+
+  const naturalOf = (row) => (perThousand ? row.natural_change_rate_per_1000 : row.natural_change_thousands);
+  const migrationOf = (row) => (perThousand ? row.net_migration_rate_per_1000 : row.net_migration_thousands);
+  // One gutter for the figure, from every panel's own extremes: panels that
+  // sit side by side under headings that line up cannot start their plots in
+  // different places.
+  const domains = new Map([...byCountry].map(([id, entry]) => {
+    const values = entry.rows.flatMap((row) => [naturalOf(row), migrationOf(row), ...(perThousand ? [] : [row.population_change_thousands])]);
+    return [id, niceDomain(Math.min(...values), Math.max(...values))];
+  }));
+  const padLeft = axisGutter([...domains.values()].flatMap((domain) => [format(domain.lo), format(domain.hi)]), { max: MAX_PAD_LEFT });
 
   for (const [id, entry] of byCountry) {
     const colour = seriesColours[id] ?? "#b2b6ca";
@@ -57,13 +69,10 @@ export function renderChangeComposition(rows, display = {}, provenance = "") {
       ...(perThousand ? [] : [{ color: CHANGE, label: "Population change", value: people(selected?.population_change_thousands, { signed: true }) }]),
     ]));
 
-    const naturalOf = (row) => (perThousand ? row.natural_change_rate_per_1000 : row.natural_change_thousands);
-    const migrationOf = (row) => (perThousand ? row.net_migration_rate_per_1000 : row.net_migration_thousands);
-    const values = entry.rows.flatMap((row) => [naturalOf(row), migrationOf(row), ...(perThousand ? [] : [row.population_change_thousands])]);
-    const domain = niceDomain(Math.min(...values), Math.max(...values));
+    const domain = domains.get(id);
 
-    const inner = Math.max(180, panelWidth - PAD_LEFT - PAD_RIGHT);
-    const xOf = (position) => PAD_LEFT + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
+    const inner = Math.max(120, panelWidth - padLeft - PAD_RIGHT);
+    const xOf = (position) => padLeft + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
     const yOf = (value) => TOP + HEIGHT - ((value - domain.lo) / (domain.hi - domain.lo)) * HEIGHT;
     const positionOf = new Map(periods.map((period, position) => [period, position]));
 
@@ -81,7 +90,7 @@ export function renderChangeComposition(rows, display = {}, provenance = "") {
       }
       if (top.length) polyline(svg, top.concat(bottom).join(" "), colourOfArea, 0, "", colourOfArea, 0.38);
     }
-    line(svg, { x1: PAD_LEFT, x2: panelWidth - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
+    line(svg, { x1: padLeft, x2: panelWidth - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
     for (const [accessor, colourOfLine] of [[naturalOf, NATURAL], [migrationOf, MIGRATION]]) {
       const points = entry.rows
         .filter((row) => positionOf.has(row.period))
@@ -95,15 +104,15 @@ export function renderChangeComposition(rows, display = {}, provenance = "") {
       if (points.length) polyline(svg, points.join(" "), CHANGE, 1.2, "2 3", "none", 0.8);
     }
 
-    overlayLabel(overlay, format(domain.hi), 0, yOf(domain.hi) - 7, { width: PAD_LEFT - 6, align: "right" });
-    overlayLabel(overlay, format(domain.lo), 0, yOf(domain.lo) - 7, { width: PAD_LEFT - 6, align: "right" });
+    overlayLabel(overlay, format(domain.hi), 0, yOf(domain.hi) - 7, { width: padLeft - 6, align: "right" });
+    overlayLabel(overlay, format(domain.lo), 0, yOf(domain.lo) - 7, { width: padLeft - 6, align: "right" });
     const selectionX = xOf(index);
     line(svg, { x1: selectionX, x2: selectionX, y1: 6, y2: TOP + HEIGHT + 8, stroke: "#e9e9ed", "stroke-width": 1, "stroke-dasharray": "3 3" });
     for (let step = 0; step < 4; step += 1) {
       const position = Math.round((step * (periods.length - 1)) / 3);
       overlayLabel(overlay, periodYear(periods[position]), Math.max(0, Math.min(panelWidth - 50, xOf(position) - 25)), 150, { width: 50 });
     }
-    enablePicking(svg, periods.length, PAD_LEFT, inner);
+    enablePicking(svg, periods.length, padLeft, inner);
     panel.append(root);
     grid.append(panel);
   }

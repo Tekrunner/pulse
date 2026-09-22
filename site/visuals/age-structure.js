@@ -10,7 +10,8 @@
  * as text, "100+" sorts before "10-14".
  */
 import {
-  chart, dataTable, node, overlayLabel, people, provenanceLine, rect, valueStrip,
+  chart, dataTable, node, overlayLabel, panelGrid, people, provenanceLine,
+  rect, valueStrip,
 } from "./report-shared.js";
 import { validateAgeStructureRows } from "./age-structure.contract.js";
 
@@ -36,8 +37,8 @@ export function renderAgeStructure(rows, display = {}, provenance = "") {
 
   const grid = node("div");
   grid.className = "multiples";
-  grid.style.setProperty("--multiple-columns", String(Math.min(columns, Math.max(1, byCountry.size))));
-  const panelWidth = Math.max(260, Math.floor((width - (Math.min(columns, byCountry.size) - 1) * 12) / Math.min(columns, byCountry.size)) - 20);
+  const { columns: panelColumns, width: panelWidth } = panelGrid(width, Math.min(columns, Math.max(1, byCountry.size)));
+  grid.style.setProperty("--multiple-columns", String(panelColumns));
 
   for (const [id, entry] of byCountry) {
     const colour = seriesColours[id] ?? "#b2b6ca";

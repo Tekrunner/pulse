@@ -8,12 +8,12 @@
  * direct label saying where, rather than running on to meet the others.
  */
 import {
-  chart, circle, dataTable, enablePicking, line, niceSpan, node, overlayLabel,
-  periodYear, polyline, provenanceLine, valueStrip,
+  axisGutter, chart, circle, dataTable, enablePicking, line, niceSpan, node,
+  overlayLabel, panelGrid, periodYear, polyline, provenanceLine, valueStrip,
 } from "./report-shared.js";
 import { validateFertilityLongevityRows } from "./fertility-longevity.contract.js";
 
-const PAD_LEFT = 44, PAD_RIGHT = 6, TOP = 14, HEIGHT = 140, SVG_HEIGHT = 186;
+const MAX_PAD_LEFT = 44, PAD_RIGHT = 6, TOP = 14, HEIGHT = 140, SVG_HEIGHT = 186;
 const REPLACEMENT = 2.1;
 
 const PANELS = [
@@ -41,11 +41,26 @@ export function renderFertilityLongevity(rows, display = {}, provenance = "") {
 
   const grid = node("div");
   grid.className = "multiples";
-  grid.style.setProperty("--multiple-columns", String(Math.min(columns, PANELS.length)));
-  const panelWidth = Math.max(260, Math.floor((width - (PANELS.length - 1) * 12) / PANELS.length) - 20);
+  const { columns: panelColumns, width: panelWidth } = panelGrid(width, Math.min(columns, PANELS.length));
+  grid.style.setProperty("--multiple-columns", String(panelColumns));
   const positionOf = new Map(periods.map((period, position) => [period, position]));
-  const inner = Math.max(180, panelWidth - PAD_LEFT - PAD_RIGHT);
-  const xOf = (position) => PAD_LEFT + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
+
+  // Every panel is drawn against the same x positions, so the gutter is the
+  // figure's rather than each panel's: three gutters would start three plots
+  // in three different places under headings that line up.
+  const domains = new Map(PANELS.map((definition) => {
+    const values = observations
+      .map((row) => row[definition.key])
+      .filter((value) => value !== null && value !== undefined && Number.isFinite(Number(value)));
+    if (definition.reference !== null) values.push(definition.reference);
+    return [definition.key, niceSpan(Math.min(...values), Math.max(...values))];
+  }));
+  const padLeft = axisGutter([...domains.values()].flatMap((domain) => {
+    const digits = domain.step < 1 ? 1 : 0;
+    return [domain.lo.toFixed(digits), domain.hi.toFixed(digits)];
+  }), { max: MAX_PAD_LEFT });
+  const inner = Math.max(120, panelWidth - padLeft - PAD_RIGHT);
+  const xOf = (position) => padLeft + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
 
   for (const panelDefinition of PANELS) {
     const panel = node("div");
@@ -66,23 +81,19 @@ export function renderFertilityLongevity(rows, display = {}, provenance = "") {
       };
     })));
 
-    const values = observations
-      .map((row) => row[panelDefinition.key])
-      .filter((value) => value !== null && value !== undefined && Number.isFinite(Number(value)));
-    if (panelDefinition.reference !== null) values.push(panelDefinition.reference);
-    const domain = niceSpan(Math.min(...values), Math.max(...values));
+    const domain = domains.get(panelDefinition.key);
     const yOf = (value) => TOP + HEIGHT - ((value - domain.lo) / (domain.hi - domain.lo)) * HEIGHT;
 
     const { root, svg, overlay } = chart(panelWidth, SVG_HEIGHT,
       `${panelDefinition.title} for the selected countries, ${periodYear(periods[0])} to ${periodYear(periods.at(-1))}`);
     for (let value = domain.lo; value <= domain.hi + 1e-9; value += domain.step) {
       const y = yOf(value);
-      line(svg, { x1: PAD_LEFT, x2: panelWidth - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
-      overlayLabel(overlay, value.toFixed(domain.step < 1 ? 1 : 0), 0, y - 7, { width: PAD_LEFT - 6, align: "right" });
+      line(svg, { x1: padLeft, x2: panelWidth - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
+      overlayLabel(overlay, value.toFixed(domain.step < 1 ? 1 : 0), 0, y - 7, { width: padLeft - 6, align: "right" });
     }
     if (panelDefinition.reference !== null) {
       const y = yOf(panelDefinition.reference);
-      line(svg, { x1: PAD_LEFT, x2: panelWidth - PAD_RIGHT, y1: y, y2: y, stroke: "#9397ab", "stroke-width": 1, "stroke-dasharray": "2 4" });
+      line(svg, { x1: padLeft, x2: panelWidth - PAD_RIGHT, y1: y, y2: y, stroke: "#9397ab", "stroke-width": 1, "stroke-dasharray": "2 4" });
       overlayLabel(overlay, "replacement, about 2.1", panelWidth - 172, y - 17, { width: 164, align: "right" });
     }
 
@@ -119,7 +130,7 @@ export function renderFertilityLongevity(rows, display = {}, provenance = "") {
       const position = Math.round((step * (periods.length - 1)) / 3);
       overlayLabel(overlay, periodYear(periods[position]), Math.max(0, Math.min(panelWidth - 50, xOf(position) - 25)), 168, { width: 50 });
     }
-    enablePicking(svg, periods.length, PAD_LEFT, inner);
+    enablePicking(svg, periods.length, padLeft, inner);
     panel.append(root);
     grid.append(panel);
   }

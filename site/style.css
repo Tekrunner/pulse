@@ -54,7 +54,7 @@ button { min-height:44px; padding:.5rem 1rem; }
 .scorecards small { color:var(--color-neutral-400); }
 .exploration { position:sticky; top:0; z-index:5; display:flex; flex-wrap:wrap; align-items:flex-end; gap:16.8px; padding:11.2px; border-radius:8px; background:var(--color-bg); box-shadow:0 0 0 1px var(--color-neutral-800); }
 .pulse-report fieldset { min-width:0; margin:0; padding:0; border:0; }
-.pulse-report legend,.observation-control>span { padding:0; font-size:12px; color:var(--color-neutral-400); }
+.pulse-report legend,.observation-control>span,.observation-control>label { padding:0; font-size:12px; color:var(--color-neutral-400); }
 .period-field,.component-field,.figure-series { display:flex; flex-direction:column; gap:5.6px; }
 .period-row,.period-range,.component-row,.segments { display:flex; flex-wrap:wrap; align-items:center; gap:8.4px; }
 .segments { gap:0; overflow:hidden; width:fit-content; border:1px solid var(--color-divider); border-radius:8px; }
@@ -71,6 +71,16 @@ button { min-height:44px; padding:.5rem 1rem; }
 .observation-control { flex:1 1 260px; min-width:220px; max-width:none; display:flex; flex-direction:column; gap:5.6px; }
 .observation-control input { width:100%; margin:0; }
 .observation-control output { font-size:13px; font-weight:500; font-variant-numeric:tabular-nums; }
+/* The reading beside the slider rather than under it. Stacked, the control
+   stood half again as tall as every other field in the bar and spent a row
+   of its own. */
+.observation-track { display:flex; align-items:center; gap:8.4px; }
+.observation-control .observation-track input { flex:1 1 auto; width:auto; min-width:0; }
+.observation-control .observation-track output { flex:none; min-width:4ch; }
+/* A range control only ever needs a gesture along its own axis; panning the
+   page stays the page's. Left at the default, a touch that begins on the
+   thumb can be claimed as a page pan and the value never moves. */
+.observation-control input[type="range"] { touch-action:pan-y; }
 .component-row label { display:inline-flex; align-items:center; gap:8px; min-height:44px; padding:0 10px; border:1px solid var(--color-divider); border-radius:8px; font-size:13px; cursor:pointer; }
 .component-row input { width:16px; min-height:16px; height:16px; accent-color:var(--color-accent); }
 .swatch { width:14px; height:3px; border-radius:2px; flex:none; }
@@ -79,8 +89,14 @@ button { min-height:44px; padding:.5rem 1rem; }
 .pulse-report figcaption { display:flex; flex-direction:column; gap:2.8px; }
 .pulse-report figcaption p { max-width:74ch; margin:0; font-size:13px; color:var(--color-neutral-400); }
 .chart-wrapper { position:relative; min-width:0; overflow-x:auto; overflow-y:hidden; }
-.report-visual { position:relative; min-width:320px; }
-.report-visual svg { display:block; width:100%; min-width:320px; min-height:0; }
+/* No floor here. A visual draws its marks in the coordinate space of the
+   width it was given and positions the labels beside them in that same space,
+   but only the SVG rescales when CSS makes it wider. A floor above the drawn
+   width therefore slid every mark to the right of its own label -- on a phone
+   it put the age bands over the men's bars -- and scrolled each figure inside
+   its frame. The floor belongs where the width is chosen, not here. */
+.report-visual { position:relative; min-width:0; }
+.report-visual svg { display:block; width:100%; min-width:0; min-height:0; }
 .plot-overlay { position:absolute; inset:0; pointer-events:none; font-size:12px; color:var(--color-neutral-400); }
 .plot-overlay>span { position:absolute; font-variant-numeric:tabular-nums; }
 .selected-readout { font-size:13px; font-weight:600; }
@@ -410,6 +426,12 @@ li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
 .values { display: flex; flex-wrap: wrap; align-items: baseline; gap: 5px 18px; padding: 8px 11px; border-radius: 8px; background: #1c1f2c; box-shadow: inset 0 0 0 1px #32364a; font-size: 12.5px; }
 .values .yr { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--color-accent-400); font-weight: 600; font-variant-numeric: tabular-nums; }
 .values .v { display: inline-flex; align-items: baseline; gap: 6px; color: var(--color-neutral-400); white-space: nowrap; }
+/* An entry holds its line while it fits the figure and breaks onto the next
+   when it cannot. A country name with its value and its rate is wider than a
+   phone-width frame under some hosts' fonts, and an entry that will not break
+   scrolls the whole figure sideways instead. The pieces themselves still never
+   break: what wraps is where one piece ends and the next begins. */
+.values .v { flex-wrap: wrap; max-width: 100%; }
 .values i { width: 8px; height: 8px; border-radius: 2px; flex: none; align-self: center; }
 .values b { color: #e9e9ed; font-variant-numeric: tabular-nums; font-weight: 500; }
 .values em { font-style: normal; color: var(--color-neutral-500); font-variant-numeric: tabular-nums; }
@@ -445,4 +467,32 @@ li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
    on one line, the caption pushes a wide field past the window edge. */
 .wd-report .exploration label { flex-wrap: wrap; min-width: 0; }
 .wd-report .exploration label > select { flex: 1 1 auto; }
-@media(max-width:900px) { .wd-report .exploration { position: static; flex-direction: column; align-items: stretch; } }
+/* Belongs to the group above. The country picker is the one field whose width
+   says nothing: a select is as wide as its longest option, this one carries
+   every country the provider publishes, and it shows none of them, because it
+   returns to "Choose..." after each pick. Capped, it stops setting the width
+   of the field around it, and the bar packs into fewer rows. */
+.wd-report .exploration select[data-control="add-country"] { width: 12rem; max-width: 100%; }
+/* A row no second field can share is a row of mostly empty space, which is
+   what a laptop rather than a wide monitor gives the reader. The column gap
+   is what fields are separated by; the row gap is only what rows cost. */
+.wd-report .exploration { gap: 8.4px 16.8px; }
+@media(max-width:900px) {
+  .wd-report .exploration { position: static; flex-direction: column; align-items: stretch; }
+  /* Down a column, a flex basis is a height: the year control asked for
+     260px of main axis and was given 260px of blank space under its slider. */
+  .wd-report .exploration > * { flex: 0 0 auto; }
+}
+/* A visual chooses its own column count from the width it is handed and draws
+   each panel at the width that count implies. A breakpoint that overrides the
+   count leaves every panel drawn wider than the cell it lands in. */
+@media(max-width:780px) {
+  .wd-report .multiples { grid-template-columns: repeat(var(--multiple-columns), minmax(0, 1fr)); }
+}
+/* On a phone the plot is what is scarce, and three nested paddings were
+   taking 42px off each side of it before a mark was drawn. */
+@media(max-width:600px) {
+  .pulse-report.wd-report { padding: 16.8px 11.2px 33.6px; }
+  .pulse-report.wd-report figure { padding: 11.2px; }
+  .wd-report .exploration { padding: 8.4px; }
+}

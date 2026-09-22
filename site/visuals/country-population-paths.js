@@ -5,13 +5,14 @@
  * distinction and is never spent on telling countries apart.
  */
 import {
-  chart, circle, dataTable, enablePicking, line, niceSpan, overlayLabel, people,
-  periodYear, polyline, provenanceLine, signedPercent, valueStrip,
+  axisGutter, chart, circle, dataTable, enablePicking, line, niceSpan,
+  overlayLabel, people, periodYear, polyline, provenanceLine, signedPercent,
+  valueStrip,
 } from "./report-shared.js";
 import { validateCountryPopulationPathsRows } from "./country-population-paths.contract.js";
 
 const TOP = 12, HEIGHT = 236, GROWTH_TOP = 274, GROWTH_HEIGHT = 62;
-const PAD_LEFT = 52, PAD_RIGHT = 10, SVG_HEIGHT = 372;
+const MAX_PAD_LEFT = 52, PAD_RIGHT = 10, SVG_HEIGHT = 372;
 
 export function renderCountryPopulationPaths(rows, display = {}, provenance = "") {
   const observations = validateCountryPopulationPathsRows(rows);
@@ -57,8 +58,15 @@ export function renderCountryPopulationPaths(rows, display = {}, provenance = ""
   const growthValues = observations.map((row) => row.population_growth_rate_pct);
   const growthDomain = niceSpan(Math.min(...growthValues, 0), Math.max(...growthValues, 0));
 
-  const inner = Math.max(240, width - PAD_LEFT - PAD_RIGHT);
-  const xOf = (position) => PAD_LEFT + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
+  // Both plots share one gutter, and it holds the labels these domains will
+  // actually produce rather than the widest a population and a rate could
+  // ever need.
+  const gutterLabels = [signedPercent(growthDomain.hi, 1), signedPercent(growthDomain.lo, 1)];
+  for (let value = domain.lo; value <= domain.hi + 1e-9; value += domain.step) gutterLabels.push(people(value));
+  const padLeft = axisGutter(gutterLabels, { max: MAX_PAD_LEFT });
+
+  const inner = Math.max(120, width - padLeft - PAD_RIGHT);
+  const xOf = (position) => padLeft + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
   const yOf = (value, dom, top, height) => top + height - ((value - dom.lo) / (dom.hi - dom.lo)) * height;
   const positionOf = new Map(periods.map((period, position) => [period, position]));
 
@@ -67,8 +75,8 @@ export function renderCountryPopulationPaths(rows, display = {}, provenance = ""
 
   for (let value = domain.lo; value <= domain.hi + 1e-9; value += domain.step) {
     const y = yOf(value, domain, TOP, HEIGHT);
-    line(svg, { x1: PAD_LEFT, x2: width - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
-    overlayLabel(overlay, people(value), 0, y - 8, { width: PAD_LEFT - 6, align: "right" });
+    line(svg, { x1: padLeft, x2: width - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
+    overlayLabel(overlay, people(value), 0, y - 8, { width: padLeft - 6, align: "right" });
   }
 
   for (const [id, band] of bands) {
@@ -119,10 +127,10 @@ export function renderCountryPopulationPaths(rows, display = {}, provenance = ""
   }
 
   const zeroY = yOf(0, growthDomain, GROWTH_TOP, GROWTH_HEIGHT);
-  line(svg, { x1: PAD_LEFT, x2: width - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
-  overlayLabel(overlay, signedPercent(growthDomain.hi, 1), 0, yOf(growthDomain.hi, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: PAD_LEFT - 6, align: "right" });
-  overlayLabel(overlay, signedPercent(growthDomain.lo, 1), 0, yOf(growthDomain.lo, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: PAD_LEFT - 6, align: "right" });
-  overlayLabel(overlay, "Rate of change, % a year", 58, GROWTH_TOP - 18, { width: 190, align: "left" });
+  line(svg, { x1: padLeft, x2: width - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
+  overlayLabel(overlay, signedPercent(growthDomain.hi, 1), 0, yOf(growthDomain.hi, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: padLeft - 6, align: "right" });
+  overlayLabel(overlay, signedPercent(growthDomain.lo, 1), 0, yOf(growthDomain.lo, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: padLeft - 6, align: "right" });
+  overlayLabel(overlay, "Rate of change, % a year", padLeft + 6, GROWTH_TOP - 18, { width: 190, align: "left" });
 
   const selectionX = xOf(index);
   line(svg, { x1: selectionX, x2: selectionX, y1: 8, y2: 350, stroke: "#e9e9ed", "stroke-width": 1, "stroke-dasharray": "3 3" });
@@ -133,7 +141,7 @@ export function renderCountryPopulationPaths(rows, display = {}, provenance = ""
     overlayLabel(overlay, periodYear(periods[position]), Math.max(0, Math.min(width - 56, xOf(position) - 28)), 354, { width: 56 });
   }
 
-  enablePicking(svg, periods.length, PAD_LEFT, inner);
+  enablePicking(svg, periods.length, padLeft, inner);
   fragment.append(root);
   if (provenance) fragment.append(provenanceLine(provenance));
   fragment.append(dataTable(

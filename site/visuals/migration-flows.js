@@ -11,13 +11,14 @@
  * closed by the neighbouring year.
  */
 import {
-  chart, circle, dataTable, enablePicking, line, niceDomain, node, overlayLabel,
-  people, periodYear, polyline, provenanceLine, valueStrip,
+  axisGutter, chart, circle, dataTable, enablePicking, line, niceDomain, node,
+  overlayLabel, panelGrid, people, periodYear, polyline, provenanceLine,
+  valueStrip,
 } from "./report-shared.js";
 import { validateMigrationFlowsRows } from "./migration-flows.contract.js";
 
 const ARRIVALS = "#8fb0d1", DEPARTURES = "#d09a6a", NET = "#b5abfc", ABSENT = "#f2994a";
-const PAD_LEFT = 48, PAD_RIGHT = 6, TOP = 10, HEIGHT = 144, SVG_HEIGHT = 186;
+const MAX_PAD_LEFT = 48, PAD_RIGHT = 6, TOP = 10, HEIGHT = 144, SVG_HEIGHT = 186;
 
 function persons(value) {
   return value === null || value === undefined ? "not published" : people(Number(value) / 1000);
@@ -38,8 +39,24 @@ export function renderMigrationFlows(rows, display = {}, provenance = "") {
 
   const grid = node("div");
   grid.className = "multiples";
-  grid.style.setProperty("--multiple-columns", String(Math.min(columns, Math.max(1, byCountry.size))));
-  const panelWidth = Math.max(260, Math.floor((width - (Math.min(columns, byCountry.size) - 1) * 12) / Math.min(columns, byCountry.size)) - 20);
+  const { columns: panelColumns, width: panelWidth } = panelGrid(width, Math.min(columns, Math.max(1, byCountry.size)));
+  grid.style.setProperty("--multiple-columns", String(panelColumns));
+
+  // A panel with no published flows draws an absence rather than a plot, so
+  // it contributes no scale and no label; the gutter is one figure-wide
+  // width taken from the panels that do draw.
+  const scales = new Map();
+  for (const [id, entry] of byCountry) {
+    const published = entry.rows.filter((row) => row.arrivals_persons !== null || row.departures_persons !== null);
+    if (!published.length) continue;
+    const values = [0, ...entry.rows.map((row) => row.net_migration_thousands)];
+    for (const row of published) {
+      if (row.arrivals_persons !== null) values.push(row.arrivals_persons / 1000);
+      if (row.departures_persons !== null) values.push(row.departures_persons / 1000);
+    }
+    scales.set(id, { published, domain: niceDomain(Math.min(...values), Math.max(...values)) });
+  }
+  const padLeft = axisGutter([...scales.values()].map(({ domain }) => people(domain.hi)), { max: MAX_PAD_LEFT });
 
   for (const [id, entry] of byCountry) {
     const colour = seriesColours[id] ?? "#b2b6ca";
@@ -57,8 +74,8 @@ export function renderMigrationFlows(rows, display = {}, provenance = "") {
       { color: NET, label: "Net, UN", value: people(selected?.net_migration_thousands, { signed: true }) },
     ]));
 
-    const published = entry.rows.filter((row) => row.arrivals_persons !== null || row.departures_persons !== null);
-    if (!published.length) {
+    const scale = scales.get(id);
+    if (!scale) {
       const absence = node("div");
       absence.className = "flow-absence";
       absence.setAttribute("role", "note");
@@ -72,21 +89,16 @@ export function renderMigrationFlows(rows, display = {}, provenance = "") {
       continue;
     }
 
-    const values = [0, ...entry.rows.map((row) => row.net_migration_thousands)];
-    for (const row of published) {
-      if (row.arrivals_persons !== null) values.push(row.arrivals_persons / 1000);
-      if (row.departures_persons !== null) values.push(row.departures_persons / 1000);
-    }
-    const domain = niceDomain(Math.min(...values), Math.max(...values));
-    const inner = Math.max(180, panelWidth - PAD_LEFT - PAD_RIGHT);
-    const xOf = (position) => PAD_LEFT + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
+    const { published, domain } = scale;
+    const inner = Math.max(120, panelWidth - padLeft - PAD_RIGHT);
+    const xOf = (position) => padLeft + (periods.length === 1 ? inner / 2 : (position * inner) / (periods.length - 1));
     const yOf = (value) => TOP + HEIGHT - ((value - domain.lo) / (domain.hi - domain.lo)) * HEIGHT;
     const positionOf = new Map(periods.map((period, position) => [period, position]));
 
     const { root, svg, overlay } = chart(panelWidth, SVG_HEIGHT,
       `${entry.name}: arrivals, departures and net migration, ${periodYear(periods[0])} to ${periodYear(periods.at(-1))}`);
     const zeroY = yOf(0);
-    line(svg, { x1: PAD_LEFT, x2: panelWidth - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
+    line(svg, { x1: padLeft, x2: panelWidth - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
 
     for (const [field, colourOfFlow] of [["arrivals_persons", ARRIVALS], ["departures_persons", DEPARTURES]]) {
       const points = entry.rows
@@ -108,15 +120,15 @@ export function renderMigrationFlows(rows, display = {}, provenance = "") {
       overlayLabel(overlay, `to ${periodYear(lastPublished.period)}`, Math.max(2, x - 94), y - 20, { width: 88, align: "right", color: ABSENT });
     }
 
-    overlayLabel(overlay, people(domain.hi), 0, yOf(domain.hi) - 7, { width: PAD_LEFT - 6, align: "right" });
-    overlayLabel(overlay, "0", 0, zeroY - 7, { width: PAD_LEFT - 6, align: "right" });
+    overlayLabel(overlay, people(domain.hi), 0, yOf(domain.hi) - 7, { width: padLeft - 6, align: "right" });
+    overlayLabel(overlay, "0", 0, zeroY - 7, { width: padLeft - 6, align: "right" });
     const selectionX = xOf(index);
     line(svg, { x1: selectionX, x2: selectionX, y1: 6, y2: TOP + HEIGHT + 8, stroke: "#e9e9ed", "stroke-width": 1, "stroke-dasharray": "3 3" });
     for (let step = 0; step < 4; step += 1) {
       const position = Math.round((step * (periods.length - 1)) / 3);
       overlayLabel(overlay, periodYear(periods[position]), Math.max(0, Math.min(panelWidth - 50, xOf(position) - 25)), 168, { width: 50 });
     }
-    enablePicking(svg, periods.length, PAD_LEFT, inner);
+    enablePicking(svg, periods.length, padLeft, inner);
     panel.append(root);
     grid.append(panel);
   }

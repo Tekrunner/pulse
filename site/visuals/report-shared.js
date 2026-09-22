@@ -208,6 +208,55 @@ export function overlayLabel(
   overlay.append(item);
   return item;
 }
+
+// Advance widths at the size the overlay draws in, as a fraction of that
+// size. Enough to size a gutter, not to typeset: the digits here are tabular
+// and share one width, and it is the separators and the unit letters that a
+// plain character count gets wrong.
+const ADVANCE = Object.freeze({
+  ".": 0.3, ",": 0.3, "−": 0.55, "-": 0.55, "+": 0.58,
+  "%": 0.9, "‰": 1.25, M: 0.85, k: 0.56, b: 0.62, n: 0.62,
+});
+
+/**
+ * The gutter an axis needs for the labels it will actually carry, never wider
+ * than `max` -- the constant it replaces.
+ *
+ * A gutter sized for the longest label any series and unit could produce is a
+ * sixth of the plot once the plot is a phone wide, and the labels there are
+ * two or three characters. Estimated rather than measured because a visual is
+ * built detached, where nothing has a width yet; the estimate carries a
+ * cushion so that a host whose own font is wider than this one's leaves the
+ * gutter generous rather than short.
+ */
+export function axisGutter(labels, { max = Infinity, size = 12, min = 22 } = {}) {
+  const widest = labels.reduce((widestSoFar, label) => Math.max(widestSoFar,
+    [...String(label ?? "")].reduce((total, character) => total + (ADVANCE[character] ?? 0.62) * size, 0)), 0);
+  return Math.round(Math.min(max, Math.max(min, widest * 1.25 + 8)));
+}
+
+/**
+ * How many small multiples fit across a figure, and the width each panel is
+ * drawn at.
+ *
+ * A visual asks for a column count and is given the width it has. Below a
+ * readable panel width it takes fewer columns rather than drawing panels
+ * narrower than their own axes, and the width it returns is the width the
+ * grid cell will actually give the panel. That second half is the point: a
+ * panel drawn wider than its cell has its marks scaled to fit while the
+ * overlay labels beside them are not, which is what put the age bands over
+ * the men's bars on a phone.
+ *
+ * `gap` and `padding` restate `.multiples` and `.multiple-panel` in
+ * style.css. They are one measurement kept in two places; changing either
+ * means changing both.
+ */
+export function panelGrid(width, requested, { gap = 11.2, padding = 8.4, readable = 250 } = {}) {
+  const columns = Math.max(1, Math.min(Math.max(1, requested), Math.floor((width + gap) / (readable + gap))));
+  const cell = (width - (columns - 1) * gap) / columns;
+  return { columns, width: Math.max(160, Math.floor(cell - padding * 2)) };
+}
+
 export function grid(
   svg,
   overlay,

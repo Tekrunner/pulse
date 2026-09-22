@@ -447,10 +447,12 @@ export function renderWorldDemographyReport({ client = getPageDataClient(), scen
     // still fit inside; below that the figure scrolls within its own frame
     // rather than widening the page. Floored, not rounded: rounding a 925.6px
     // container up to 926 gives the figure a pixel it does not have and puts
-    // a scrollbar under every chart. The 1188 fallback is for a detached
-    // element, which measures zero, never for a narrow one.
+    // a scrollbar under every chart. The floor is below the narrowest
+    // container a phone produces, so that scroll is a backstop nobody meets
+    // rather than what every figure does on a phone. The 1188 fallback is for
+    // a detached element, which measures zero, never for a narrow one.
     const measured = Math.floor(target.getBoundingClientRect().width);
-    return measured > 0 ? Math.max(288, measured) : 1188;
+    return measured > 0 ? Math.max(240, measured) : 1188;
   }
 
   function nearest(periods, year) {
@@ -518,8 +520,25 @@ export function renderWorldDemographyReport({ client = getPageDataClient(), scen
     const clamped = Math.max(state.from, Math.min(state.to, Math.round(year)));
     if (clamped === state.year) return;
     state.year = clamped;
-    drawControls();
+    syncYearControl();
     mountAll();
+  }
+
+  /**
+   * The year control is brought up to date in place, never rebuilt.
+   *
+   * Every other control redraws the whole bar, which is cheap because it
+   * happens once per click. The year changes on every tick of a drag, and
+   * rebuilding the bar removes the element the pointer is holding: Firefox on
+   * Android drops the gesture there, so the slider could not be moved at all.
+   */
+  function syncYearControl() {
+    const slider = controls.querySelector('[data-control="observation-year"]');
+    if (!slider) return void drawControls();
+    if (slider.value !== String(state.year)) slider.value = String(state.year);
+    slider.setAttribute("aria-valuetext", String(state.year));
+    const output = controls.querySelector(".observation-control output");
+    if (output) output.textContent = String(state.year);
   }
 
   function setWindow(from, to, { preset, explicitEnd }) {
@@ -585,8 +604,13 @@ export function renderWorldDemographyReport({ client = getPageDataClient(), scen
     periodRow.append(yearSelect("To", state.to, (value) => setWindow(state.from, value, { preset: "custom", explicitEnd: true })));
     periodField.append(periodRow);
 
-    const observation = element("label", undefined, "observation-control");
-    observation.append(element("span", "Observation year — or click any point on a figure"));
+    // A div with its own labelled control rather than a label wrapping
+    // everything: the reading is the slider's, and the output beside it
+    // belongs to the slider rather than to a label that also owns it.
+    const observation = element("div", undefined, "observation-control");
+    const observationLabel = element("label", "Observation year — or click any point on a figure");
+    observationLabel.htmlFor = "world-demography-year";
+    observation.append(observationLabel);
     const slider = element("input");
     slider.type = "range";
     slider.min = String(state.from);
@@ -600,7 +624,9 @@ export function renderWorldDemographyReport({ client = getPageDataClient(), scen
     slider.addEventListener("input", () => setYear(Number(slider.value)));
     const output = element("output", String(state.year));
     output.htmlFor = slider.id;
-    observation.append(slider, output);
+    const track = element("div", undefined, "observation-track");
+    track.append(slider, output);
+    observation.append(track);
 
     const countryField = element("fieldset", undefined, "component-field");
     countryField.append(element("legend", `Countries compared — ${state.selected.length} of ${state.universe.length || "184"} selectable`));

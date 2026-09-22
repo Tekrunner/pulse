@@ -7,12 +7,13 @@
  * no storage and no routing, and it reaches for no other visual.
  */
 import {
-  chart, circle, dataTable, enablePicking, line, niceSpan, overlayLabel, people,
-  periodYear, polyline, provenanceLine, signedPercent, valueStrip,
+  axisGutter, chart, circle, dataTable, enablePicking, line, niceSpan,
+  overlayLabel, people, periodYear, polyline, provenanceLine, signedPercent,
+  valueStrip,
 } from "./report-shared.js";
 import { validateWorldPopulationPathRows } from "./world-population-path.contract.js";
 
-const TOP = 12, HEIGHT = 236, GROWTH_TOP = 274, GROWTH_HEIGHT = 62, PAD_LEFT = 52, PAD_RIGHT = 10, SVG_HEIGHT = 372;
+const TOP = 12, HEIGHT = 236, GROWTH_TOP = 274, GROWTH_HEIGHT = 62, MAX_PAD_LEFT = 52, PAD_RIGHT = 10, SVG_HEIGHT = 372;
 const MEDIUM = "#b5abfc", GROWTH = "#9dc0ae", BOUND = "#8c93a8";
 
 export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
@@ -62,8 +63,16 @@ export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
   const growthValues = observations.map((row) => row.population_growth_rate_pct);
   const growthDomain = niceSpan(Math.min(...growthValues, 0), Math.max(...growthValues, 0));
 
-  const inner = Math.max(240, width - PAD_LEFT - PAD_RIGHT);
-  const xOf = (position) => PAD_LEFT + (observations.length === 1 ? inner / 2 : (position * inner) / (observations.length - 1));
+  // Both plots share one gutter, and it holds the labels these domains will
+  // actually produce rather than the widest a population and a rate could
+  // ever need.
+  const populationLabel = (value) => `${(value / 1000000).toFixed(value >= 1000000 ? 1 : 2)}bn`;
+  const gutterLabels = [signedPercent(growthDomain.hi, 1), signedPercent(growthDomain.lo, 1)];
+  for (let value = domain.lo; value <= domain.hi + 1e-9; value += domain.step) gutterLabels.push(populationLabel(value));
+  const padLeft = axisGutter(gutterLabels, { max: MAX_PAD_LEFT });
+
+  const inner = Math.max(120, width - padLeft - PAD_RIGHT);
+  const xOf = (position) => padLeft + (observations.length === 1 ? inner / 2 : (position * inner) / (observations.length - 1));
   const yOf = (value, dom, top, height) => top + height - ((value - dom.lo) / (dom.hi - dom.lo)) * height;
   const byPeriod = new Map(observations.map((row, position) => [row.period, position]));
 
@@ -72,8 +81,8 @@ export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
 
   for (let value = domain.lo; value <= domain.hi + 1e-9; value += domain.step) {
     const y = yOf(value, domain, TOP, HEIGHT);
-    line(svg, { x1: PAD_LEFT, x2: width - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
-    overlayLabel(overlay, `${(value / 1000000).toFixed(value >= 1000000 ? 1 : 2)}bn`, 0, y - 8, { width: PAD_LEFT - 6, align: "right" });
+    line(svg, { x1: padLeft, x2: width - PAD_RIGHT, y1: y, y2: y, stroke: "rgba(233,233,237,.10)", "stroke-width": 1 });
+    overlayLabel(overlay, populationLabel(value), 0, y - 8, { width: padLeft - 6, align: "right" });
   }
 
   if (showBand && lower.size) {
@@ -132,7 +141,7 @@ export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
   }
 
   const zeroY = yOf(0, growthDomain, GROWTH_TOP, GROWTH_HEIGHT);
-  line(svg, { x1: PAD_LEFT, x2: width - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
+  line(svg, { x1: padLeft, x2: width - PAD_RIGHT, y1: zeroY, y2: zeroY, stroke: "#75798c", "stroke-width": 1 });
   for (const kind of ["estimate", "projection"]) {
     const points = observations
       .map((row, position) => ({ row, position }))
@@ -141,9 +150,9 @@ export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
       .map(({ row, position }) => `${xOf(position)},${yOf(row.population_growth_rate_pct, growthDomain, GROWTH_TOP, GROWTH_HEIGHT)}`);
     if (points.length) polyline(svg, points.join(" "), GROWTH, 2, kind === "projection" ? "7 5" : "");
   }
-  overlayLabel(overlay, signedPercent(growthDomain.hi, 1), 0, yOf(growthDomain.hi, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: PAD_LEFT - 6, align: "right" });
-  overlayLabel(overlay, signedPercent(growthDomain.lo, 1), 0, yOf(growthDomain.lo, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: PAD_LEFT - 6, align: "right" });
-  overlayLabel(overlay, "Rate of change, % a year", 58, GROWTH_TOP - 18, { width: 190, align: "left", color: GROWTH });
+  overlayLabel(overlay, signedPercent(growthDomain.hi, 1), 0, yOf(growthDomain.hi, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: padLeft - 6, align: "right" });
+  overlayLabel(overlay, signedPercent(growthDomain.lo, 1), 0, yOf(growthDomain.lo, growthDomain, GROWTH_TOP, GROWTH_HEIGHT) - 8, { width: padLeft - 6, align: "right" });
+  overlayLabel(overlay, "Rate of change, % a year", padLeft + 6, GROWTH_TOP - 18, { width: 190, align: "left", color: GROWTH });
 
   const selectionX = xOf(index);
   line(svg, { x1: selectionX, x2: selectionX, y1: 8, y2: 350, stroke: "#e9e9ed", "stroke-width": 1, "stroke-dasharray": "3 3" });
@@ -156,7 +165,7 @@ export function renderWorldPopulationPath(rows, display = {}, provenance = "") {
     overlayLabel(overlay, periodYear(observations[position].period), Math.max(0, Math.min(width - 56, xOf(position) - 28)), 354, { width: 56 });
   }
 
-  enablePicking(svg, observations.length, PAD_LEFT, inner);
+  enablePicking(svg, observations.length, padLeft, inner);
   fragment.append(root);
   if (provenance) fragment.append(provenanceLine(provenance));
   fragment.append(dataTable(
