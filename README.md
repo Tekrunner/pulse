@@ -39,6 +39,12 @@ node tests/node/report-workflow.test.mjs
 
 Use `npm run verify:frontend` only when intentionally running the complete frontend gate without Python, status, or workflow checks. Do not run it alongside `pulse verify`: the aggregate command already invokes it. After the final code change, run `uv run --no-sync pulse verify` once. The checks use only committed, offline fixtures. They do not fetch source data or retain generated dbt, DuckDB, or site state.
 
+Pushes to `main` run one deployment workflow. Its repository/Python checks and
+production-artifact/browser checks execute on separate runners; deployment waits
+for both and uses the exact artifact exercised by the browser suite. The
+`pulse verify --repository-only` profile exists for that split and is not the
+complete local gate.
+
 ## Agent skills across Codex and Claude Code
 
 Project-owned `pulse-*` skills use `.agents/skills/` as their canonical source and are mirrored into `.claude/skills/` for Claude Code. Edit only the canonical copy, then update the committed mirrors with:

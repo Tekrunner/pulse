@@ -25,7 +25,7 @@ from pulse.datasets import (
     load_dataset_contract,
 )
 from pulse.sources import SourceDeclarationError, acquire_from_adapter, discover_sources
-from pulse.verify import VerificationError, verify_workspace
+from pulse.verify import VerificationError, verify_repository, verify_workspace
 from pulse.site import run_site
 from pulse.public import PublicBuildError, build_public_site
 from pulse.catalog import (
@@ -44,7 +44,12 @@ from pulse.contracts.dataset import validate_dataset_manifest
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="pulse", description="Pulse workspace automation")
     subcommands = parser.add_subparsers(dest="command", required=True)
-    subcommands.add_parser("verify", help="run all reproducible workspace smoke checks")
+    verify = subcommands.add_parser("verify", help="run all reproducible workspace smoke checks")
+    verify.add_argument(
+        "--repository-only",
+        action="store_true",
+        help="run repository and Python checks without the frontend suite",
+    )
     public = subcommands.add_parser("public", help="build the complete offline public artifact")
     public.add_argument("public_command", nargs="?", choices=("build",), default="build")
     public.add_argument("--output", type=Path, default=Path("dist"), help="verified site directory")
@@ -118,7 +123,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     if args.command == "verify":
         try:
-            verify_workspace()
+            if args.repository_only:
+                verify_repository()
+            else:
+                verify_workspace()
         except VerificationError as error:
             print(f"pulse verify failed: {error}", file=sys.stderr)
             return 1

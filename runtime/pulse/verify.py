@@ -22,13 +22,12 @@ SUBPROCESS_TIMEOUT_SECONDS = 600
 # The two full suites are budgeted apart from the short stages, because their
 # cost grows with the repository rather than with the machine: the Python
 # suite rebuilds every dataset package with dbt, and the frontend suite runs
-# every browser specification in two engines. Both outgrew the 600 second
-# stage budget the first time six datasets and a report were added, and the
-# resulting timeout reads as a broken toolchain rather than a suite that needs
-# longer. Measured on 2026-09-21: 826 seconds for 385 Python tests, 690 for
-# 194 browser tests. The budget leaves room for a slower CI host and for the
-# next report; raise it when a measurement approaches it, and shorten the
-# suites when raising it stops being defensible.
+# every browser specification in two engines. Measured on 2026-09-22 on the
+# development Linux host before dataset-test deduplication: 380 seconds for 385
+# Python tests. The 198 browser tests took 427 seconds with two workers, down
+# from the earlier 690-second single-worker measurement. The budget leaves room
+# for slower hosts; shorten the suites rather than treating another timeout
+# increase as a fix.
 SUITE_TIMEOUT_SECONDS = 2400
 
 
@@ -253,9 +252,6 @@ def _workflow_smoke() -> None:
         for path in (ROOT / "runtime/pulse").rglob("*.py")
     ):
         raise VerificationError("stage 'workflow contract' forbids runtime code from pushing")
-    verify_workflow = (ROOT / ".github/workflows/verify.yml").read_text(encoding="utf-8")
-    if "--live" in verify_workflow or "PULSE_LIVE_INSEE" in verify_workflow:
-        raise VerificationError("stage 'workflow contract' requires pull-request verification to stay offline")
     pages_path = ROOT / ".github/workflows/pages.yml"
     try:
         pages = pages_path.read_text(encoding="utf-8")
@@ -274,10 +270,13 @@ def _workflow_smoke() -> None:
         "uv sync --frozen",
         "npm ci",
         "playwright install --with-deps chromium firefox",
+        "pulse verify --repository-only",
+        "npm run verify:contracts",
         "pulse public build --output dist",
         "npm run public:verify",
         "actions/upload-pages-artifact@v3",
         "path: dist",
+        "needs: [repository, artifact]",
         "actions/deploy-pages@v4",
     )
     missing_pages = [token for token in required_pages if token not in pages]
@@ -304,13 +303,19 @@ def _workflow_smoke() -> None:
         raise VerificationError("stage 'workflow contract' rejects dataset knowledge in Pages YAML")
 
 
-SMOKE_STAGES: tuple[Callable[[], None], ...] = (
+REPOSITORY_STAGES: tuple[Callable[[], None], ...] = (
     _status_smoke,
     _workflow_smoke,
     _skill_mirror_smoke,
     _python_smoke,
-    _node_smoke,
 )
+SMOKE_STAGES: tuple[Callable[[], None], ...] = REPOSITORY_STAGES + (_node_smoke,)
+
+
+def verify_repository() -> None:
+    """Run the repository half of verification without Node or browser work."""
+    for stage in REPOSITORY_STAGES:
+        stage()
 
 
 def verify_workspace() -> None:

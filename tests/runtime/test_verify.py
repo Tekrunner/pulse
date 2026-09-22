@@ -19,6 +19,19 @@ def test_registered_smoke_stages_run_in_order(monkeypatch: pytest.MonkeyPatch) -
     assert calls == ["python", "node"]
 
 
+def test_repository_profile_omits_the_frontend_suite(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(
+        verify,
+        "REPOSITORY_STAGES",
+        (lambda: calls.append("contracts"), lambda: calls.append("python")),
+    )
+
+    verify.verify_repository()
+
+    assert calls == ["contracts", "python"]
+
+
 def test_skill_mirror_gate_precedes_full_language_suites() -> None:
     assert verify.SMOKE_STAGES.index(verify._skill_mirror_smoke) < verify.SMOKE_STAGES.index(
         verify._python_smoke
@@ -122,6 +135,15 @@ def test_cli_reports_verification_failure_with_exit_code_one(monkeypatch: pytest
 
     assert cli.main(["verify"]) == 1
     assert "pulse verify failed: stage 'node smoke' timed out" in capsys.readouterr().err
+
+
+def test_cli_routes_repository_only_verification(monkeypatch: pytest.MonkeyPatch) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(cli, "verify_repository", lambda: calls.append("repository"))
+    monkeypatch.setattr(cli, "verify_workspace", lambda: calls.append("workspace"))
+
+    assert cli.main(["verify", "--repository-only"]) == 0
+    assert calls == ["repository"]
 
 
 @pytest.mark.parametrize("action", ("build", "serve"))

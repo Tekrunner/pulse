@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import shutil
 
 import duckdb
 import pytest
@@ -161,9 +162,10 @@ def test_an_unreadable_snapshot_leaves_the_last_usable_pair_in_place(
     """A failed build must never publish half a table: the previously published
     manifest and Parquet stay exactly as they were."""
     target = tmp_path / "publish" / dataset_id
-    build_dataset(
-        _declaration(dataset_id), build_root=tmp_path / "build", publish_root=target
-    )
+    # The preceding parametrized test already proves a successful rebuild for
+    # every package. Copy its committed usable pair here so this contract pays
+    # only for the failing transition it is meant to exercise.
+    shutil.copytree(PUBLISH / dataset_id, target)
     before = (
         (target / "dataset.parquet").read_bytes(),
         (target / "dataset.json").read_text(encoding="utf-8"),

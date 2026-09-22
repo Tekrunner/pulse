@@ -124,7 +124,20 @@ def test_generated_manifest_must_equal_committed_contract(tmp_path: Path) -> Non
         validate_dataset_manifest(manifest, declaration.contract)
 
 
-def test_cli_builds_all_datasets_without_source_replay(tmp_path: Path) -> None:
+def test_cli_builds_all_datasets_without_source_replay(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    # This is a CLI fan-out contract, not another conformance run over every
+    # package. Each package's real rebuild is covered by its own dataset suite;
+    # keeping the command scoped to the two independent CPI declarations avoids
+    # rebuilding all repository datasets just to assert these two outputs.
+    declarations = discover_datasets()
+    cpi = {
+        dataset_id: declaration
+        for dataset_id, declaration in declarations.items()
+        if declaration.source_id == "insee-cpi"
+    }
+    monkeypatch.setattr("pulse.datasets.discover_datasets", lambda: cpi)
     assert main(
         [
             "dataset",
@@ -145,7 +158,10 @@ def test_cli_builds_all_datasets_without_source_replay(tmp_path: Path) -> None:
 def test_invalid_snapshot_retains_previous_dataset(tmp_path: Path) -> None:
     declaration = discover_datasets()["insee-cpi-monthly"]
     target = tmp_path / "publish/insee-cpi-monthly"
-    build_dataset(declaration, archive_root=ARCHIVE, build_root=tmp_path / "build", publish_root=target)
+    # Successful real-data rebuilding is already proved above. Start from the
+    # committed usable pair so this test pays only for the rejected candidate it
+    # exists to exercise.
+    shutil.copytree(ROOT / "publish/public/data/insee-cpi-monthly", target)
     before = (target / "dataset.parquet").read_bytes()
     archive = tmp_path / "archive"
     shutil.copytree(ARCHIVE, archive)

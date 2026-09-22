@@ -5,7 +5,11 @@ export default defineConfig({
   testDir: ".",
   testMatch: "*.spec.js",
   fullyParallel: false,
-  workers: 1,
+  // The suites are isolated by browser context and only read the built artifacts.
+  // Two workers keep Chromium and Firefox busy without overwhelming the two-core
+  // GitHub runner or making the cold-cache performance check compete with a large
+  // browser pool.
+  workers: 2,
   reporter: "line",
   projects: [
     { name: "chromium", use: { browserName: "chromium" } },

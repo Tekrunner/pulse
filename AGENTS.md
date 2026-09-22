@@ -42,6 +42,7 @@ storage — but it is a backstop for the principle above, not a statement of it.
 - During implementation, run the smallest relevant tests. Expand to the affected subsystem only after focused tests pass.
 - After the final code change and consolidated review fixes, run `uv run --no-sync pulse verify` once. Rerun it only when it fails or later changes invalidate the result.
 - Use `npm run verify:frontend` by itself only when intentionally verifying the frontend without the Python, status, and workflow gates.
+- Main-push CI runs the repository half and the production-artifact half on separate runners, then deploys only after both pass. `pulse verify --repository-only` is the CI split point; it is not a replacement for the complete local gate.
 
 ## Cross-client skills
 

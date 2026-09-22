@@ -2,6 +2,15 @@ import { expect, test } from "@playwright/test";
 
 const origin = "http://127.0.0.1:3101";
 
+// Status is deliberately derived from the reader's clock. Keep the general
+// browser contract anchored to the instant represented by the committed
+// fixtures; dedicated status scenarios below exercise stale behavior. Without
+// this, the "healthy" assertions turn into stale assertions as wall time moves
+// past the next publication deadline.
+test.beforeEach(async ({ page }) => {
+  await page.clock.setFixedTime(new Date("2026-09-21T12:00:00Z"));
+});
+
 test("nested report directly loads local DuckDB assets and published INSEE rows", async ({
   page,
 }) => {
