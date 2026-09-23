@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { publishedRows } from "./published-data.mjs";
 
 const ROUTE = "reports/french-unemployment";
 const FIGURES = [
@@ -10,36 +11,98 @@ const FIGURES = [
   "international-lines",
   "international-participation",
 ];
-// Read from the published Parquet, not from the report: every assertion below
-// compares displayed text against the provider's own value at Q2 2026, the
-// latest national quarter, and at Q1 2026 for the localised series.
+// Every expectation below is read from the served Parquet, not from the report
+// and not restated as a literal: each refresh moves the latest quarter, and the
+// gate in front of deployment must move with it.
+const quarterLabel = (period, short = false) =>
+  `Q${Math.floor((Number(period.slice(5, 7)) - 1) / 3) + 1} ${short ? period.slice(2, 4) : period.slice(0, 4)}`;
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const monthLabel = (period) => `${MONTHS[Number(period.slice(5, 7)) - 1]} ${period.slice(2, 4)}`;
+// Thousands in, millions out, rounded on integer hundredths as the report does.
+const millions = (thousands) => (Math.round(thousands / 10) / 100).toFixed(2);
+const shiftMonths = (period, months) => {
+  const total = Number(period.slice(0, 4)) * 12 + Number(period.slice(5, 7)) - 1 + months;
+  return `${Math.floor(total / 12)}-${String((total % 12) + 1).padStart(2, "0")}-01`;
+};
+
+const [national] = publishedRows(
+  ["french-labour-market-quarterly"],
+  `SELECT * FROM "french-labour-market-quarterly" ORDER BY period DESC LIMIT 1`,
+);
 const LATEST = {
-  quarter: "Q2 2026",
-  rate: "8.3",
-  unemployed: "2.68",
-  longTerm: "0.67",
-  halo: "1.83",
-  underemployed: "1.30",
-  underemploymentRate: "4.4",
-  participation: "75.4",
-  men: "78.0",
-  women: "72.8",
-  under25: "21.6",
+  period: national.period,
+  quarter: quarterLabel(national.period),
+  rate: national.unemployment_rate_pct.toFixed(1),
+  unemployed: millions(national.unemployed_thousands),
+  longTerm: millions(national.long_term_unemployed_thousands),
+  halo: millions(national.halo_15_to_64_thousands),
+  underemployed: millions(national.underemployed_thousands),
+  underemploymentRate: national.underemployment_rate_pct.toFixed(1),
+  participation: national.participation_rate_15_to_64_pct.toFixed(1),
+  men: national.participation_rate_men_15_to_64_pct.toFixed(1),
+  women: national.participation_rate_women_15_to_64_pct.toFixed(1),
+  gap: (
+    national.participation_rate_men_15_to_64_pct - national.participation_rate_women_15_to_64_pct
+  ).toFixed(1),
+  under25: national.unemployment_rate_under_25_pct.toFixed(1),
 };
-// The monthly OECD panel follows the same observation: Q2 2026 is read at its
-// last month. The United Kingdom publishes nothing that month, so the monthly
-// absence path is exercised by the default view; Italy, whose participation
-// series has no Q2, is added to exercise the quarterly one.
-const INTERNATIONAL = {
-  defaults: ["France", "Germany", "United Kingdom", "United States", "European Union"],
-  france: "8.3",
-  unitedStates: "4.2",
-  europeanUnion: "6.1",
-  britainStops: "May 26",
-  participationFrance: "56.9",
-  participationItalyStops: "Q1 26",
+
+// The OECD panels follow the national observation: a quarter is read at its
+// last month in the monthly panel. An area that publishes nothing at the
+// selected period shows where its series stops instead of a value.
+const DEFAULT_COMPARATORS = ["FRA", "DEU", "GBR", "USA", "EU"];
+const areaEdges = (dataset, filter, target, grain) =>
+  publishedRows(
+    [dataset],
+    `SELECT reference_area_code AS code, any_value(reference_area_name) AS name,
+            max(period) AS latest,
+            max(CASE WHEN period = DATE '${target}' THEN ${grain} END) AS value
+       FROM "${dataset}"
+      WHERE period >= DATE '${shiftMonths(LATEST.period, -39 * 3)}' ${filter}
+      GROUP BY reference_area_code ORDER BY name`,
+  ).map((area) => ({ ...area, value: area.value ?? null }));
+const MONTHLY = areaEdges(
+  "oecd-unemployment-comparison",
+  "",
+  shiftMonths(LATEST.period, 2),
+  "unemployment_rate_pct",
+);
+const QUARTERLY = areaEdges(
+  "oecd-participation-comparison",
+  "AND sex = 'all'",
+  LATEST.period,
+  "participation_rate_pct",
+);
+const chip = (area, label) =>
+  area.value === null
+    ? `${area.name} — to ${label(area.latest)}`
+    : `${area.name} ${area.value.toFixed(1)}%`;
+const defaults = (areas) =>
+  DEFAULT_COMPARATORS.map((code) => areas.find((area) => area.code === code)).filter(Boolean);
+// A non-default area absent at the selected period, added to reach the absence
+// path when every default happens to be published.
+const absentExtra = (areas) =>
+  areas.find((area) => area.value === null && !DEFAULT_COMPARATORS.includes(area.code));
+
+// The map answers for the selected quarter when the localised series has it,
+// otherwise for its own latest published quarter.
+const LOCALISED_ROWS = publishedRows(
+  ["french-departement-unemployment"],
+  `WITH published AS (
+     SELECT max(period) AS latest FROM "french-departement-unemployment"
+      WHERE territory_kind = 'departement' AND period <= DATE '${LATEST.period}')
+   SELECT period, territory_code AS code, territory_name AS name, unemployment_rate_pct AS rate
+     FROM "french-departement-unemployment", published
+    WHERE territory_kind = 'departement' AND period = latest
+    ORDER BY rate DESC NULLS LAST`,
+);
+const localised = (code) => LOCALISED_ROWS.find((row) => row.code === code);
+const LOCALISED = {
+  quarter: quarterLabel(LOCALISED_ROWS[0].period),
+  paris: localised("75").rate.toFixed(1),
+  guyane: localised("973").rate.toFixed(1),
+  highest: LOCALISED_ROWS[0].name,
 };
-const LOCALISED = { quarter: "Q1 2026", paris: "6.3", guyane: "19.3", cantal: "4.7", nord: "10.5" };
 
 async function ready(page) {
   await page.goto(ROUTE, { waitUntil: "networkidle" });
@@ -80,7 +143,7 @@ test("every declared visual reaches ready and shows the provider's own latest va
   // "Women" contains "men", so the men chip is matched from the start of its text.
   await expect(participation.filter({ hasText: /^Men / })).toHaveText(`Men ${LATEST.men}%`);
   await expect(participation.filter({ hasText: "Women" })).toHaveText(`Women ${LATEST.women}%`);
-  await expect(participation.filter({ hasText: "Gap" })).toHaveText("Gap 5.2 pt");
+  await expect(participation.filter({ hasText: "Gap" })).toHaveText(`Gap ${LATEST.gap} pt`);
   const cards = page.locator(".scorecards article");
   await expect(cards).toHaveCount(4);
   await expect(cards.nth(0)).toContainText(`${LATEST.rate}%`);
@@ -144,34 +207,32 @@ test("one observation is shared by every quarterly figure, from the control and 
 
 test("the international panels follow the shared observation and can set it", async ({ page }) => {
   await ready(page);
-  const monthly = page.locator('figure[data-figure="international-lines"] .selection-chip');
-  // Q2 2026 is read at its last month in a monthly panel.
-  await expect(monthly.filter({ hasText: /^France / })).toHaveText(
-    `France ${INTERNATIONAL.france}%`,
-  );
-  await expect(monthly.filter({ hasText: "United States" })).toHaveText(
-    `United States ${INTERNATIONAL.unitedStates}%`,
-  );
-  await expect(monthly.filter({ hasText: "European Union" })).toHaveText(
-    `European Union ${INTERNATIONAL.europeanUnion}%`,
-  );
-  // The United Kingdom publishes nothing that month, so it says where it stops
-  // rather than quietly showing a different month's value.
-  await expect(monthly.filter({ hasText: "United Kingdom" })).toHaveText(
-    `United Kingdom — to ${INTERNATIONAL.britainStops}`,
-  );
-  const quarterly = page.locator(
-    'figure[data-figure="international-participation"] .selection-chip',
-  );
-  await expect(quarterly.filter({ hasText: /^France / })).toHaveText(
-    `France ${INTERNATIONAL.participationFrance}%`,
-  );
-  // Italy is not a default comparator; added here because its participation
-  // series has no Q2 2026, which is the quarterly absence path.
-  await page.locator('[data-control="comparator-add"]').selectOption("ITA");
-  await expect(quarterly.filter({ hasText: "Italy" })).toHaveText(
-    `Italy — to ${INTERNATIONAL.participationItalyStops}`,
-  );
+  const panels = [
+    ["international-lines", MONTHLY, monthLabel],
+    ["international-participation", QUARTERLY, (period) => quarterLabel(period, true)],
+  ];
+  const chips = (id) => page.locator(`figure[data-figure="${id}"] .selection-chip`);
+  const named = (id, area) =>
+    chips(id).filter({ hasText: new RegExp(`^${area.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")} `) });
+  // Each default shows its value at the selected period, or where it stops.
+  for (const [id, areas, label] of panels)
+    for (const area of defaults(areas)) await expect(named(id, area)).toHaveText(chip(area, label));
+  // An area that publishes nothing at the selected period says where it stops
+  // rather than quietly showing another period's value. When no default is
+  // absent, one that is gets added so the path is still exercised.
+  for (const [id, areas, label] of panels) {
+    if (defaults(areas).some((area) => area.value === null)) continue;
+    const extra = absentExtra(areas);
+    if (!extra) {
+      test.info().annotations.push({
+        type: "data",
+        description: `every ${id} area publishes the selected period`,
+      });
+      continue;
+    }
+    await page.locator('[data-control="comparator-add"]').selectOption(extra.code);
+    await expect(named(id, extra)).toHaveText(chip(extra, label));
+  }
   // Clicking the monthly panel moves the whole report to that month's quarter.
   const plot = page.locator('figure[data-figure="international-lines"] svg').first();
   const box = await plot.boundingBox();
@@ -265,7 +326,7 @@ test("the international panel is ragged, capped and never repaints on removal", 
   const labels = page.locator('figure[data-figure="international-lines"] .selection-chip');
   await expect(labels).toHaveCount(5);
   await expect(page.locator(".comparator-chip")).toHaveText(
-    INTERNATIONAL.defaults.map((name) => new RegExp(name)),
+    defaults(MONTHLY).map((area) => new RegExp(area.name)),
   );
   const franceColour = await labels
     .filter({ hasText: /^France / })
@@ -319,7 +380,7 @@ test("the page reflows without horizontal scroll at narrow width and at 400% zoo
   ).toBeVisible();
   await expect(
     page.locator('figure[data-figure="departement-choropleth"] .chart-wrapper tbody tr').first(),
-  ).toContainText("Guyane");
+  ).toContainText(LOCALISED.highest);
   // Every value stays reachable in the table even where a plot must scroll.
   await expect(page.locator(".accessible-data").first()).toBeAttached();
 });

@@ -1,6 +1,40 @@
 import { expect, test } from "@playwright/test";
+import { publishedRows } from "./published-data.mjs";
 
 const origin = "http://127.0.0.1:3101";
+
+// The report's default window: the sixty months ending at the latest month both
+// CPI datasets carry, read from the served Parquet so a refresh moves the
+// expectation with the data.
+const CPI_WINDOW = publishedRows(
+  ["insee-cpi-monthly", "insee-cpi-category-analysis"],
+  `SELECT strftime(period, '%Y-%m') AS month, cpi_index, annual_change_pct AS headline,
+          food_annual_change_pct AS food, services_annual_change_pct AS services,
+          manufactured_products_annual_change_pct AS manufactured,
+          actual_rent_annual_change_pct AS rent,
+          services_official_contribution_pct_points AS services_pp,
+          energy_official_contribution_pct_points AS energy_pp,
+          services_weight, services_weight_reference_year,
+          food_index, services_index, manufactured_products_index, energy_index, actual_rent_index
+     FROM "insee-cpi-monthly" JOIN "insee-cpi-category-analysis" USING (period)
+    ORDER BY period DESC LIMIT 60`,
+).reverse();
+const CPI_LATEST = CPI_WINDOW.at(-1);
+const [CPI_YEAR_AGO] = publishedRows(
+  ["insee-cpi-monthly"],
+  `SELECT strftime(period, '%Y-%m') AS month, cpi_index FROM "insee-cpi-monthly"
+    WHERE period = CAST('${CPI_LATEST.month}-01' AS DATE) - INTERVAL 12 MONTH`,
+);
+// Figures mark zero as "+0.0"; the report's own prose leaves it unsigned.
+const figureSigned = (value, digits = 1) =>
+  `${value < 0 ? "−" : "+"}${Math.abs(value).toFixed(digits)}`;
+const proseSigned = (value, digits = 1) =>
+  `${value > 0 ? "+" : value < 0 ? "−" : ""}${Math.abs(value).toFixed(digits)}`;
+const monthLabel = (month) =>
+  `${new Intl.DateTimeFormat("en", { month: "short", timeZone: "UTC" }).format(
+    new Date(`${month}-01T00:00:00Z`),
+  )} ${month.slice(0, 4)}`;
+const euros = new Intl.NumberFormat("en-GB", { style: "currency", currency: "EUR" });
 
 // Status is deliberately derived from the reader's clock. Keep the general
 // browser contract anchored to the instant represented by the committed
@@ -281,7 +315,7 @@ test("complete report retains context and period-keyed selection after a later q
   ).toBeVisible();
 });
 
-test("French CPI report preserves exact pinned July 2026 decimals and negative values", async ({
+test("French CPI report preserves the published decimals and signs of its latest month", async ({
   page,
 }) => {
   await page.goto("reports/french-consumer-prices");
@@ -303,21 +337,23 @@ test("French CPI report preserves exact pinned July 2026 decimals and negative v
     await page.locator(".cpi-report").evaluate((node) => getComputedStyle(node).fontFamily),
   ).toContain("Inter");
 
-  await page
-    .locator('figure[data-figure="1"] .segments label', { hasText: "Services" })
-    .click();
-  await expect(
-    page.locator('figure[data-figure="1"] .selected-readout').first(),
-  ).toHaveText("+2.2% y/y");
-  await expect(
-    page.locator('figure[data-figure="2"] .contribution-callout'),
-  ).toContainText("Services+1.1 pp");
+  const latest = CPI_LATEST;
+  const readout = page.locator('figure[data-figure="1"] .selected-readout').first();
+  const lead = (label) =>
+    page.locator('figure[data-figure="1"] .segments label', { hasText: label }).click();
+  await lead("Services");
+  await expect(readout).toHaveText(`${figureSigned(latest.services)}% y/y`);
   await expect(
     page.locator('figure[data-figure="2"] .contribution-callout'),
-  ).toContainText("Energy+1.0 pp");
+  ).toContainText(`Services${figureSigned(latest.services_pp)} pp`);
+  await expect(
+    page.locator('figure[data-figure="2"] .contribution-callout'),
+  ).toContainText(`Energy${figureSigned(latest.energy_pp)} pp`);
   await expect(
     page.locator('figure[data-figure="3"] [data-category="services"]'),
-  ).toContainText("Basket share 52.0% in Jul 2026 (2026 weights)");
+  ).toContainText(
+    `Basket share ${(latest.services_weight / 100).toFixed(1)}% in ${monthLabel(latest.month)} (${latest.services_weight_reference_year} weights)`,
+  );
   expect(
     new Set(
       await page
@@ -326,23 +362,43 @@ test("French CPI report preserves exact pinned July 2026 decimals and negative v
     ),
   ).toEqual(
     new Set([
-      "Headline 102.67",
-      "Food 101.29",
-      "Services 103.97",
-      "Manufactured 97.72",
-      "Energy 111.75",
-      "Rents 101.60",
+      `Headline ${latest.cpi_index.toFixed(2)}`,
+      `Food ${latest.food_index.toFixed(2)}`,
+      `Services ${latest.services_index.toFixed(2)}`,
+      `Manufactured ${latest.manufactured_products_index.toFixed(2)}`,
+      `Energy ${latest.energy_index.toFixed(2)}`,
+      `Rents ${latest.actual_rent_index.toFixed(2)}`,
     ]),
   );
 
-  await page
-    .locator('figure[data-figure="1"] .segments label', {
-      hasText: "Manufactured products",
-    })
-    .click();
-  await expect(
-    page.locator('figure[data-figure="1"] .selected-readout').first(),
-  ).toHaveText("−0.7% y/y");
+  // A negative change must keep its minus sign. The newest month in the window
+  // carrying one is found in the data and reached with the slider, so the check
+  // survives a release in which every latest change happens to be positive.
+  const series = [
+    ["headline", "Headline"],
+    ["food", "Food"],
+    ["services", "Services"],
+    ["manufactured", "Manufactured products"],
+    ["rent", "Rents paid"],
+  ];
+  const negative = CPI_WINDOW.flatMap((row, index) =>
+    series.filter(([key]) => row[key] < 0).map(([key, label]) => ({ index, key, label, row })),
+  ).at(-1);
+  if (!negative) {
+    test.info().annotations.push({
+      type: "data",
+      description: "no series fell year on year in the default five-year window",
+    });
+    return;
+  }
+  const slider = page.getByRole("slider", { name: "Observation month" });
+  await slider.focus();
+  await page.keyboard.press("End");
+  for (let step = CPI_WINDOW.length - 1; step > negative.index; step -= 1)
+    await page.keyboard.press("ArrowLeft");
+  await expect(page.locator(".observation-control output")).toContainText(negative.row.month);
+  await lead(negative.label);
+  await expect(readout).toHaveText(`${figureSigned(negative.row[negative.key])}% y/y`);
 });
 
 async function clickPlotAt(page, locator, fraction, padLeft, padRight) {
@@ -378,11 +434,12 @@ test("every report plot maps left, middle and right clicks through its own margi
   await expect(page.locator('.report-content[data-state="ready"]')).toBeVisible(
     { timeout: 10_000 },
   );
+  const month = (index) => CPI_WINDOW[index].month;
   const expected = [
-    [0, "2021-08"],
-    [29 / 59, "2024-01"],
-    [30 / 59, "2024-02"],
-    [1, "2026-07"],
+    [0, month(0)],
+    [29 / 59, month(29)],
+    [30 / 59, month(30)],
+    [1, month(59)],
   ];
   const selectors = [
     ['figure[data-figure="1"] svg[data-plot-pad-left]', 44, 14],
@@ -487,17 +544,23 @@ test("calculator uses full headline history and component controls stay interact
   await expect(page.locator('.report-content[data-state="ready"]')).toBeVisible(
     { timeout: 10_000 },
   );
-  await expect(page.locator(".calculator-result strong")).toHaveText("€102.10");
+  // The default converts €100 from twelve months before the latest month.
+  const from = CPI_YEAR_AGO, to = CPI_LATEST;
+  const forward = (100 * to.cpi_index) / from.cpi_index;
+  const change = (to.cpi_index / from.cpi_index - 1) * 100;
+  await expect(page.locator(".calculator-result strong")).toHaveText(euros.format(forward));
   await expect(page.locator(".calculator")).toContainText(
-    "€100.00 in Jul 2025 has the same purchasing power as €102.10 in Jul 2026, on index levels of 100.56 and 102.67 (Base 2025 = 100).",
+    `€100.00 in ${monthLabel(from.month)} has the same purchasing power as ${euros.format(forward)} in ${monthLabel(to.month)}, on index levels of ${from.cpi_index.toFixed(2)} and ${to.cpi_index.toFixed(2)} (Base 2025 = 100).`,
   );
   await expect(page.locator(".calculator-result small")).toHaveText(
-    "+2.1% over 12 months · +2.1% a year",
+    `${proseSigned(change)}% over 12 months · ${proseSigned(change)}% a year`,
   );
   await page
     .getByRole("button", { name: "Swap the origin and target months" })
     .click();
-  await expect(page.locator(".calculator-result strong")).toHaveText("€97.94");
+  await expect(page.locator(".calculator-result strong")).toHaveText(
+    euros.format((100 * from.cpi_index) / to.cpi_index),
+  );
 
   await page.getByLabel("Services", { exact: true }).first().uncheck();
   await expect(
@@ -513,7 +576,7 @@ test("calculator uses full headline history and component controls stay interact
   );
   await expect(
     page.locator('figure[data-figure="4"] .index-chip'),
-  ).toContainText("Headline 102.67");
+  ).toContainText(`Headline ${CPI_LATEST.cpi_index.toFixed(2)}`);
 });
 
 test("loaded report remeasures charts when resized without page overflow", async ({ page }, testInfo) => {

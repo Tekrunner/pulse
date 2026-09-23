@@ -22,6 +22,12 @@ def _publication(tmp_path: Path) -> Path:
     return root
 
 
+def _committed_period(dataset_id: str) -> dict[str, str]:
+    """Read from the committed manifest, because every refresh moves the edge."""
+    path = ROOT / "publish/public/data" / dataset_id / "dataset.json"
+    return json.loads(path.read_text(encoding="utf-8"))["represented_period"]
+
+
 def test_compiles_complete_public_insee_contract_with_manifest_relative_url(tmp_path: Path) -> None:
     catalog = compile_browser_catalog(_publication(tmp_path))
 
@@ -35,15 +41,12 @@ def test_compiles_complete_public_insee_contract_with_manifest_relative_url(tmp_
     entry = catalog["datasets"]["insee-cpi-monthly"]
     assert entry["logicalTable"] == "insee_cpi_monthly"
     assert entry["parquet"] == "datasets/insee-cpi-monthly/dataset.parquet"
-    assert entry["representedPeriod"] == {"start": "1996-01-01", "end": "2026-07-01"}
+    assert entry["representedPeriod"] == _committed_period("insee-cpi-monthly")
     assert entry["visibility"] == "public"
     categories = catalog["datasets"]["insee-cpi-category-analysis"]
     assert categories["logicalTable"] == "insee_cpi_category_analysis"
     assert categories["parquet"] == "datasets/insee-cpi-category-analysis/dataset.parquet"
-    assert categories["representedPeriod"] == {
-        "start": "1998-01-01",
-        "end": "2026-07-01",
-    }
+    assert categories["representedPeriod"] == _committed_period("insee-cpi-category-analysis")
     assert {
         column["name"] for column in categories["schema"]
     } >= {

@@ -188,10 +188,15 @@ for (const visualId of inseeManifest.visual_ids) {
   assert.doesNotMatch(visual, /duckdb|parquet|select\s|route|observable/i);
 }
 const browserEvidence = await read("tests/browser/pilot.spec.js");
-for (const phrase of ["exact pinned July 2026 decimals and negative values", "left, middle and right clicks", "preserve the viewport and keyboard focus", "schema contract failure", "render failure", "screenshot"])
+for (const phrase of ["published decimals and signs of its latest month", "left, middle and right clicks", "preserve the viewport and keyboard focus", "schema contract failure", "render failure", "screenshot"])
   assert.ok(browserEvidence.includes(phrase), `INSEE case misses evidence: ${phrase}`);
-for (const displayed of inseeNumeric.cases.slice(0, 2).map((item) => item.expected_display))
-  assert.ok(browserEvidence.includes(displayed), `INSEE browser evidence misses exact display ${displayed}`);
+// The numeric evidence above is pinned to the revision it was approved at. The
+// browser spec re-proves the same concerns — precision and a negative sign —
+// against whatever revision the artifact serves, so it must read its
+// expectations from that Parquet rather than repeat the pinned displays, which
+// the next scheduled refresh would falsify.
+for (const marker of ["publishedRows(", "negative"])
+  assert.ok(browserEvidence.includes(marker), `INSEE browser evidence misses ${marker}`);
 const renderedEvidence = await read("tests/browser/visual-workflow.spec.js");
 for (const capture of ["insee-desktop-ready.png", "insee-narrow-landscape-ready.png", "insee-400-percent-reflow.png", '"schema"', '"render"', "`insee-${scenario}.png`"])
   assert.ok(renderedEvidence.includes(capture), `INSEE rendered evidence misses ${capture}`);

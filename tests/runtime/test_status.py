@@ -77,6 +77,19 @@ def _rewrite_manifest(publish_root: Path, dataset_id: str, **changes: object) ->
     path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
+def _committed_monthly_period() -> dict[str, str]:
+    """The committed publication's period, read because every refresh moves it."""
+    path = ROOT / "publish/public/data/insee-cpi-monthly/dataset.json"
+    return json.loads(path.read_text(encoding="utf-8"))["represented_period"]
+
+
+def _latest_source_data_date() -> str:
+    return max(
+        json.loads(path.read_text(encoding="utf-8"))["source_data_date"] or ""
+        for path in (ROOT / "snapshots/public/insee-cpi").glob("*/snapshot.json")
+    )
+
+
 def _stages(entry: dict) -> dict[str, str]:
     return {stage["stage"]: stage["state"] for stage in entry["stages"]}
 
@@ -133,7 +146,7 @@ def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_out
     monthly = catalog["pipelines"][MONTHLY]
     assert _stages(monthly) == {"transform": "succeeded", "test": "succeeded", "publish-data": "succeeded"}
     assert monthly["state"] == "succeeded"
-    assert monthly["representedPeriod"] == {"start": "1996-01-01", "end": "2026-07-01"}
+    assert monthly["representedPeriod"] == _committed_monthly_period()
     assert monthly["schedule"] == SCHEDULE
     assert monthly["latestUsableOutput"]["artifactKind"] == "dataset"
     assert monthly["assertions"] == []
@@ -142,7 +155,8 @@ def test_committed_publication_reports_succeeded_lineage_schedule_and_usable_out
     source = catalog["pipelines"][SOURCE]
     assert list(_stages(source)) == list(SOURCE_STAGES)
     assert source["latestUsableOutput"]["artifactKind"] == "snapshot"
-    assert source["representedPeriod"] == {"start": "2026-08-01", "end": "2026-08-01"}
+    edge = _latest_source_data_date()
+    assert source["representedPeriod"] == {"start": edge, "end": edge}
     site = catalog["pipelines"][SITE]
     assert site["state"] == "not-run"
     assert [stage["stage"] for stage in site["stages"]] == [
@@ -234,8 +248,9 @@ def test_failed_assertions_are_suspect_and_keep_the_new_dataset_usable(
         {"check": "provider_monthly_change", "affectedColumns": expected}
     ]
     # The suspect dataset is still the latest usable output.
-    assert entry["latestUsableOutput"]["representedPeriod"]["end"] == "2026-07-01"
-    assert entry["representedPeriod"]["end"] == "2026-07-01"
+    end = _committed_monthly_period()["end"]
+    assert entry["latestUsableOutput"]["representedPeriod"]["end"] == end
+    assert entry["representedPeriod"]["end"] == end
 
 
 @pytest.mark.parametrize("failing", DATASET_STAGES)
@@ -268,8 +283,9 @@ def test_failed_stage_retains_the_prior_dataset_as_latest_usable(
     assert entry["diagnostic"]["stage"] == failing
     assert entry["diagnostic"]["retryable"] is False
     # Freshness follows the retained dataset, not the failed observation.
-    assert entry["representedPeriod"]["end"] == "2026-07-01"
-    assert entry["latestUsableOutput"]["representedPeriod"]["end"] == "2026-07-01"
+    end = _committed_monthly_period()["end"]
+    assert entry["representedPeriod"]["end"] == end
+    assert entry["latestUsableOutput"]["representedPeriod"]["end"] == end
 
 
 def test_rejected_snapshot_fails_the_snapshot_stage_and_retains_the_last_valid_one(

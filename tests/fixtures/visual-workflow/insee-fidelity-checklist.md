@@ -6,7 +6,7 @@ Implementation revision: `repository test revision`
 | Requirement | Approved reference | Implementation evidence | Result | Difference / permitted-change ID |
 | --- | --- | --- | --- | --- |
 | Narrative, headings, and copy | `claude-design-output/french-consumer-prices/README.md` | `pilot.spec.js: complete French consumer-price report renders four real-data figures` | Pass | None |
-| Indicators, units, precision, and periods | README Data and Figures | `pilot.spec.js: exact pinned July 2026 decimals and negative values` | Pass | Representative data replacement was approved |
+| Indicators, units, precision, and periods | README Data and Figures | `pilot.spec.js: published decimals and signs of its latest month` | Pass | Representative data replacement was approved |
 | Layout, hierarchy, and control placement | README Layout and Controls | `pilot.spec.js: desktop exploration controls keep period, observation and component controls together` | Pass | None |
 | Every visual element, label, axis/lane/strip, and relationship | README Figures 1–4 | `pilot.spec.js` four real-data figures and exact chips/callouts | Pass | None |
 | Selection and parameterized-query behavior | README Controls | `pilot.spec.js` left/middle/right selection and calculator tests | Pass | None |

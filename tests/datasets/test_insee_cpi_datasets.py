@@ -48,6 +48,24 @@ def _latest_snapshot_id() -> str:
     return max(snapshots)[2]
 
 
+def _committed(dataset_id: str) -> dict:
+    """The publication the repository serves, which a rebuild must reproduce.
+
+    Read rather than restated: every scheduled refresh commits a new snapshot
+    and publication together, so a literal edge or hash here would fail on the
+    next release without saying anything about whether the build is correct.
+    """
+    path = ROOT / "publish/public/data" / dataset_id / "dataset.json"
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _months_spanned(start: str, end: str) -> int:
+    (start_year, start_month), (end_year, end_month) = (
+        map(int, value.split("-")[:2]) for value in (start, end)
+    )
+    return (end_year - start_year) * 12 + end_month - start_month + 1
+
+
 def test_dataset_packages_are_discovered_independently() -> None:
     declarations = discover_datasets()
     # Every declared package, whatever its source, must be registry-free and
@@ -78,9 +96,13 @@ def test_monthly_build_preserves_analytical_rows_schema_and_bytes(tmp_path: Path
         }
     finally:
         connection.close()
+    committed = _committed("insee-cpi-monthly")
+    period = committed["represented_period"]
     assert manifest.dataset_id == "insee-cpi-monthly"
-    assert manifest.content_sha256 == "39e166e9ee601157f50977183bb18c46cb2b7cbe5e1f77925e829453f22680bf"
-    assert summary == (367, 367, "1996-01-01", "2026-07-01")
+    assert manifest.content_sha256 == committed["content_sha256"]
+    # One row per month, with no month missing between the committed edges.
+    months = _months_spanned(period["start"], period["end"])
+    assert summary == (months, months, period["start"], period["end"])
     assert schema == {
         "period": "DATE",
         "cpi_index": "DECIMAL(12,2)",
@@ -106,9 +128,12 @@ def test_category_build_preserves_rows_and_documents_calculated_rent(tmp_path: P
         ).fetchone()
     finally:
         connection.close()
+    committed = _committed("insee-cpi-category-analysis")
+    period = committed["represented_period"]
     assert manifest.dataset_id == "insee-cpi-category-analysis"
-    assert manifest.content_sha256 == "a86b88c65c79ca17dd68eb5748e82667e78ce709fbbdc06fd6cd0e4c99849fca"
-    assert result == (343, "1998-01-01", "2026-07-01", 0, 0)
+    assert manifest.content_sha256 == committed["content_sha256"]
+    months = _months_spanned(period["start"], period["end"])
+    assert result == (months, period["start"], period["end"], 0, 0)
     indicators = {item["column"]: item for item in manifest.indicators}
     rent = indicators["actual_rent_pulse_contribution_pct_points"]
     assert rent["source"] == "Pulse calculation from INSEE series"
