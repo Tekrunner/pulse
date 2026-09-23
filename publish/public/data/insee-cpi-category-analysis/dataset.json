@@ -1,4 +1,5 @@
 {
+  "adapters": [],
   "columns": [
     {
       "description": "First day of the represented month; output stops at the latest common complete provider period.",
@@ -131,7 +132,7 @@
       "type": "DECIMAL(8,3)"
     }
   ],
-  "content_sha256": "a86b88c65c79ca17dd68eb5748e82667e78ce709fbbdc06fd6cd0e4c99849fca",
+  "content_sha256": "e0a35029a7ea6899a23001b5d88acdf2acb8cbe0d1c06af4686b3d8477ee9b00",
   "dataset_id": "insee-cpi-category-analysis",
   "indicators": [
     {
@@ -442,8 +443,8 @@
       "DATE_JO",
       "LAST_UPDATE"
     ],
-    "snapshot_id": "acq-6ffb3d2dbb740aaeebb8f5c45b4a6aec-8106c9fd4a1e",
-    "snapshot_sha256": "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
+    "snapshot_id": "acq-7d6d429bc520f86ed4080c37bc5463c5-292547c732b0",
+    "snapshot_sha256": "292547c732b0d67a268c5aed3e3706ff27d53c40297f6ea4a399b86118858dfc"
   },
   "logical_table": "insee_cpi_category_analysis",
   "model": {
@@ -451,8 +452,9 @@
     "name": "insee_cpi_category_analysis"
   },
   "parquet_path": "dataset.parquet",
+  "questions": [],
   "represented_period": {
-    "end": "2026-07-01",
+    "end": "2026-08-01",
     "start": "1998-01-01"
   },
   "schema_id": "pulse.dataset",
@@ -462,5 +464,7 @@
     "assertions": [],
     "state": "succeeded"
   },
+  "temporal": {},
+  "validations": [],
   "visibility": "public"
 }

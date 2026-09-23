@@ -1,4 +1,5 @@
 {
+  "adapters": [],
   "columns": [
     {
       "description": "First day of the represented month.",
@@ -24,7 +25,7 @@
       "type": "DECIMAL(8,1)"
     }
   ],
-  "content_sha256": "39e166e9ee601157f50977183bb18c46cb2b7cbe5e1f77925e829453f22680bf",
+  "content_sha256": "79f3e8c176189b39d487780ece399c75c97120f72ed8d6d0d92a9444512d41c9",
   "dataset_id": "insee-cpi-monthly",
   "indicators": [
     {
@@ -71,8 +72,8 @@
       "DATE_JO",
       "LAST_UPDATE"
     ],
-    "snapshot_id": "acq-6ffb3d2dbb740aaeebb8f5c45b4a6aec-8106c9fd4a1e",
-    "snapshot_sha256": "8106c9fd4a1e85b13b1a8ef3b8817208cbc72f5dd20943e4e90abf51865b2329"
+    "snapshot_id": "acq-7d6d429bc520f86ed4080c37bc5463c5-292547c732b0",
+    "snapshot_sha256": "292547c732b0d67a268c5aed3e3706ff27d53c40297f6ea4a399b86118858dfc"
   },
   "logical_table": "insee_cpi_monthly",
   "model": {
@@ -80,8 +81,9 @@
     "name": "insee_cpi_monthly"
   },
   "parquet_path": "dataset.parquet",
+  "questions": [],
   "represented_period": {
-    "end": "2026-07-01",
+    "end": "2026-08-01",
     "start": "1996-01-01"
   },
   "schema_id": "pulse.dataset",
@@ -91,5 +93,7 @@
     "assertions": [],
     "state": "succeeded"
   },
+  "temporal": {},
+  "validations": [],
   "visibility": "public"
 }
