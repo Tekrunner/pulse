@@ -26,6 +26,15 @@ unaltered. The labels matter: `REF_AREA` carries the OECD's country names, and a
 consumer that re-invented them would be inventing data. Splitting the composite
 value is a decoding decision for a dataset package, not for acquisition.
 
+## Provider access
+
+On 2026-09-23 `sdmx.oecd.org` answered HTTP 403 to requests carrying Python's
+default `Python-urllib/3.x` User-Agent, while the same URL returned 200 to
+curl's agent or to any explicit one. The adapter therefore sends
+`User-Agent: pulse-data-pipeline/1.0`, which names the
+pipeline honestly rather than impersonating a browser. A 403 from this provider
+should be read first as an agent refusal, not a withdrawn dataset.
+
 ## Scope checks and what they mean
 
 `source.yaml` pins every non-territorial dimension of the SDMX key. The adapter

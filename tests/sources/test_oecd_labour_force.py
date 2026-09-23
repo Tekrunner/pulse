@@ -12,6 +12,7 @@ import io
 import json
 from pathlib import Path
 import shutil
+from urllib.error import URLError
 
 import pytest
 
@@ -21,6 +22,7 @@ from pulse.sources import (
     SourceAcquisitionError,
     acquire_from_adapter,
     discover_sources,
+    load_source_adapter,
     load_source_declaration,
 )
 
@@ -97,6 +99,29 @@ def test_codes_and_labels_both_survive_in_one_column(source_id: str, offline) ->
 def test_live_access_requires_an_explicit_opt_in(source_id: str, offline) -> None:
     with pytest.raises(SourceAcquisitionError, match="opt-in"):
         acquire_from_adapter(_declaration(source_id), fixture=None, live=False)
+
+
+@pytest.mark.parametrize("source_id", BOTH)
+def test_live_requests_name_the_pipeline_rather_than_urllib(
+    source_id: str, offline, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """sdmx.oecd.org refuses urllib's default agent with 403."""
+    declaration = _declaration(source_id)
+    adapter = load_source_adapter(declaration)
+    sent = []
+
+    def capture(request, **_kwargs):
+        sent.append(request)
+        raise URLError("captured")
+
+    monkeypatch.setattr(adapter, "urlopen", capture)
+    with pytest.raises(SourceAcquisitionError):
+        adapter.acquire(declaration.configuration, fixture=None, live=True)
+
+    (request,) = sent
+    assert request.get_header("User-agent") == adapter.USER_AGENT
+    assert adapter.USER_AGENT.startswith("pulse-")
+    assert request.get_header("Accept") == declaration.configuration["media_type"]
 
 
 @pytest.mark.parametrize("source_id", BOTH)

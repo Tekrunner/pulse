@@ -31,6 +31,9 @@ QUARTER_END = {"1": "03-31", "2": "06-30", "3": "09-30", "4": "12-31"}
 # lag was one quarter for 17 areas and two for Iceland, so three leaves a
 # quarter of headroom over ordinary provider variation.
 MAXIMUM_REPORTING_AREA_LAG_QUARTERS = 3
+# sdmx.oecd.org answers 403 to urllib's default `Python-urllib/3.x` agent, so
+# every request names the pipeline making it.
+USER_AGENT = "pulse-data-pipeline/1.0"
 
 
 def _read(url: str, media_type: str, *, fixture: Path | None, live: bool) -> str:
@@ -41,7 +44,7 @@ def _read(url: str, media_type: str, *, fixture: Path | None, live: bool) -> str
             raise SourceAcquisitionError("recorded source fixture could not be read") from error
     if not live:
         raise SourceAcquisitionError("live acquisition is opt-in")
-    request = Request(url, headers={"Accept": media_type})
+    request = Request(url, headers={"Accept": media_type, "User-Agent": USER_AGENT})
     try:
         with urlopen(request, timeout=30) as response:  # nosec B310: declared public HTTPS URL
             return response.read().decode("utf-8")

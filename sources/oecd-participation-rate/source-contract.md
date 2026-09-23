@@ -43,6 +43,15 @@ assertion measures every area still being published; Brazil, whose quarterly
 participation rate ends at 2015-Q3, is declared discontinued and held out, so a
 series the OECD has retired cannot hold every future release suspect.
 
+## Provider access
+
+On 2026-09-23 `sdmx.oecd.org` answered HTTP 403 to requests carrying Python's
+default `Python-urllib/3.x` User-Agent, while the same URL returned 200 to
+curl's agent or to any explicit one. The adapter therefore sends
+`User-Agent: pulse-data-pipeline/1.0`, which names the
+pipeline honestly rather than impersonating a browser. A 403 from this provider
+should be read first as an agent refusal, not a withdrawn dataset.
+
 ## Sex coverage, and why the assertion is scoped
 
 `men_and_women_are_reported_wherever_a_total_is` covers every reference area
