@@ -45,6 +45,28 @@ storage — but it is a backstop for the principle above, not a statement of it.
 - Use `npm run verify:frontend` by itself only when intentionally verifying the frontend without the Python, status, and workflow gates.
 - Main-push CI runs the repository half and the production-artifact half on separate runners, then deploys only after both pass. `pulse verify --repository-only` is the CI split point; it is not a replacement for the complete local gate.
 
+## Tests over published data
+
+Scheduled workflows commit new snapshots and publications, and the browser
+suite gates the artifact that deploys. A test that restates the latest release
+fails that gate at the next refresh while saying nothing about whether the code
+is right. So a test over committed or published data never hardcodes what a
+release determines: row counts, content hashes, represented-period edges, the
+latest value or period, "the last estimated year", or which series stops early.
+
+- Python tests read the expectation from the committed manifest:
+  `publish/public/data/<id>/dataset.json`, `snapshots/public/<source>/*/snapshot.json`.
+  A rebuild is checked against the committed hash, not a literal one.
+- Browser specs query the served Parquet with `publishedRows` from
+  `tests/browser/published-data.mjs` and format the expectation themselves, so
+  the page and its expectation never share an implementation.
+- Absence, negative and other edge paths are found in the data. When the current
+  release has none, record a test annotation and return; never fail on it.
+- Literals stay where the input is frozen: recorded source fixtures, synthetic
+  rows, pure functions, status scenarios, and numeric-boundary evidence, which is
+  a one-time record pinned to its `dataset_revision` and is never repeated in a
+  live spec.
+
 ## Cross-client skills
 
 - Project-owned `pulse-*` skills are canonical under `.agents/skills/`; never edit their generated `.claude/skills/` mirrors directly.

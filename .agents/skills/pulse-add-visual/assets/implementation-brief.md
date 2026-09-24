@@ -29,7 +29,7 @@ Run `handoff_gate.py verify` immediately before work. The full prototype, decisi
 - Display and provenance inputs: __INPUTS__
 - Declared conversion paths: __CONVERSION_PATHS__
 
-First implement only `__FIRST_VISUAL_ID__`. Prove pinned stored Parquet values, browser-query values, and displayed strings—including decimal scale, negatives, nulls, and precision—for every conversion path it exercises. Do not expand until that proof passes.
+First implement only `__FIRST_VISUAL_ID__`. Prove pinned stored Parquet values, browser-query values, and displayed strings—including decimal scale, negatives, nulls, and precision—for every conversion path it exercises, in the numeric-boundary record. In the browser spec, derive every expected string from `publishedRows` output instead of copying those pinned values, so the spec survives a data refresh. Do not expand until that proof passes.
 
 ## Known prototype-to-production substitutions
 

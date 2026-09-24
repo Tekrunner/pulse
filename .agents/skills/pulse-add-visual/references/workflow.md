@@ -40,7 +40,7 @@ Omit `--permit` when no changes are allowed. The approval contains the canonical
 
 ## 5. Coding handoff and implementation
 
-Fill `assets/implementation-brief.md`, link the complete locked handoff, and enumerate—not summarize away—each obligation. Implement one real-data figure first. Compare its pinned stored Parquet values, browser query output, and rendered strings before building the remaining figures. Then expand without redesign.
+Fill `assets/implementation-brief.md`, link the complete locked handoff, and enumerate—not summarize away—each obligation. Implement one real-data figure first. Compare its pinned stored Parquet values, browser query output, and rendered strings in the numeric-boundary record before building the remaining figures; the browser spec derives its own expectations from the served data. Then expand without redesign.
 
 The report owns dataset resolution, parameter-bound SQL, query/state/routing, row mapping, status, and shared-client lifecycle. Each visual owns local validation and drawing only. Fixture arrays stay in the authored contract/tests; production render paths receive validated query rows. Visual failures stay slot-local and preserve accessible equivalents and sibling content.
 

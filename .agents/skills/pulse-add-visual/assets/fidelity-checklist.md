@@ -33,7 +33,8 @@ Every row needs a passing behavior assertion or a recorded rendered inspection. 
 
 ## Interaction matrix
 
-- [ ] Every plot selects known months near its left, middle, and right using the same margins/scaling as drawing.
+- [ ] Every plot selects months near its left, middle, and right using the same margins/scaling as drawing, with the expected periods read from the served range.
+- [ ] Browser evidence derives displayed values from the served Parquet; no spec names a release's latest value, period or stopping point.
 - [ ] Every control and asynchronous update retains viewport and keyboard focus.
 - [ ] Partially entered values, selected period/month/components, and open disclosures survive updates.
 - [ ] Narrow and zoomed controls remain operable and the indicator/provenance remain available.

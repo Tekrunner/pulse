@@ -10,7 +10,7 @@ The coordinator advances only in this order:
 6. `design-approval` — a human locks the handoff digest and explicitly lists permitted changes.
 7. `infrastructure` — report declaration, queries, visual schemas, annotations, state topology, route, and tests exist without presentation decisions.
 8. `visual-implementation` — every visual records implementation, numeric, and fidelity evidence tied to its shared-handoff section.
-9. `verification` — contract, repository, browser, accessibility, exact-value, responsive, and rendered-comparison checks pass.
+9. `verification` — contract, repository, browser, accessibility, exact-value (expectations read from published data), responsive, and rendered-comparison checks pass.
 10. `complete` — the status command finds no missing or digest-mismatched evidence.
 
 ## Resume and invalidation
@@ -37,7 +37,7 @@ A report is the only layer that may know what it draws, and under the layer cont
 
 ## Evidence
 
-For each visual, compare the same pinned observations across stored Parquet, browser query output, mapped JavaScript values, and displayed text. Test distinct numeric conversion paths. Exercise interactions at left/middle/right observations and verify focus, viewport, partial input, selections, and open disclosures survive asynchronous refresh. Capture ready and failure states at desktop, narrow landscape, and 400% zoom/reflow and reconcile differences with the approved handoff.
+The numeric-boundary record compares pinned observations across stored Parquet, browser query output, mapped JavaScript values, and displayed text, once, at the revision it names. The report's browser spec re-proves the same concerns against whatever revision the artifact serves: it reads its rows with `publishedRows` from `tests/browser/published-data.mjs`, formats each expected string itself, and never repeats a pinned display, a latest period or a series' stopping point as a literal — the next refresh would fail the deploy gate on it (`AGENTS.md` › Tests over published data). Find negative, null and absence cases in the served data, and annotate rather than fail when the current release has none. Test distinct numeric conversion paths. Exercise interactions at left/middle/right observations, taking those periods from the served range and verify focus, viewport, partial input, selections, and open disclosures survive asynchronous refresh. Capture ready and failure states at desktop, narrow landscape, and 400% zoom/reflow and reconcile differences with the approved handoff.
 
 A declaration of `failure_scope: slot-local` is a claim about behaviour, so demonstrate it: give the report a scenario that fails exactly one slot's dataset, and assert both that the slot reports its own error with a retry **and** that every sibling stays ready and the report itself does not enter an error state. A scenario that fails every query proves only that the report can show an error. Assert horizontal overflow directly at each captured view — a plot that takes a fixed width below its container's minimum pushes the whole page sideways at 400% zoom, and a figure-height assertion will not catch it.
 

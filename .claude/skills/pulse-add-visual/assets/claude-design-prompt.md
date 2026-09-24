@@ -48,7 +48,7 @@ monthly panel, and a month picked there selects the quarter containing it. A
 figure that opts out of the shared selection and always shows its own latest
 value is the one figure on the page answering a different question from the
 others, which reads as a bug. Where a series publishes nothing at the selected
-observation, say so on the mark — "United Kingdom — to May 26" — rather than
+observation, say so on the mark — "<series> — to <last published period>", computed from the rows — rather than
 showing a value from a period the reader did not choose.
 
 **The selected values go in one strip, in the same place on every figure,**
@@ -143,6 +143,6 @@ out of any sentence that would ship.
 - Meet WCAG 2.2 AA: semantic structure, logical keyboard use, visible focus, sufficient contrast and targets, non-color-only cues, reduced motion, zoom/reflow, and accessible tables/text equivalents.
 - Use existing semantic roles. Keep one-off palette, geometry, and layout local; flag any proposed shared role for separate human approval.
 - The prototype runtime is review-only. Clearly identify design-only support files, remote assets, and representative data so none is ported into production.
-- Specify exact copy, layout, styling, geometry, behavior, state, responsive, and accessibility requirements. These become binding after approval.
+- Specify exact copy, layout, styling, geometry, behavior, state, responsive, and accessibility requirements. These become binding after approval. Copy built from row values binds its template, not the value it renders today.
 
 Package the result using the field structure in `assets/handoff-manifest.json`. Do not mark it approved; approval is a separate human action.
