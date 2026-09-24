@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { publishedRows } from "./published-data.mjs";
 
 const ROUTE = "reports/world-demography";
 const FIGURES = [
@@ -11,23 +12,118 @@ const FIGURES = [
 ];
 
 /**
- * Every expectation below was read from the published Parquet and formatted
- * through the shipped formatter, not copied from the prototype. 2023 is the
- * provider's last estimated year and the report's default observation year.
+ * Every expectation below is read from the served Parquet and formatted the way
+ * the shipped formatters print it, never restated as a literal: a new UN, Eurostat
+ * or WHO release moves these values, and the gate in front of deployment must
+ * move with them. The default observation year is the provider's last
+ * estimated year, which is itself read from the data.
  */
-const AT_2023 = {
-  world: { population: "8.09bn", rate: "+0.87% a year" },
-  france: { population: "66.4M", natural: "+22.8k", migration: "+91.9k", fertility: "1.64", life: "83.3" },
-  germany: { population: "84.5M", natural: "−314.9k", migration: "+609.6k", change: "+294.7k", naturalRate: "−3.7‰", migrationRate: "+7.2‰" },
-  britain: { population: "68.7M", migration: "+445.5k" },
-  flows: { germanyIn: "1.30M", germanyOut: "580.5k", franceIn: "467.5k", britain: "not published" },
-  healthy: "not published",
-  franceAge: { total: "66.4M", widest: "2.24M", young: "16.8%", working: "61.5%", old: "21.7%" },
+const people = (thousands, { signed = false } = {}) => {
+  if (thousands === null || thousands === undefined) return "—";
+  const sign = thousands < 0 ? "−" : signed && thousands > 0 ? "+" : "";
+  const size = Math.abs(thousands);
+  if (size >= 1000000) return `${sign}${(size / 1000000).toFixed(2)}bn`;
+  if (size >= 1000) return `${sign}${(size / 1000).toFixed(size >= 10000 ? 1 : 2)}M`;
+  return `${sign}${Math.round(size * 10) / 10}k`;
 };
-const PEAK = { year: "2084", population: "10.29bn" };
-const AT_2021 = { franceHealthy: "70.1", germanyHealthy: "68.9", britainHealthy: "68.6" };
-const BRITAIN_FLOWS_END = "to 2019";
-const JAPAN = { id: "392", name: "Japan", natural: "−774.5k", migration: "+175k" };
+const signedFixed = (value, digits, suffix) =>
+  `${value > 0 ? "+" : value < 0 ? "−" : ""}${Math.abs(value).toFixed(digits)}${suffix}`;
+const year = (period) => period.slice(0, 4);
+
+const INDICATORS = "world-demography-indicators";
+const [BOUNDARY] = publishedRows(
+  [INDICATORS],
+  `SELECT max(period) AS period FROM "${INDICATORS}"
+    WHERE location_kind = 'world' AND series_kind = 'estimate'`,
+).map((row) => row.period);
+const [WORLD] = publishedRows(
+  [INDICATORS],
+  `SELECT population_thousands, population_growth_rate_pct FROM "${INDICATORS}"
+    WHERE location_kind = 'world' AND period = DATE '${BOUNDARY}'`,
+);
+const [PEAK] = publishedRows(
+  [INDICATORS],
+  `SELECT period, population_thousands FROM "${INDICATORS}"
+    WHERE location_kind = 'world' ORDER BY population_thousands DESC LIMIT 1`,
+);
+// France, Germany and the United Kingdom are the report's default countries.
+// Japan is added because Eurostat publishes no gross flows for it, which is a
+// fact about the provider's coverage rather than about any one release.
+const countries = Object.fromEntries(
+  publishedRows(
+    [INDICATORS],
+    `SELECT * FROM "${INDICATORS}" WHERE period = DATE '${BOUNDARY}'
+       AND iso3_code IN ('FRA', 'DEU', 'GBR', 'JPN')`,
+  ).map((row) => [row.iso3_code, row]),
+);
+const flowsAt = (dataset, column, iso3) =>
+  publishedRows(
+    [dataset],
+    `SELECT max(period) AS latest,
+            max(CASE WHEN period = DATE '${BOUNDARY}' THEN ${column} END) AS value
+       FROM "${dataset}" WHERE iso3_code = '${iso3}'`,
+  )[0];
+const flow = ({ value }) => (value === null ? "not published" : people(value / 1000));
+const HEALTHY = Object.fromEntries(
+  publishedRows(
+    ["healthy-life-expectancy"],
+    `SELECT iso3_code, max(period) AS latest, arg_max(healthy_life_expectancy_years, period) AS value,
+            max(CASE WHEN period = DATE '${BOUNDARY}' THEN healthy_life_expectancy_years END) AS at_boundary
+       FROM "healthy-life-expectancy" WHERE sex = 'total' AND iso3_code IN ('FRA', 'DEU', 'GBR')
+      GROUP BY iso3_code`,
+  ).map((row) => [row.iso3_code, row]),
+);
+const FRANCE_AGE = publishedRows(
+  ["world-demography-age-structure"],
+  `SELECT age_grouping, age_start, population_male_thousands AS male,
+          population_female_thousands AS female, population_total_thousands AS total,
+          share_of_population_pct AS share
+     FROM "world-demography-age-structure"
+    WHERE iso3_code = 'FRA' AND period = DATE '${BOUNDARY}' ORDER BY age_grouping, age_start`,
+);
+const edgeOf = (dataset) =>
+  year(publishedRows([dataset], `SELECT max(period) AS period FROM "${dataset}"`)[0].period);
+
+const AT_BOUNDARY = {
+  year: year(BOUNDARY),
+  world: {
+    population: people(WORLD.population_thousands),
+    rate: `${signedFixed(WORLD.population_growth_rate_pct, 2, "%")} a year`,
+  },
+  france: {
+    population: people(countries.FRA.population_thousands),
+    fertility: countries.FRA.total_fertility_rate.toFixed(2),
+    life: countries.FRA.life_expectancy_years.toFixed(1),
+  },
+  germany: {
+    population: people(countries.DEU.population_thousands),
+    natural: people(countries.DEU.natural_change_thousands, { signed: true }),
+    migration: people(countries.DEU.net_migration_thousands, { signed: true }),
+    change: people(countries.DEU.population_change_thousands, { signed: true }),
+    naturalRate: signedFixed(countries.DEU.natural_change_rate_per_1000, 1, "‰"),
+    migrationRate: signedFixed(countries.DEU.net_migration_rate_per_1000, 1, "‰"),
+  },
+  britain: { population: people(countries.GBR.population_thousands) },
+  flows: {
+    germanyIn: flow(flowsAt("european-immigration-flows", "immigration_persons", "DEU")),
+    germanyOut: flow(flowsAt("european-emigration-flows", "emigration_persons", "DEU")),
+    britain: flowsAt("european-immigration-flows", "immigration_persons", "GBR"),
+  },
+  franceAge: (() => {
+    const fiveYear = FRANCE_AGE.filter((band) => band.age_grouping === "five-year");
+    const broad = FRANCE_AGE.filter((band) => band.age_grouping === "broad");
+    return {
+      total: people(fiveYear.reduce((sum, band) => sum + band.total, 0)),
+      widest: people(fiveYear.reduce((largest, band) => Math.max(largest, band.male, band.female), 1)),
+      broad: broad.map((band) => `${band.share.toFixed(1)}%`),
+    };
+  })(),
+};
+const JAPAN = {
+  id: String(countries.JPN.location_id),
+  name: countries.JPN.location_name,
+  natural: people(countries.JPN.natural_change_thousands, { signed: true }),
+};
 
 async function ready(page) {
   await page.goto(ROUTE, { waitUntil: "networkidle" });
@@ -58,14 +154,14 @@ test("every declared figure reaches ready and shows the provider's own values at
   await ready(page);
 
   // The value strip is the one place a reader looks, and it is above the plot.
-  await expect(strip(page, "world-population-path")).toContainText(AT_2023.world.population);
-  await expect(strip(page, "world-population-path")).toContainText(AT_2023.world.rate);
-  await expect(strip(page, "world-population-path").locator(".yr")).toHaveText("2023");
+  await expect(strip(page, "world-population-path")).toContainText(AT_BOUNDARY.world.population);
+  await expect(strip(page, "world-population-path")).toContainText(AT_BOUNDARY.world.rate);
+  await expect(strip(page, "world-population-path").locator(".yr")).toHaveText(AT_BOUNDARY.year);
 
   const countries = strip(page, "country-population-paths");
-  await expect(countries).toContainText(AT_2023.france.population);
-  await expect(countries).toContainText(AT_2023.germany.population);
-  await expect(countries).toContainText(AT_2023.britain.population);
+  await expect(countries).toContainText(AT_BOUNDARY.france.population);
+  await expect(countries).toContainText(AT_BOUNDARY.germany.population);
+  await expect(countries).toContainText(AT_BOUNDARY.britain.population);
 
   // No figure has a readout under it, and no value box sits inside a plot.
   await expect(page.locator("figure .plot-overlay .selection-chip")).toHaveCount(0);
@@ -85,26 +181,29 @@ test("every declared figure reaches ready and shows the provider's own values at
 test("the components figure reads the same year in people and per 1,000", async ({ page }) => {
   await ready(page);
   const germany = panelStrip(page, "change-composition", "Germany");
-  await expect(germany).toContainText(AT_2023.germany.natural);
-  await expect(germany).toContainText(AT_2023.germany.migration);
-  await expect(germany).toContainText(AT_2023.germany.change);
+  await expect(germany).toContainText(AT_BOUNDARY.germany.natural);
+  await expect(germany).toContainText(AT_BOUNDARY.germany.migration);
+  await expect(germany).toContainText(AT_BOUNDARY.germany.change);
 
   await segment(page, "unit-per-1000").click();
-  await expect(panelStrip(page, "change-composition", "Germany")).toContainText(AT_2023.germany.naturalRate);
-  await expect(panelStrip(page, "change-composition", "Germany")).toContainText(AT_2023.germany.migrationRate);
+  await expect(panelStrip(page, "change-composition", "Germany")).toContainText(AT_BOUNDARY.germany.naturalRate);
+  await expect(panelStrip(page, "change-composition", "Germany")).toContainText(AT_BOUNDARY.germany.migrationRate);
   // Population change is dropped in rate mode: the provider publishes no rate for it.
   await expect(panelStrip(page, "change-composition", "Germany")).not.toContainText("Population change");
 });
 
 test("a flow that stops says where, and a country outside the collection says so", async ({ page }) => {
   await ready(page);
+  // The United Kingdom left Eurostat's collection, so its flows stop; the panel
+  // says where rather than drawing a value it does not have.
   const britain = panel(page, "migration-flows", "United Kingdom");
-  await expect(britain).toContainText(AT_2023.flows.britain);
-  await expect(britain).toContainText(BRITAIN_FLOWS_END);
+  const britainFlows = AT_BOUNDARY.flows.britain;
+  await expect(britain).toContainText(flow(britainFlows));
+  if (britainFlows.value === null) await expect(britain).toContainText(`to ${year(britainFlows.latest)}`);
 
   const germany = panelStrip(page, "migration-flows", "Germany");
-  await expect(germany).toContainText(AT_2023.flows.germanyIn);
-  await expect(germany).toContainText(AT_2023.flows.germanyOut);
+  await expect(germany).toContainText(AT_BOUNDARY.flows.germanyIn);
+  await expect(germany).toContainText(AT_BOUNDARY.flows.germanyOut);
 
   await page.locator('select[data-control="add-country"]').selectOption(JAPAN.id);
   await expect(page.locator(`.figure-body[data-slot="migration-flows"][data-state=ready]`)).toBeVisible({ timeout: 30_000 });
@@ -118,32 +217,41 @@ test("a flow that stops says where, and a country outside the collection says so
 
 test("healthy life expectancy stops at its own last published year", async ({ page }) => {
   await ready(page);
-  await expect(panel(page, "fertility-longevity", "Total fertility rate")).toContainText(AT_2023.france.fertility);
-  await expect(panel(page, "fertility-longevity", "Life expectancy at birth")).toContainText(AT_2023.france.life);
+  await expect(panel(page, "fertility-longevity", "Total fertility rate")).toContainText(AT_BOUNDARY.france.fertility);
+  await expect(panel(page, "fertility-longevity", "Life expectancy at birth")).toContainText(AT_BOUNDARY.france.life);
   const healthy = panel(page, "fertility-longevity", "Healthy life expectancy");
-  await expect(healthy).toContainText(AT_2023.healthy);
-  await expect(healthy).toContainText("— to 2021");
+  const france = HEALTHY.FRA;
+  if (france.at_boundary === null) {
+    await expect(healthy).toContainText("not published");
+    await expect(healthy).toContainText(`— to ${year(france.latest)}`);
+  } else {
+    test.info().annotations.push({
+      type: "data",
+      description: "WHO publishes healthy life expectancy at the UN boundary year, so no series stops early",
+    });
+  }
 
-  await selectYear(page, 2021);
-  await expect(healthy).toContainText(AT_2021.franceHealthy);
-  await expect(healthy).toContainText(AT_2021.germanyHealthy);
-  await expect(healthy).toContainText(AT_2021.britainHealthy);
+  // At France's last WHO year every default country reads its own value.
+  await selectYear(page, Number(year(france.latest)));
+  for (const iso3 of ["FRA", "DEU", "GBR"])
+    if (HEALTHY[iso3].latest === france.latest)
+      await expect(healthy).toContainText(HEALTHY[iso3].value.toFixed(1));
 });
 
 test("the age structure follows the year selected anywhere on the page", async ({ page }) => {
   await ready(page);
   const france = panel(page, "age-structure", "France");
-  await expect(france.locator(".values")).toContainText(AT_2023.franceAge.total);
-  await expect(france.locator(".values")).toContainText(AT_2023.franceAge.widest);
-  await expect(france.locator(".broad-bands")).toContainText(AT_2023.franceAge.young);
-  await expect(france.locator(".broad-bands")).toContainText(AT_2023.franceAge.working);
-  await expect(france.locator(".broad-bands")).toContainText(AT_2023.franceAge.old);
+  await expect(france.locator(".values")).toContainText(AT_BOUNDARY.franceAge.total);
+  await expect(france.locator(".values")).toContainText(AT_BOUNDARY.franceAge.widest);
+  expect(AT_BOUNDARY.franceAge.broad.length).toBeGreaterThan(0);
+  for (const share of AT_BOUNDARY.franceAge.broad)
+    await expect(france.locator(".broad-bands")).toContainText(share);
 
   // Clicking a point on another figure moves this one too.
   const plot = page.locator('figure[data-figure="world-population-path"] svg').first();
   const box = await plot.boundingBox();
   await plot.click({ position: { x: box.width * 0.2, y: box.height * 0.4 } });
-  await expect(page.locator('figure[data-figure="age-structure"] .values .yr').first()).not.toHaveText("2023");
+  await expect(page.locator('figure[data-figure="age-structure"] .values .yr').first()).not.toHaveText(AT_BOUNDARY.year);
 });
 
 test("the projection range is the 95% interval, and the peak is a mark", async ({ page }) => {
@@ -155,9 +263,9 @@ test("the projection range is the 95% interval, and the peak is a mark", async (
   await expect(page.locator(`.figure-body[data-slot="world-population-path"][data-state=ready]`)).toBeVisible({ timeout: 30_000 });
   await expect(strip(page, "world-population-path")).not.toContainText("95% interval");
 
-  await selectYear(page, Number(PEAK.year));
-  await expect(strip(page, "world-population-path")).toContainText(PEAK.population);
-  await expect(page.locator('figure[data-figure="world-population-path"] .plot-overlay')).toContainText(`peak · ${PEAK.year}`);
+  await selectYear(page, Number(year(PEAK.period)));
+  await expect(strip(page, "world-population-path")).toContainText(people(PEAK.population_thousands));
+  await expect(page.locator('figure[data-figure="world-population-path"] .plot-overlay')).toContainText(`peak · ${year(PEAK.period)}`);
 });
 
 test("every figure carries an accessible data equivalent and its own provenance", async ({ page }) => {
@@ -205,10 +313,11 @@ test("a whole-report data failure is reported once, with a retry", async ({ page
 test("the report says where each family's data stops", async ({ page }) => {
   await ready(page);
   const header = page.locator(".wd-report header dl");
-  await expect(header).toContainText("estimates to 2023");
+  await expect(header).toContainText(`estimates to ${AT_BOUNDARY.year}`);
   await expect(header).toContainText("Eurostat migration flows");
+  await expect(header).toContainText(`to ${edgeOf("european-immigration-flows")}`);
   await expect(header).toContainText("WHO healthy life expectancy");
-  await expect(header).toContainText("to 2021");
+  await expect(header).toContainText(`to ${edgeOf("healthy-life-expectancy")}`);
 });
 
 // A viewport change always has a frame in which the old plots are still the
@@ -335,8 +444,8 @@ test("changing the year never puts a loading message over a drawn figure", async
       [slot.dataset.slot, Math.round(slot.getBoundingClientRect().height)])));
   const before = await heights();
 
-  for (const year of [2000, 1975, 2050, 2023]) {
-    await selectYear(page, year);
+  for (const selected of [2000, 1975, 2050, Number(AT_BOUNDARY.year)]) {
+    await selectYear(page, selected);
   }
   await expect(page.locator('.figure-body[data-slot="age-structure"][data-state=ready]')).toBeVisible();
 
