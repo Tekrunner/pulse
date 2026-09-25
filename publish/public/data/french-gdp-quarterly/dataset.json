@@ -1,0 +1,171 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the quarter the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "GDP produced in the quarter, chained volumes at previous-year prices referenced to 2020, millions of euros, seasonally and working-day adjusted.",
+      "name": "gdp_chained_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "GDP produced in the quarter at current prices, millions of euros, seasonally and working-day adjusted.",
+      "name": "gdp_current_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Four times the quarter's chained-volume GDP, millions of euros per year.",
+      "name": "gdp_chained_annualised_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Four times the quarter's current-price GDP, millions of euros per year.",
+      "name": "gdp_current_annualised_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Change in GDP volume on the previous quarter, per cent, as published; null in 1949-Q1.",
+      "name": "gdp_quarterly_growth_pct",
+      "type": "DECIMAL(8,2)"
+    },
+    {
+      "description": "Change in GDP volume on the same quarter of the previous year, per cent; null in 1949.",
+      "name": "gdp_year_on_year_growth_pct",
+      "type": "DECIMAL(8,2)"
+    }
+  ],
+  "content_sha256": "68c04fd2c5a1f4182741d286411f7a949f29c3d6e4a358df62e71860e2f4f85c",
+  "dataset_id": "french-gdp-quarterly",
+  "indicators": [
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_chained_eur_mn",
+      "definition": "Total GDP in volume, previous-year prices chained, seasonally and working-day adjusted (IDBANK 011794860).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, quarterly national accounts base 2020, CNT-2020-PIB-EQB-RF",
+      "unit": "Millions of chained 2020 euros per quarter"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_current_eur_mn",
+      "definition": "Total GDP at current prices, seasonally and working-day adjusted (IDBANK 011794859).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, quarterly national accounts base 2020, CNT-2020-PIB-EQB-RF",
+      "unit": "Millions of euros per quarter"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_chained_annualised_eur_mn",
+      "definition": "4 * gdp_chained_eur_mn.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package from IDBANK 011794860",
+      "unit": "Millions of chained 2020 euros per year"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_current_annualised_eur_mn",
+      "definition": "4 * gdp_current_eur_mn.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package from IDBANK 011794859",
+      "unit": "Millions of euros per year"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_quarterly_growth_pct",
+      "definition": "Evolution of total GDP, volume at previous-year prices chained, seasonally and working-day adjusted, on the previous quarter (IDBANK 011794844).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, quarterly national accounts base 2020, CNT-2020-PIB-EQB-RF",
+      "unit": "Per cent"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+      "column": "gdp_year_on_year_growth_pct",
+      "definition": "100 * (gdp_chained_eur_mn / gdp_chained_eur_mn four quarters earlier - 1).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package from IDBANK 011794860",
+      "unit": "Per cent"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "quarters": 310,
+    "snapshot_id": "acq-c2d44329b2072239853c44709bae69b5-ec4c2f18550d",
+    "snapshot_sha256": "ec4c2f18550d0668fe3931e46dd08aafcb8e031be5d695210e22676f9e3fc75e"
+  },
+  "logical_table": "french_gdp_quarterly",
+  "model": {
+    "description": "One row per quarter, 1949 onward, of French GDP from the INSEE quarterly national accounts in base 2020, seasonally and working-day adjusted, as quarterly and annualised levels in value and chained volume, with quarter-on-quarter and year-on-year volume growth.",
+    "name": "french_gdp_quarterly"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "gdp_chained_eur_mn",
+        "gdp_current_eur_mn",
+        "gdp_chained_annualised_eur_mn",
+        "gdp_current_annualised_eur_mn",
+        "gdp_quarterly_growth_pct",
+        "gdp_year_on_year_growth_pct"
+      ],
+      "derivation": "Select the quarterly and annualised GDP levels and the published quarter-on-quarter growth, and compare each quarter's volume with the same quarter a year earlier.",
+      "id": "headline-output-recent-quarters",
+      "question": "How large is French GDP and how fast has it grown in volume over the most recent quarters?"
+    }
+  ],
+  "represented_period": {
+    "end": "2026-06-30",
+    "start": "1949-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "insee-quarterly-national-accounts",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "quarter",
+    "meaning": "Each period is the first day of the calendar quarter whose GDP flow, or whose change on an earlier quarter, the row carries.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "There is exactly one row per quarter.",
+      "name": "unique-period"
+    },
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "No quarter is missing, so the row four positions back is the same quarter a year earlier.",
+      "name": "quarters_are_consecutive"
+    },
+    {
+      "columns": [
+        "gdp_quarterly_growth_pct",
+        "gdp_chained_eur_mn"
+      ],
+      "description": "The published quarter-on-quarter growth equals the change in the chained volume level within the rounding of the published rate.",
+      "name": "published_growth_matches_the_volume_levels"
+    },
+    {
+      "columns": [
+        "gdp_chained_eur_mn",
+        "gdp_current_eur_mn",
+        "gdp_quarterly_growth_pct",
+        "gdp_year_on_year_growth_pct"
+      ],
+      "description": "Levels are non-negative, quarterly growth lies within plus or minus 25 and year-on-year growth within plus or minus 30.",
+      "name": "within_range"
+    }
+  ],
+  "visibility": "public"
+}

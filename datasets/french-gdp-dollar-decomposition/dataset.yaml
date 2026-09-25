@@ -1,0 +1,6 @@
+id: french-gdp-dollar-decomposition
+name: French GDP in US dollars and the decomposition of its annual change
+source: world-bank-wdi-gdp
+visibility: public
+logical_table: french_gdp_dollar_decomposition
+contract: dataset-contract.yaml

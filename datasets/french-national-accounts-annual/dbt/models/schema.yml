@@ -1,0 +1,295 @@
+version: 2
+models:
+- name: french_national_accounts_annual
+  columns:
+  - name: period
+    data_tests:
+    - not_null
+    - unique
+  - name: gdp_current_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gdp_chained_2020_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gdp_price_index_2020
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gdp_volume_growth_pct
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: gdp_per_capita_current_eur
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gdp_per_capita_chained_2020_eur
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: contribution_final_consumption_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_household_consumption_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_npish_consumption_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_government_consumption_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_non_financial_corporations_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_financial_corporations_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_households_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_government_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_gfcf_npish_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_inventories_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_valuables_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_exports_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_imports_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: contribution_net_trade_pt
+    data_tests:
+    - not_null:
+        config:
+          where: period > date '1949-01-01'
+    - within_range:
+        arguments:
+          minimum: -25
+          maximum: 25
+  - name: gross_value_added_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: compensation_of_employees_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: wages_and_salaries_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gross_operating_surplus_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: gross_mixed_income_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: net_taxes_on_production_eur_mn
+    data_tests:
+    - not_null
+  - name: net_taxes_on_products_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: employment_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: employees_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: non_employees_thousands
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: hours_worked_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: imputed_non_employee_labour_income_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: adjusted_labour_income_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: adjusted_capital_income_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 1000000000
+  - name: adjusted_wage_share_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100
+  - name: unadjusted_wage_share_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: 0
+          maximum: 100

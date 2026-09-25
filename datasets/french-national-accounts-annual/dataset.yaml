@@ -1,0 +1,6 @@
+id: french-national-accounts-annual
+name: French annual national accounts, headline aggregates
+source: insee-annual-national-accounts
+visibility: public
+logical_table: french_national_accounts_annual
+contract: dataset-contract.yaml

@@ -1,0 +1,24 @@
+version: 2
+models:
+- name: oecd_productivity_comparison
+  columns:
+  - name: period
+    data_tests: [not_null]
+  - name: reference_area_code
+    data_tests: [not_null]
+  - name: reference_area_name
+    data_tests: [not_null]
+  - name: reference_area_kind
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: [member, aggregate, non-member]
+  - name: hours_per_worker
+    data_tests:
+    - within_range:
+        arguments: {minimum: 1000, maximum: 3500}
+  - name: employment_per_capita
+    data_tests:
+    - within_range:
+        arguments: {minimum: 0.1, maximum: 0.9}

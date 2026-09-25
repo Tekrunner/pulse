@@ -1,0 +1,29 @@
+version: 2
+models:
+- name: french_branch_value_added
+  columns:
+  - name: period
+    data_tests: [not_null]
+  - name: level
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values: [A10, A38, A88]
+  - name: branch_code
+    data_tests: [not_null]
+  - name: branch_label
+    data_tests: [not_null]
+  - name: a10_code
+    data_tests: [not_null]
+  - name: is_residual
+    data_tests: [not_null]
+  - name: value_added_current_eur_mn
+    data_tests: [not_null]
+  - name: share_of_total_value_added_pct
+    data_tests:
+    - not_null
+    - within_range:
+        arguments:
+          minimum: -1
+          maximum: 100

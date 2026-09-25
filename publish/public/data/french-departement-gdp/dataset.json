@@ -1,0 +1,189 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the calendar year the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "INSEE departement code (01 to 95, 2A and 2B, 971 to 976).",
+      "name": "departement_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Eurostat NUTS 2021 level-3 code of the departement.",
+      "name": "nuts3_code",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "Eurostat's name for the NUTS 3 region.",
+      "name": "departement_name",
+      "type": "VARCHAR"
+    },
+    {
+      "description": "GDP at current market prices, millions of euros.",
+      "name": "gdp_eur_mn",
+      "type": "DECIMAL(14,1)"
+    },
+    {
+      "description": "GDP at current market prices per inhabitant, euros; null for Mayotte before 2014.",
+      "name": "gdp_per_inhabitant_eur",
+      "type": "DECIMAL(10,0)"
+    },
+    {
+      "description": "GDP per inhabitant in purchasing power standards based on the EU27 from 2020; null for Mayotte before 2014.",
+      "name": "gdp_per_inhabitant_pps",
+      "type": "DECIMAL(10,0)"
+    },
+    {
+      "description": "GDP per inhabitant of France as a whole in the same year, euros, from the same dataset.",
+      "name": "france_gdp_per_inhabitant_eur",
+      "type": "DECIMAL(10,0)"
+    },
+    {
+      "description": "GDP per inhabitant in euros relative to France in the same year, France = 100; null where the departement's figure is.",
+      "name": "gdp_per_inhabitant_index_france",
+      "type": "DECIMAL(8,1)"
+    },
+    {
+      "description": "True when Eurostat flags the per-inhabitant figure as provisional.",
+      "name": "is_provisional",
+      "type": "BOOLEAN"
+    }
+  ],
+  "content_sha256": "e9f6ecb6d8877325b6d0ac9a6f28bc0df951d73818a8b84392de93e812aee11b",
+  "dataset_id": "french-departement-gdp",
+  "indicators": [
+    {
+      "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+      "column": "gdp_eur_mn",
+      "definition": "Gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp, unit MIO_EUR).",
+      "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+      "source": "Eurostat, nama_10r_3gdp",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+      "column": "gdp_per_inhabitant_eur",
+      "definition": "Gross domestic product at current market prices per inhabitant (unit EUR_HAB).",
+      "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+      "source": "Eurostat, nama_10r_3gdp",
+      "unit": "Euros per inhabitant"
+    },
+    {
+      "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+      "column": "gdp_per_inhabitant_pps",
+      "definition": "Gross domestic product per inhabitant in purchasing power standards, EU27 from 2020 (unit PPS_EU27_2020_HAB).",
+      "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+      "source": "Eurostat, nama_10r_3gdp",
+      "unit": "Purchasing power standards per inhabitant"
+    },
+    {
+      "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+      "column": "france_gdp_per_inhabitant_eur",
+      "definition": "GDP per inhabitant for geo FR (unit EUR_HAB) in the same year.",
+      "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+      "source": "Eurostat, nama_10r_3gdp",
+      "unit": "Euros per inhabitant"
+    },
+    {
+      "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+      "column": "gdp_per_inhabitant_index_france",
+      "definition": "100 * gdp_per_inhabitant_eur / france_gdp_per_inhabitant_eur.",
+      "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+      "source": "Derived in this package from Eurostat nama_10r_3gdp",
+      "unit": "Index, France = 100"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "rows": 2525,
+    "snapshot_id": "acq-da5f797d798ca628269261e650b6f9c7-21bea2a92ee3",
+    "snapshot_sha256": "21bea2a92ee35f995a3bccba515d33edc5dd9d7e201c0b1726bc9455e1515dcc"
+  },
+  "logical_table": "french_departement_gdp",
+  "model": {
+    "description": "One row per French departement and year, 2000 onward, of GDP at current market prices from Eurostat's regional accounts, in millions of euros, per inhabitant in euros and in purchasing power standards, and per inhabitant relative to France in the same year.",
+    "name": "french_departement_gdp"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "departement_code",
+        "departement_name",
+        "gdp_per_inhabitant_eur",
+        "gdp_per_inhabitant_pps",
+        "france_gdp_per_inhabitant_eur",
+        "gdp_per_inhabitant_index_france",
+        "is_provisional"
+      ],
+      "derivation": "Select each departement's GDP per inhabitant in euros, in purchasing power standards and relative to France for a year, keyed by INSEE departement code.",
+      "id": "territorial-spread",
+      "question": "How unevenly is GDP per inhabitant spread across the French departements?"
+    }
+  ],
+  "represented_period": {
+    "end": "2024-12-31",
+    "start": "2000-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "eurostat-regional-gdp",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the calendar year whose GDP, and GDP per average inhabitant, the row carries.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period",
+        "departement_code"
+      ],
+      "description": "Each departement appears once per year.",
+      "name": "one_row_per_departement_and_year"
+    },
+    {
+      "columns": [
+        "period",
+        "departement_code"
+      ],
+      "description": "All 101 declared departements have a row in every year the table covers.",
+      "name": "every_departement_is_published_every_year"
+    },
+    {
+      "columns": [
+        "nuts3_code"
+      ],
+      "description": "Every French NUTS 3 region Eurostat publishes, extra-regio aside, is a declared departement.",
+      "name": "every_french_nuts3_region_is_declared"
+    },
+    {
+      "columns": [
+        "period",
+        "gdp_eur_mn"
+      ],
+      "description": "Departement GDP in euros adds up to French GDP within half a percent.",
+      "name": "departements_add_up_to_france"
+    },
+    {
+      "columns": [
+        "period",
+        "departement_code",
+        "gdp_per_inhabitant_eur",
+        "gdp_per_inhabitant_pps",
+        "gdp_per_inhabitant_index_france"
+      ],
+      "description": "Per-inhabitant figures are missing only for Mayotte before 2014.",
+      "name": "only_mayotte_lacks_per_inhabitant_figures"
+    }
+  ],
+  "visibility": "public"
+}

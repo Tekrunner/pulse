@@ -1,0 +1,707 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the calendar year the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "Gross domestic product at current prices, millions of euros.",
+      "name": "gdp_current_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Gross domestic product in chained volumes at 2020 prices, millions of euros.",
+      "name": "gdp_chained_2020_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Chained GDP price index (GDP deflator), 2020 = 100.",
+      "name": "gdp_price_index_2020",
+      "type": "DECIMAL(12,3)"
+    },
+    {
+      "description": "Change in GDP volume on the previous year, per cent; null in 1949, the first year.",
+      "name": "gdp_volume_growth_pct",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "GDP per inhabitant at current prices, euros.",
+      "name": "gdp_per_capita_current_eur",
+      "type": "DECIMAL(12,0)"
+    },
+    {
+      "description": "GDP per inhabitant in chained volumes at 2020 prices, euros.",
+      "name": "gdp_per_capita_chained_2020_eur",
+      "type": "DECIMAL(12,0)"
+    },
+    {
+      "description": "Contribution of final consumption expenditure, all sectors, to GDP volume growth, percentage points.",
+      "name": "contribution_final_consumption_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of household final consumption (households excluding sole proprietorships) to GDP volume growth, percentage points.",
+      "name": "contribution_household_consumption_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of final consumption by non-profit institutions serving households to GDP volume growth, percentage points.",
+      "name": "contribution_npish_consumption_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of general government final consumption to GDP volume growth, percentage points.",
+      "name": "contribution_government_consumption_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of gross fixed capital formation, all sectors, to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of fixed capital formation by non-financial corporations and their sole proprietorships to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_non_financial_corporations_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of fixed capital formation by financial corporations and their sole proprietorships to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_financial_corporations_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of fixed capital formation by households excluding sole proprietorships (mainly dwellings) to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_households_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of general government fixed capital formation to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_government_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of fixed capital formation by non-profit institutions serving households to GDP volume growth, percentage points.",
+      "name": "contribution_gfcf_npish_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of changes in inventories to GDP volume growth, percentage points.",
+      "name": "contribution_inventories_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of acquisitions less disposals of valuables to GDP volume growth, percentage points.",
+      "name": "contribution_valuables_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of exports of goods and services to GDP volume growth, percentage points.",
+      "name": "contribution_exports_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of imports of goods and services to GDP volume growth, percentage points; negative when imports grow.",
+      "name": "contribution_imports_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Contribution of the external balance of goods and services to GDP volume growth, percentage points.",
+      "name": "contribution_net_trade_pt",
+      "type": "DECIMAL(8,3)"
+    },
+    {
+      "description": "Gross value added of all branches at current prices, millions of euros.",
+      "name": "gross_value_added_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Compensation of employees (D1), all branches, current prices, millions of euros.",
+      "name": "compensation_of_employees_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Wages and salaries (D11), all branches, current prices, millions of euros.",
+      "name": "wages_and_salaries_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Gross operating surplus (B2G), all branches, current prices, millions of euros; includes the imputed rent of owner-occupiers.",
+      "name": "gross_operating_surplus_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Gross mixed income (B3G) of unincorporated enterprises, derived as operating surplus plus mixed income less operating surplus, millions of euros.",
+      "name": "gross_mixed_income_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Other taxes less other subsidies on production, derived as value added less compensation less operating surplus and mixed income, millions of euros.",
+      "name": "net_taxes_on_production_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Taxes less subsidies on products, derived as GDP less gross value added, millions of euros.",
+      "name": "net_taxes_on_products_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Total domestic employment, thousands of persons.",
+      "name": "employment_thousands",
+      "type": "DECIMAL(10,1)"
+    },
+    {
+      "description": "Domestic employees, thousands of persons.",
+      "name": "employees_thousands",
+      "type": "DECIMAL(10,1)"
+    },
+    {
+      "description": "Domestic non-employees (self-employed), thousands of persons.",
+      "name": "non_employees_thousands",
+      "type": "DECIMAL(10,1)"
+    },
+    {
+      "description": "Total hours actually worked in domestic employment, millions of hours.",
+      "name": "hours_worked_mn",
+      "type": "DECIMAL(12,1)"
+    },
+    {
+      "description": "Labour income imputed to non-employees at the average compensation per employee, millions of euros.",
+      "name": "imputed_non_employee_labour_income_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Compensation of employees plus the labour income imputed to non-employees, millions of euros.",
+      "name": "adjusted_labour_income_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Operating surplus and mixed income less the labour income imputed to non-employees, millions of euros.",
+      "name": "adjusted_capital_income_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "Adjusted labour income as a percentage of GDP at current market prices (AMECO method).",
+      "name": "adjusted_wage_share_pct",
+      "type": "DECIMAL(8,2)"
+    },
+    {
+      "description": "Compensation of employees as a percentage of GDP at current market prices.",
+      "name": "unadjusted_wage_share_pct",
+      "type": "DECIMAL(8,2)"
+    }
+  ],
+  "content_sha256": "5fd5fdc42a4eecdb7c3169d2d76394b8c244ce36c98d30d5558ef64efac84414",
+  "dataset_id": "french-national-accounts-annual",
+  "indicators": [
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_current_eur_mn",
+      "definition": "Gross domestic product, product approach, at current prices (CNA-2020-PIB, OPERATION=PIB, PRIX_REF=VAL).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_chained_2020_eur_mn",
+      "definition": "Gross domestic product in chained volumes referenced to 2020 (OPERATION=PIB, PRIX_REF=PCH).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of chained 2020 euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_price_index_2020",
+      "definition": "Chained price index of GDP (OPERATION=PIB, PRIX_REF=IPCH).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Index, 2020 = 100"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_volume_growth_pct",
+      "definition": "Annual change in GDP volume at previous-year prices, chained (OPERATION=PIB, PRIX_REF=CONTPIB).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Per cent"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_per_capita_current_eur",
+      "definition": "GDP per inhabitant at current prices (OPERATION=PIB_H, PRIX_REF=VAL).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Euros per inhabitant"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gdp_per_capita_chained_2020_eur",
+      "definition": "GDP per inhabitant in chained 2020 volumes (OPERATION=PIB_H, PRIX_REF=PCH).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Chained 2020 euros per inhabitant"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_final_consumption_pt",
+      "definition": "Contribution of final consumption expenditure, all sectors, to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_household_consumption_pt",
+      "definition": "Contribution of household final consumption (households excluding sole proprietorships) to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_npish_consumption_pt",
+      "definition": "Contribution of final consumption by non-profit institutions serving households to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_government_consumption_pt",
+      "definition": "Contribution of general government final consumption to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_pt",
+      "definition": "Contribution of gross fixed capital formation, all sectors, to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_non_financial_corporations_pt",
+      "definition": "Contribution of fixed capital formation by non-financial corporations and their sole proprietorships to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_financial_corporations_pt",
+      "definition": "Contribution of fixed capital formation by financial corporations and their sole proprietorships to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_households_pt",
+      "definition": "Contribution of fixed capital formation by households excluding sole proprietorships (mainly dwellings) to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_government_pt",
+      "definition": "Contribution of general government fixed capital formation to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_gfcf_npish_pt",
+      "definition": "Contribution of fixed capital formation by non-profit institutions serving households to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_inventories_pt",
+      "definition": "Contribution of changes in inventories to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_valuables_pt",
+      "definition": "Contribution of acquisitions less disposals of valuables to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_exports_pt",
+      "definition": "Contribution of exports of goods and services to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_imports_pt",
+      "definition": "Contribution of imports of goods and services to GDP volume growth, percentage points; negative when imports grow.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "contribution_net_trade_pt",
+      "definition": "Contribution of the external balance of goods and services to GDP volume growth, percentage points.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Contribution to the change in GDP volume (CNA-2020-PIB, PRIX_REF=CONTPIB) for the operation and institutional sector the column names.",
+      "unit": "Percentage points"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gross_value_added_eur_mn",
+      "definition": "Gross value added, total of branches, current prices (CNA-2020-CPEB, NNTOTAL, OPERATION=B1G).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "compensation_of_employees_eur_mn",
+      "definition": "Compensation of employees, total of branches (NNTOTAL, OPERATION=D1).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "wages_and_salaries_eur_mn",
+      "definition": "Wages and salaries, total of branches (NNTOTAL, OPERATION=D11).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gross_operating_surplus_eur_mn",
+      "definition": "Gross operating surplus, total of branches (NNTOTAL, OPERATION=B2G).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "gross_mixed_income_eur_mn",
+      "definition": "Gross mixed income (B3G) of unincorporated enterprises, derived as operating surplus plus mixed income less operating surplus, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: operating_surplus_and_mixed_income (NNTOTAL, OPERATION=B2GEB3G) minus gross_operating_surplus_eur_mn.",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "net_taxes_on_production_eur_mn",
+      "definition": "Other taxes less other subsidies on production, derived as value added less compensation less operating surplus and mixed income, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: gross_value_added_eur_mn minus compensation_of_employees_eur_mn minus operating surplus and mixed income (B2GEB3G).",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "net_taxes_on_products_eur_mn",
+      "definition": "Taxes less subsidies on products, derived as GDP less gross value added, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: gdp_current_eur_mn minus gross_value_added_eur_mn.",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "employment_thousands",
+      "definition": "Total domestic employment in persons, total economy (CNA-2020-EMPLOI, E10, S10).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Thousands of persons"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "employees_thousands",
+      "definition": "Domestic salaried employment in persons, total economy (E20, S10).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Thousands of persons"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "non_employees_thousands",
+      "definition": "Domestic non-salaried employment in persons, total economy (E30, S10).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Thousands of persons"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "hours_worked_mn",
+      "definition": "Total hours worked in domestic employment (CNA_VOLUME_HEURES_TRAV, E10, S10), published in hours and scaled to millions.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "INSEE BDM, annual national accounts base 2020",
+      "unit": "Millions of hours"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "imputed_non_employee_labour_income_eur_mn",
+      "definition": "Labour income imputed to non-employees at the average compensation per employee, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: compensation_of_employees_eur_mn / employees_thousands * non_employees_thousands.",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "adjusted_labour_income_eur_mn",
+      "definition": "Compensation of employees plus the labour income imputed to non-employees, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: compensation_of_employees_eur_mn * (1 + non_employees_thousands / employees_thousands).",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "adjusted_capital_income_eur_mn",
+      "definition": "Operating surplus and mixed income less the labour income imputed to non-employees, millions of euros.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: operating surplus and mixed income (B2GEB3G) minus imputed_non_employee_labour_income_eur_mn.",
+      "unit": "Millions of euros"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "adjusted_wage_share_pct",
+      "definition": "Adjusted labour income as a percentage of GDP at current market prices (AMECO method).",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: 100 * adjusted_labour_income_eur_mn / gdp_current_eur_mn, the AMECO adjusted wage share at market prices.",
+      "unit": "Per cent of GDP"
+    },
+    {
+      "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+      "column": "unadjusted_wage_share_pct",
+      "definition": "Compensation of employees as a percentage of GDP at current market prices.",
+      "licence": "Licence Ouverte / Open Licence 2.0",
+      "source": "Derived in this package: 100 * compensation_of_employees_eur_mn / gdp_current_eur_mn.",
+      "unit": "Per cent of GDP"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "snapshot_id": "acq-03ee4e5844948093e6b4873c129231b9-1cdde6fab2c7",
+    "snapshot_sha256": "1cdde6fab2c794a9d34af6f424e531d7a99aebe8e000127f8e29e8f453a7db59",
+    "years": 77
+  },
+  "logical_table": "french_national_accounts_annual",
+  "model": {
+    "description": "One row per year, 1949 onward, of French annual national accounts in base 2020: GDP in value, volume and per inhabitant, the published contributions of demand components to GDP volume growth, the income-side split of GDP, domestic employment, and the AMECO-adjusted wage share.",
+    "name": "french_national_accounts_annual"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "gdp_current_eur_mn",
+        "gdp_chained_2020_eur_mn",
+        "gdp_price_index_2020",
+        "gdp_volume_growth_pct",
+        "gdp_per_capita_current_eur",
+        "gdp_per_capita_chained_2020_eur"
+      ],
+      "derivation": "Select the published GDP levels, per-inhabitant levels, price index and volume growth by year.",
+      "id": "headline-output",
+      "question": "How large is French GDP, in total and per inhabitant, and how fast has it grown in volume each year?"
+    },
+    {
+      "columns": [
+        "period",
+        "gdp_volume_growth_pct",
+        "contribution_final_consumption_pt",
+        "contribution_household_consumption_pt",
+        "contribution_npish_consumption_pt",
+        "contribution_government_consumption_pt",
+        "contribution_gfcf_pt",
+        "contribution_gfcf_non_financial_corporations_pt",
+        "contribution_gfcf_financial_corporations_pt",
+        "contribution_gfcf_households_pt",
+        "contribution_gfcf_government_pt",
+        "contribution_gfcf_npish_pt",
+        "contribution_inventories_pt",
+        "contribution_valuables_pt",
+        "contribution_exports_pt",
+        "contribution_imports_pt",
+        "contribution_net_trade_pt"
+      ],
+      "derivation": "Select the published contributions, which add up to GDP volume growth: final consumption, fixed capital formation, inventories, valuables and net trade, with their sector and trade splits.",
+      "id": "demand-contributions",
+      "question": "Which expenditure components carried or held back GDP volume growth in each year?"
+    },
+    {
+      "columns": [
+        "period",
+        "gdp_current_eur_mn",
+        "compensation_of_employees_eur_mn",
+        "gross_operating_surplus_eur_mn",
+        "gross_mixed_income_eur_mn",
+        "net_taxes_on_production_eur_mn",
+        "net_taxes_on_products_eur_mn",
+        "employment_thousands",
+        "employees_thousands",
+        "non_employees_thousands",
+        "imputed_non_employee_labour_income_eur_mn",
+        "adjusted_labour_income_eur_mn",
+        "adjusted_capital_income_eur_mn",
+        "adjusted_wage_share_pct",
+        "unadjusted_wage_share_pct"
+      ],
+      "derivation": "Split GDP into compensation, operating surplus, mixed income and the two net-tax residuals; impute to each non-employee the average compensation per employee and move that amount from mixed income and surplus to labour.",
+      "id": "income-split",
+      "question": "How is GDP shared between labour, capital and net taxes, once non-employees are credited with a wage?"
+    }
+  ],
+  "represented_period": {
+    "end": "2025-12-31",
+    "start": "1949-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.1.0",
+  "source_id": "insee-annual-national-accounts",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the calendar year whose flows, averages or year-on-year changes the row carries.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "There is exactly one row per year.",
+      "name": "unique-period"
+    },
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "No year is missing between the first and the last.",
+      "name": "years_are_consecutive"
+    },
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "Each published column is fed by exactly one provider series.",
+      "name": "every_selector_matches_one_series"
+    },
+    {
+      "columns": [
+        "gdp_volume_growth_pct",
+        "contribution_final_consumption_pt",
+        "contribution_gfcf_pt",
+        "contribution_inventories_pt",
+        "contribution_valuables_pt",
+        "contribution_net_trade_pt"
+      ],
+      "description": "Final consumption, fixed capital formation, inventories, valuables and net trade add up to GDP volume growth within the provider's rounding.",
+      "name": "expenditure_contributions_sum_to_gdp_growth"
+    },
+    {
+      "columns": [
+        "contribution_final_consumption_pt",
+        "contribution_household_consumption_pt",
+        "contribution_npish_consumption_pt",
+        "contribution_government_consumption_pt",
+        "contribution_gfcf_pt",
+        "contribution_gfcf_non_financial_corporations_pt",
+        "contribution_gfcf_financial_corporations_pt",
+        "contribution_gfcf_households_pt",
+        "contribution_gfcf_government_pt",
+        "contribution_gfcf_npish_pt",
+        "contribution_inventories_pt",
+        "contribution_valuables_pt",
+        "contribution_exports_pt",
+        "contribution_imports_pt",
+        "contribution_net_trade_pt"
+      ],
+      "description": "Sector contributions add up to final consumption and to fixed capital formation, and exports and imports to net trade, within rounding.",
+      "name": "sector_contributions_sum_to_their_totals"
+    },
+    {
+      "columns": [
+        "employment_thousands",
+        "employees_thousands",
+        "non_employees_thousands"
+      ],
+      "description": "Employees and non-employees add up to total employment within rounding.",
+      "name": "employees_and_non_employees_make_up_employment"
+    },
+    {
+      "columns": [
+        "gdp_current_eur_mn",
+        "compensation_of_employees_eur_mn",
+        "gross_operating_surplus_eur_mn",
+        "gross_mixed_income_eur_mn",
+        "net_taxes_on_production_eur_mn",
+        "net_taxes_on_products_eur_mn",
+        "adjusted_labour_income_eur_mn",
+        "adjusted_capital_income_eur_mn"
+      ],
+      "description": "The income components, unadjusted and adjusted, close on GDP.",
+      "name": "income_components_make_up_gdp"
+    },
+    {
+      "columns": [
+        "gdp_current_eur_mn",
+        "gdp_chained_2020_eur_mn",
+        "gdp_price_index_2020",
+        "gdp_volume_growth_pct",
+        "gdp_per_capita_current_eur",
+        "gdp_per_capita_chained_2020_eur",
+        "contribution_final_consumption_pt",
+        "contribution_household_consumption_pt",
+        "contribution_npish_consumption_pt",
+        "contribution_government_consumption_pt",
+        "contribution_gfcf_pt",
+        "contribution_gfcf_non_financial_corporations_pt",
+        "contribution_gfcf_financial_corporations_pt",
+        "contribution_gfcf_households_pt",
+        "contribution_gfcf_government_pt",
+        "contribution_gfcf_npish_pt",
+        "contribution_inventories_pt",
+        "contribution_valuables_pt",
+        "contribution_exports_pt",
+        "contribution_imports_pt",
+        "contribution_net_trade_pt",
+        "gross_value_added_eur_mn",
+        "compensation_of_employees_eur_mn",
+        "wages_and_salaries_eur_mn",
+        "gross_operating_surplus_eur_mn",
+        "gross_mixed_income_eur_mn",
+        "net_taxes_on_products_eur_mn",
+        "employment_thousands",
+        "employees_thousands",
+        "non_employees_thousands",
+        "hours_worked_mn",
+        "imputed_non_employee_labour_income_eur_mn",
+        "adjusted_labour_income_eur_mn",
+        "adjusted_capital_income_eur_mn",
+        "adjusted_wage_share_pct",
+        "unadjusted_wage_share_pct"
+      ],
+      "description": "Shares lie within 0-100, levels are non-negative, and growth and contributions lie within plus or minus 25.",
+      "name": "within_range"
+    }
+  ],
+  "visibility": "public"
+}

@@ -1,0 +1,185 @@
+contract_version: 1.1.0
+model:
+  name: oecd_productivity_comparison
+  description: One row per reference area and year from the OECD Productivity Database, total economy,
+    for OECD members, aggregates and the non-members the database covers, with GDP at current and constant
+    purchasing power parity, GDP volume growth, population, employment, hours worked and the ratios that
+    decompose GDP per inhabitant into GDP per hour, hours per worker and employment per inhabitant.
+columns:
+- name: period
+  type: DATE
+  description: First day of the calendar year the observation describes.
+- name: reference_area_code
+  type: VARCHAR
+  description: OECD reference-area code, ISO 3166 alpha-3 for countries.
+- name: reference_area_name
+  type: VARCHAR
+  description: The OECD's own English name for the reference area.
+- name: reference_area_kind
+  type: VARCHAR
+  description: member (one of the 38 OECD members), aggregate (OECD, EA20, EU27_2020) or non-member.
+- name: gdp_ppp_current_usd_mn
+  type: DECIMAL(18,1)
+  description: GDP at current prices converted at current purchasing power parities, millions of US dollars.
+- name: gdp_ppp_constant_2020_usd_mn
+  type: DECIMAL(18,1)
+  description: GDP in constant prices and 2020 purchasing power parities, millions of US dollars.
+- name: gdp_volume_growth_pct
+  type: DECIMAL(8,3)
+  description: Change in GDP volume in national currency on the previous year, per cent; null in an area's
+    first year.
+- name: population_thousands
+  type: DECIMAL(14,1)
+  description: Population, thousands of persons.
+- name: employment_thousands
+  type: DECIMAL(14,1)
+  description: Total employment, thousands of persons, as published.
+- name: hours_worked_mn
+  type: DECIMAL(14,1)
+  description: Total hours worked, millions of hours, as published.
+- name: gdp_per_capita_ppp_current_usd
+  type: DECIMAL(12,1)
+  description: GDP at current PPP per inhabitant, US dollars.
+- name: gdp_per_capita_ppp_constant_2020_usd
+  type: DECIMAL(12,1)
+  description: GDP at constant 2020 PPP per inhabitant, US dollars.
+- name: labour_input_is_plausible
+  type: BOOLEAN
+  description: True when hours per worker lie within 1,000-3,500 and employment within 0.1-0.9 of population;
+    false when the published totals fail that screen; null when a total is missing.
+- name: gdp_per_hour_ppp_current_usd
+  type: DECIMAL(12,4)
+  description: GDP at current PPP per hour worked, US dollars; null unless labour input is plausible.
+- name: gdp_per_hour_ppp_constant_2020_usd
+  type: DECIMAL(12,4)
+  description: GDP at constant 2020 PPP per hour worked, US dollars; null unless labour input is plausible.
+- name: hours_per_worker
+  type: DECIMAL(8,1)
+  description: Total hours worked per person employed in the year; null unless labour input is plausible.
+- name: employment_per_capita
+  type: DECIMAL(8,5)
+  description: Persons employed per inhabitant; null unless labour input is plausible.
+indicators:
+- column: gdp_ppp_current_usd_mn
+  definition: Gross domestic product at current prices, PPP converted (MEASURE=GDP, UNIT_MEASURE=USD_PPP,
+    PRICE_BASE=V).
+  unit: Millions of current US dollars at PPP
+  source: OECD Productivity Database, DSD_PDB@DF_PDB, total economy
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_ppp_constant_2020_usd_mn
+  definition: Gross domestic product in chain-linked volumes rebased to 2020, PPP converted (MEASURE=GDP,
+    UNIT_MEASURE=USD_PPP, PRICE_BASE=LR).
+  unit: Millions of US dollars at 2020 prices and PPPs
+  source: OECD Productivity Database, DSD_PDB@DF_PDB, total economy
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_volume_growth_pct
+  definition: 100 * (GDP in national-currency chain-linked volume, MEASURE=GDP, UNIT_MEASURE=XDC, PRICE_BASE=LR,
+    over its previous year - 1).
+  unit: Per cent
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: population_thousands
+  definition: Population (MEASURE=POP).
+  unit: Thousands of persons
+  source: OECD Productivity Database, DSD_PDB@DF_PDB
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: employment_thousands
+  definition: Total employment (MEASURE=EMP), national-accounts basis where available.
+  unit: Thousands of persons
+  source: OECD Productivity Database, DSD_PDB@DF_PDB
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: hours_worked_mn
+  definition: Total hours worked (MEASURE=HRSTO).
+  unit: Millions of hours
+  source: OECD Productivity Database, DSD_PDB@DF_PDB
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_per_capita_ppp_current_usd
+  definition: 1000 * gdp_ppp_current_usd_mn / population_thousands.
+  unit: Current US dollars at PPP per inhabitant
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_per_capita_ppp_constant_2020_usd
+  definition: 1000 * gdp_ppp_constant_2020_usd_mn / population_thousands.
+  unit: US dollars at 2020 prices and PPPs per inhabitant
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_per_hour_ppp_current_usd
+  definition: gdp_ppp_current_usd_mn / hours_worked_mn, where labour input is plausible.
+  unit: Current US dollars at PPP per hour
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: gdp_per_hour_ppp_constant_2020_usd
+  definition: gdp_ppp_constant_2020_usd_mn / hours_worked_mn, where labour input is plausible.
+  unit: US dollars at 2020 prices and PPPs per hour
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: hours_per_worker
+  definition: 1000 * hours_worked_mn / employment_thousands, where labour input is plausible.
+  unit: Hours per person employed per year
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+- column: employment_per_capita
+  definition: employment_thousands / population_thousands, where labour input is plausible.
+  unit: Persons employed per inhabitant
+  source: Derived in this package from the OECD Productivity Database
+  licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+  attribution: 'Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.'
+questions:
+- id: international-standing
+  question: How do GDP volume growth and GDP per inhabitant at purchasing power parity compare across OECD
+    economies?
+  derivation: Select each area's GDP volume growth and GDP per inhabitant at current PPP (for levels within
+    a year) or constant 2020 PPP (for an area over time).
+  columns: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_volume_growth_pct,
+    gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd]
+- id: per-capita-drivers
+  question: How much of the level and evolution of GDP per inhabitant comes from productivity per hour,
+    hours per worker and employment per inhabitant?
+  derivation: GDP per inhabitant is exactly GDP per hour times hours per worker times employment per inhabitant,
+    all derived from published totals; compare the three factors across areas within a year at current
+    PPP, or follow their logs over time at constant PPP.
+  columns: [period, reference_area_code, reference_area_name, reference_area_kind, labour_input_is_plausible,
+    gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_per_hour_ppp_current_usd, gdp_per_hour_ppp_constant_2020_usd,
+    hours_per_worker, employment_per_capita, population_thousands, employment_thousands, hours_worked_mn]
+temporal:
+  grain: year
+  period_column: period
+  meaning: Each period is the first day of the calendar year whose flows, annual averages or change on
+    the previous year the row carries.
+validations:
+- name: one_row_per_area_and_year
+  description: Each reference area appears once per year.
+  columns: [period, reference_area_code]
+- name: membership_list_matches_the_provider
+  description: Every declared OECD member and aggregate is published.
+  columns: [reference_area_code, reference_area_kind]
+- name: per_capita_is_per_hour_times_hours_times_employment
+  description: GDP per inhabitant equals GDP per hour times hours per worker times employment per inhabitant
+    within a thousandth.
+  columns: [gdp_per_capita_ppp_constant_2020_usd, gdp_per_hour_ppp_constant_2020_usd, hours_per_worker, employment_per_capita]
+- name: derived_ratios_match_the_published_ones
+  description: Derived GDP per inhabitant and per hour at current PPP reproduce the OECD's published values
+    within a thousandth.
+  columns: [gdp_per_capita_ppp_current_usd, gdp_per_hour_ppp_current_usd]
+- name: france_is_complete_from_1970
+  description: France carries every total in every year from 1970.
+  columns: [period, reference_area_code, gdp_ppp_current_usd_mn, gdp_ppp_constant_2020_usd_mn, population_thousands,
+    employment_thousands, hours_worked_mn]
+- name: only_new_zealand_and_peru_fail_the_labour_screen
+  description: No area other than the two with known inconsistent provider totals fails the labour-input
+    screen.
+  columns: [reference_area_code, labour_input_is_plausible]
+- name: within_range
+  description: Published hours per worker lie within 1,000-3,500 and employment per inhabitant within 0.1-0.9.
+  columns: [hours_per_worker, employment_per_capita]

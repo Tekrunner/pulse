@@ -1,0 +1,10 @@
+name: french_national_accounts_annual
+version: 1.0.0
+config-version: 2
+profile: pulse_dataset
+model-paths: [models]
+models:
+  french_national_accounts_annual:
+    +materialized: external
+    +location: "{{ var('external_location') }}"
+    +format: parquet

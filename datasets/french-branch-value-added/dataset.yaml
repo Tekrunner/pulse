@@ -1,0 +1,6 @@
+id: french-branch-value-added
+name: French value added by branch of activity, A10, A38 and A88
+source: insee-annual-national-accounts
+visibility: public
+logical_table: french_branch_value_added
+contract: dataset-contract.yaml

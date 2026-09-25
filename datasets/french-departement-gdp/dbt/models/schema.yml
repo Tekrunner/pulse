@@ -1,0 +1,14 @@
+version: 2
+models:
+- name: french_departement_gdp
+  columns:
+  - name: period
+    data_tests: [not_null]
+  - name: departement_code
+    data_tests: [not_null]
+  - name: nuts3_code
+    data_tests: [not_null]
+  - name: gdp_eur_mn
+    data_tests: [not_null]
+  - name: is_provisional
+    data_tests: [not_null]

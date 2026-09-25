@@ -1,0 +1,6 @@
+id: french-gdp-quarterly
+name: French quarterly GDP, seasonally and working-day adjusted
+source: insee-quarterly-national-accounts
+visibility: public
+logical_table: french_gdp_quarterly
+contract: dataset-contract.yaml

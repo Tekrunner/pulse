@@ -1,0 +1,6 @@
+id: oecd-productivity-comparison
+name: OECD GDP at purchasing power parity, labour input and productivity, by country
+source: oecd-productivity-database
+visibility: public
+logical_table: oecd_productivity_comparison
+contract: dataset-contract.yaml

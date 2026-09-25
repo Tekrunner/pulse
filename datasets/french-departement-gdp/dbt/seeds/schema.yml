@@ -1,0 +1,17 @@
+version: 2
+seeds:
+- name: nuts3_departements
+  description: >-
+    The NUTS 2021 level-3 regions of France, which are its 101 departements,
+    with each region's INSEE departement code. The NUTS codes and names are
+    Eurostat's (geo dimension labels of nama_10r_3gdp, read on 2026-09-23); the
+    departement codes are INSEE's official codes, including 2A and 2B for
+    Corsica and 971 to 976 overseas. FRZZZ, the extra-regio territory, is not a
+    departement and is not declared.
+  columns:
+  - name: nuts3_code
+    data_tests: [not_null, unique]
+  - name: departement_code
+    data_tests: [not_null, unique]
+  - name: nuts3_name
+    data_tests: [not_null]

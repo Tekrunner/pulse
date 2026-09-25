@@ -1,0 +1,273 @@
+{
+  "adapters": [],
+  "columns": [
+    {
+      "description": "First day of the calendar year the observation describes.",
+      "name": "period",
+      "type": "DATE"
+    },
+    {
+      "description": "GDP in current US dollars at the official annual-average exchange rate, millions of dollars.",
+      "name": "gdp_current_usd_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "GDP in constant US dollars at the World Bank's constant-dollar base year, millions of dollars.",
+      "name": "gdp_constant_usd_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "The base year of gdp_constant_usd_mn, read from the provider's indicator name; the same in every row.",
+      "name": "constant_usd_base_year",
+      "type": "INTEGER"
+    },
+    {
+      "description": "GDP at current prices in local currency, euros throughout (francs converted at the fixed rate), millions of euros.",
+      "name": "gdp_current_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "GDP at constant prices in local currency at the World Bank's base year, millions of euros.",
+      "name": "gdp_constant_eur_mn",
+      "type": "DECIMAL(18,1)"
+    },
+    {
+      "description": "GDP deflator, current over constant local-currency GDP times 100, at the World Bank's base year.",
+      "name": "gdp_deflator_index",
+      "type": "DECIMAL(12,4)"
+    },
+    {
+      "description": "Official exchange rate, annual average, euros per US dollar; francs per dollar before 1999 converted at 6.55957 francs per euro.",
+      "name": "eur_per_usd",
+      "type": "DECIMAL(12,6)"
+    },
+    {
+      "description": "Change in dollar GDP on the previous year, per cent; null in the first year.",
+      "name": "dollar_gdp_change_pct",
+      "type": "DECIMAL(10,3)"
+    },
+    {
+      "description": "Change in dollar GDP on the previous year, 100 times the change in its natural log; null in the first year.",
+      "name": "dollar_gdp_change_log_points",
+      "type": "DECIMAL(10,3)"
+    },
+    {
+      "description": "Change in constant-price GDP, 100 times the change in its natural log; null in the first year.",
+      "name": "real_growth_log_points",
+      "type": "DECIMAL(10,3)"
+    },
+    {
+      "description": "Change in the GDP deflator, 100 times the change in its natural log; null in the first year.",
+      "name": "deflator_change_log_points",
+      "type": "DECIMAL(10,3)"
+    },
+    {
+      "description": "Minus 100 times the change in the natural log of euros per dollar, positive when the euro appreciates against the dollar; null in the first year.",
+      "name": "exchange_rate_change_log_points",
+      "type": "DECIMAL(10,3)"
+    }
+  ],
+  "content_sha256": "df24491d8270ce8c3e1aad560e5994c73cfd19bfa1612729218b27197042ad96",
+  "dataset_id": "french-gdp-dollar-decomposition",
+  "indicators": [
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "gdp_current_usd_mn",
+      "definition": "GDP (current US$), NY.GDP.MKTP.CD, divided by one million.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, NY.GDP.MKTP.CD",
+      "unit": "Millions of current US dollars"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "gdp_constant_usd_mn",
+      "definition": "GDP (constant US$ at the base year in constant_usd_base_year), NY.GDP.MKTP.KD, divided by one million.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, NY.GDP.MKTP.KD",
+      "unit": "Millions of constant US dollars at the World Bank base year"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "gdp_current_eur_mn",
+      "definition": "GDP (current LCU), NY.GDP.MKTP.CN, divided by one million.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, NY.GDP.MKTP.CN",
+      "unit": "Millions of current euros"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "gdp_constant_eur_mn",
+      "definition": "GDP (constant LCU), NY.GDP.MKTP.KN, divided by one million.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, NY.GDP.MKTP.KN",
+      "unit": "Millions of constant euros at the World Bank base year"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "gdp_deflator_index",
+      "definition": "GDP deflator (base year varies by country), NY.GDP.DEFL.ZS.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, NY.GDP.DEFL.ZS",
+      "unit": "Index, World Bank base year = 100"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "eur_per_usd",
+      "definition": "Official exchange rate (LCU per US$, period average), PA.NUS.FCRF; divided by 6.55957 before 1999, when the provider publishes it in francs per dollar.",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "World Bank, World Development Indicators, PA.NUS.FCRF, converted in this package",
+      "unit": "Euros per US dollar"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "dollar_gdp_change_pct",
+      "definition": "100 * (gdp_current_usd_mn / previous year's gdp_current_usd_mn - 1).",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "Derived in this package from NY.GDP.MKTP.CD",
+      "unit": "Per cent"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "dollar_gdp_change_log_points",
+      "definition": "100 * ln(gdp_current_usd_mn / previous year's gdp_current_usd_mn).",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "Derived in this package from NY.GDP.MKTP.CD",
+      "unit": "Log points"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "real_growth_log_points",
+      "definition": "100 * ln(gdp_constant_eur_mn / previous year's gdp_constant_eur_mn).",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "Derived in this package from NY.GDP.MKTP.KN",
+      "unit": "Log points"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "deflator_change_log_points",
+      "definition": "100 * ln(gdp_deflator_index / previous year's gdp_deflator_index).",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "Derived in this package from NY.GDP.DEFL.ZS",
+      "unit": "Log points"
+    },
+    {
+      "attribution": "Source: World Bank, World Development Indicators.",
+      "column": "exchange_rate_change_log_points",
+      "definition": "-100 * ln(eur_per_usd / previous year's eur_per_usd).",
+      "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+      "source": "Derived in this package from PA.NUS.FCRF",
+      "unit": "Log points"
+    }
+  ],
+  "lineage": {
+    "input_format": "parquet",
+    "snapshot_id": "acq-b716a30a534efd71bb7d9c8a0ad1f5ad-5052c87e5b9e",
+    "snapshot_sha256": "5052c87e5b9e59a503324efb275fcde80b7ceedfee27e47c08ea8d2611191509",
+    "years": 66
+  },
+  "logical_table": "french_gdp_dollar_decomposition",
+  "model": {
+    "description": "One row per year, 1960 onward, of French GDP in current US dollars at market exchange rates and in constant US dollars at the provider's base year, with GDP in current and constant euros, the GDP deflator, euros per dollar, and the change in dollar GDP decomposed in log points into real growth, deflator change and exchange-rate change.",
+    "name": "french_gdp_dollar_decomposition"
+  },
+  "parquet_path": "dataset.parquet",
+  "questions": [
+    {
+      "columns": [
+        "period",
+        "gdp_current_usd_mn",
+        "gdp_constant_usd_mn",
+        "constant_usd_base_year",
+        "eur_per_usd",
+        "dollar_gdp_change_pct",
+        "dollar_gdp_change_log_points",
+        "real_growth_log_points",
+        "deflator_change_log_points",
+        "exchange_rate_change_log_points"
+      ],
+      "derivation": "Select dollar GDP by year and the change in its log, decomposed exactly into the change in log real GDP, in the log deflator, and minus the change in log euros per dollar.",
+      "id": "dollar-output",
+      "question": "How has French GDP measured in US dollars at market exchange rates evolved, and how much of each year's change comes from real growth, domestic price change and the euro-dollar exchange rate?"
+    }
+  ],
+  "represented_period": {
+    "end": "2025-12-31",
+    "start": "1960-01-01"
+  },
+  "schema_id": "pulse.dataset",
+  "schema_version": "1.2.0",
+  "source_id": "world-bank-wdi-gdp",
+  "status": {
+    "assertions": [],
+    "state": "succeeded"
+  },
+  "temporal": {
+    "grain": "year",
+    "meaning": "Each period is the first day of the calendar year whose GDP, annual-average exchange rate or change on the previous year the row carries.",
+    "period_column": "period"
+  },
+  "validations": [
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "There is exactly one row per year.",
+      "name": "unique-period"
+    },
+    {
+      "columns": [
+        "period"
+      ],
+      "description": "No year is missing, so every change spans one year.",
+      "name": "years_are_consecutive"
+    },
+    {
+      "columns": [
+        "dollar_gdp_change_pct",
+        "dollar_gdp_change_log_points",
+        "real_growth_log_points",
+        "deflator_change_log_points",
+        "exchange_rate_change_log_points"
+      ],
+      "description": "Every year after the first carries the dollar change and all three terms.",
+      "name": "every_year_after_the_first_has_its_changes"
+    },
+    {
+      "columns": [
+        "gdp_current_usd_mn",
+        "gdp_current_eur_mn",
+        "eur_per_usd"
+      ],
+      "description": "Dollar GDP equals euro GDP divided by euros per dollar within a thousandth in every year, which confirms the pre-1999 conversion from francs.",
+      "name": "dollar_gdp_is_local_gdp_at_the_exchange_rate"
+    },
+    {
+      "columns": [
+        "gdp_constant_usd_mn",
+        "real_growth_log_points"
+      ],
+      "description": "The log change in constant-dollar GDP equals real growth within a hundredth of a log point in every year.",
+      "name": "constant_dollars_grow_with_real_gdp"
+    },
+    {
+      "columns": [
+        "gdp_constant_usd_mn",
+        "gdp_current_usd_mn",
+        "constant_usd_base_year"
+      ],
+      "description": "In the base year the provider names, constant-dollar GDP equals current-dollar GDP.",
+      "name": "constant_dollars_equal_current_dollars_in_the_base_year"
+    },
+    {
+      "columns": [
+        "dollar_gdp_change_log_points",
+        "real_growth_log_points",
+        "deflator_change_log_points",
+        "exchange_rate_change_log_points"
+      ],
+      "description": "Real growth, deflator change and exchange-rate change add up to the dollar change in log points within rounding.",
+      "name": "the_three_terms_add_up_to_the_dollar_change"
+    }
+  ],
+  "visibility": "public"
+}

@@ -1,0 +1,20 @@
+version: 2
+models:
+- name: french_gdp_dollar_decomposition
+  columns:
+  - name: period
+    data_tests: [not_null, unique]
+  - name: gdp_current_usd_mn
+    data_tests: [not_null]
+  - name: gdp_constant_usd_mn
+    data_tests: [not_null]
+  - name: constant_usd_base_year
+    data_tests: [not_null]
+  - name: gdp_current_eur_mn
+    data_tests: [not_null]
+  - name: gdp_constant_eur_mn
+    data_tests: [not_null]
+  - name: gdp_deflator_index
+    data_tests: [not_null]
+  - name: eur_per_usd
+    data_tests: [not_null]

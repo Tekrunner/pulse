@@ -1,0 +1,28 @@
+version: 2
+models:
+- name: french_gdp_quarterly
+  columns:
+  - name: period
+    data_tests: [not_null, unique]
+  - name: gdp_chained_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments: {minimum: 0, maximum: 100000000}
+  - name: gdp_current_eur_mn
+    data_tests:
+    - not_null
+    - within_range:
+        arguments: {minimum: 0, maximum: 100000000}
+  - name: gdp_quarterly_growth_pct
+    data_tests:
+    - not_null:
+        config: {where: "period > date '1949-01-01'"}
+    - within_range:
+        arguments: {minimum: -25, maximum: 25}
+  - name: gdp_year_on_year_growth_pct
+    data_tests:
+    - not_null:
+        config: {where: "period >= date '1950-01-01'"}
+    - within_range:
+        arguments: {minimum: -30, maximum: 30}

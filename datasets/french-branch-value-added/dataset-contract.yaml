@@ -1,0 +1,144 @@
+contract_version: 1.1.0
+model:
+  name: french_branch_value_added
+  description: One row per year and branch of French gross value added at three nested levels of INSEE's
+    nomenclature of activities (A10, A38, A88), at current prices, in chained 2020 volumes and as a share
+    of total value added, each level published only for years in which all its branches are.
+columns:
+- name: period
+  type: DATE
+  description: First day of the calendar year the observation describes.
+- name: level
+  type: VARCHAR
+  description: 'Nomenclature level of the branch: A10, A38 or A88.'
+- name: branch_code
+  type: VARCHAR
+  description: INSEE code of the branch within its level (A10 and A38 letters, A88 two-digit NACE division);
+    a residual row joins the codes it covers with '+'.
+- name: branch_label
+  type: VARCHAR
+  description: Provider's English name of the branch, from the INSEE codelist; a residual row joins the
+    names it covers with '; '.
+- name: parent_code
+  type: VARCHAR
+  description: 'Code of the branch one level up: the A10 branch of an A38 branch, the A38 branch of an
+    A88 industry; null at A10.'
+- name: a10_code
+  type: VARCHAR
+  description: Code of the A10 branch the row belongs to.
+- name: a38_code
+  type: VARCHAR
+  description: Code of the A38 branch the row belongs to; null at A10.
+- name: is_residual
+  type: BOOLEAN
+  description: True for an A88 row derived as its A38 parent less the industries INSEE publishes separately.
+- name: value_added_current_eur_mn
+  type: DECIMAL(18,1)
+  description: Gross value added at current prices, millions of euros.
+- name: value_added_chained_2020_eur_mn
+  type: DECIMAL(18,1)
+  description: Gross value added in chained volumes at 2020 prices, millions of euros; null on residual
+    rows.
+- name: share_of_total_value_added_pct
+  type: DECIMAL(8,3)
+  description: Value added at current prices as a percentage of total value added of all branches in the
+    same year.
+indicators:
+- column: value_added_current_eur_mn
+  definition: Gross value added of the branch at current prices (CNA-2020-CPEB, OPERATION=B1G, PRIX_REF=VAL),
+    taken from the provider series INSEE maintains for the branch; on residual rows, the A38 parent's
+    value less that of its published A88 industries.
+  unit: Millions of euros
+  source: INSEE BDM, annual national accounts base 2020, production accounts by branch
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, comptes nationaux annuels, base 2020.'
+- column: value_added_chained_2020_eur_mn
+  definition: Gross value added of the branch in chained volumes referenced to 2020 (OPERATION=B1G, PRIX_REF=PCH),
+    from the maintained provider series. Chained volumes do not add across branches.
+  unit: Millions of chained 2020 euros
+  source: INSEE BDM, annual national accounts base 2020, production accounts by branch
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, comptes nationaux annuels, base 2020.'
+- column: share_of_total_value_added_pct
+  definition: 100 * value_added_current_eur_mn / total value added of all branches (NNTOTAL, OPERATION=B1G,
+    PRIX_REF=VAL) in the same year.
+  unit: Per cent of total value added
+  source: Derived in this package from INSEE production accounts by branch
+  licence: Licence Ouverte / Open Licence 2.0
+  attribution: 'Source: INSEE, comptes nationaux annuels, base 2020.'
+questions:
+- id: branch-structure
+  question: How is value added distributed across branches of activity, and how has that distribution
+    shifted, from broad sectors down to individual industries?
+  derivation: Select each branch's value added and its share of total value added at one level; the
+    branches one level down from a branch are those whose parent_code is its branch_code.
+  columns:
+  - period
+  - level
+  - branch_code
+  - branch_label
+  - parent_code
+  - a10_code
+  - a38_code
+  - is_residual
+  - value_added_current_eur_mn
+  - share_of_total_value_added_pct
+- id: branch-real-growth
+  question: How has each branch's value added grown in volume?
+  derivation: Select each branch's value added in chained 2020 volumes by year; its ratio between two
+    years is the branch's volume growth.
+  columns:
+  - period
+  - level
+  - branch_code
+  - branch_label
+  - value_added_chained_2020_eur_mn
+temporal:
+  grain: year
+  period_column: period
+  meaning: Each period is the first day of the calendar year whose value added the row carries.
+validations:
+- name: one_row_per_branch_and_year
+  description: Each branch appears once per year at its level.
+  columns:
+  - period
+  - level
+  - branch_code
+- name: each_level_adds_up_to_total_value_added
+  description: Shares at each level add up to 100 within rounding.
+  columns:
+  - period
+  - level
+  - share_of_total_value_added_pct
+- name: children_add_up_to_their_parent
+  description: A38 branches add up to their A10 parent and A88 industries, residual included, to their
+    A38 parent, at current prices.
+  columns:
+  - period
+  - level
+  - branch_code
+  - parent_code
+  - value_added_current_eur_mn
+- name: maintained_copies_of_a_branch_agree
+  description: Every series INSEE maintains for a published branch carries the published value for each
+    year the branch is published at the copy's level.
+  columns:
+  - period
+  - level
+  - branch_code
+  - value_added_current_eur_mn
+  - value_added_chained_2020_eur_mn
+- name: every_provider_branch_code_is_declared
+  description: Every branch code the provider publishes value added under is declared in the package nomenclature.
+  columns:
+  - branch_code
+- name: every_level_reaches_the_latest_detailed_year
+  description: A10 and A38 reach the latest year of total value added and A88 the latest year every maintained
+    industry reaches.
+  columns:
+  - period
+  - level
+- name: within_range
+  description: Shares of total value added lie between -1 and 100.
+  columns:
+  - share_of_total_value_added_pct

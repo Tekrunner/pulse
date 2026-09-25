@@ -1,0 +1,6 @@
+id: french-departement-gdp
+name: GDP per inhabitant by French departement
+source: eurostat-regional-gdp
+visibility: public
+logical_table: french_departement_gdp
+contract: dataset-contract.yaml

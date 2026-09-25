@@ -1,0 +1,25 @@
+name: french_branch_value_added
+version: 1.0.0
+config-version: 2
+profile: pulse_dataset
+model-paths: [models]
+seed-paths: [seeds]
+seeds:
+  french_branch_value_added:
+    branch_nomenclature:
+      +column_types:
+        a88_code: varchar
+        a88_label: varchar
+        a38_code: varchar
+        a38_label: varchar
+        a17_code: varchar
+        a17_label: varchar
+        a10_code: varchar
+        a10_label: varchar
+        a5_code: varchar
+        a5_label: varchar
+models:
+  french_branch_value_added:
+    +materialized: external
+    +location: "{{ var('external_location') }}"
+    +format: parquet

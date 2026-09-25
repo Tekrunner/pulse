@@ -1,0 +1,20 @@
+version: 2
+seeds:
+- name: branch_nomenclature
+  description: >-
+    The nesting of INSEE's A88 industries into the A38, A17, A10 and A5 branches
+    of the French national accounts, which aggregate NACE Rev. 2 divisions.
+    Labels are the provider's own English names from the INSEE BDM codelist
+    CL_CNA_ACTIVITE, read on 2026-09-22. Division 99 (extraterritorial
+    organisations) is outside the domestic economy and not declared.
+  columns:
+  - name: a88_code
+    data_tests: [not_null, unique]
+  - name: a38_code
+    data_tests: [not_null]
+  - name: a17_code
+    data_tests: [not_null]
+  - name: a10_code
+    data_tests: [not_null]
+  - name: a5_code
+    data_tests: [not_null]
