@@ -438,8 +438,12 @@ export function valueStrip(title, entries) {
   return strip;
 }
 
-export function dataTable(caption, headings, bodyRows) {
-  const details = node("details"), summary = node("summary", "Provenance, query and data table");
+/**
+ * `summary` replaces the default disclosure label; `numeric` right-aligns
+ * every column after the first, which is where the values are.
+ */
+export function dataTable(caption, headings, bodyRows, { summary: label = "Provenance, query and data table", numeric = false } = {}) {
+  const details = node("details"), summary = node("summary", label);
   // A stable identity so a report can reopen it after an asynchronous
   // refresh: the caption names one figure's table and no other's.
   details.dataset.disclosure = caption;
@@ -447,11 +451,12 @@ export function dataTable(caption, headings, bodyRows) {
   scroll.className = "table-scroll";
   table.className = "accessible-data";
   const head = node("thead"), headRow = node("tr");
-  for (const heading of headings) {
+  headings.forEach((heading, index) => {
     const cell = node("th", heading);
     cell.scope = "col";
+    if (numeric && index) cell.className = "n";
     headRow.append(cell);
-  }
+  });
   head.append(headRow);
   const body = node("tbody");
   for (const row of bodyRows) {
@@ -459,6 +464,7 @@ export function dataTable(caption, headings, bodyRows) {
     row.forEach((cellValue, index) => {
       const cell = node(index ? "td" : "th", cellValue);
       if (!index) cell.scope = "row";
+      else if (numeric) cell.className = "n";
       tableRow.append(cell);
     });
     body.append(tableRow);
@@ -473,4 +479,183 @@ export function provenanceLine(text) {
   const paragraph = node("p", text);
   paragraph.className = "figure-provenance";
   return paragraph;
+}
+
+
+// --- Grouped amounts and year-axis frames --------------------------------
+// Added for the national-accounts figures and available to any visual.
+// Amounts group thousands with a narrow no-break space and carry their unit
+// after the number (2 991 bn €); decimals keep the point. The frame below is
+// one axis box: y grid, ticks and values, the axes, year ticks and a unit
+// title, drawn into a plot's SVG and its HTML overlay.
+
+export const FRAME = Object.freeze({
+  grid: "rgba(240,243,248,.07)",
+  zero: "rgba(240,243,248,.45)",
+  axis: "#7a8397",
+  label: "#c9d0db",
+  unit: "#abb5c5",
+  mark: "#f0f3f8",
+  ground: "#111318",
+});
+
+/** Thousands grouped with U+202F, a fixed number of decimals, "—" for none. */
+export function grouped(value, dp = 0) {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
+  return Number(value)
+    .toLocaleString("en-GB", { minimumFractionDigits: dp, maximumFractionDigits: dp })
+    .replace(/,/g, " ");
+}
+
+/**
+ * A signed amount. The sign is dropped when the value rounds to zero at the
+ * shown precision, so a reading never says "+0.0" for a fall of 0.02.
+ */
+export function signedGrouped(value, dp = 1, suffix = "") {
+  if (value === null || value === undefined || !Number.isFinite(Number(value))) return "—";
+  const number = Number(value);
+  const text = grouped(Math.abs(number), dp);
+  const shown = Number(Math.abs(number).toFixed(dp));
+  const sign = shown === 0 ? "" : number > 0 ? "+" : "−";
+  return `${sign}${text}${suffix}`;
+}
+
+/** A rounded linear domain; `zero` forces zero inside it. */
+export function niceLinear(lo, hi, zero = false, divisions = 4) {
+  if (!Number.isFinite(lo) || !Number.isFinite(hi)) { lo = 0; hi = 1; }
+  if (zero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+  if (lo === hi) { lo -= 1; hi += 1; }
+  const raw = (hi - lo) / divisions, mag = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 2.5, 5, 10].map((x) => x * mag).find((x) => x >= raw) || 10 * mag;
+  return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step };
+}
+
+/** Ticks of a linear domain, each value snapped to its step. */
+export function linearTicks(domain, y, labeller) {
+  const ticks = [];
+  for (let value = domain.lo; value <= domain.hi + domain.step / 2; value += domain.step) {
+    const snapped = Math.round(value / domain.step) * domain.step;
+    ticks.push({ value: snapped, y: y(snapped), t: labeller(snapped), zero: Math.abs(snapped) < 1e-9 });
+  }
+  return ticks;
+}
+
+/**
+ * A year axis where each year owns a band `step` wide: a year's point sits at
+ * its middle, `x(year + 0.5)`, and a quarter at `x(year + (q - 0.5) / 4)`.
+ */
+export function yearScale(from, to, x0, x1) {
+  const span = to - from + 1;
+  return { from, to, x0, x1, step: (x1 - x0) / span, x: (t) => x0 + ((t - from) / span) * (x1 - x0) };
+}
+
+/** Round-year ticks, no more than `maxTicks`. */
+export function yearTicks(scale, maxTicks = 14) {
+  const span = scale.to - scale.from + 1;
+  const gap = [1, 2, 5, 10, 20, 25].find((g) => span / g <= maxTicks) || 25;
+  const ticks = [];
+  for (let year = Math.ceil(scale.from / gap) * gap; year <= scale.to; year += gap) {
+    ticks.push({ x: scale.x(year + 0.5), t: String(year) });
+  }
+  return ticks;
+}
+
+/**
+ * An overlay label anchored at (x, y) in the plot's own pixels: "start",
+ * "middle" or "end" horizontally, centred on y unless `top` is set.
+ */
+export function anchoredLabel(overlay, text, x, y, anchor = "start", { size = 11, width, color = FRAME.label, weight = 400, top = false } = {}) {
+  const box = width ?? (anchor === "middle" ? 120 : 220);
+  const left = anchor === "end" ? x - box : anchor === "middle" ? x - box / 2 : x;
+  const item = overlayLabel(overlay, text, Math.round(left * 10) / 10, Math.round((top ? y : y - size * 0.55) * 10) / 10, {
+    width: box, align: anchor === "end" ? "right" : anchor === "middle" ? "center" : "left", color,
+  });
+  item.style.fontSize = `${size}px`;
+  item.style.lineHeight = "1";
+  item.style.whiteSpace = "nowrap";
+  if (weight !== 400) item.style.fontWeight = String(weight);
+  return item;
+}
+
+/**
+ * One axis frame. `yTicks` are `{ y, t, zero }`, `xTicks` are `{ x, t }`.
+ * Gridlines are drawn first, so the marks a visual adds afterwards sit above.
+ */
+export function drawFrame(svg, overlay, { x0, x1, top, bottom, yTicks = [], xTicks = [], unit = "", size = 11, zeroStroke = FRAME.zero }) {
+  for (const tick of yTicks) {
+    line(svg, { x1: x0, x2: x1, y1: tick.y, y2: tick.y, stroke: tick.zero ? zeroStroke : FRAME.grid });
+    line(svg, { x1: x0 - 5, x2: x0, y1: tick.y, y2: tick.y, stroke: FRAME.axis });
+    if (tick.t !== "") anchoredLabel(overlay, tick.t, x0 - 9, tick.y, "end", { size });
+  }
+  line(svg, { x1: x0, x2: x0, y1: top, y2: bottom, stroke: FRAME.axis });
+  line(svg, { x1: x0, x2: x1, y1: bottom, y2: bottom, stroke: FRAME.axis });
+  for (const tick of xTicks) {
+    line(svg, { x1: tick.x, x2: tick.x, y1: bottom, y2: bottom + 5, stroke: FRAME.axis });
+    anchoredLabel(overlay, tick.t, tick.x, bottom + 8, "middle", { size, top: true });
+  }
+  if (unit) anchoredLabel(overlay, unit, x0, 3, "start", { size, color: FRAME.unit, top: true, width: 520 });
+}
+
+/**
+ * Transparent year bands over a plot. A click on one emits `pulse-select`
+ * with its year; the report decides what that selects.
+ */
+export function yearHits(svg, scale, top, bottom) {
+  for (let year = scale.from; year <= scale.to; year += 1) {
+    const band = rect(svg, scale.x(year), top, Math.max(1, scale.step), bottom - top, "transparent");
+    band.style.cursor = "pointer";
+    band.dataset.year = String(year);
+    band.addEventListener("click", () => {
+      svg.dispatchEvent(new CustomEvent("pulse-select", { bubbles: true, detail: { year } }));
+    });
+  }
+}
+
+/** A plot box: an SVG of a fixed size with its overlay above it. */
+export function plotBox(width, height, aria) {
+  const box = node("div");
+  box.className = "plot";
+  box.style.width = `${width}px`;
+  box.style.height = `${height}px`;
+  const svg = node("svg", undefined, true);
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+  svg.setAttribute("width", width);
+  svg.setAttribute("height", height);
+  svg.setAttribute("role", "img");
+  svg.setAttribute("aria-label", aria);
+  const overlay = node("div");
+  overlay.className = "ov";
+  overlay.setAttribute("aria-hidden", "true");
+  box.append(svg, overlay);
+  return { box, svg, overlay };
+}
+
+/** A caption line above a plot, in small capitals. */
+export function plotCaption(text) {
+  const item = node("p", text);
+  item.className = "cap";
+  return item;
+}
+
+/** A labelled warning: a named data quirk, never colour alone. */
+export function warning(label, text) {
+  const item = node("p");
+  item.className = "warn";
+  item.append(node("b", label), node("span", text));
+  return item;
+}
+
+/** A legend of swatches; `shape` is "box", "dot", "line" or "tick". */
+export function legendRow(entries) {
+  const row = node("div");
+  row.className = "legend";
+  for (const entry of entries) {
+    const item = node("span");
+    const swatch = node("i");
+    swatch.className = entry.shape ?? "box";
+    swatch.style.background = entry.color;
+    item.append(swatch, document.createTextNode(entry.label));
+    row.append(item);
+  }
+  return row;
 }

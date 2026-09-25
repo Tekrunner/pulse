@@ -1,0 +1,275 @@
+contract_version: 1.0.0
+id: french-gdp
+title: French GDP
+route: reports/french-gdp
+visibility: public
+questions:
+  - id: headline-output
+    question: How large is French GDP, in total and per inhabitant, and how fast has it grown in volume each year and over the most recent quarters?
+  - id: demand-contributions
+    question: Which expenditure components (household consumption, government consumption, investment, net trade, inventories) have carried or held back GDP volume growth in each year?
+  - id: branch-structure
+    question: How is value added distributed across branches of activity, and how has that distribution shifted, from broad sectors down to individual industries?
+  - id: income-split
+    question: How is value added shared between labour, capital and net taxes, once the self-employed are credited with a wage?
+  - id: dollar-output
+    question: How has French GDP measured in US dollars at market exchange rates evolved, and how much of each year's change comes from real growth, domestic price change and the euro-dollar exchange rate?
+  - id: international-standing
+    question: How do French GDP volume growth and GDP per inhabitant at purchasing power parity compare with those of other OECD economies?
+  - id: per-capita-drivers
+    question: How much of the level and evolution of GDP per inhabitant, in France and in other OECD economies, comes from productivity per hour worked, hours per worker, the employment rate of the working-age population and the working-age share of the population?
+  - id: territorial-spread
+    question: How unevenly is GDP per inhabitant spread across the French departements?
+datasets:
+  - french-national-accounts-annual
+  - french-gdp-quarterly
+  - french-branch-value-added
+  - french-gdp-dollar-decomposition
+  - oecd-productivity-comparison
+  - world-demography-age-structure
+  - french-departement-gdp
+  - french-departement-geometry
+queries:
+  # The headline's row spine: annual volumes from 1949. The quarterly tail
+  # below is joined onto it by the report, never by the engine.
+  - id: annual-output
+    dataset: french-national-accounts-annual
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(gdp_chained_2020_eur_mn AS DOUBLE) AS gdp_chained_2020_eur_mn, CAST(gdp_volume_growth_pct AS DOUBLE) AS gdp_volume_growth_pct, CAST(gdp_per_capita_chained_2020_eur AS DOUBLE) AS gdp_per_capita_chained_2020_eur FROM french_national_accounts_annual WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, gdp_chained_2020_eur_mn, gdp_volume_growth_pct, gdp_per_capita_chained_2020_eur]
+  - id: quarterly-output
+    dataset: french-gdp-quarterly
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(gdp_chained_annualised_eur_mn AS DOUBLE) AS gdp_chained_annualised_eur_mn, CAST(gdp_quarterly_growth_pct AS DOUBLE) AS gdp_quarterly_growth_pct, CAST(gdp_year_on_year_growth_pct AS DOUBLE) AS gdp_year_on_year_growth_pct FROM french_gdp_quarterly WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, gdp_chained_annualised_eur_mn, gdp_quarterly_growth_pct, gdp_year_on_year_growth_pct]
+  - id: demand-contributions
+    dataset: french-national-accounts-annual
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(gdp_volume_growth_pct AS DOUBLE) AS gdp_volume_growth_pct, CAST(contribution_household_consumption_pt AS DOUBLE) AS contribution_household_consumption_pt, CAST(contribution_npish_consumption_pt AS DOUBLE) AS contribution_npish_consumption_pt, CAST(contribution_government_consumption_pt AS DOUBLE) AS contribution_government_consumption_pt, CAST(contribution_gfcf_pt AS DOUBLE) AS contribution_gfcf_pt, CAST(contribution_inventories_pt AS DOUBLE) AS contribution_inventories_pt, CAST(contribution_valuables_pt AS DOUBLE) AS contribution_valuables_pt, CAST(contribution_net_trade_pt AS DOUBLE) AS contribution_net_trade_pt FROM french_national_accounts_annual WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, gdp_volume_growth_pct, contribution_household_consumption_pt, contribution_npish_consumption_pt, contribution_government_consumption_pt, contribution_gfcf_pt, contribution_inventories_pt, contribution_valuables_pt, contribution_net_trade_pt]
+  # Every level and every year. Each level has its own published span, and a
+  # selected year outside a level's span is stated rather than hidden, which
+  # needs the span whatever the represented period.
+  - id: branch-shares
+    dataset: french-branch-value-added
+    sql: SELECT CAST(period AS VARCHAR) AS period, level, branch_code, branch_label, parent_code, is_residual, CAST(share_of_total_value_added_pct AS DOUBLE) AS share_of_total_value_added_pct FROM french_branch_value_added ORDER BY level, branch_code, period
+    parameters: []
+    columns: [period, level, branch_code, branch_label, parent_code, is_residual, share_of_total_value_added_pct]
+  - id: income-shares
+    dataset: french-national-accounts-annual
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(gdp_current_eur_mn AS DOUBLE) AS gdp_current_eur_mn, CAST(adjusted_labour_income_eur_mn AS DOUBLE) AS adjusted_labour_income_eur_mn, CAST(adjusted_capital_income_eur_mn AS DOUBLE) AS adjusted_capital_income_eur_mn, CAST(net_taxes_on_production_eur_mn AS DOUBLE) AS net_taxes_on_production_eur_mn, CAST(net_taxes_on_products_eur_mn AS DOUBLE) AS net_taxes_on_products_eur_mn, CAST(unadjusted_wage_share_pct AS DOUBLE) AS unadjusted_wage_share_pct FROM french_national_accounts_annual WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, gdp_current_eur_mn, adjusted_labour_income_eur_mn, adjusted_capital_income_eur_mn, net_taxes_on_production_eur_mn, net_taxes_on_products_eur_mn, unadjusted_wage_share_pct]
+  - id: dollar-gdp
+    dataset: french-gdp-dollar-decomposition
+    sql: SELECT CAST(period AS VARCHAR) AS period, CAST(gdp_current_usd_mn AS DOUBLE) AS gdp_current_usd_mn, CAST(gdp_constant_usd_mn AS DOUBLE) AS gdp_constant_usd_mn, constant_usd_base_year, CAST(eur_per_usd AS DOUBLE) AS eur_per_usd, CAST(dollar_gdp_change_pct AS DOUBLE) AS dollar_gdp_change_pct, CAST(dollar_gdp_change_log_points AS DOUBLE) AS dollar_gdp_change_log_points, CAST(real_growth_log_points AS DOUBLE) AS real_growth_log_points, CAST(deflator_change_log_points AS DOUBLE) AS deflator_change_log_points, CAST(exchange_rate_change_log_points AS DOUBLE) AS exchange_rate_change_log_points FROM french_gdp_dollar_decomposition WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY period
+    parameters: [period-start, period-end]
+    columns: [period, gdp_current_usd_mn, gdp_constant_usd_mn, constant_usd_base_year, eur_per_usd, dollar_gdp_change_pct, dollar_gdp_change_log_points, real_growth_log_points, deflator_change_log_points, exchange_rate_change_log_points]
+  # Every area and year: an area that stops early is named with the span it
+  # does have, whatever the represented period.
+  - id: oecd-standing
+    dataset: oecd-productivity-comparison
+    sql: SELECT CAST(period AS VARCHAR) AS period, reference_area_code, reference_area_name, reference_area_kind, CAST(gdp_per_capita_ppp_current_usd AS DOUBLE) AS gdp_per_capita_ppp_current_usd, CAST(gdp_per_capita_ppp_constant_2020_usd AS DOUBLE) AS gdp_per_capita_ppp_constant_2020_usd, CAST(gdp_volume_growth_pct AS DOUBLE) AS gdp_volume_growth_pct FROM oecd_productivity_comparison ORDER BY reference_area_code, period
+    parameters: []
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_volume_growth_pct]
+  # The drivers' row spine. The UN working-age share below is joined onto it
+  # by the report, by ISO3 code and year.
+  - id: productivity-drivers
+    dataset: oecd-productivity-comparison
+    sql: SELECT CAST(period AS VARCHAR) AS period, reference_area_code, reference_area_name, reference_area_kind, CAST(gdp_per_capita_ppp_current_usd AS DOUBLE) AS gdp_per_capita_ppp_current_usd, CAST(gdp_per_capita_ppp_constant_2020_usd AS DOUBLE) AS gdp_per_capita_ppp_constant_2020_usd, CAST(gdp_per_hour_ppp_current_usd AS DOUBLE) AS gdp_per_hour_ppp_current_usd, CAST(gdp_per_hour_ppp_constant_2020_usd AS DOUBLE) AS gdp_per_hour_ppp_constant_2020_usd, CAST(hours_per_worker AS DOUBLE) AS hours_per_worker, CAST(employment_per_capita AS DOUBLE) AS employment_per_capita, labour_input_is_plausible FROM oecd_productivity_comparison WHERE period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY reference_area_code, period
+    parameters: [period-start, period-end]
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_per_hour_ppp_current_usd, gdp_per_hour_ppp_constant_2020_usd, hours_per_worker, employment_per_capita, labour_input_is_plausible]
+  - id: working-age-share
+    dataset: world-demography-age-structure
+    sql: SELECT CAST(period AS VARCHAR) AS period, iso3_code, series_kind, CAST(share_of_population_pct AS DOUBLE) AS share_of_population_pct FROM world_demography_age_structure WHERE location_kind = 'country' AND age_grouping = 'broad' AND age_group = '15-64' AND period BETWEEN CAST(? AS DATE) AND CAST(? AS DATE) ORDER BY iso3_code, period
+    parameters: [period-start, period-end]
+    columns: [period, iso3_code, series_kind, share_of_population_pct]
+  # The map's row spine: every published boundary, so a departement without a
+  # figure still renders as not published. Geometry does not move with the
+  # represented period, so this query takes no parameter.
+  - id: departement-geometry
+    dataset: french-departement-geometry
+    sql: SELECT departement_code, departement_name, region_code, geometry_geojson, CAST(bbox_west AS DOUBLE) AS bbox_west, CAST(bbox_south AS DOUBLE) AS bbox_south, CAST(bbox_east AS DOUBLE) AS bbox_east, CAST(bbox_north AS DOUBLE) AS bbox_north FROM french_departement_geometry ORDER BY departement_code
+    parameters: []
+    columns: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+  # Joined onto the geometry by the report. Every year: the path over time is
+  # drawn across the whole published span, and a selected year outside it
+  # falls back to the nearest published year.
+  - id: departement-gdp
+    dataset: french-departement-gdp
+    sql: SELECT CAST(period AS VARCHAR) AS period, departement_code, departement_name, CAST(gdp_per_inhabitant_eur AS DOUBLE) AS gdp_per_inhabitant_eur, CAST(gdp_per_inhabitant_index_france AS DOUBLE) AS gdp_per_inhabitant_index_france, CAST(france_gdp_per_inhabitant_eur AS DOUBLE) AS france_gdp_per_inhabitant_eur, is_provisional FROM french_departement_gdp ORDER BY departement_code, period
+    parameters: []
+    columns: [period, departement_code, departement_name, gdp_per_inhabitant_eur, gdp_per_inhabitant_index_france, france_gdp_per_inhabitant_eur, is_provisional]
+schemas:
+  annual-output-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: gdp_chained_2020_eur_mn, type: number, nullable: false}
+    - {name: gdp_volume_growth_pct, type: number, nullable: true}
+    - {name: gdp_per_capita_chained_2020_eur, type: number, nullable: false}
+  # Secondary input of output-growth-tail.
+  quarterly-output-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: gdp_chained_annualised_eur_mn, type: number, nullable: false}
+    - {name: gdp_quarterly_growth_pct, type: number, nullable: true}
+    - {name: gdp_year_on_year_growth_pct, type: number, nullable: true}
+  demand-contributions-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: gdp_volume_growth_pct, type: number, nullable: true}
+    - {name: contribution_household_consumption_pt, type: number, nullable: true}
+    - {name: contribution_npish_consumption_pt, type: number, nullable: true}
+    - {name: contribution_government_consumption_pt, type: number, nullable: true}
+    - {name: contribution_gfcf_pt, type: number, nullable: true}
+    - {name: contribution_inventories_pt, type: number, nullable: true}
+    - {name: contribution_valuables_pt, type: number, nullable: true}
+    - {name: contribution_net_trade_pt, type: number, nullable: true}
+  branch-shares-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: level, type: string, nullable: false}
+    - {name: branch_code, type: string, nullable: false}
+    - {name: branch_label, type: string, nullable: false}
+    - {name: parent_code, type: string, nullable: true}
+    - {name: is_residual, type: boolean, nullable: false}
+    - {name: share_of_total_value_added_pct, type: number, nullable: false}
+  income-shares-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: gdp_current_eur_mn, type: number, nullable: false}
+    - {name: adjusted_labour_income_eur_mn, type: number, nullable: false}
+    - {name: adjusted_capital_income_eur_mn, type: number, nullable: false}
+    - {name: net_taxes_on_production_eur_mn, type: number, nullable: false}
+    - {name: net_taxes_on_products_eur_mn, type: number, nullable: false}
+    - {name: unadjusted_wage_share_pct, type: number, nullable: false}
+  dollar-gdp-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: gdp_current_usd_mn, type: number, nullable: false}
+    - {name: gdp_constant_usd_mn, type: number, nullable: false}
+    - {name: constant_usd_base_year, type: integer, nullable: false}
+    - {name: eur_per_usd, type: number, nullable: false}
+    - {name: dollar_gdp_change_pct, type: number, nullable: true}
+    - {name: dollar_gdp_change_log_points, type: number, nullable: true}
+    - {name: real_growth_log_points, type: number, nullable: true}
+    - {name: deflator_change_log_points, type: number, nullable: true}
+    - {name: exchange_rate_change_log_points, type: number, nullable: true}
+  oecd-standing-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: reference_area_code, type: string, nullable: false}
+    - {name: reference_area_name, type: string, nullable: false}
+    - {name: reference_area_kind, type: string, nullable: false}
+    - {name: gdp_per_capita_ppp_current_usd, type: number, nullable: true}
+    - {name: gdp_per_capita_ppp_constant_2020_usd, type: number, nullable: true}
+    - {name: gdp_volume_growth_pct, type: number, nullable: true}
+  productivity-drivers-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: reference_area_code, type: string, nullable: false}
+    - {name: reference_area_name, type: string, nullable: false}
+    - {name: reference_area_kind, type: string, nullable: false}
+    - {name: gdp_per_capita_ppp_current_usd, type: number, nullable: true}
+    - {name: gdp_per_capita_ppp_constant_2020_usd, type: number, nullable: true}
+    - {name: gdp_per_hour_ppp_current_usd, type: number, nullable: true}
+    - {name: gdp_per_hour_ppp_constant_2020_usd, type: number, nullable: true}
+    - {name: hours_per_worker, type: number, nullable: true}
+    - {name: employment_per_capita, type: number, nullable: true}
+    - {name: labour_input_is_plausible, type: boolean, nullable: true}
+  # Secondary input of per-capita-drivers. The UN publishes no share for the
+  # OECD, euro-area or EU aggregates, so they join to nothing.
+  working-age-share-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: iso3_code, type: string, nullable: false}
+    - {name: series_kind, type: string, nullable: false}
+    - {name: share_of_population_pct, type: number, nullable: false}
+  departement-geometry-schema:
+    - {name: departement_code, type: string, nullable: false}
+    - {name: departement_name, type: string, nullable: false}
+    - {name: region_code, type: string, nullable: false}
+    - {name: geometry_geojson, type: string, nullable: false}
+    - {name: bbox_west, type: number, nullable: false}
+    - {name: bbox_south, type: number, nullable: false}
+    - {name: bbox_east, type: number, nullable: false}
+    - {name: bbox_north, type: number, nullable: false}
+  # Secondary input of index-choropleth. A null figure is the published
+  # not-published case (Mayotte before 2014) and must never be read as zero.
+  departement-gdp-schema:
+    - {name: period, type: string, nullable: false}
+    - {name: departement_code, type: string, nullable: false}
+    - {name: departement_name, type: string, nullable: false}
+    - {name: gdp_per_inhabitant_eur, type: number, nullable: true}
+    - {name: gdp_per_inhabitant_index_france, type: number, nullable: true}
+    - {name: france_gdp_per_inhabitant_eur, type: number, nullable: false}
+    - {name: is_provisional, type: boolean, nullable: false}
+visuals:
+  - id: output-growth-tail
+    contract: 1.0.0
+    dataset: french-national-accounts-annual
+    question: headline-output
+    query: annual-output
+    schema: annual-output-schema
+    columns: [period, gdp_chained_2020_eur_mn, gdp_volume_growth_pct, gdp_per_capita_chained_2020_eur]
+  - id: demand-contribution-bars
+    contract: 1.0.0
+    dataset: french-national-accounts-annual
+    question: demand-contributions
+    query: demand-contributions
+    schema: demand-contributions-schema
+    columns: [period, gdp_volume_growth_pct, contribution_household_consumption_pt, contribution_npish_consumption_pt, contribution_government_consumption_pt, contribution_gfcf_pt, contribution_inventories_pt, contribution_valuables_pt, contribution_net_trade_pt]
+  - id: branch-share-panels
+    contract: 1.0.0
+    dataset: french-branch-value-added
+    question: branch-structure
+    query: branch-shares
+    schema: branch-shares-schema
+    columns: [period, level, branch_code, branch_label, parent_code, is_residual, share_of_total_value_added_pct]
+  - id: income-share-panels
+    contract: 1.0.0
+    dataset: french-national-accounts-annual
+    question: income-split
+    query: income-shares
+    schema: income-shares-schema
+    columns: [period, gdp_current_eur_mn, adjusted_labour_income_eur_mn, adjusted_capital_income_eur_mn, net_taxes_on_production_eur_mn, net_taxes_on_products_eur_mn, unadjusted_wage_share_pct]
+  - id: dollar-decomposition
+    contract: 1.0.0
+    dataset: french-gdp-dollar-decomposition
+    question: dollar-output
+    query: dollar-gdp
+    schema: dollar-gdp-schema
+    columns: [period, gdp_current_usd_mn, gdp_constant_usd_mn, constant_usd_base_year, eur_per_usd, dollar_gdp_change_pct, dollar_gdp_change_log_points, real_growth_log_points, deflator_change_log_points, exchange_rate_change_log_points]
+  - id: oecd-standing
+    contract: 1.0.0
+    dataset: oecd-productivity-comparison
+    question: international-standing
+    query: oecd-standing
+    schema: oecd-standing-schema
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_volume_growth_pct]
+  - id: per-capita-drivers
+    contract: 1.0.0
+    dataset: oecd-productivity-comparison
+    question: per-capita-drivers
+    query: productivity-drivers
+    schema: productivity-drivers-schema
+    columns: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_per_hour_ppp_current_usd, gdp_per_hour_ppp_constant_2020_usd, hours_per_worker, employment_per_capita, labour_input_is_plausible]
+  - id: index-choropleth
+    contract: 1.0.0
+    dataset: french-departement-geometry
+    question: territorial-spread
+    query: departement-geometry
+    schema: departement-geometry-schema
+    columns: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+lineage:
+  french-national-accounts-annual: [period, gdp_chained_2020_eur_mn, gdp_volume_growth_pct, gdp_per_capita_chained_2020_eur, contribution_household_consumption_pt, contribution_npish_consumption_pt, contribution_government_consumption_pt, contribution_gfcf_pt, contribution_inventories_pt, contribution_valuables_pt, contribution_net_trade_pt, gdp_current_eur_mn, adjusted_labour_income_eur_mn, adjusted_capital_income_eur_mn, net_taxes_on_production_eur_mn, net_taxes_on_products_eur_mn, unadjusted_wage_share_pct]
+  french-gdp-quarterly: [period, gdp_chained_annualised_eur_mn, gdp_quarterly_growth_pct, gdp_year_on_year_growth_pct]
+  french-branch-value-added: [period, level, branch_code, branch_label, parent_code, is_residual, share_of_total_value_added_pct]
+  french-gdp-dollar-decomposition: [period, gdp_current_usd_mn, gdp_constant_usd_mn, constant_usd_base_year, eur_per_usd, dollar_gdp_change_pct, dollar_gdp_change_log_points, real_growth_log_points, deflator_change_log_points, exchange_rate_change_log_points]
+  oecd-productivity-comparison: [period, reference_area_code, reference_area_name, reference_area_kind, gdp_per_capita_ppp_current_usd, gdp_per_capita_ppp_constant_2020_usd, gdp_volume_growth_pct, gdp_per_hour_ppp_current_usd, gdp_per_hour_ppp_constant_2020_usd, hours_per_worker, employment_per_capita, labour_input_is_plausible]
+  world-demography-age-structure: [period, iso3_code, series_kind, share_of_population_pct]
+  french-departement-gdp: [period, departement_code, departement_name, gdp_per_inhabitant_eur, gdp_per_inhabitant_index_france, france_gdp_per_inhabitant_eur, is_provisional]
+  french-departement-geometry: [departement_code, departement_name, region_code, geometry_geojson, bbox_west, bbox_south, bbox_east, bbox_north]
+state_topology:
+  report: [ready, loading, empty, query-error, engine-error]
+  slot: [ready, loading, empty, suspect, stale, query-error, schema-error, render-error, engine-error]
+  failure_scope: slot-local
+  retry: safe
+exploration:
+  enabled: true
+  default_period: all
+  controls: [represented-period, observation-year, comparators, oecd-reference, headline-measure, headline-scale, branch-level, departement]
+change:
+  version: 1.0.0
+  summary: Initial French GDP report declaration

@@ -496,3 +496,127 @@ li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
   .pulse-report.wd-report figure { padding: 11.2px; }
   .wd-report .exploration { padding: 8.4px; }
 }
+
+/* French GDP. Local to this report: its own ground, surfaces and teal accent,
+   the axis frames every figure shares, tiles, chips and small multiples. The
+   plot overlay positions only its direct children, the labels. */
+.pulse-report.gdp-report { --gdp-ground:#111318; --gdp-surface:#1b1f29; --gdp-well:#161a23; --gdp-line:#3a4152; --gdp-rule:#2c3140; --gdp-text:#f0f3f8; --gdp-soft:#c9d0db; --gdp-muted:#abb5c5; --gdp-accent:#73d6c2; --color-accent:#73d6c2; max-width:1280px; padding:28px 28px 40px; gap:22px; color:var(--gdp-text); background:var(--gdp-ground); font-family:Inter,system-ui,sans-serif; }
+.gdp-report :focus-visible { outline:3px solid #ffd166; outline-offset:4px; }
+.gdp-report header { gap:10px; padding-bottom:18px; border-bottom:1px solid var(--gdp-rule); }
+.gdp-report header .eyebrow { margin:0; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--gdp-accent); }
+.gdp-report h1 { font-size:42px; }
+.gdp-report header dl { gap:6px 28px; margin:6px 0 0; font-size:12.5px; color:var(--gdp-muted); }
+.gdp-report header dd { color:var(--gdp-text); font-variant-numeric:tabular-nums; }
+.gdp-report .report-content { gap:22px; }
+.gdp-report section.fig { display:flex; flex-direction:column; gap:12px; padding:20px 18px; border-radius:10px; background:var(--gdp-surface); min-width:0; }
+.gdp-report section.fig > h2, .gdp-report .fig-head h2 { font-size:22px; font-weight:500; letter-spacing:-.01em; }
+.gdp-report .fig-head { display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:10px 16px; }
+.gdp-report .fig-head .fig-controls { display:flex; flex-wrap:wrap; gap:10px; }
+.gdp-report .lede { max-width:80ch; margin:0; font-size:14px; line-height:1.55; color:var(--gdp-soft); }
+.gdp-report .cap { margin:0; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--gdp-muted); }
+.gdp-report .src, .gdp-report .figure-provenance { margin:0; font-size:11.5px; color:var(--gdp-muted); }
+.gdp-report .warn { display:flex; gap:8px; align-items:baseline; margin:0; font-size:12.5px; color:#f2c894; }
+.gdp-report .warn b { font-weight:600; color:#f2994a; white-space:nowrap; }
+.gdp-report .figure-body { display:flex; flex-direction:column; gap:12px; min-width:0; }
+.gdp-report .figure-body[data-state="loading"] { min-height:220px; }
+.gdp-report figure { margin:0; padding:0; background:none; box-shadow:none; display:flex; flex-direction:column; gap:10px; min-width:0; }
+.gdp-report .plot { position:relative; flex:none; max-width:100%; }
+.gdp-report .plot svg { display:block; }
+/* The pilot report's bare `svg` rule stretches every SVG; these are drawn at their own size. */
+.gdp-report svg { width:auto; min-width:0; min-height:0; max-width:100%; }
+.gdp-report .ov { position:absolute; inset:0; overflow:hidden; pointer-events:none; }
+.gdp-report .ov > span { position:absolute; display:block; white-space:nowrap; overflow:visible; line-height:1; font-variant-numeric:tabular-nums; }
+.gdp-report .values { display:flex; flex-wrap:wrap; align-items:baseline; gap:5px 18px; padding:8px 11px; border-radius:8px; background:var(--gdp-well); box-shadow:inset 0 0 0 1px #2e3443; font-size:12.5px; min-height:36px; }
+.gdp-report .values .yr { font-size:11px; letter-spacing:.07em; text-transform:uppercase; color:var(--gdp-accent); font-weight:600; font-variant-numeric:tabular-nums; }
+.gdp-report .values .v { display:inline-flex; align-items:baseline; gap:6px; color:var(--gdp-muted); white-space:nowrap; }
+.gdp-report .values i { width:8px; height:8px; border-radius:2px; flex:none; align-self:center; }
+.gdp-report .values i:not([style]) { display:none; }
+.gdp-report .values b { color:var(--gdp-text); font-variant-numeric:tabular-nums; font-weight:500; }
+.gdp-report .legend { display:flex; flex-wrap:wrap; gap:6px 18px; font-size:12px; color:var(--gdp-muted); }
+.gdp-report .legend span { display:inline-flex; align-items:center; gap:6px; }
+.gdp-report .legend i { flex:none; }
+.gdp-report .legend i.box { width:10px; height:10px; border-radius:2px; }
+.gdp-report .legend i.dot { width:8px; height:8px; border-radius:50%; }
+.gdp-report .legend i.line { width:14px; height:3px; }
+.gdp-report .legend i.tick { width:3px; height:12px; }
+.gdp-report .legend i.bar { width:12px; height:3px; }
+.gdp-report details { border-top:1px solid var(--gdp-rule); }
+.gdp-report details summary { font-size:13px; color:var(--gdp-accent); }
+.gdp-report .table-scroll { max-height:220px; }
+.gdp-report table.accessible-data { margin-top:0; font-size:12px; }
+.gdp-report table.accessible-data caption { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+.gdp-report table.accessible-data th, .gdp-report table.accessible-data td { padding:4px 6px; border-bottom:1px solid var(--gdp-rule); font-variant-numeric:tabular-nums; }
+.gdp-report table.accessible-data .n { text-align:right; }
+.gdp-report table.accessible-data thead th { color:var(--gdp-muted); font-weight:500; }
+.gdp-report select, .gdp-report button.b { min-height:44px; padding:0 10px; border:1px solid var(--gdp-line); border-radius:8px; background:#232834; color:var(--gdp-text); font:inherit; font-size:13px; }
+.gdp-report button.b { cursor:pointer; }
+.gdp-report button.b:hover { background:#2b3140; }
+/* Segmented radio groups, the visually hidden radio inside each label. */
+.gdp-report .seg-group { display:flex; overflow:hidden; border:1px solid var(--gdp-line); border-radius:8px; width:fit-content; }
+.gdp-report label.seg { position:relative; display:inline-flex; align-items:center; min-height:44px; padding:0 13px; border-inline-start:1px solid var(--gdp-line); cursor:pointer; font-size:13px; color:var(--gdp-muted); }
+.gdp-report label.seg:first-child { border-inline-start:0; }
+.gdp-report label.seg.on { color:var(--gdp-text); background:#2b3140; box-shadow:inset 0 -2px 0 var(--gdp-accent); }
+.gdp-report label.seg input, .gdp-report label.chip input { position:absolute; width:1px; height:1px; min-height:0; padding:0; opacity:0; }
+.gdp-report label.seg:has(input:focus-visible) { outline:3px solid #ffd166; outline-offset:-3px; }
+/* The control row. */
+.gdp-report .exploration { gap:18px; padding:12px 14px; border-radius:10px; background:var(--gdp-ground); box-shadow:0 0 0 1px var(--gdp-line); }
+.gdp-report .exploration fieldset { display:flex; flex-direction:column; gap:6px; }
+.gdp-report .exploration legend { font-size:12px; color:var(--gdp-muted); }
+.gdp-report .control-line { display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.gdp-report .control-line > label { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--gdp-muted); }
+.gdp-report .year-line { gap:6px; }
+.gdp-report .compare-field { flex:1; }
+.gdp-report .compare-line { gap:6px; }
+.gdp-report .controls-toggle { display:none; }
+.gdp-report .chip { display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 2px 0 9px; border:1px solid var(--gdp-line); border-radius:14px; font-size:12px; letter-spacing:.04em; font-variant-numeric:tabular-nums; }
+.gdp-report .chip i { width:8px; height:8px; border-radius:50%; }
+.gdp-report .chip.fixed { padding-right:9px; border-color:var(--gdp-accent); }
+.gdp-report .chip button { width:24px; height:24px; min-height:24px; padding:0; border:0; border-radius:12px; font-size:11px; background:transparent; color:var(--gdp-muted); cursor:pointer; }
+.gdp-report .chip button:hover { background:#2b3140; color:var(--gdp-text); }
+.gdp-report select.add { width:80px; min-height:28px; height:28px; padding:0 8px; border-radius:14px; font-size:12px; }
+.gdp-report label.chip.ref { position:relative; padding-right:9px; cursor:pointer; color:var(--gdp-muted); border-style:dashed; }
+.gdp-report label.chip.ref.on { color:var(--gdp-text); border-color:#8b93a3; }
+.gdp-report label.chip.ref i { background:transparent; box-shadow:inset 0 0 0 1.5px #8b93a3; }
+.gdp-report label.chip.ref.on i { background:#8b93a3; }
+.gdp-report label.chip.ref:has(input:focus-visible) { outline:3px solid #ffd166; outline-offset:4px; }
+/* Headline tiles. */
+.gdp-report .tiles { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+.gdp-report .tile { display:flex; flex-direction:column; gap:4px; padding:14px 16px; border-radius:10px; background:var(--gdp-well); box-shadow:inset 0 0 0 1px #2e3443; min-width:0; }
+.gdp-report .tile .k { font-size:12px; color:var(--gdp-muted); }
+.gdp-report .tile .val { font-size:28px; font-weight:500; letter-spacing:-.01em; font-variant-numeric:tabular-nums; }
+.gdp-report .tile .per { font-size:11.5px; color:#8f99aa; }
+/* Small multiples and their furniture. */
+.gdp-report .crumbs { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
+.gdp-report .crumb { min-height:36px; padding:0 10px; border:1px solid var(--gdp-line); border-radius:8px; background:transparent; color:var(--gdp-accent); cursor:pointer; font:inherit; font-size:13px; }
+.gdp-report .crumb.cur { color:var(--gdp-text); border-color:transparent; cursor:default; }
+.gdp-report .muted { color:var(--gdp-muted); }
+.gdp-report .panels { display:grid; grid-template-columns:repeat(var(--panel-columns,4),minmax(0,1fr)); gap:10px; }
+.gdp-report .panel { display:flex; flex-direction:column; gap:4px; margin:0; padding:10px 10px 6px; border-radius:8px; background:var(--gdp-well); box-shadow:inset 0 0 0 1px #2a303d; min-width:0; }
+.gdp-report .panel .t { display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:12.5px; }
+.gdp-report .panel .t > span:first-child { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.gdp-report .panel .num { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.gdp-report .open { min-height:32px; padding:0 8px; border:1px solid var(--gdp-line); border-radius:6px; background:transparent; color:var(--gdp-accent); cursor:pointer; font:inherit; font-size:12px; align-self:flex-start; }
+.gdp-report .open:hover { background:#232834; }
+.gdp-report .tag { display:inline-block; align-self:flex-start; padding:1px 6px; border-radius:4px; background:#2b3140; color:#f2c894; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase; }
+.gdp-report .row { display:grid; align-items:center; gap:8px; min-height:36px; padding:2px 8px; border-radius:6px; font-size:12.5px; }
+.gdp-report button.row { width:100%; border:0; background:transparent; color:var(--gdp-text); text-align:left; font:inherit; font-size:12.5px; cursor:pointer; }
+.gdp-report button.row:hover { background:#232834; }
+.gdp-report .banner { display:flex; flex-wrap:wrap; align-items:center; gap:14px; padding:14px 16px; border-radius:8px; background:var(--gdp-well); box-shadow:inset 0 0 0 1px #5a4a2e; font-size:13px; }
+.gdp-report .split { display:grid; gap:24px; align-items:start; }
+.gdp-report .gdp-footer { display:flex; justify-content:space-between; gap:20px; padding-top:14px; border-top:1px solid var(--gdp-rule); font-size:12px; color:var(--gdp-muted); }
+.gdp-report .figure-body > [data-report-status] { font-size:13px; color:var(--gdp-soft); }
+@media(max-width:1100px) { .gdp-report .tiles { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+/* Narrow: the control row folds into a disclosure that stays sticky when open. */
+@media(max-width:780px) {
+  .pulse-report.gdp-report { padding:16px 12px 28px; }
+  .gdp-report h1 { font-size:28px; }
+  .gdp-report section.fig { padding:14px 12px; }
+  .gdp-report .tiles { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+  .gdp-report .tile { padding:10px 12px; }
+  .gdp-report .tile .val { font-size:22px; }
+  .gdp-report .controls-toggle { display:flex; align-items:center; width:100%; min-height:44px; padding:0; border:0; background:transparent; color:var(--gdp-accent); font-size:13px; text-align:left; cursor:pointer; }
+  .gdp-report .exploration { flex-direction:column; align-items:stretch; gap:10px; padding:0 12px; background:var(--gdp-well); }
+  .gdp-report .exploration.collapsed > fieldset { display:none; }
+  .gdp-report .exploration:not(.collapsed) { padding-bottom:12px; }
+}
+@media(prefers-reduced-motion:reduce) { .gdp-report * { transition-duration:.001ms !important; animation-duration:.001ms !important; } }
