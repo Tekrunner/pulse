@@ -1,0 +1,49 @@
+{
+  "acquired_at": "2026-09-25T15:23:01Z",
+  "acquisition_id": "acq-0576788bca92df67e68e4de029f119ca",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "387358a095305273366ee93a70fc3b7e266147ced852a86ee5abbe53345a6cf4"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_rate_lies_within_zero_and_one_hundred",
+      "passed": true
+    },
+    {
+      "check": "every_period_is_a_calendar_month",
+      "passed": true
+    },
+    {
+      "check": "every_reference_area_is_within_four_months_of_the_publication_edge",
+      "passed": true
+    },
+    {
+      "check": "every_reference_area_carries_both_a_code_and_a_label",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: OECD, Monthly unemployment rates. This is an adaptation of an original work by the OECD.",
+  "decoder_version": "oecd-sdmx-csv2-monthly-v1",
+  "format": "parquet",
+  "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "observed_schema_sha256": "471ba623b171b7c8a7f0d1c0ecd9ec3c47bf84c9315b69b8f191c5f1484fb7c3",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-0576788bca92df67e68e4de029f119ca-387358a09530",
+  "source_data_date": "2026-08-31",
+  "source_id": "oecd-unemployment-rate",
+  "source_urls": [
+    "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_LFS@DF_IALFS_UNE_M,1.0/.UNE_LF_M.PT_LF_SUB._Z.Y._T.Y_GE15._Z.M?startPeriod=2000-01"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}
