@@ -1,0 +1,423 @@
+[status contract] compile expected pipelines and status
+[skill mirrors] C:\Users\yfontana\Code\pulse\.venv\Scripts\python.exe C:\Users\yfontana\Code\pulse\scripts\sync_agent_skills.py --check
+Pulse skill mirrors match (5 skills).
+[python smoke] C:\Users\yfontana\Code\pulse\.venv\Scripts\python.exe -m pytest -q
+........................................................................ [ 15%]
+........................................................................ [ 30%]
+........................................................................ [ 45%]
+........................................................................ [ 60%]
+........................................................................ [ 75%]
+........................................................................ [ 90%]
+..............................................                           [100%]
+478 passed, 16 deselected in 794.11s (0:13:14)
+[node smoke] C:\Program Files\nodejs\npm.CMD run verify:frontend
+
+> pulse@0.1.0 verify:frontend
+> npm run verify:contracts && npm run build && npm run portability:build && npm run browser:test
+
+
+> pulse@0.1.0 verify:contracts
+> node tests/node/dependency-policy.test.mjs && node tests/node/verify-baseline.mjs && node tests/node/pilot-contract.test.mjs && node tests/node/report-contract.test.mjs && node tests/node/unemployment-contract.test.mjs && node tests/node/french-gdp-contract.test.mjs && node tests/node/report-workflow.test.mjs && node tests/node/report-test-selection.test.mjs && node tests/node/client-contract.test.mjs && node tests/node/status-client.test.mjs && node tests/node/public-data-assets.test.mjs && node tests/node/public-site-sources.test.mjs && node tests/node/design-foundation.test.mjs && node tests/node/visual-workflow.test.mjs
+
+Node baseline passed: Observable Framework and DuckDB-WASM import; no chart library declared.
+Pilot contract passed: portable visual boundary, shared lifecycle, safe artifact inputs.
+French CPI report source-boundary checks passed; behavior is covered by browser tests.
+French unemployment report contract checks passed; behavior is covered by browser tests.
+French GDP report contract checks passed; behavior is covered by browser tests.
+Report workflow gates discovery, resume, approval, annotation joins, state isolation, and evidence.
+Every report resolves to one focused browser specification.
+Client contract passed: cancellation is request-scoped and shared resources remain usable.
+Status client contract passed: staleness is derived at read time and failures stay normalized.
+Public data asset packaging passed: every cataloged public Parquet asset is copied.
+Public source staging excludes undeclared and private report routes and modules.
+Design foundation owns semantic roles and a source-neutral visual template.
+Visual workflow gates design intake, approval locking, numeric paths, registration, and fidelity evidence.
+
+> pulse@0.1.0 build
+> node scripts/build-site.mjs
+
+pulse catalog build wrote C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\inputs\browser-data.json
+[90mload[39m /index [90min[39m [33m145ms[39m
+[90mload[39m /design/reference [90min[39m [90m65ms[39m
+[90mload[39m /design/visual-language [90min[39m [90m54ms[39m
+[90mload[39m /reports/french-consumer-prices [90min[39m [33m196ms[39m
+[90mload[39m /reports/french-gdp [90min[39m [33m120ms[39m
+[90mload[39m /reports/french-unemployment [90min[39m [90m62ms[39m
+[90mload[39m /reports/index [90min[39m [90m34ms[39m
+[90mload[39m /reports/report [90min[39m [90m42ms[39m
+[90mload[39m /reports/world-demography [90min[39m [90m76ms[39m
+[90mbuilt[39m 9 [90mpages in[39m site
+[90mbundle[39m /_observablehq/client.js [90m→[39m site/.observablehq/cache/_observablehq/client.js
+[90mbundle[39m /_observablehq/runtime.js [90m→[39m site/.observablehq/cache/_observablehq/runtime.js
+[90mbundle[39m /_observablehq/stdlib.js [90m→[39m site/.observablehq/cache/_observablehq/stdlib.js
+[90mbuild[39m site/style.css [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/style.71215944.css
+[90malias[39m /_observablehq/client.js [90m→[39m /_observablehq/client.75a582d7.js
+[90malias[39m /_observablehq/runtime.js [90m→[39m /_observablehq/runtime.607a8173.js
+[90malias[39m /_observablehq/stdlib.js [90m→[39m /_observablehq/stdlib.d41a6e77.js
+[90malias[39m /_node/@duckdb/duckdb-wasm@1.31.0/index.js [90m→[39m /_node/@duckdb/duckdb-wasm@1.31.0/index.971ff573.js
+[90malias[39m /_node/apache-arrow@17.0.0/index.js [90m→[39m /_node/apache-arrow@17.0.0/index.2d326ba0.js
+[90malias[39m /_node/tslib@2.8.1/index.js [90m→[39m /_node/tslib@2.8.1/index.3e211051.js
+[90malias[39m /_node/flatbuffers@24.12.23/index.js [90m→[39m /_node/flatbuffers@24.12.23/index.cd275b3e.js
+[90mbuild[39m /_observablehq/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_observablehq/client.75a582d7.js
+[90mbuild[39m /_observablehq/runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_observablehq/runtime.607a8173.js
+[90mbuild[39m /_observablehq/stdlib.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_observablehq/stdlib.d41a6e77.js
+[90mbuild[39m /_node/@duckdb/duckdb-wasm@1.31.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_node/@duckdb/duckdb-wasm@1.31.0/index.971ff573.js
+[90mbuild[39m /_node/apache-arrow@17.0.0/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_node/apache-arrow@17.0.0/index.2d326ba0.js
+[90mbuild[39m /_node/tslib@2.8.1/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_node/tslib@2.8.1/index.3e211051.js
+[90mbuild[39m /_node/flatbuffers@24.12.23/index.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_node/flatbuffers@24.12.23/index.cd275b3e.js
+[90mcopy[39m site/data/home.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/home.b2139e71.js
+[90mcopy[39m site/data/status-client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/status-client.ce12f827.js
+[90mcopy[39m site/data/status-scenarios.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/status-scenarios.af910ec1.js
+[90mcopy[39m site/workflows/add-visual/template/fixture.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/workflows/add-visual/template/fixture.7d6df577.js
+[90mcopy[39m site/workflows/add-visual/template/visual.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/workflows/add-visual/template/visual.42a60773.js
+[90mcopy[39m site/reports/french-consumer-prices/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/french-consumer-prices/report.e9527bf4.js
+[90mcopy[39m site/data/client.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/client.e9951e80.js
+[90mcopy[39m site/data/browser-shell.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/browser-shell.fad17abc.js
+[90mcopy[39m site/visuals/headline-trend.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/headline-trend.e5ec187a.js
+[90mcopy[39m site/visuals/contribution-stack.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/contribution-stack.679a621c.js
+[90mcopy[39m site/visuals/divergence-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/divergence-multiples.37c68ba7.js
+[90mcopy[39m site/visuals/index-level-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/index-level-paths.dde1339d.js
+[90mcopy[39m site/visuals/report-shared.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/report-shared.c9f61a6c.js
+[90mcopy[39m site/reports/french-gdp/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/french-gdp/report.ea680918.js
+[90mcopy[39m site/data/report-runtime.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/data/report-runtime.847630a1.js
+[90mcopy[39m site/visuals/output-growth-tail.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/output-growth-tail.6b307d0a.js
+[90mcopy[39m site/visuals/demand-contribution-bars.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/demand-contribution-bars.bc5d4c0b.js
+[90mcopy[39m site/visuals/branch-share-panels.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/branch-share-panels.61460247.js
+[90mcopy[39m site/visuals/income-share-panels.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/income-share-panels.e8bc0e3a.js
+[90mcopy[39m site/visuals/dollar-decomposition.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/dollar-decomposition.2ac0eb72.js
+[90mcopy[39m site/visuals/oecd-standing.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/oecd-standing.c788ed23.js
+[90mcopy[39m site/visuals/per-capita-drivers.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/per-capita-drivers.e560aaf7.js
+[90mcopy[39m site/visuals/index-choropleth.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/index-choropleth.908a83cc.js
+[90mcopy[39m site/reports/french-gdp/state.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/french-gdp/state.b7531553.js
+[90mcopy[39m site/visuals/output-growth-tail.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/output-growth-tail.contract.05c1b06f.js
+[90mcopy[39m site/visuals/demand-contribution-bars.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/demand-contribution-bars.contract.7cda1c22.js
+[90mcopy[39m site/visuals/branch-share-panels.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/branch-share-panels.contract.eff94ce0.js
+[90mcopy[39m site/visuals/income-share-panels.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/income-share-panels.contract.32dcb769.js
+[90mcopy[39m site/visuals/dollar-decomposition.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/dollar-decomposition.contract.209b98d8.js
+[90mcopy[39m site/visuals/oecd-standing.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/oecd-standing.contract.1542faa2.js
+[90mcopy[39m site/visuals/per-capita-drivers.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/per-capita-drivers.contract.567b956b.js
+[90mcopy[39m site/visuals/index-choropleth.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/index-choropleth.contract.db5ea957.js
+[90mcopy[39m site/reports/french-unemployment/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/french-unemployment/report.07a692a6.js
+[90mcopy[39m site/visuals/headline-trend-pair.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/headline-trend-pair.fb6f5923.js
+[90mcopy[39m site/visuals/slack-multiples.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/slack-multiples.5d2aaf47.js
+[90mcopy[39m site/visuals/age-band-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/age-band-lines.01be4e67.js
+[90mcopy[39m site/visuals/participation-gap-band.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/participation-gap-band.d8b2c20c.js
+[90mcopy[39m site/visuals/departement-choropleth.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/departement-choropleth.dba38f76.js
+[90mcopy[39m site/visuals/international-lines.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/international-lines.190c26ec.js
+[90mcopy[39m site/reports/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/report.d087d09c.js
+[90mcopy[39m site/visuals/line.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/line.85a80420.js
+[90mcopy[39m site/visuals/line.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/line.contract.3fef7f31.js
+[90mcopy[39m site/reports/world-demography/report.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/world-demography/report.86f6e060.js
+[90mcopy[39m site/visuals/world-population-path.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/world-population-path.66c8c83a.js
+[90mcopy[39m site/visuals/country-population-paths.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/country-population-paths.3c8b2b46.js
+[90mcopy[39m site/visuals/change-composition.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/change-composition.b9b4aa20.js
+[90mcopy[39m site/visuals/migration-flows.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/migration-flows.1b6cec10.js
+[90mcopy[39m site/visuals/fertility-longevity.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/fertility-longevity.e5e9bf09.js
+[90mcopy[39m site/visuals/age-structure.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/age-structure.8c84d421.js
+[90mcopy[39m site/reports/world-demography/state.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/reports/world-demography/state.86be29d1.js
+[90mcopy[39m site/visuals/world-population-path.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/world-population-path.contract.f4ff3fe8.js
+[90mcopy[39m site/visuals/country-population-paths.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/country-population-paths.contract.b288e540.js
+[90mcopy[39m site/visuals/change-composition.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/change-composition.contract.da9fb039.js
+[90mcopy[39m site/visuals/migration-flows.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/migration-flows.contract.626ae2e7.js
+[90mcopy[39m site/visuals/fertility-longevity.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/fertility-longevity.contract.092331ae.js
+[90mcopy[39m site/visuals/age-structure.contract.js [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/_import/visuals/age-structure.contract.c71bb444.js
+[90mrender[39m /index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/index.html
+[90mrender[39m /design/reference [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/design/reference.html
+[90mrender[39m /design/visual-language [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/design/visual-language.html
+[90mrender[39m /reports/french-consumer-prices [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/french-consumer-prices.html
+[90mrender[39m /reports/french-gdp [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/french-gdp.html
+[90mrender[39m /reports/french-unemployment [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/french-unemployment.html
+[90mrender[39m /reports/index [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/index.html
+[90mrender[39m /reports/report [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/report.html
+[90mrender[39m /reports/world-demography [90m→[39m C:\Users\yfontana\Code\pulse\.pulse-site-o5xdAr\artifact/reports/world-demography.html
+
+[90m┌[39m[90m (9 pages)                    [39m         Page      Imports        Files
+[90m├── [39mdesign[90m (2 pages)           [39m 
+[90m│   ├── [39mreference               [32m        3 kB[39m [32m       57 kB[39m [32m       37 kB[39m
+[90m│   └── [39mvisual-language         [32m        3 kB[39m [32m       51 kB[39m [32m       37 kB[39m
+[90m├── [39mreports[90m (6 pages)          [39m 
+[90m│   ├── [39mfrench-consumer-prices  [32m        3 kB[39m [32m      418 kB[39m [32m       37 kB[39m
+[90m│   ├── [39mfrench-gdp              [32m        4 kB[39m [32m      578 kB[39m [32m       37 kB[39m
+[90m│   ├── [39mfrench-unemployment     [32m        3 kB[39m [32m      464 kB[39m [32m       37 kB[39m
+[90m│   ├── [39mindex                   [32m        1 kB[39m [32m       51 kB[39m [32m       37 kB[39m
+[90m│   ├── [39mreport                  [32m        2 kB[39m [32m      318 kB[39m [32m       37 kB[39m
+[90m│   └── [39mworld-demography        [32m        3 kB[39m [32m      471 kB[39m [32m       37 kB[39m
+[90m└── [39mindex                       [32m        2 kB[39m [32m       89 kB[39m [32m       37 kB[39m
+
+(node:23736) [DEP0190] DeprecationWarning: Passing args to a child process with shell option true can lead to security vulnerabilities, as the arguments are not escaped, only concatenated.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Public artifact scan passed (66504507 bytes).
+Pulse site artifact 1d7d332afd9291da0fec2722829f0436b5b0f4da82bfa1fb21ef8ee35d42be20 is verified and ready at C:\Users\yfontana\Code\pulse\dist.
+
+> pulse@0.1.0 portability:build
+> vite build --config tests/portability/vite.config.js
+
+[36mvite v8.2.2 [32mbuilding client environment for production...[36m[39m
+transforming...
+✓ 147 modules transformed.
+rendering chunks...
+computing gzip size...
+tests/portability/vite/dist/index.html                   0.37 kB │ gzip:  0.26 kB
+tests/portability/vite/dist/assets/index-DoztMJH9.css    2.57 kB │ gzip:  0.85 kB
+tests/portability/vite/dist/assets/index-DuGQT5zc.js   214.65 kB │ gzip: 51.43 kB
+
+[32m✓ built in 177ms[39m
+
+> pulse@0.1.0 browser:test
+> playwright test --config tests/browser/playwright.config.js
+
+
+Running 244 tests using 2 workers
+
+[1/244] [chromium] › tests\browser\design-foundation.spec.js:7:3 › design foundation › normal visual has contrast, provenance, keyboard selection, focus, reflow, motion, and idempotent cleanup
+[2/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state ready has a named non-colour cue, provenance, and data equivalent
+[3/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state loading has a named non-colour cue, provenance, and data equivalent
+[4/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state empty has a named non-colour cue, provenance, and data equivalent
+[5/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state suspect has a named non-colour cue, provenance, and data equivalent
+[6/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state stale has a named non-colour cue, provenance, and data equivalent
+[7/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state query-error has a named non-colour cue, provenance, and data equivalent
+[8/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state schema-error has a named non-colour cue, provenance, and data equivalent
+[9/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state render-error has a named non-colour cue, provenance, and data equivalent
+[10/244] [chromium] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state engine-error has a named non-colour cue, provenance, and data equivalent
+[11/244] [chromium] › tests\browser\demography.spec.js:153:1 › every declared figure reaches ready and shows the provider's own values at the selected year
+[12/244] [chromium] › tests\browser\french-gdp.spec.js:66:1 › every declared figure reaches ready and reads the provider's values at the latest annual year
+[13/244] [chromium] › tests\browser\french-gdp.spec.js:111:1 › the header states where each family's data stops
+[14/244] [chromium] › tests\browser\demography.spec.js:181:1 › the components figure reads the same year in people and per 1,000
+[15/244] [chromium] › tests\browser\french-gdp.spec.js:119:1 › the departement strip and table carry euros and the index, not PPS
+[16/244] [chromium] › tests\browser\demography.spec.js:195:1 › a flow that stops says where, and a country outside the collection says so
+[17/244] [chromium] › tests\browser\french-gdp.spec.js:126:1 › the map draws its nearest published year and says so
+[18/244] [chromium] › tests\browser\demography.spec.js:218:1 › healthy life expectancy stops at its own last published year
+[19/244] [chromium] › tests\browser\french-gdp.spec.js:141:1 › branches drill down and back in a fixed alphabetical order
+[20/244] [chromium] › tests\browser\french-gdp.spec.js:162:1 › France stays, comparators come and go, and the aggregate is a reference
+[21/244] [chromium] › tests\browser\demography.spec.js:241:1 › the age structure follows the year selected anywhere on the page
+[22/244] [chromium] › tests\browser\french-gdp.spec.js:181:1 › a click near the left, middle and right of a plot selects that year
+[23/244] [chromium] › tests\browser\demography.spec.js:257:1 › the projection range is the 95% interval, and the peak is a mark
+[24/244] [chromium] › tests\browser\french-gdp.spec.js:197:1 › the headline switches measure and scale without losing the selected year
+[25/244] [chromium] › tests\browser\demography.spec.js:271:1 › every figure carries an accessible data equivalent and its own provenance
+[26/244] [chromium] › tests\browser\french-gdp.spec.js:207:1 › every figure carries an accessible data equivalent and its own provenance
+[27/244] [chromium] › tests\browser\french-gdp.spec.js:220:1 › a failed dataset stays inside its own figure
+[28/244] [chromium] › tests\browser\demography.spec.js:291:1 › a failing slot does not take its neighbours with it
+[29/244] [chromium] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the query-error state on its own
+[30/244] [chromium] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the schema-error state on its own
+[31/244] [chromium] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the empty state on its own
+[32/244] [chromium] › tests\browser\demography.spec.js:305:1 › a whole-report data failure is reported once, with a retry
+[33/244] [chromium] › tests\browser\french-gdp.spec.js:238:1 › a failed engine start is a report-wide state with a retry
+[34/244] [chromium] › tests\browser\french-gdp.spec.js:244:1 › loading keeps every figure's frame and says so
+[35/244] [chromium] › tests\browser\demography.spec.js:313:1 › the report says where each family's data stops
+[36/244] [chromium] › tests\browser\french-gdp.spec.js:252:3 › no horizontal page scroll at 740 px
+[37/244] [chromium] › tests\browser\french-gdp.spec.js:252:3 › no horizontal page scroll at 320 px
+[38/244] [chromium] › tests\browser\demography.spec.js:342:3 › the layout reflows at a narrow width and at 400% zoom without losing a figure, in the shipped font
+[39/244] [chromium] › tests\browser\french-gdp.spec.js:264:1 › suspect lineage marks only the figure its columns reach
+[40/244] [chromium] › tests\browser\french-gdp.spec.js:272:1 › a publication past its release is stale against the reader's clock
+[41/244] [chromium] › tests\browser\demography.spec.js:342:3 › the layout reflows at a narrow width and at 400% zoom without losing a figure, in a wider font
+[42/244] [chromium] › tests\browser\french-gdp.spec.js:278:1 › a render failure keeps its siblings and offers a retry
+[43/244] [chromium] › tests\browser\french-gdp.spec.js:287:1 › focus, scroll and open disclosures survive an update
+[44/244] [chromium] › tests\browser\demography.spec.js:405:1 › dragging the year never replaces the control being dragged
+[45/244] [chromium] › tests\browser\pilot.spec.js:48:1 › nested report directly loads local DuckDB assets and published INSEE rows
+[46/244] [chromium] › tests\browser\demography.spec.js:422:1 › changing the year never puts a loading message over a drawn figure
+[47/244] [chromium] › tests\browser\pilot.spec.js:93:1 › report navigation resolves the declared public route and owns one worker per page session
+[48/244] [chromium] › tests\browser\demography.spec.js:457:1 › an open disclosure and the selected year survive a refresh of another figure
+[49/244] [chromium] › tests\browser\pilot.spec.js:111:1 › unchanged client and visual modules execute in the Vite harness
+[50/244] [chromium] › tests\browser\pilot.spec.js:121:1 › cold-cache performance stays within the recorded budget
+[51/244] [chromium] › tests\browser\report-workflow.spec.js:3:1 › report slot-local render failure preserves sibling visuals and navigation
+[52/244] [chromium] › tests\browser\report-workflow.spec.js:11:1 › report query failure after ready retains controls and interaction context
+[chromium] › tests\browser\pilot.spec.js:121:1 › cold-cache performance stays within the recorded budget
+PULSE_PERFORMANCE [{"coldLoadMs":60.200000047683716,"firstReadableMs":1762.7000000476837},{"coldLoadMs":70.89999985694885,"firstReadableMs":2302.2999999523163},{"coldLoadMs":77.29999995231628,"firstReadableMs":2397.7000000476837}]
+
+[53/244] [chromium] › tests\browser\pilot.spec.js:151:1 › complete French consumer-price report renders four real-data figures
+[54/244] [chromium] › tests\browser\report-workflow.spec.js:26:1 › report remains usable in narrow landscape and at 400 percent reflow
+[55/244] [chromium] › tests\browser\pilot.spec.js:170:1 › report exploration keeps period-keyed selection and accessible equivalents
+[56/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible loading state
+[57/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible empty state
+[58/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible query state
+[59/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible schema state
+[60/244] [chromium] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the ready report state
+[61/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible render state
+[62/244] [chromium] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the loading report state
+[63/244] [chromium] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the empty report state
+[64/244] [chromium] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the query-error report state
+[65/244] [chromium] › tests\browser\pilot.spec.js:239:1 › complete report isolates a schema contract failure and retains its table
+[66/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible status-suspect state
+[67/244] [chromium] › tests\browser\pilot.spec.js:258:1 › non-empty query rows cannot silently map to an empty visual and siblings remain usable
+[68/244] [chromium] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible status-stale state
+[69/244] [chromium] › tests\browser\pilot.spec.js:271:1 › complete report isolates a render failure and retains its table
+[70/244] [chromium] › tests\browser\unemployment.spec.js:112:1 › every declared visual reaches ready and shows the provider's own latest values
+[71/244] [chromium] › tests\browser\pilot.spec.js:290:1 › complete report retains context and period-keyed selection after a later query failure
+[72/244] [chromium] › tests\browser\pilot.spec.js:318:1 › French CPI report preserves the published decimals and signs of its latest month
+[73/244] [chromium] › tests\browser\unemployment.spec.js:158:1 › the stored value, the query, the mapped row and the displayed text agree
+[74/244] [chromium] › tests\browser\unemployment.spec.js:175:1 › one observation is shared by every quarterly figure, from the control and from a figure
+[75/244] [chromium] › tests\browser\pilot.spec.js:428:1 › every report plot maps left, middle and right clicks through its own margins
+[76/244] [chromium] › tests\browser\unemployment.spec.js:208:1 › the international panels follow the shared observation and can set it
+[77/244] [chromium] › tests\browser\unemployment.spec.js:247:1 › the represented period takes presets and an independent custom start and end
+[78/244] [chromium] › tests\browser\unemployment.spec.js:269:1 › the map publishes every boundary, selects one, and never draws an absent rate as zero
+[79/244] [chromium] › tests\browser\unemployment.spec.js:300:1 › every territory carrying a rate also has a shape on the map
+[80/244] [chromium] › tests\browser\unemployment.spec.js:324:1 › the international panel is ragged, capped and never repaints on removal
+[81/244] [chromium] › tests\browser\unemployment.spec.js:349:1 › a failing dataset fails alone
+[82/244] [chromium] › tests\browser\unemployment.spec.js:363:1 › the page reflows without horizontal scroll at narrow width and at 400% zoom
+[83/244] [chromium] › tests\browser\unemployment.spec.js:388:1 › focus and open disclosures survive a refresh of the represented period
+[84/244] [chromium] › tests\browser\visual-workflow.spec.js:3:1 › INSEE conformance records desktop, narrow, and 400% reflow evidence
+[85/244] [chromium] › tests\browser\pilot.spec.js:473:1 › figure selection retains open disclosures and slider focus
+[86/244] [chromium] › tests\browser\pilot.spec.js:497:1 › all report controls preserve the viewport and keyboard focus
+[87/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the loading rendered state
+[88/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the empty rendered state
+[89/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the query rendered state
+[90/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the schema rendered state
+[91/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the render rendered state
+[92/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-suspect rendered state
+[93/244] [chromium] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-stale rendered state
+[94/244] [firefox] › tests\browser\demography.spec.js:153:1 › every declared figure reaches ready and shows the provider's own values at the selected year
+[95/244] [chromium] › tests\browser\pilot.spec.js:540:1 › calculator uses full headline history and component controls stay interactive
+[96/244] [firefox] › tests\browser\demography.spec.js:181:1 › the components figure reads the same year in people and per 1,000
+[97/244] [chromium] › tests\browser\pilot.spec.js:582:1 › loaded report remeasures charts when resized without page overflow
+[98/244] [firefox] › tests\browser\demography.spec.js:195:1 › a flow that stops says where, and a country outside the collection says so
+[99/244] [chromium] › tests\browser\pilot.spec.js:599:1 › desktop exploration controls keep period, observation and component controls together
+[100/244] [chromium] › tests\browser\pilot.spec.js:633:1 › homepage links every included report and lists pipeline health quietly
+[101/244] [chromium] › tests\browser\pilot.spec.js:684:1 › every pipeline in the catalog reaches the board with a state this build can name
+[102/244] [chromium] › tests\browser\pilot.spec.js:707:1 › production artifact serves cataloged Parquet byte ranges
+[103/244] [chromium] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-not-run pipeline state as text
+[104/244] [chromium] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-suspect pipeline state as text
+[105/244] [chromium] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-suspect-unknown pipeline state as text
+[106/244] [chromium] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-stale pipeline state as text
+[107/244] [chromium] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-failed pipeline state as text
+[108/244] [firefox] › tests\browser\demography.spec.js:218:1 › healthy life expectancy stops at its own last published year
+[109/244] [chromium] › tests\browser\pilot.spec.js:748:1 › homepage health is compact by default and expands for evidence
+[110/244] [chromium] › tests\browser\pilot.spec.js:771:1 › homepage marks pipeline state with a glanceable non-colour cue
+[111/244] [chromium] › tests\browser\pilot.spec.js:792:1 › homepage orders pipelines by attention, then along the data flow
+[112/244] [chromium] › tests\browser\pilot.spec.js:823:1 › homepage gives failed, degraded and healthy distinct severity colours
+[113/244] [chromium] › tests\browser\pilot.spec.js:841:1 › homepage shows a suspect-data warning without expanding
+[114/244] [chromium] › tests\browser\pilot.spec.js:852:1 › homepage keeps navigation and reports usable when status cannot be read
+[115/244] [chromium] › tests\browser\pilot.spec.js:882:1 › homepage pipeline health reflows without horizontal overflow
+[116/244] [chromium] › tests\browser\pilot.spec.js:912:1 › homepage narrows pipeline health by filter without dropping a pipeline
+[117/244] [chromium] › tests\browser\pilot.spec.js:948:1 › homepage filter is operable from the keyboard
+[118/244] [chromium] › tests\browser\pilot.spec.js:965:1 › homepage report cards qualify a report against its upstream pipelines
+[119/244] [chromium] › tests\browser\pilot.spec.js:991:1 › homepage report cards survive unreadable status with link and counts
+[120/244] [chromium] › tests\browser\pilot.spec.js:1006:1 › homepage board columns carry their own labels, not just a header
+[121/244] [chromium] › tests\browser\pilot.spec.js:1030:1 › report provenance states the represented period and source without qualification when healthy
+[122/244] [firefox] › tests\browser\demography.spec.js:241:1 › the age structure follows the year selected anywhere on the page
+[123/244] [chromium] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-suspect
+[124/244] [chromium] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-suspect-unknown
+[125/244] [firefox] › tests\browser\demography.spec.js:257:1 › the projection range is the 95% interval, and the peak is a mark
+[126/244] [chromium] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-stale
+[127/244] [chromium] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-failed
+[128/244] [chromium] › tests\browser\pilot.spec.js:1077:1 › report provenance stays as published when status cannot be read
+[129/244] [firefox] › tests\browser\demography.spec.js:271:1 › every figure carries an accessible data equivalent and its own provenance
+[130/244] [firefox] › tests\browser\design-foundation.spec.js:7:3 › design foundation › normal visual has contrast, provenance, keyboard selection, focus, reflow, motion, and idempotent cleanup
+[131/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state ready has a named non-colour cue, provenance, and data equivalent
+[132/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state loading has a named non-colour cue, provenance, and data equivalent
+[133/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state empty has a named non-colour cue, provenance, and data equivalent
+[134/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state suspect has a named non-colour cue, provenance, and data equivalent
+[135/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state stale has a named non-colour cue, provenance, and data equivalent
+[136/244] [firefox] › tests\browser\demography.spec.js:291:1 › a failing slot does not take its neighbours with it
+[137/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state query-error has a named non-colour cue, provenance, and data equivalent
+[138/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state schema-error has a named non-colour cue, provenance, and data equivalent
+[139/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state render-error has a named non-colour cue, provenance, and data equivalent
+[140/244] [firefox] › tests\browser\design-foundation.spec.js:34:31 › design foundation › state engine-error has a named non-colour cue, provenance, and data equivalent
+[141/244] [firefox] › tests\browser\demography.spec.js:305:1 › a whole-report data failure is reported once, with a retry
+[142/244] [firefox] › tests\browser\demography.spec.js:313:1 › the report says where each family's data stops
+[143/244] [firefox] › tests\browser\french-gdp.spec.js:66:1 › every declared figure reaches ready and reads the provider's values at the latest annual year
+[144/244] [firefox] › tests\browser\demography.spec.js:342:3 › the layout reflows at a narrow width and at 400% zoom without losing a figure, in the shipped font
+[145/244] [firefox] › tests\browser\french-gdp.spec.js:111:1 › the header states where each family's data stops
+[146/244] [firefox] › tests\browser\demography.spec.js:342:3 › the layout reflows at a narrow width and at 400% zoom without losing a figure, in a wider font
+[147/244] [firefox] › tests\browser\french-gdp.spec.js:119:1 › the departement strip and table carry euros and the index, not PPS
+[148/244] [firefox] › tests\browser\french-gdp.spec.js:126:1 › the map draws its nearest published year and says so
+[149/244] [firefox] › tests\browser\demography.spec.js:405:1 › dragging the year never replaces the control being dragged
+[150/244] [firefox] › tests\browser\french-gdp.spec.js:141:1 › branches drill down and back in a fixed alphabetical order
+[151/244] [firefox] › tests\browser\demography.spec.js:422:1 › changing the year never puts a loading message over a drawn figure
+[152/244] [firefox] › tests\browser\french-gdp.spec.js:162:1 › France stays, comparators come and go, and the aggregate is a reference
+[153/244] [firefox] › tests\browser\demography.spec.js:457:1 › an open disclosure and the selected year survive a refresh of another figure
+[154/244] [firefox] › tests\browser\french-gdp.spec.js:181:1 › a click near the left, middle and right of a plot selects that year
+[155/244] [firefox] › tests\browser\pilot.spec.js:48:1 › nested report directly loads local DuckDB assets and published INSEE rows
+[156/244] [firefox] › tests\browser\french-gdp.spec.js:197:1 › the headline switches measure and scale without losing the selected year
+[157/244] [firefox] › tests\browser\pilot.spec.js:93:1 › report navigation resolves the declared public route and owns one worker per page session
+[158/244] [firefox] › tests\browser\french-gdp.spec.js:207:1 › every figure carries an accessible data equivalent and its own provenance
+[159/244] [firefox] › tests\browser\pilot.spec.js:111:1 › unchanged client and visual modules execute in the Vite harness
+[160/244] [firefox] › tests\browser\pilot.spec.js:121:1 › cold-cache performance stays within the recorded budget
+[161/244] [firefox] › tests\browser\french-gdp.spec.js:220:1 › a failed dataset stays inside its own figure
+[162/244] [firefox] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the query-error state on its own
+[firefox] › tests\browser\pilot.spec.js:121:1 › cold-cache performance stays within the recorded budget
+PULSE_PERFORMANCE [{"coldLoadMs":292,"firstReadableMs":2779},{"coldLoadMs":267,"firstReadableMs":3282},{"coldLoadMs":284,"firstReadableMs":2796}]
+
+[163/244] [firefox] › tests\browser\pilot.spec.js:151:1 › complete French consumer-price report renders four real-data figures
+[164/244] [firefox] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the schema-error state on its own
+[165/244] [firefox] › tests\browser\french-gdp.spec.js:230:3 › every figure shows the empty state on its own
+[166/244] [firefox] › tests\browser\pilot.spec.js:170:1 › report exploration keeps period-keyed selection and accessible equivalents
+[167/244] [firefox] › tests\browser\french-gdp.spec.js:238:1 › a failed engine start is a report-wide state with a retry
+[168/244] [firefox] › tests\browser\french-gdp.spec.js:244:1 › loading keeps every figure's frame and says so
+[169/244] [firefox] › tests\browser\french-gdp.spec.js:252:3 › no horizontal page scroll at 740 px
+[170/244] [firefox] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the ready report state
+[171/244] [firefox] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the loading report state
+[172/244] [firefox] › tests\browser\french-gdp.spec.js:252:3 › no horizontal page scroll at 320 px
+[173/244] [firefox] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the empty report state
+[174/244] [firefox] › tests\browser\pilot.spec.js:206:3 › complete report explicitly renders the query-error report state
+[175/244] [firefox] › tests\browser\pilot.spec.js:239:1 › complete report isolates a schema contract failure and retains its table
+[176/244] [firefox] › tests\browser\french-gdp.spec.js:264:1 › suspect lineage marks only the figure its columns reach
+[177/244] [firefox] › tests\browser\pilot.spec.js:258:1 › non-empty query rows cannot silently map to an empty visual and siblings remain usable
+[178/244] [firefox] › tests\browser\french-gdp.spec.js:272:1 › a publication past its release is stale against the reader's clock
+[179/244] [firefox] › tests\browser\pilot.spec.js:271:1 › complete report isolates a render failure and retains its table
+[180/244] [firefox] › tests\browser\pilot.spec.js:290:1 › complete report retains context and period-keyed selection after a later query failure
+[181/244] [firefox] › tests\browser\french-gdp.spec.js:278:1 › a render failure keeps its siblings and offers a retry
+[182/244] [firefox] › tests\browser\pilot.spec.js:318:1 › French CPI report preserves the published decimals and signs of its latest month
+[183/244] [firefox] › tests\browser\french-gdp.spec.js:287:1 › focus, scroll and open disclosures survive an update
+[184/244] [firefox] › tests\browser\pilot.spec.js:428:1 › every report plot maps left, middle and right clicks through its own margins
+[185/244] [firefox] › tests\browser\report-workflow.spec.js:3:1 › report slot-local render failure preserves sibling visuals and navigation
+[186/244] [firefox] › tests\browser\report-workflow.spec.js:11:1 › report query failure after ready retains controls and interaction context
+[187/244] [firefox] › tests\browser\report-workflow.spec.js:26:1 › report remains usable in narrow landscape and at 400 percent reflow
+[188/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible loading state
+[189/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible empty state
+[190/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible query state
+[191/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible schema state
+[192/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible render state
+[193/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible status-suspect state
+[194/244] [firefox] › tests\browser\pilot.spec.js:473:1 › figure selection retains open disclosures and slider focus
+[195/244] [firefox] › tests\browser\report-workflow.spec.js:50:3 › report workflow exposes the accessible status-stale state
+[196/244] [firefox] › tests\browser\pilot.spec.js:497:1 › all report controls preserve the viewport and keyboard focus
+[197/244] [firefox] › tests\browser\unemployment.spec.js:112:1 › every declared visual reaches ready and shows the provider's own latest values
+[198/244] [firefox] › tests\browser\unemployment.spec.js:158:1 › the stored value, the query, the mapped row and the displayed text agree
+[199/244] [firefox] › tests\browser\unemployment.spec.js:175:1 › one observation is shared by every quarterly figure, from the control and from a figure
+[200/244] [firefox] › tests\browser\unemployment.spec.js:208:1 › the international panels follow the shared observation and can set it
+[201/244] [firefox] › tests\browser\pilot.spec.js:540:1 › calculator uses full headline history and component controls stay interactive
+[202/244] [firefox] › tests\browser\unemployment.spec.js:247:1 › the represented period takes presets and an independent custom start and end
+[203/244] [firefox] › tests\browser\pilot.spec.js:582:1 › loaded report remeasures charts when resized without page overflow
+[204/244] [firefox] › tests\browser\unemployment.spec.js:269:1 › the map publishes every boundary, selects one, and never draws an absent rate as zero
+[205/244] [firefox] › tests\browser\pilot.spec.js:599:1 › desktop exploration controls keep period, observation and component controls together
+[206/244] [firefox] › tests\browser\unemployment.spec.js:300:1 › every territory carrying a rate also has a shape on the map
+[207/244] [firefox] › tests\browser\pilot.spec.js:633:1 › homepage links every included report and lists pipeline health quietly
+[208/244] [firefox] › tests\browser\unemployment.spec.js:324:1 › the international panel is ragged, capped and never repaints on removal
+[209/244] [firefox] › tests\browser\pilot.spec.js:684:1 › every pipeline in the catalog reaches the board with a state this build can name
+[210/244] [firefox] › tests\browser\pilot.spec.js:707:1 › production artifact serves cataloged Parquet byte ranges
+[211/244] [firefox] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-not-run pipeline state as text
+[212/244] [firefox] › tests\browser\unemployment.spec.js:349:1 › a failing dataset fails alone
+[213/244] [firefox] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-suspect pipeline state as text
+[214/244] [firefox] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-suspect-unknown pipeline state as text
+[215/244] [firefox] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-stale pipeline state as text
+[216/244] [firefox] › tests\browser\pilot.spec.js:727:3 › homepage renders the status-failed pipeline state as text
+[217/244] [firefox] › tests\browser\pilot.spec.js:748:1 › homepage health is compact by default and expands for evidence
+[218/244] [firefox] › tests\browser\unemployment.spec.js:363:1 › the page reflows without horizontal scroll at narrow width and at 400% zoom
+[219/244] [firefox] › tests\browser\pilot.spec.js:771:1 › homepage marks pipeline state with a glanceable non-colour cue
+[220/244] [firefox] › tests\browser\pilot.spec.js:792:1 › homepage orders pipelines by attention, then along the data flow
+[221/244] [firefox] › tests\browser\unemployment.spec.js:388:1 › focus and open disclosures survive a refresh of the represented period
+[222/244] [firefox] › tests\browser\pilot.spec.js:823:1 › homepage gives failed, degraded and healthy distinct severity colours
+[223/244] [firefox] › tests\browser\pilot.spec.js:841:1 › homepage shows a suspect-data warning without expanding
+[224/244] [firefox] › tests\browser\pilot.spec.js:852:1 › homepage keeps navigation and reports usable when status cannot be read
+[225/244] [firefox] › tests\browser\pilot.spec.js:882:1 › homepage pipeline health reflows without horizontal overflow
+[226/244] [firefox] › tests\browser\visual-workflow.spec.js:3:1 › INSEE conformance records desktop, narrow, and 400% reflow evidence
+[227/244] [firefox] › tests\browser\pilot.spec.js:912:1 › homepage narrows pipeline health by filter without dropping a pipeline
+[228/244] [firefox] › tests\browser\pilot.spec.js:948:1 › homepage filter is operable from the keyboard
+[229/244] [firefox] › tests\browser\pilot.spec.js:965:1 › homepage report cards qualify a report against its upstream pipelines
+[230/244] [firefox] › tests\browser\pilot.spec.js:991:1 › homepage report cards survive unreadable status with link and counts
+[231/244] [firefox] › tests\browser\pilot.spec.js:1006:1 › homepage board columns carry their own labels, not just a header
+[232/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the loading rendered state
+[233/244] [firefox] › tests\browser\pilot.spec.js:1030:1 › report provenance states the represented period and source without qualification when healthy
+[234/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the empty rendered state
+[235/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the query rendered state
+[236/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the schema rendered state
+[237/244] [firefox] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-suspect
+[238/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the render rendered state
+[239/244] [firefox] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-suspect-unknown
+[240/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-suspect rendered state
+[241/244] [firefox] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-stale
+[242/244] [firefox] › tests\browser\visual-workflow.spec.js:33:3 › INSEE conformance records the status-stale rendered state
+[243/244] [firefox] › tests\browser\pilot.spec.js:1052:3 › report adds one provenance qualification line for status-failed
+[244/244] [firefox] › tests\browser\pilot.spec.js:1077:1 › report provenance stays as published when status cannot be read
+  244 passed (9.3m)
+pulse verify passed

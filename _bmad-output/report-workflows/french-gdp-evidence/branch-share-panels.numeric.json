@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "branch-share-panels",
+  "dataset_revision": "french-branch-value-added@01a17b8b4d626dae8c04dc0a903d6c28c2e992363c8b282904267752664f20e2",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(8,3) % → DOUBLE → grouped 2 dp",
+    "two DECIMAL(8,3) % → DOUBLE → difference → signed 2 dp pt",
+    "VARCHAR parent_code → string|null → path root"
+  ],
+  "cases": [
+    {
+      "id": "share-precision",
+      "path": "DECIMAL(8,3) % → DOUBLE → grouped 2 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "A10 AZ 2025 share_of_total_value_added_pct",
+      "stored": "1.550",
+      "query": 1.55,
+      "expected_query": 1.55,
+      "displayed": "1.55 %",
+      "expected_display": "1.55 %"
+    },
+    {
+      "id": "change-negative",
+      "path": "two DECIMAL(8,3) % → DOUBLE → difference → signed 2 dp pt",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "A10 AZ 2025 less 1949",
+      "stored": "1.550",
+      "query": 1.55,
+      "expected_query": 1.55,
+      "displayed": "−15.95 pt",
+      "expected_display": "−15.95 pt",
+      "note": "1949 stored 17.505"
+    },
+    {
+      "id": "a10-null-parent",
+      "path": "VARCHAR parent_code → string|null → path root",
+      "concerns": [
+        "null"
+      ],
+      "observation": "A10 AZ parent_code",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "All branches",
+      "expected_display": "All branches",
+      "note": "an A10 branch has no parent, so it sits at the root"
+    }
+  ]
+}

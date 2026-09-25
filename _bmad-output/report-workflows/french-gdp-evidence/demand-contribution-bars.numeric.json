@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "demand-contribution-bars",
+  "dataset_revision": "french-national-accounts-annual@5fd5fdc42a4eecdb7c3169d2d76394b8c244ce36c98d30d5558ef64efac84414",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(8,3) pt → DOUBLE → signed 2 dp",
+    "two DECIMAL(8,3) pt → DOUBLE → report sum → signed 2 dp"
+  ],
+  "cases": [
+    {
+      "id": "net-trade-decimal",
+      "path": "DECIMAL(8,3) pt → DOUBLE → signed 2 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "2020 contribution_net_trade_pt",
+      "stored": "-1.346",
+      "query": -1.346,
+      "expected_query": -1.346,
+      "displayed": "−1.35 pt",
+      "expected_display": "−1.35 pt"
+    },
+    {
+      "id": "households-merged-negative",
+      "path": "two DECIMAL(8,3) pt → DOUBLE → report sum → signed 2 dp",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "2020 household + NPISH consumption",
+      "stored": "-3.350",
+      "query": -3.35,
+      "expected_query": -3.35,
+      "displayed": "−3.49 pt",
+      "expected_display": "−3.49 pt",
+      "note": "NPISH stored -0.143; the displayed value is the sum"
+    },
+    {
+      "id": "first-year-null-growth",
+      "path": "DECIMAL(8,3) pt → DOUBLE → signed 2 dp",
+      "concerns": [
+        "null"
+      ],
+      "observation": "1949 gdp_volume_growth_pct (no growth, so no contributions to explain)",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "No contributions published for this year",
+      "expected_display": "No contributions published for this year"
+    }
+  ]
+}

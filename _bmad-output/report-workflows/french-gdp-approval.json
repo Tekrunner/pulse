@@ -1,0 +1,11 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-gdp",
+  "handoffSha256": "658cf8a0a38649ea12b03f5db5b8d97a8db5be21f77a970eaacceecc6af79daa",
+  "approvedBy": "yann.fontana@hardis-group.com",
+  "approvedAt": "2026-09-25T08:14:09Z",
+  "permittedChanges": [
+    "Replace the handoff fixture rows with verified rows returned by the report's parameter-bound queries.",
+    "Render the published departement geometry with the simplification tolerance recorded in Design decisions, applied in the report's row mapping, in place of the review outlines."
+  ]
+}

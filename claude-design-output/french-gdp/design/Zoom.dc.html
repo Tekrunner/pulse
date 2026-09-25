@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>French GDP — 400% zoom</title>
+<script src="./support.js"></script>
+<script src="/_blob/3465da3e9a6c7929e8345824e57d8f82"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#111318;color:#f0f3f8;font-family:Inter,system-ui,sans-serif}
+.z *{box-sizing:border-box}
+.z h1,.z h2,.z p{margin:0}
+.z section{display:flex;flex-direction:column;gap:8px;padding:10px;border-radius:8px;background:#1b1f29}
+.z .values{display:flex;flex-direction:column;gap:2px;padding:6px 8px;border-radius:6px;background:#161a23;box-shadow:inset 0 0 0 1px #2e3443;font-size:12px}
+.z .values b{font-weight:500;font-variant-numeric:tabular-nums}
+.z table{width:100%;border-collapse:collapse;font-size:12px}
+.z th,.z td{padding:4px;border-bottom:1px solid #2c3140;text-align:left;font-variant-numeric:tabular-nums}
+.z td{text-align:right}
+.z summary{min-height:44px;display:flex;align-items:center;color:#73d6c2;font-size:13px}
+</style>
+</helmet>
+<div class="z" style="width: 320px; height: 1100px; padding: 10px; display: flex; flex-direction: column; gap: 10px; background: #111318;">
+  <h1 style="font-size: 22px; font-weight: 500;">French GDP</h1>
+  <p style="font-size: 12px; color: #abb5c5;">At 320 CSS px every section is one column; plots keep a minimum readable width and are followed by their data table, open by default. No horizontal page scroll.</p>
+  <section>
+    <h2 style="font-size: 16px; font-weight: 500;">Output and its growth</h2>
+    <div class="values"><span style="color: #73d6c2; font-size: 10.5px; font-weight: 600;">{{year}}</span><span>Real GDP <b>{{vol}}</b></span><span>Real GDP growth <b>{{growth}}</b></span><span>Latest quarter, y/y <b>{{yoy}}</b></span></div>
+    <svg viewBox="0 0 300 120" width="300" height="120" role="img" aria-label="Real GDP growth, recent years" style="display: block;">
+      <line x1="0" x2="300" y1="{{zero}}" y2="{{zero}}" stroke="rgba(240,243,248,.45)"></line>
+      <sc-for list="{{bars}}" as="b" hint-placeholder-count="10"><rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.c}}"></rect></sc-for>
+    </svg>
+    <details open=""><summary>Data table</summary><table><thead><tr><th scope="col">Year</th><td>Growth</td></tr></thead><tbody><sc-for list="{{rows}}" as="r" hint-placeholder-count="6"><tr><th scope="row">{{r.y}}</th><td>{{r.g}}</td></tr></sc-for></tbody></table></details>
+  </section>
+  <section>
+    <h2 style="font-size: 16px; font-weight: 500;">GDP across the departements</h2>
+    <p style="font-size: 12px; color: #c9d0db;">The map scales down to the column; the ranked table is the primary equivalent at this width.</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":320,"height":1100}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var D = window.__pulseGdp; if (!D) return { bars: [], rows: [] };
+    var A = D.annual, last = A[A.length - 1], lq = D.quarterly[D.quarterly.length - 1];
+    var sg = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + " %"; };
+    var recent = A.slice(-12), lo = Math.min.apply(null, recent.map(function (r) { return r.g; }).concat([0])), hi = Math.max.apply(null, recent.map(function (r) { return r.g; }));
+    var y = function (v) { return 6 + 108 - (v - lo) / (hi - lo) * 108; };
+    return {
+      year: String(last.y), vol: Math.round(last.gdpVol / 1000).toLocaleString("en-GB").replace(/,/g, " ") + " bn €", growth: sg(last.g), yoy: sg(lq.yoy) + " (" + lq.p + ")",
+      zero: y(0), bars: recent.map(function (r, i) { return { x: i * 25 + 3, w: 19, y: Math.min(y(0), y(r.g)), h: Math.abs(y(r.g) - y(0)), c: r.g < 0 ? "#e59a7a" : "#73d6c2" }; }),
+      rows: recent.slice().reverse().map(function (r) { return { y: r.y, g: sg(r.g) }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

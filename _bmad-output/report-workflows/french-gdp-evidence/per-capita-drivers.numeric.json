@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "per-capita-drivers",
+  "dataset_revision": "oecd-productivity-comparison@41be82d51da91677b771ff73c221205b2a29e92feffe8514295fa6341a7a5533",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(12,1) $ → DOUBLE → 100·ln(ratio) → signed 1 dp lp",
+    "DECIMAL(8,1) h → DOUBLE → 100·ln(ratio) → signed 1 dp lp",
+    "UN DECIMAL(9,4) % → DOUBLE → report ÷100 → table grouped 1 dp %"
+  ],
+  "cases": [
+    {
+      "id": "cumulative-log-change",
+      "path": "DECIMAL(12,1) $ → DOUBLE → 100·ln(ratio) → signed 1 dp lp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "FRA 2025 over 1970 gdp_per_capita_ppp_constant_2020_usd",
+      "stored": "55349.0",
+      "query": 55349,
+      "expected_query": 55349,
+      "displayed": "+84.6 lp",
+      "expected_display": "+84.6 lp",
+      "note": "base 1970 stored 23752.5"
+    },
+    {
+      "id": "hours-negative",
+      "path": "DECIMAL(8,1) h → DOUBLE → 100·ln(ratio) → signed 1 dp lp",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "FRA 2025 over 1970 hours_per_worker",
+      "stored": "1499.9",
+      "query": 1499.9,
+      "expected_query": 1499.9,
+      "displayed": "−26.6 lp",
+      "expected_display": "−26.6 lp"
+    },
+    {
+      "id": "un-share-percent-to-fraction",
+      "path": "UN DECIMAL(9,4) % → DOUBLE → report ÷100 → table grouped 1 dp %",
+      "concerns": [
+        "precision"
+      ],
+      "observation": "FRA 2025 share_of_population_pct 15-64",
+      "stored": "61.2332",
+      "query": 61.2332,
+      "expected_query": 61.2332,
+      "displayed": "61.2 %",
+      "expected_display": "61.2 %"
+    },
+    {
+      "id": "aggregate-has-no-un-share",
+      "path": "UN DECIMAL(9,4) % → DOUBLE → report ÷100 → table grouped 1 dp %",
+      "concerns": [
+        "null"
+      ],
+      "observation": "OECD 2025 working-age share (the UN publishes none for aggregates)",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "—",
+      "expected_display": "—"
+    }
+  ]
+}

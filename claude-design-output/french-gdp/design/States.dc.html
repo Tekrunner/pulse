@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>French GDP — states and isolation</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#111318;color:#f0f3f8;font-family:Inter,system-ui,sans-serif}
+a{color:#73d6c2}a:hover{color:#a6eadc}
+.s *{box-sizing:border-box}
+.s h1,.s h2,.s h3,.s p{margin:0}
+.s .card{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:10px;background:#1b1f29;min-height:190px}
+.s .name{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#abb5c5}
+.s .cue{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500}
+.s .cue svg{flex:none}
+.s .body{font-size:12.5px;line-height:1.5;color:#c9d0db}
+.s button{min-height:44px;padding:0 14px;border:1px solid #3a4152;border-radius:8px;background:#232834;color:#f0f3f8;font:inherit;font-size:13px;cursor:pointer;align-self:flex-start}
+.s .ghost{height:90px;border-radius:6px;background:repeating-linear-gradient(90deg,#1f2430 0 18px,#232834 18px 36px)}
+.s .mini{display:flex;flex-direction:column;gap:6px;padding:12px;border-radius:8px;background:#1b1f29}
+</style>
+</helmet>
+<div class="s" style="width: 1180px; height: 1500px; padding: 28px; display: flex; flex-direction: column; gap: 22px; background: #111318;">
+  <header style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="font-size: 26px; font-weight: 500;">States every figure treats</h1>
+    <p class="body">Each state has a named text cue and a shape cue, never colour alone. Shown on the demand-contributions figure; every figure uses the same vocabulary inside its own frame.</p>
+  </header>
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px;">
+    <div class="card"><span class="name">ready</span><span class="cue" style="color: #6ee7a0;"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="2"></circle></svg>Figure drawn from the published rows</span><p class="body">Caption, value strip, plot, legend, provenance line and data table, in that order.</p></div>
+    <div class="card"><span class="name">loading</span><span class="cue" style="color: #abb5c5;"><svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="6" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="4 3"></circle></svg>Loading contributions…</span><div class="ghost" aria-hidden="true"></div><p class="body">The frame keeps its final height so nothing below moves when rows arrive.</p></div>
+    <div class="card"><span class="name">empty</span><span class="cue" style="color: #abb5c5;"><svg width="14" height="14" viewBox="0 0 14 14"><rect x="1" y="1" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"></rect></svg>No years in the selected period</span><p class="body">Contributions start in 1950. Widen the represented period to include a year from 1950 onward.</p></div>
+    <div class="card"><span class="name">suspect</span><span class="cue" style="color: #f2994a;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1 L13 13 L1 13 Z" fill="none" stroke="currentColor" stroke-width="2"></path></svg>Drawn, but the source failed a plausibility check</span><p class="body">The snapshot behind this figure is marked suspect. The figure is shown with this banner and the failed check named in the provenance line.</p></div>
+    <div class="card"><span class="name">stale</span><span class="cue" style="color: #f2994a;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M7 1 L13 13 L1 13 Z" fill="none" stroke="currentColor" stroke-width="2"></path></svg>Past its expected release</span><p class="body">The latest year shown is older than the source's declared publication schedule allows. The figure still draws; the edition line in the header carries the same cue.</p></div>
+    <div class="card"><span class="name">query-error</span><span class="cue" style="color: #ff8a80;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="2.4"></path></svg>This figure could not load its rows</span><p class="body">Only this figure is affected. Other sections stay usable.</p><button type="button">Retry this figure</button></div>
+    <div class="card"><span class="name">schema-incompatibility</span><span class="cue" style="color: #ff8a80;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="2.4"></path></svg>The published table no longer matches this figure</span><p class="body">A column this figure reads has changed type or disappeared. Nothing is drawn rather than something wrong.</p></div>
+    <div class="card"><span class="name">render-error</span><span class="cue" style="color: #ff8a80;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="2.4"></path></svg>This figure failed to draw</span><p class="body">The data table below remains available.</p><button type="button">Retry this figure</button></div>
+    <div class="card"><span class="name">shared-engine-failure</span><span class="cue" style="color: #ff8a80;"><svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 2 L12 12 M12 2 L2 12" stroke="currentColor" stroke-width="2.4"></path></svg>The report's data engine did not start</span><p class="body">Shown once at the top of the report, not in every figure. Figures keep their frames with a pointer to this message.</p><button type="button">Retry</button></div>
+  </div>
+  <section style="display: flex; flex-direction: column; gap: 12px;">
+    <h2 style="font-size: 20px; font-weight: 500;">Slot-local failure isolation</h2>
+    <p class="body">The branch figure fails; the report and every sibling stay ready, and the retry reruns that figure's query alone.</p>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px;">
+      <div class="mini"><span class="name">Where growth came from</span><span class="cue" style="color: #6ee7a0;">ready</span><div class="ghost" style="background: linear-gradient(180deg,#1b1f29 50%,#232834 50%);"></div></div>
+      <div class="mini" style="box-shadow: inset 0 0 0 1.5px #ff8a80;"><span class="name">What the economy produces</span><span class="cue" style="color: #ff8a80;">query-error</span><p class="body">This figure could not load its rows.</p><button type="button">Retry this figure</button></div>
+      <div class="mini"><span class="name">How income is shared</span><span class="cue" style="color: #6ee7a0;">ready</span><div class="ghost" style="background: linear-gradient(180deg,#1b1f29 50%,#232834 50%);"></div></div>
+    </div>
+  </section>
+  <section style="display: flex; flex-direction: column; gap: 12px;">
+    <h2 style="font-size: 20px; font-weight: 500;">Data-driven states inside a ready figure</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+      <div class="mini"><span class="name">Selected year beyond a section's edge</span><p class="body">The map with 2025 selected: it draws 2024, the nearest published year, with "2024 · latest published" in its value strip, a banner naming both years and a button that selects 2024 across the report. The year shown is always stated on the map itself.</p></div>
+      <div class="mini"><span class="name">Economy without hours</span><p class="body">New Zealand or Peru selected: GDP and GDP per inhabitant draw; the gap-to-France chart lists them beneath the bars, "published hours fail the plausibility screen; the gap is not split", instead of drawing a split.</p></div>
+      <div class="mini"><span class="name">Aggregate without a working-age share</span><p class="body">OECD total: its gap-to-France bar splits into output per hour, hours per worker and employment per inhabitant, drawn in a grey marked "not split", because the UN publishes no working-age share for aggregates.</p></div>
+      <div class="mini"><span class="name">Derived branch rows</span><p class="body">A88 residual industries: hatched area and swatch, a "derived" tag in the list, and the derived-rows note under the figure.</p></div>
+    </div>
+  </section>
+  <section style="display: flex; flex-direction: column; gap: 8px;">
+    <h2 style="font-size: 20px; font-weight: 500;">Focus and targets</h2>
+    <p class="body">Focus ring 3px #ffd166, offset 4px (the shared token). Every control is at least 44px tall, except the comparison row: its chips, add menu and OECD toggle are 28px, with 24px remove buttons, the WCAG 2.2 AA minimum target. Figure columns are click targets for the year and are mirrored by the keyboard year control and its previous/next buttons; the map's departements are mirrored by the ranked buttons and the data table.</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1180,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

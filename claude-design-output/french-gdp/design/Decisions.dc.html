@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>French GDP — design decisions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#111318;color:#f0f3f8;font-family:Inter,system-ui,sans-serif}
+.d *{box-sizing:border-box}
+.d h1,.d h2,.d p{margin:0}
+.d h2{font-size:15px;font-weight:600;color:#73d6c2;margin-top:6px}
+.d p,.d li{font-size:13px;line-height:1.55;color:#c9d0db}
+.d ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+</style>
+</helmet>
+<div class="d" style="width: 820px; height: 2600px; padding: 28px; display: flex; flex-direction: column; gap: 12px; background: #111318;">
+  <h1 style="font-size: 26px; font-weight: 500;">Design decisions</h1>
+  <p>Decisions this design takes on the brief's open points, each with its reason. They become binding on approval.</p>
+
+  <h2>Composition</h2>
+  <ul>
+    <li>Eight sections in the reading order of the brief: output and growth, demand, branches, income, dollars, OECD standing, drivers, departements. One sticky control row owns the represented period, the selected year and the comparison set.</li>
+    <li>The comparison set is a row of compact chips showing ISO codes, with the full name as tooltip and in the remove button's label; the add menu and the OECD reference toggle take the same form, so the default set fits on one line and each further economy adds a chip, not a row (revised after review: full-height chips with names stacked the row vertically).</li>
+    <li>Pulse dark tokens throughout; France is always the accent teal (#73d6c2), comparators take a local palette, aggregates are grey and dashed or hollow.</li>
+  </ul>
+
+  <h2>Headline and the quarterly tail</h2>
+  <ul>
+    <li>N = 7½ years: quarters begin at Q1 of the year seven years before the latest quarter's year (2019-Q1 with 2026-Q2 published). It is computed from the data, never a calendar date, and puts the pre-pandemic year and 2020 in quarterly detail.</li>
+    <li>Linear scale for the volume level by default, with evenly spaced round ticks in every window; a switch gives a log scale, on which equal slopes mean equal growth rates. On log, wide ranges get doubling ticks (200, 400, 800, 1 600), which are evenly spaced; narrow ranges get round steps, which a log axis cannot space evenly (revised after review: mixed round ticks on a default log axis looked unevenly spaced, and a 25-year window showed a single tick).</li>
+    <li>The seam is a shaded band with a dashed edge and an in-plot label; the paragraph beneath names the working-day step once, because no mark can say it.</li>
+    <li>Per-inhabitant mode is annual only; the band disappears in that mode.</li>
+    <li>Levels are at constant 2020 prices (chained volumes) in the tiles and the level figure (revised after review). Tiles follow the selected year, each with its own period line; with a year beyond the annual accounts, the annual tiles say where they end.</li>
+  </ul>
+
+  <h2>Demand side</h2>
+  <ul>
+    <li>Diverging stacked bars with GDP growth as a dot. Households are merged with non-profit institutions and inventories with valuables, both labelled; the merges keep the stack additive and remove two slivers too thin to read.</li>
+  </ul>
+
+  <h2>Branches</h2>
+  <ul>
+    <li>Small multiples, one panel per branch, one colour, in a fixed alphabetical order so panels never move when the year changes (revised after review: ordering by share reshuffled them). Each panel has its own vertical scale so year-to-year movements of a few tenths of a point stay visible; the panel title carries the level and the change since the window start, so levels are compared by number, not by height. (Revised after review: a stacked area hid small changes and needed too many colours.)</li>
+    <li>Each panel with more than one sub-branch has its own open button; a breadcrumb gives the way back.</li>
+    <li>A88 shows the shorter-span warning whenever it is on screen; residual industries are dashed and tagged "derived".</li>
+  </ul>
+
+  <h2>Income</h2>
+  <ul>
+    <li>Four panels, one per share of GDP, each on its own scale (revised after review: slow-moving shares were invisible in a 100 % stack). Compensation of employees alone is dashed in the labour panel.</li>
+  </ul>
+
+  <h2>Axes, tiles and money</h2>
+  <ul>
+    <li>Every plot has a y axis with ticks, an x axis with year ticks and a unit title above the plot.</li>
+    <li>The five tiles follow the selected year; the two quarter tiles show that year's last published quarter.</li>
+    <li>Amounts follow French convention for grouping and currency: thousands separated by a narrow no-break space and the currency after the number — 2 991 bn €, 43 350 €, 64.0 k$. Decimals keep the point, as the page is in English.</li>
+  </ul>
+
+  <h2>Selection beyond a section's edge</h2>
+  <ul>
+    <li>Selected year defaults to the latest annual year. Sections without that year say so in their strip; the map, which would otherwise be empty for the latest national year, draws its nearest published year and labels it as such in its caption, strip and a banner, with a button to select that year everywhere (revised after review: an all-grey map read as broken).</li>
+  </ul>
+
+  <h2>Dollars</h2>
+  <ul>
+    <li>Linear dollar level above a stacked bar of the three log-point terms, with the net change as a white tick so the sum is read without arithmetic.</li>
+  </ul>
+
+  <h2>International</h2>
+  <ul>
+    <li>Levels within a year as ranked bars at current PPP (OECD as a dashed reference bar, never ranked); paths over time as lines at constant 2020 PPP; growth as lines, clipped to ±12/14 points so one outlier year does not flatten the rest.</li>
+  </ul>
+
+  <h2>Drivers</h2>
+  <ul>
+    <li>France over time as cumulative log-point changes since the window's start (from 1970), four factors plus the total; UN projection years drawn dotted.</li>
+    <li>Across economies, one bar per economy: its gap to France in GDP per inhabitant in log points, split into the four factors, with a white tick for the total (revised after review: the dot plot of ratios to France was hard to read). Aggregates, which have no UN working-age share, show employment per inhabitant unsplit; economies with screened hours are named beneath. A table gives the four factors in their own units.</li>
+  </ul>
+
+  <h2>Departements</h2>
+  <ul>
+    <li>Eight bins on France = 100 with a neutral 90–110 class, blue below and orange above, unequal widths chosen because half the departements lie between 72 and 89 while Paris exceeds 300.</li>
+    <li>An inset for Paris and the inner ring, and one per overseas departement.</li>
+    <li>Payload: outlines projected and simplified (Douglas–Peucker, 0.45 px at a 560 px map; rings under 1.2 px dropped). The prototype data file is 0.5 MB. Production should apply the same tolerance in the report's row mapping or a declared derived geometry; this is a design decision awaiting approval.</li>
+  </ul>
+
+  <h2>Copy</h2>
+  <ul>
+    <li>No sentence on the page carries a value, direction or period; every number renders from rows in a tile, strip, label or table.</li>
+  </ul>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":820,"height":2600}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

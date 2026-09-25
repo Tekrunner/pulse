@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>French GDP — narrow landscape</title>
+<script src="./support.js"></script>
+<script src="/_blob/3465da3e9a6c7929e8345824e57d8f82"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#111318;color:#f0f3f8;font-family:Inter,system-ui,sans-serif}
+a{color:#73d6c2}a:hover{color:#a6eadc}
+.n *{box-sizing:border-box}
+.n h1,.n h2,.n p{margin:0}
+.n section{display:flex;flex-direction:column;gap:10px;padding:14px 12px;border-radius:10px;background:#1b1f29}
+.n .cap{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:#abb5c5}
+.n .values{display:flex;flex-wrap:wrap;gap:4px 14px;padding:7px 9px;border-radius:8px;background:#161a23;box-shadow:inset 0 0 0 1px #2e3443;font-size:12px}
+.n .values .yr{font-size:10.5px;letter-spacing:.07em;color:#73d6c2;font-weight:600}
+.n .values b{color:#f0f3f8;font-weight:500;font-variant-numeric:tabular-nums;margin-left:5px}
+.n .tile{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:8px;background:#161a23;box-shadow:inset 0 0 0 1px #2e3443}
+.n .tile .k{font-size:11px;color:#abb5c5}.n .tile .v{font-size:22px;font-variant-numeric:tabular-nums}.n .tile .p{font-size:10.5px;color:#8f99aa}
+.n summary{min-height:44px;display:flex;align-items:center;color:#73d6c2;font-size:13px}
+.n .plot{position:relative}.n .ov{position:absolute;inset:0;pointer-events:none}.n .ov > span{position:absolute;display:block;white-space:nowrap;line-height:1;font-size:10.5px;color:#c9d0db;font-variant-numeric:tabular-nums}
+.n select,.n button{min-height:44px;padding:0 10px;border:1px solid #3a4152;border-radius:8px;background:#232834;color:#f0f3f8;font:inherit;font-size:13px}
+</style>
+</helmet>
+<div class="n" style="width: 740px; height: 1500px; padding: 16px; display: flex; flex-direction: column; gap: 14px; background: #111318;">
+  <header style="display: flex; flex-direction: column; gap: 6px;">
+    <h1 style="font-size: 28px; font-weight: 500;">French GDP</h1>
+    <p style="font-size: 13px; color: #c9d0db;">The size of the French economy and its growth, where it comes from, how it is produced and shared, and how it compares.</p>
+  </header>
+  <details style="border-radius: 10px; background: #161a23; padding: 0 12px; box-shadow: inset 0 0 0 1px #3a4152;" open="">
+    <summary>Period, selected year and comparison</summary>
+    <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: 12px;">
+      <select aria-label="Represented period"><option>Since 1949</option><option>Since 1970</option><option>25 years</option><option>10 years</option><option>Custom…</option></select>
+      <button type="button" aria-label="Previous year">‹</button><select aria-label="Selected year"><option>{{year}}</option></select><button type="button" aria-label="Next year">›</button>
+      <select aria-label="Add an OECD member"><option>Add a member…</option></select>
+    </div>
+  </details>
+  <p style="font-size: 12px; color: #abb5c5;">The control row collapses into this disclosure and stays sticky when open; the selection it holds is the same report state as on desktop.</p>
+  <section>
+    <h2 style="font-size: 19px; font-weight: 500;">Output and its growth</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px;">
+      <sc-for list="{{tiles}}" as="t" hint-placeholder-count="4"><div class="tile"><span class="k">{{t.k}}</span><span class="v">{{t.v}}</span><span class="p">{{t.p}}</span></div></sc-for>
+    </div>
+    <p class="cap">Real GDP, bn €, chained 2020, log scale</p>
+    <div class="values"><span class="yr">{{year}}</span><span>Real GDP<b>{{vol}}</b></span><span>Growth<b>{{growth}}</b></span></div>
+    <div class="plot" style="width: 708px; height: 190px;"><svg viewBox="0 0 708 190" width="708" height="190" role="img" aria-label="Real GDP, narrow view" style="display: block;">
+      <rect x="{{seamX}}" y="4" width="{{seamW}}" height="160" fill="rgba(115,214,194,.07)"></rect>
+      <sc-for list="{{grid}}" as="g" hint-placeholder-count="4"><line x1="44" x2="700" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.08)"></line></sc-for>
+      <polyline points="{{pts}}" fill="none" stroke="#73d6c2" stroke-width="2.2"></polyline>
+      <line x1="44" x2="44" y1="4" y2="164" stroke="#7a8397"></line><line x1="44" x2="700" y1="164" y2="164" stroke="#7a8397"></line>
+    </svg><div class="ov" aria-hidden="true"><sc-for list="{{labels}}" as="l" hint-placeholder-count="6"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}};">{{l.t}}</span></sc-for></div></div>
+  </section>
+  <section>
+    <h2 style="font-size: 19px; font-weight: 500;">What the economy produces</h2>
+    <p class="cap">Share of total value added — A10</p>
+    <p style="font-size: 12px; color: #abb5c5;">Below 900 px the branch panels go from four to two per row, each keeping its axes and open button; only their title rows are sketched here.</p>
+    <sc-for list="{{branches}}" as="r" hint-placeholder-count="6"><div style="display: grid; grid-template-columns: 12px minmax(0, 1fr) 60px; gap: 8px; align-items: center; min-height: 44px; border-bottom: 1px solid #2c3140; font-size: 13px;"><i style="width: 12px; height: 12px; border-radius: 3px; background: {{r.c}};"></i><span>{{r.l}} ›</span><span style="text-align: right; font-variant-numeric: tabular-nums;">{{r.v}}</span></div></sc-for>
+  </section>
+  <section>
+    <h2 style="font-size: 19px; font-weight: 500;">GDP across the departements</h2>
+    <p style="font-size: 12px; color: #abb5c5;">The map keeps its full width and the insets move beneath it; the highest and lowest lists follow in one column.</p>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":740,"height":1500}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var D = window.__pulseGdp; if (!D) return { tiles: [], grid: [], ticks: [], branches: [] };
+    var A = D.annual, last = A[A.length - 1], Q = D.quarterly, lq = Q[Q.length - 1], seam = lq.y - 7;
+    var f = function (v, dp) { return Number(v).toLocaleString("en-GB", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }).replace(/,/g, " "); };
+    var sg = function (v) { return (v > 0 ? "+" : v < 0 ? "−" : "") + Math.abs(v).toFixed(1) + " %"; };
+    var from = 1949, to = lq.y, x = function (t) { return 44 + (t - from) / (to - from + 1) * 656; };
+    var pts = [], vals = [];
+    A.forEach(function (r) { if (r.y < seam) { pts.push([r.y + 0.5, r.gdpVol / 1000]); vals.push(r.gdpVol / 1000); } });
+    Q.forEach(function (r) { if (r.y >= seam) { pts.push([r.y + (r.q - 0.5) / 4, r.vol / 1000]); vals.push(r.vol / 1000); } });
+    var lo = Math.min.apply(null, vals) / 1.08, hi = Math.max.apply(null, vals) * 1.05;
+    var y = function (v) { return 4 + 160 - (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * 160; };
+    var shares = D.branches.filter(function (b) { return b.level === "A10"; }).map(function (b) { return { l: b.label, v: b.share[b.share.length - 1] }; }).sort(function (a, b) { return b.v - a.v; });
+    var pal = ["#73d6c2", "#8fb0d1", "#b5abfc", "#d09a6a", "#9dc0ae", "#e39bb5", "#d6c77a", "#7fa7c9", "#c9a3e0", "#e6a57a"];
+    return {
+      year: String(last.y), vol: f(last.gdpVol / 1000) + " bn €", growth: sg(last.g),
+      tiles: [{ k: "GDP, current prices", v: f(last.gdpCur / 1000) + " bn €", p: String(last.y) }, { k: "Real GDP growth", v: sg(last.g), p: String(last.y) }, { k: "Latest quarter, q/q", v: sg(lq.qoq), p: lq.p }, { k: "Latest quarter, y/y", v: sg(lq.yoy), p: lq.p }],
+      seamX: x(seam), seamW: 700 - x(seam),
+      grid: [100, 200, 500, 1000, 2000].filter(function (v) { return v >= lo && v <= hi; }).map(function (v) { return { y: y(v), ty: y(v) + 4, t: f(v) }; }),
+      pts: pts.map(function (p) { return x(p[0]).toFixed(1) + "," + y(p[1]).toFixed(1); }).join(" "),
+      ticks: [1950, 1970, 1990, 2010].map(function (t) { return { x: x(t + 0.5), t: String(t) }; }),
+      labels: [100, 200, 500, 1000, 2000].filter(function (v) { return v >= lo && v <= hi; }).map(function (v) { return { x: -60 + 40, y: y(v) - 6, w: 60, a: "right", t: f(v) }; })
+        .concat([1950, 1970, 1990, 2010].map(function (t) { return { x: x(t + 0.5) - 30, y: 170, w: 60, a: "center", t: String(t) }; })),
+      branches: shares.map(function (s, i) { return { l: s.l, v: f(s.v, 1) + " %", c: "#73d6c2" }; })
+    };
+  }
+}
+</script>
+</body>
+</html>

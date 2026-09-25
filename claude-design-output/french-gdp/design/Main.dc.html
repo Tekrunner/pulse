@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>French GDP — composed report</title>
+<script src="./support.js"></script>
+<script src="/_blob/3465da3e9a6c7929e8345824e57d8f82"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#111318;color:#f0f3f8;font-family:Inter,system-ui,sans-serif}
+a{color:#73d6c2}a:hover{color:#a6eadc}
+.g *{box-sizing:border-box}
+.g h1,.g h2,.g h3,.g p{margin:0}
+.g h2{font-size:22px;font-weight:500;letter-spacing:-.01em}
+.g h3{font-size:13px;font-weight:500}
+.g figure{margin:0}
+.g :focus-visible{outline:3px solid #ffd166;outline-offset:4px}
+.g section.fig{display:flex;flex-direction:column;gap:12px;padding:20px 18px;border-radius:10px;background:#1b1f29}
+.g .lede{max-width:80ch;font-size:14px;line-height:1.55;color:#c9d0db}
+.g .cap{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:#abb5c5}
+.g .src{font-size:11.5px;color:#abb5c5}
+.g .warn{display:flex;gap:8px;align-items:baseline;font-size:12.5px;color:#f2c894}
+.g .warn b{font-weight:600;color:#f2994a;white-space:nowrap}
+.g table{width:100%;border-collapse:collapse;font-size:12px}
+.g th,.g td{text-align:left;padding:4px 6px;border-bottom:1px solid #2c3140;font-variant-numeric:tabular-nums}
+.g td.n,.g th.n{text-align:right}
+.g thead th{color:#abb5c5;font-weight:500}
+.g summary{min-height:44px;display:flex;align-items:center;color:#73d6c2;cursor:pointer;font-size:13px}
+.g details{border-top:1px solid #2c3140}
+.g .scroll{max-height:220px;overflow:auto}
+.g select,.g button.b{min-height:44px;padding:0 10px;border:1px solid #3a4152;border-radius:8px;background:#232834;color:#f0f3f8;font:inherit;font-size:13px}
+.g button.b{cursor:pointer}
+.g button.b:hover{background:#2b3140}
+.g label.seg{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 13px;border-inline-start:1px solid #3a4152;cursor:pointer;font-size:13px;color:#abb5c5}
+.g label.seg:first-child{border-inline-start:0}
+.g label.seg.on{color:#f0f3f8;background:#2b3140;box-shadow:inset 0 -2px 0 #73d6c2}
+.g .chip{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 2px 0 9px;border:1px solid #3a4152;border-radius:14px;font-size:12px;letter-spacing:.04em;font-variant-numeric:tabular-nums}
+.g .chip i{width:8px;height:8px;border-radius:50%}
+.g .chip button{width:24px;height:24px;padding:0;border:0;border-radius:12px;font-size:11px;background:transparent;color:#abb5c5;cursor:pointer;font:inherit}
+.g .chip button:hover{background:#2b3140;color:#f0f3f8}
+.g select.add{width:80px;min-height:28px;height:28px;padding:0 8px;border-radius:14px;font-size:12px}
+.g label.ref{position:relative;padding-right:9px;cursor:pointer;color:#abb5c5;border-style:dashed}
+.g label.ref.on{color:#f0f3f8;border-color:#8b93a3}
+.g label.ref i{background:transparent;box-shadow:inset 0 0 0 1.5px #8b93a3}
+.g label.ref.on i{background:#8b93a3}
+.g label.ref:has(input:focus-visible){outline:3px solid #ffd166;outline-offset:4px}
+.g .values{display:flex;flex-wrap:wrap;align-items:baseline;gap:5px 18px;padding:8px 11px;border-radius:8px;background:#161a23;box-shadow:inset 0 0 0 1px #2e3443;font-size:12.5px;min-height:36px}
+.g .values .yr{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:#73d6c2;font-weight:600;font-variant-numeric:tabular-nums}
+.g .values .v{display:inline-flex;align-items:baseline;gap:6px;color:#abb5c5;white-space:nowrap}
+.g .values i{width:8px;height:8px;border-radius:2px;flex:none;align-self:center}
+.g .values b{color:#f0f3f8;font-variant-numeric:tabular-nums;font-weight:500}
+.g .tile{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border-radius:10px;background:#161a23;box-shadow:inset 0 0 0 1px #2e3443;min-width:0}
+.g .tile .k{font-size:12px;color:#abb5c5}
+.g .tile .val{font-size:28px;font-weight:500;letter-spacing:-.01em;font-variant-numeric:tabular-nums}
+.g .tile .per{font-size:11.5px;color:#8f99aa}
+.g .crumb{min-height:36px;padding:0 10px;border:1px solid #3a4152;border-radius:8px;background:transparent;color:#73d6c2;cursor:pointer;font:inherit;font-size:13px}
+.g .crumb.cur{color:#f0f3f8;border-color:transparent;cursor:default}
+.g .panel{display:flex;flex-direction:column;gap:4px;padding:10px 10px 6px;border-radius:8px;background:#161a23;box-shadow:inset 0 0 0 1px #2a303d;min-width:0}
+.g .panel .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12.5px}
+.g .panel .t span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.g .panel .num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.g .open{min-height:32px;padding:0 8px;border:1px solid #3a4152;border-radius:6px;background:transparent;color:#73d6c2;cursor:pointer;font:inherit;font-size:12px;align-self:flex-start}
+.g .open:hover{background:#232834}
+.g .row{display:grid;align-items:center;gap:8px;min-height:36px;padding:2px 8px;border-radius:6px;font-size:12.5px}
+.g button.row{width:100%;border:0;background:transparent;color:#f0f3f8;text-align:left;font:inherit;font-size:12.5px;cursor:pointer}
+.g button.row:hover{background:#232834}
+.g .muted{color:#abb5c5}
+.g .tag{display:inline-block;padding:1px 6px;border-radius:4px;background:#2b3140;color:#f2c894;font-size:10.5px;letter-spacing:.04em;text-transform:uppercase}
+.g svg text{font-variant-numeric:tabular-nums}
+.g .plot{position:relative;flex:none}
+.g .ov{position:absolute;inset:0;pointer-events:none}
+.g .ov > span{position:absolute;display:block;white-space:nowrap;overflow:visible;line-height:1;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:reduce){.g *{transition-duration:.001ms !important;animation-duration:.001ms !important}}
+</style>
+</helmet>
+<div class="g" style="width: 1280px; height: 8150px; padding: 28px 28px 40px; display: flex; flex-direction: column; gap: 22px; background: #111318;">
+
+<header style="display: flex; flex-direction: column; gap: 10px; padding-bottom: 18px; border-bottom: 1px solid #2c3140;">
+  <p class="cap" style="color: #73d6c2;">Pulse standing report</p>
+  <h1 style="font-size: 42px; line-height: 1.1; letter-spacing: -.015em; font-weight: 500;">French GDP</h1>
+  
+  <dl style="display: flex; flex-wrap: wrap; gap: 6px 28px; margin: 6px 0 0; font-size: 12.5px; color: #abb5c5;">
+    <sc-for list="{{editions}}" as="e" hint-placeholder-count="5">
+      <div style="display: flex; gap: 6px;"><dt>{{e.name}}</dt><dd style="margin: 0; color: #f0f3f8; font-variant-numeric: tabular-nums;">{{e.edge}}</dd></div>
+    </sc-for>
+  </dl>
+</header>
+
+<section aria-label="Report controls" style="position: sticky; top: 0; z-index: 5; display: flex; flex-wrap: wrap; align-items: flex-end; gap: 22px; padding: 12px 14px; border-radius: 10px; background: #111318; box-shadow: 0 0 0 1px #3a4152;">
+  <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+    <legend style="padding: 0; font-size: 12px; color: #abb5c5;">Represented period</legend>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 10px;">
+      <div role="radiogroup" aria-label="Represented period presets" style="display: flex; overflow: hidden; border: 1px solid #3a4152; border-radius: 8px;">
+        <sc-for list="{{presets}}" as="p" hint-placeholder-count="4">
+          <label class="{{p.cls}}"><input type="radio" name="period" checked="{{p.on}}" onChange="{{p.pick}}" style="position: absolute; width: 1px; height: 1px; opacity: 0;"><span>{{p.label}}</span></label>
+        </sc-for>
+      </div>
+      <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #abb5c5;"><span>From</span>
+        <select aria-label="Represented period start year" value="{{from}}" onChange="{{setFrom}}"><sc-for list="{{fromOptions}}" as="y" hint-placeholder-count="3"><option value="{{y}}">{{y}}</option></sc-for></select>
+      </label>
+      <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: #abb5c5;"><span>To</span>
+        <select aria-label="Represented period end year" value="{{to}}" onChange="{{setTo}}"><sc-for list="{{toOptions}}" as="y" hint-placeholder-count="3"><option value="{{y}}">{{y}}</option></sc-for></select>
+      </label>
+    </div>
+  </fieldset>
+  <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px;">
+    <legend style="padding: 0; font-size: 12px; color: #abb5c5;">Selected year — or click any figure</legend>
+    <div style="display: flex; align-items: center; gap: 6px;">
+      <button class="b" type="button" aria-label="Previous year" onClick="{{prevYear}}">‹</button>
+      <select aria-label="Selected year" value="{{year}}" onChange="{{setYear}}"><sc-for list="{{yearOptions}}" as="y" hint-placeholder-count="3"><option value="{{y}}">{{y}}</option></sc-for></select>
+      <button class="b" type="button" aria-label="Next year" onClick="{{nextYear}}">›</button>
+    </div>
+  </fieldset>
+  <fieldset style="min-width: 0; margin: 0; padding: 0; border: 0; display: flex; flex-direction: column; gap: 6px; flex: 1;">
+    <legend style="padding: 0; font-size: 12px; color: #abb5c5;">Compared with</legend>
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+      <span class="chip" title="France" style="padding-right: 9px; border-color: #73d6c2;"><i style="background: #73d6c2;"></i>FRA</span>
+      <sc-for list="{{chips}}" as="c" hint-placeholder-count="3">
+        <span class="chip" title="{{c.name}}"><i style="background: {{c.color}};"></i>{{c.code}}<button type="button" aria-label="{{c.removeLabel}}" onClick="{{c.remove}}">✕</button></span>
+      </sc-for>
+      <select class="add" aria-label="Add an OECD member to the comparison" value="" onChange="{{addCountry}}">
+        <option value="">+ Add…</option>
+        <sc-for list="{{addable}}" as="a" hint-placeholder-count="3"><option value="{{a.code}}">{{a.name}}</option></sc-for>
+      </select>
+      <label class="{{oecdCls}}" title="OECD total as reference"><input type="checkbox" checked="{{showOecd}}" onChange="{{toggleOecd}}" style="position: absolute; width: 1px; height: 1px; opacity: 0;"><i></i>OECD</label>
+    </div>
+  </fieldset>
+</section>
+
+<!-- 1. Headline -->
+<section class="fig" aria-labelledby="h-headline">
+  <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;">
+    <h2 id="h-headline">Output and its growth</h2>
+    <div style="display: flex; gap: 10px;">
+    <div role="radiogroup" aria-label="Headline measure" style="display: flex; overflow: hidden; border: 1px solid #3a4152; border-radius: 8px;">
+      <sc-for list="{{h.modes}}" as="m" hint-placeholder-count="2">
+        <label class="{{m.cls}}"><input type="radio" name="hmode" checked="{{m.on}}" onChange="{{m.pick}}" style="position: absolute; width: 1px; height: 1px; opacity: 0;"><span>{{m.label}}</span></label>
+      </sc-for>
+    </div>
+    <div role="radiogroup" aria-label="Level scale" style="display: flex; overflow: hidden; border: 1px solid #3a4152; border-radius: 8px;">
+      <sc-for list="{{h.scales}}" as="m" hint-placeholder-count="2">
+        <label class="{{m.cls}}"><input type="radio" name="hscale" checked="{{m.on}}" onChange="{{m.pick}}" style="position: absolute; width: 1px; height: 1px; opacity: 0;"><span>{{m.label}}</span></label>
+      </sc-for>
+    </div>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;">
+    <sc-for list="{{h.tiles}}" as="t" hint-placeholder-count="5">
+      <div class="tile"><span class="k">{{t.k}}</span><span class="val">{{t.v}}</span><span class="per">{{t.per}}</span></div>
+    </sc-for>
+  </div>
+  <p class="cap">{{h.levelCaption}}</p>
+  <div class="values"><span class="yr">{{h.stripYear}}</span><sc-for list="{{h.strip}}" as="s" hint-placeholder-count="3"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div class="plot" style="width: 1188px; height: 270px;"><svg viewBox="0 0 1188 270" width="1188" height="270" role="img" aria-label="{{h.aria}}" style="display: block;">
+    <rect x="{{h.seam.x}}" y="{{h.ax.top}}" width="{{h.seam.w}}" height="{{h.ax.h}}" fill="rgba(115,214,194,.07)"></rect>
+    
+    <sc-for list="{{h.ax.y}}" as="g" hint-placeholder-count="4"><line x1="{{h.ax.x0}}" x2="{{h.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{g.tx}}" x2="{{h.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{h.ax.x0}}" x2="{{h.ax.x0}}" y1="{{h.ax.top}}" y2="{{h.ax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{h.ax.x0}}" x2="{{h.ax.x1}}" y1="{{h.ax.bottom}}" y2="{{h.ax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{h.ax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{h.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <polyline points="{{h.annualPts}}" fill="none" stroke="#73d6c2" stroke-width="2.5" stroke-linejoin="round"></polyline>
+    <polyline points="{{h.quarterPts}}" fill="none" stroke="#73d6c2" stroke-width="1.8" stroke-linejoin="round"></polyline>
+    <line x1="{{h.sel.x}}" x2="{{h.sel.x}}" y1="{{h.ax.top}}" y2="{{h.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <circle cx="{{h.sel.x}}" cy="{{h.sel.y}}" r="4.5" fill="#111318" stroke="#f0f3f8" stroke-width="2" opacity="{{h.sel.op}}"></circle>
+    <sc-for list="{{h.hits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{h.ax.top}}" width="{{c.w}}" height="{{h.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{h.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <p class="cap">{{h.growthCaption}}</p>
+  <div class="plot" style="width: 1188px; height: 190px;"><svg viewBox="0 0 1188 190" width="1188" height="190" role="img" aria-label="{{h.gAria}}" style="display: block;">
+    <rect x="{{h.seam.x}}" y="{{h.gax.top}}" width="{{h.seam.w}}" height="{{h.gax.h}}" fill="rgba(115,214,194,.07)"></rect>
+    <sc-for list="{{h.gax.y}}" as="g" hint-placeholder-count="4"><line x1="{{h.gax.x0}}" x2="{{h.gax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{h.gax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{h.gax.x0}}" x2="{{h.gax.x0}}" y1="{{h.gax.top}}" y2="{{h.gax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{h.gax.x0}}" x2="{{h.gax.x1}}" y1="{{h.gax.bottom}}" y2="{{h.gax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{h.gax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{h.gax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <sc-for list="{{h.bars}}" as="b" hint-placeholder-count="20"><rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.fill}}"></rect></sc-for>
+    <line x1="{{h.sel.x}}" x2="{{h.sel.x}}" y1="{{h.gax.top}}" y2="{{h.gax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <sc-for list="{{h.gHits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{h.gax.top}}" width="{{c.w}}" height="{{h.gax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{h.gax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <p class="warn"><b>Seam</b><span>The shaded years are quarters, seasonally and working-day adjusted and annualised. The annual accounts are not working-day adjusted, so the level steps slightly where one gives way to the other; the step is a calendar effect, not growth.</span></p>
+  <p class="src">Source: INSEE, comptes nationaux annuels et trimestriels, base 2020. Licence Ouverte 2.0.</p>
+  <details><summary>Data table — annual accounts and quarters in the window</summary><div class="scroll"><table><thead><tr><th scope="col">Period</th><th scope="col" class="n">GDP, constant 2020 prices, bn € (annualised)</th><th scope="col" class="n">Real GDP growth</th><th scope="col" class="n">Quarter on quarter</th></tr></thead><tbody><sc-for list="{{h.table}}" as="r" hint-placeholder-count="4"><tr><th scope="row">{{r.p}}</th><td class="n">{{r.v}}</td><td class="n">{{r.g}}</td><td class="n">{{r.q}}</td></tr></sc-for></tbody></table></div></details>
+</section>
+
+<!-- 2. Demand contributions -->
+<section class="fig" aria-labelledby="h-demand">
+  <h2 id="h-demand">Where growth came from</h2>
+  <p class="lede">Contributions of each demand component to real GDP growth. They add up to it; imports enter with a negative sign inside net trade.</p>
+  <p class="cap">Contributions to annual real GDP growth</p>
+  <div class="values"><span class="yr">{{d.stripYear}}</span><sc-for list="{{d.strip}}" as="s" hint-placeholder-count="5"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div class="plot" style="width: 1188px; height: 320px;"><svg viewBox="0 0 1188 320" width="1188" height="320" role="img" aria-label="{{d.aria}}" style="display: block;">
+    <sc-for list="{{d.ax.y}}" as="g" hint-placeholder-count="5"><line x1="{{d.ax.x0}}" x2="{{d.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{d.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{d.ax.x0}}" x2="{{d.ax.x0}}" y1="{{d.ax.top}}" y2="{{d.ax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{d.ax.x0}}" x2="{{d.ax.x1}}" y1="{{d.ax.bottom}}" y2="{{d.ax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{d.ax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{d.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <sc-for list="{{d.rects}}" as="b" hint-placeholder-count="30"><rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.fill}}"></rect></sc-for>
+    <sc-for list="{{d.dots}}" as="p" hint-placeholder-count="10"><circle cx="{{p.x}}" cy="{{p.y}}" r="{{p.r}}" fill="#f0f3f8" stroke="#111318" stroke-width="1.2"></circle></sc-for>
+    <line x1="{{d.selX}}" x2="{{d.selX}}" y1="{{d.ax.top}}" y2="{{d.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <sc-for list="{{d.hits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{d.ax.top}}" width="{{c.w}}" height="{{d.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{d.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <div style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: #abb5c5;"><sc-for list="{{d.legend}}" as="l" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 10px; height: 10px; border-radius: 2px; background: {{l.c}};"></i>{{l.l}}</span></sc-for><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 8px; height: 8px; border-radius: 50%; background: #f0f3f8;"></i>Real GDP growth</span></div>
+  <p class="src">Source: INSEE, comptes nationaux annuels, base 2020. Households include non-profit institutions serving households; inventories include valuables. Licence Ouverte 2.0.</p>
+  <details><summary>Data table — contributions in the window</summary><div class="scroll"><table><thead><tr><th scope="col">Year</th><sc-for list="{{d.legend}}" as="l" hint-placeholder-count="5"><th scope="col" class="n">{{l.l}}</th></sc-for><th scope="col" class="n">Real GDP growth</th></tr></thead><tbody><sc-for list="{{d.table}}" as="r" hint-placeholder-count="4"><tr><th scope="row">{{r.y}}</th><sc-for list="{{r.c}}" as="v" hint-placeholder-count="5"><td class="n">{{v}}</td></sc-for><td class="n">{{r.g}}</td></tr></sc-for></tbody></table></div></details>
+</section>
+
+<!-- 3. Branches: small multiples -->
+<section class="fig" aria-labelledby="h-branches">
+  <h2 id="h-branches">What the economy produces</h2>
+  <p class="lede">Each branch's share of total value added at current prices, one panel per branch in alphabetical order.</p>
+  <nav aria-label="Branch level" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px;">
+    <sc-for list="{{b.crumbs}}" as="c" hint-placeholder-count="2"><button type="button" class="{{c.cls}}" aria-current="{{c.current}}" onClick="{{c.go}}">{{c.label}}</button><span aria-hidden="true" class="muted">{{c.sep}}</span></sc-for>
+    <span class="muted" style="font-size: 12px; margin-left: 8px;">{{b.levelNote}}</span>
+  </nav>
+  <sc-if value="{{b.spanChanged}}" hint-placeholder-val="{{false}}"><p class="warn"><b>Shorter span</b><span>{{b.spanNote}}</span></p></sc-if>
+  <div class="values"><span class="yr">{{b.stripYear}}</span><span class="v">{{b.stripLabel}}<b>{{b.stripValue}}</b></span><sc-if value="{{b.stripMissing}}" hint-placeholder-val="{{false}}"><span class="v">{{b.stripMissingText}}</span></sc-if></div>
+  <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px;">
+    <sc-for list="{{b.panels}}" as="p" hint-placeholder-count="8">
+      <figure class="panel">
+        <div class="t"><span title="{{p.label}}">{{p.label}} <span class="muted">{{p.code}}</span></span><span class="num"><b style="font-weight: 500;">{{p.share}}</b></span></div>
+        <div class="t" style="font-size: 11.5px;"><span class="muted">{{p.changeLabel}}</span><span class="num muted">{{p.change}}</span></div>
+        <div class="plot" style="width: 266px; height: 118px;"><svg viewBox="0 0 266 118" width="266" height="118" role="img" aria-label="{{p.aria}}" style="display: block;">
+          <sc-for list="{{p.ax.y}}" as="g" hint-placeholder-count="3"><line x1="{{p.ax.x0}}" x2="{{p.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{g.tx}}" x2="{{p.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+          <line x1="{{p.ax.x0}}" x2="{{p.ax.x0}}" y1="{{p.ax.top}}" y2="{{p.ax.bottom}}" stroke="#7a8397"></line>
+          <line x1="{{p.ax.x0}}" x2="{{p.ax.x1}}" y1="{{p.ax.bottom}}" y2="{{p.ax.bottom}}" stroke="#7a8397"></line>
+          <sc-for list="{{p.ax.x}}" as="t" hint-placeholder-count="2"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{p.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+          <polyline points="{{p.line}}" fill="none" stroke="#73d6c2" stroke-width="1.8" stroke-dasharray="{{p.dash}}" stroke-linejoin="round"></polyline>
+          <line x1="{{p.selX}}" x2="{{p.selX}}" y1="{{p.ax.top}}" y2="{{p.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="2 3" opacity="{{p.selOp}}"></line>
+          <circle cx="{{p.selX}}" cy="{{p.selY}}" r="3.5" fill="#111318" stroke="#f0f3f8" stroke-width="1.6" opacity="{{p.selOp}}"></circle>
+          <sc-for list="{{p.hits}}" as="c" hint-placeholder-count="5"><rect x="{{c.x}}" y="{{p.ax.top}}" width="{{c.w}}" height="{{p.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+        </svg><div class="ov" aria-hidden="true"><sc-for list="{{p.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+        <sc-if value="{{p.derived}}" hint-placeholder-val="{{false}}"><span class="tag" style="align-self: flex-start;">derived</span></sc-if>
+        <sc-if value="{{p.drill}}" hint-placeholder-val="{{true}}"><button type="button" class="open" aria-label="{{p.openLabel}}" onClick="{{p.open}}">{{p.openText}}</button></sc-if>
+      </figure>
+    </sc-for>
+  </div>
+  <sc-if value="{{b.hasResidual}}" hint-placeholder-val="{{false}}"><p class="warn"><b>Derived</b><span>Dashed panels tagged "derived" have no series of their own: their value added is the parent branch less the industries published separately, at current prices only.</span></p></sc-if>
+  <p class="src">Source: INSEE, comptes nationaux annuels, base 2020 — production accounts by branch. Shares of total value added, not of GDP. Licence Ouverte 2.0.</p>
+  <details><summary>Data table — branches at this level, selected year</summary><div class="scroll"><table><thead><tr><th scope="col">Branch</th><th scope="col" class="n">Share of value added</th><th scope="col" class="n">Change since window start</th></tr></thead><tbody><sc-for list="{{b.panels}}" as="p" hint-placeholder-count="4"><tr><th scope="row">{{p.label}} ({{p.code}})</th><td class="n">{{p.share}}</td><td class="n">{{p.change}}</td></tr></sc-for></tbody></table></div></details>
+</section>
+
+<!-- 4. Income split: small multiples -->
+<section class="fig" aria-labelledby="h-income">
+  <h2 id="h-income">How income is shared</h2>
+  <p class="lede">GDP split into labour income, capital income and net taxes, each as a share of GDP at current market prices. Non-employees are credited with the average compensation per employee (AMECO adjustment), moved from mixed income and surplus to labour.</p>
+  <div class="values"><span class="yr">{{inc.stripYear}}</span><sc-for list="{{inc.strip}}" as="s" hint-placeholder-count="5"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px;">
+    <sc-for list="{{inc.panels}}" as="p" hint-placeholder-count="4">
+      <figure class="panel">
+        <div class="t"><span><i style="display: inline-block; width: 10px; height: 10px; margin-right: 6px; border-radius: 2px; background: {{p.c}};"></i>{{p.label}}</span><span class="num">{{p.value}}</span></div>
+        <div class="plot" style="width: 560px; height: 180px;"><svg viewBox="0 0 560 180" width="560" height="180" role="img" aria-label="{{p.aria}}" style="display: block;">
+          <sc-for list="{{p.ax.y}}" as="g" hint-placeholder-count="4"><line x1="{{p.ax.x0}}" x2="{{p.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{g.tx}}" x2="{{p.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+          <line x1="{{p.ax.x0}}" x2="{{p.ax.x0}}" y1="{{p.ax.top}}" y2="{{p.ax.bottom}}" stroke="#7a8397"></line>
+          <line x1="{{p.ax.x0}}" x2="{{p.ax.x1}}" y1="{{p.ax.bottom}}" y2="{{p.ax.bottom}}" stroke="#7a8397"></line>
+          <sc-for list="{{p.ax.x}}" as="t" hint-placeholder-count="5"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{p.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+          
+          <polyline points="{{p.second}}" fill="none" stroke="#f0f3f8" stroke-width="1.5" stroke-dasharray="6 4"></polyline>
+          <polyline points="{{p.line}}" fill="none" stroke="{{p.c}}" stroke-width="2.4" stroke-linejoin="round"></polyline>
+          <line x1="{{p.selX}}" x2="{{p.selX}}" y1="{{p.ax.top}}" y2="{{p.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+          <circle cx="{{p.selX}}" cy="{{p.selY}}" r="4" fill="#111318" stroke="#f0f3f8" stroke-width="1.8" opacity="{{p.selOp}}"></circle>
+          <sc-for list="{{p.hits}}" as="c" hint-placeholder-count="5"><rect x="{{c.x}}" y="{{p.ax.top}}" width="{{c.w}}" height="{{p.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+        </svg><div class="ov" aria-hidden="true"><sc-for list="{{p.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+        <sc-if value="{{p.hasSecond}}" hint-placeholder-val="{{false}}"><span class="muted" style="font-size: 11.5px;"><i style="display: inline-block; width: 16px; border-top: 1.5px dashed #f0f3f8; margin-right: 6px; vertical-align: middle;"></i>Compensation of employees alone, unadjusted</span></sc-if>
+      </figure>
+    </sc-for>
+  </div>
+  <p class="warn"><b>In capital income</b><span>Operating surplus includes the rent owner-occupiers are deemed to pay themselves. In years where the imputed labour income exceeds published mixed income, the difference is taken from corporate surplus.</span></p>
+  <p class="src">Source: INSEE, comptes nationaux annuels, base 2020; AMECO-method adjustment computed from INSEE employment. Licence Ouverte 2.0.</p>
+</section>
+
+<!-- 5. Dollar GDP -->
+<section class="fig" aria-labelledby="h-dollar">
+  <h2 id="h-dollar">What French GDP is worth in dollars</h2>
+  <p class="lede">GDP converted at the annual-average market exchange rate, and each year's change split into real growth, domestic price change (GDP deflator) and the change in the euro against the dollar, in log points, which add up exactly.</p>
+  <p class="cap">GDP in current US dollars</p>
+  <div class="values"><span class="yr">{{usd.stripYear}}</span><sc-for list="{{usd.strip}}" as="s" hint-placeholder-count="3"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div class="plot" style="width: 1188px; height: 220px;"><svg viewBox="0 0 1188 220" width="1188" height="220" role="img" aria-label="{{usd.aria}}" style="display: block;">
+    <sc-for list="{{usd.ax.y}}" as="g" hint-placeholder-count="4"><line x1="{{usd.ax.x0}}" x2="{{usd.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{g.tx}}" x2="{{usd.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{usd.ax.x0}}" x2="{{usd.ax.x0}}" y1="{{usd.ax.top}}" y2="{{usd.ax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{usd.ax.x0}}" x2="{{usd.ax.x1}}" y1="{{usd.ax.bottom}}" y2="{{usd.ax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{usd.ax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{usd.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <polyline points="{{usd.line}}" fill="none" stroke="#f0f3f8" stroke-width="2.2" stroke-linejoin="round"></polyline>
+    <line x1="{{usd.selX}}" x2="{{usd.selX}}" y1="{{usd.ax.top}}" y2="{{usd.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <sc-for list="{{usd.hits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{usd.ax.top}}" width="{{c.w}}" height="{{usd.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{usd.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <p class="cap">Change in dollar GDP and its three terms</p>
+  <div class="values"><span class="yr">{{usd.stripYear}}</span><sc-for list="{{usd.dstrip}}" as="s" hint-placeholder-count="4"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div class="plot" style="width: 1188px; height: 280px;"><svg viewBox="0 0 1188 280" width="1188" height="280" role="img" aria-label="{{usd.dAria}}" style="display: block;">
+    <sc-for list="{{usd.dax.y}}" as="g" hint-placeholder-count="5"><line x1="{{usd.dax.x0}}" x2="{{usd.dax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{usd.dax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{usd.dax.x0}}" x2="{{usd.dax.x0}}" y1="{{usd.dax.top}}" y2="{{usd.dax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{usd.dax.x0}}" x2="{{usd.dax.x1}}" y1="{{usd.dax.bottom}}" y2="{{usd.dax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{usd.dax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{usd.dax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <sc-for list="{{usd.rects}}" as="b" hint-placeholder-count="30"><rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="{{b.h}}" fill="{{b.fill}}"></rect></sc-for>
+    <sc-for list="{{usd.ticks}}" as="p" hint-placeholder-count="10"><rect x="{{p.x}}" y="{{p.y}}" width="{{p.w}}" height="2.5" fill="#f0f3f8"></rect></sc-for>
+    <line x1="{{usd.selX}}" x2="{{usd.selX}}" y1="{{usd.dax.top}}" y2="{{usd.dax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <sc-for list="{{usd.dhits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{usd.dax.top}}" width="{{c.w}}" height="{{usd.dax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{usd.dax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <div style="display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 12px; color: #abb5c5;"><sc-for list="{{usd.legend}}" as="l" hint-placeholder-count="3"><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 10px; height: 10px; border-radius: 2px; background: {{l.c}};"></i>{{l.l}}</span></sc-for><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 12px; height: 3px; background: #f0f3f8;"></i>Change in dollar GDP</span></div>
+  <p class="warn"><b>Vintage</b><span>These figures are the World Bank's, on its own update schedule; its euro GDP can lag the latest INSEE release. Before 1999 the franc is expressed in euros at the fixed conversion rate.</span></p>
+  <p class="src">Source: World Bank, World Development Indicators (CC BY 4.0). Changes: francs converted to euros at 6.55957; decomposition computed by Pulse.</p>
+</section>
+
+<!-- 6. International standing -->
+<section class="fig" aria-labelledby="h-intl">
+  <h2 id="h-intl">France among OECD economies</h2>
+  <p class="lede">GDP per inhabitant at purchasing power parity: at current parities to compare levels within a year, at constant 2020 parities to follow each economy over time.</p>
+  <div style="display: grid; grid-template-columns: 420px minmax(0, 1fr); gap: 24px; align-items: start;">
+    <figure style="display: flex; flex-direction: column; gap: 10px;">
+      <p class="cap">{{i.barCaption}}</p>
+      <div class="values"><span class="yr">{{i.stripYear}}</span><span class="v">France<b>{{i.frLevel}}</b></span></div>
+      <div class="plot" style="width: 420px; height: {{i.barH}}px;"><svg viewBox="0 0 420 {{i.barH}}" width="420" height="{{i.barH}}" role="img" aria-label="{{i.barAria}}" style="display: block;">
+        <sc-for list="{{i.barTicks}}" as="t" hint-placeholder-count="4"><line x1="{{t.x}}" x2="{{t.x}}" y1="4" y2="{{i.barBottom}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{t.x}}" x2="{{t.x}}" y1="{{i.barBottom}}" y2="{{i.barTickEnd}}" stroke="#7a8397"></line></sc-for>
+        <line x1="130" x2="130" y1="4" y2="{{i.barBottom}}" stroke="#7a8397"></line>
+        <line x1="130" x2="410" y1="{{i.barBottom}}" y2="{{i.barBottom}}" stroke="#7a8397"></line>
+        <sc-for list="{{i.bars}}" as="r" hint-placeholder-count="4">
+          
+          <rect x="130" y="{{r.y}}" width="{{r.w}}" height="18" fill="{{r.fill}}" stroke="{{r.stroke}}" stroke-dasharray="{{r.dash}}" rx="2"></rect>
+          
+        </sc-for>
+        
+      </svg><div class="ov" aria-hidden="true"><sc-for list="{{i.barLabels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+      <sc-for list="{{i.missing}}" as="m" hint-placeholder-count="1"><p class="warn"><b>{{m.name}}</b><span>{{m.text}}</span></p></sc-for>
+    </figure>
+    <figure style="display: flex; flex-direction: column; gap: 10px;">
+      <p class="cap">GDP per inhabitant, constant 2020 PPP</p>
+      <div class="values"><span class="yr">{{i.stripYear}}</span><sc-for list="{{i.lineStrip}}" as="s" hint-placeholder-count="4"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+      <div class="plot" style="width: 744px; height: 270px;"><svg viewBox="0 0 744 270" width="744" height="270" role="img" aria-label="{{i.lineAria}}" style="display: block;">
+        <sc-for list="{{i.ax.y}}" as="g" hint-placeholder-count="4"><line x1="{{i.ax.x0}}" x2="{{i.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="rgba(240,243,248,.07)"></line><line x1="{{g.tx}}" x2="{{i.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+        <line x1="{{i.ax.x0}}" x2="{{i.ax.x0}}" y1="{{i.ax.top}}" y2="{{i.ax.bottom}}" stroke="#7a8397"></line>
+        <line x1="{{i.ax.x0}}" x2="{{i.ax.x1}}" y1="{{i.ax.bottom}}" y2="{{i.ax.bottom}}" stroke="#7a8397"></line>
+        <sc-for list="{{i.ax.x}}" as="t" hint-placeholder-count="5"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{i.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+        
+        <sc-for list="{{i.lines}}" as="l" hint-placeholder-count="4"><polyline points="{{l.points}}" fill="none" stroke="{{l.c}}" stroke-width="{{l.w}}" stroke-dasharray="{{l.dash}}" stroke-linejoin="round"></polyline></sc-for>
+        <sc-for list="{{i.ends}}" as="e" hint-placeholder-count="4"></sc-for>
+        <line x1="{{i.selX}}" x2="{{i.selX}}" y1="{{i.ax.top}}" y2="{{i.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+        <sc-for list="{{i.hits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{i.ax.top}}" width="{{c.w}}" height="{{i.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+      </svg><div class="ov" aria-hidden="true"><sc-for list="{{i.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+    </figure>
+  </div>
+  <p class="cap">Annual real GDP growth</p>
+  <div class="values"><span class="yr">{{i.stripYear}}</span><sc-for list="{{i.growthStrip}}" as="s" hint-placeholder-count="4"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <div class="plot" style="width: 1188px; height: 240px;"><svg viewBox="0 0 1188 240" width="1188" height="240" role="img" aria-label="{{i.gAria}}" style="display: block;">
+    <sc-for list="{{i.gax.y}}" as="g" hint-placeholder-count="5"><line x1="{{i.gax.x0}}" x2="{{i.gax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{i.gax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+    <line x1="{{i.gax.x0}}" x2="{{i.gax.x0}}" y1="{{i.gax.top}}" y2="{{i.gax.bottom}}" stroke="#7a8397"></line>
+    <line x1="{{i.gax.x0}}" x2="{{i.gax.x1}}" y1="{{i.gax.bottom}}" y2="{{i.gax.bottom}}" stroke="#7a8397"></line>
+    <sc-for list="{{i.gax.x}}" as="t" hint-placeholder-count="6"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{i.gax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+    
+    <sc-for list="{{i.gLines}}" as="l" hint-placeholder-count="4"><polyline points="{{l.points}}" fill="none" stroke="{{l.c}}" stroke-width="{{l.w}}" stroke-dasharray="{{l.dash}}" stroke-linejoin="round"></polyline></sc-for>
+    <line x1="{{i.gSelX}}" x2="{{i.gSelX}}" y1="{{i.gax.top}}" y2="{{i.gax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+    <sc-for list="{{i.gHits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{i.gax.top}}" width="{{c.w}}" height="{{i.gax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+  </svg><div class="ov" aria-hidden="true"><sc-for list="{{i.gax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+  <p class="src">Source: OECD Productivity Database. This is an adaptation of an original work by the OECD (CC BY 4.0).</p>
+</section>
+
+<!-- 7. Per-capita drivers -->
+<section class="fig" aria-labelledby="h-drivers">
+  <h2 id="h-drivers">What drives GDP per inhabitant</h2>
+  <p class="lede">GDP per inhabitant is the product of output per hour worked, hours per worker, the employment rate of people aged 15 to 64 and their share of the population. In logs the four add up.</p>
+  <figure style="display: flex; flex-direction: column; gap: 10px;">
+    <p class="cap">{{v.caption}}</p>
+    <div class="values"><span class="yr">{{v.stripYear}}</span><sc-for list="{{v.strip}}" as="s" hint-placeholder-count="5"><span class="v"><i style="background: {{s.c}};"></i>{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+    <div class="plot" style="width: 1188px; height: 300px;"><svg viewBox="0 0 1188 300" width="1188" height="300" role="img" aria-label="{{v.aria}}" style="display: block;">
+      <sc-for list="{{v.ax.y}}" as="g" hint-placeholder-count="5"><line x1="{{v.ax.x0}}" x2="{{v.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{v.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+      <line x1="{{v.ax.x0}}" x2="{{v.ax.x0}}" y1="{{v.ax.top}}" y2="{{v.ax.bottom}}" stroke="#7a8397"></line>
+      <line x1="{{v.ax.x0}}" x2="{{v.ax.x1}}" y1="{{v.ax.bottom}}" y2="{{v.ax.bottom}}" stroke="#7a8397"></line>
+      <sc-for list="{{v.ax.x}}" as="t" hint-placeholder-count="5"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{v.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+      
+      <sc-for list="{{v.lines}}" as="l" hint-placeholder-count="5"><polyline points="{{l.points}}" fill="none" stroke="{{l.c}}" stroke-width="{{l.w}}" stroke-dasharray="{{l.dash}}" stroke-linejoin="round"></polyline></sc-for>
+      <line x1="{{v.selX}}" x2="{{v.selX}}" y1="{{v.ax.top}}" y2="{{v.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3"></line>
+      <sc-for list="{{v.hits}}" as="c" hint-placeholder-count="10"><rect x="{{c.x}}" y="{{v.ax.top}}" width="{{c.w}}" height="{{v.ax.h}}" fill="transparent" onClick="{{c.pick}}" style="cursor: pointer;"></rect></sc-for>
+    </svg><div class="ov" aria-hidden="true"><sc-for list="{{v.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #abb5c5;"><sc-for list="{{v.legend}}" as="l" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 14px; height: 3px; background: {{l.c}};"></i>{{l.l}}</span></sc-for></div>
+  </figure>
+  <figure style="display: flex; flex-direction: column; gap: 10px; padding-top: 8px;">
+    <p class="cap">{{v.gapCaption}}</p>
+    <p class="lede" style="font-size: 13px;">Each bar is how much higher (right) or lower (left) an economy's GDP per inhabitant is than France's, split into the four factors. A country with longer working hours than France has a hours segment to the right; one with lower output per hour has a productivity segment to the left. The white tick is the total gap.</p>
+    <div class="plot" style="width: 1188px; height: {{v.gapH}}px;"><svg viewBox="0 0 1188 {{v.gapH}}" width="1188" height="{{v.gapH}}" role="img" aria-label="{{v.gapAria}}" style="display: block;">
+      <sc-for list="{{v.gapAxis}}" as="t" hint-placeholder-count="5"><line x1="{{t.x}}" x2="{{t.x}}" y1="18" y2="{{v.gapBottom}}" stroke="{{t.stroke}}"></line><line x1="{{t.x}}" x2="{{t.x}}" y1="{{v.gapBottom}}" y2="{{v.gapTickEnd}}" stroke="#7a8397"></line></sc-for>
+      <line x1="200" x2="1170" y1="{{v.gapBottom}}" y2="{{v.gapBottom}}" stroke="#7a8397"></line>
+      <text x="200" y="12" fill="#abb5c5" font-size="11">log points relative to France (+10 ≈ 10.5% higher)</text>
+      <sc-for list="{{v.gapRows}}" as="r" hint-placeholder-count="4">
+        
+        
+      </sc-for>
+      <sc-for list="{{v.gapRects}}" as="b" hint-placeholder-count="12"><rect x="{{b.x}}" y="{{b.y}}" width="{{b.w}}" height="20" fill="{{b.fill}}"></rect></sc-for>
+      <sc-for list="{{v.gapTicks}}" as="p" hint-placeholder-count="4"><rect x="{{p.x}}" y="{{p.y}}" width="3" height="28" fill="#f0f3f8"></rect></sc-for>
+    </svg><div class="ov" aria-hidden="true"><sc-for list="{{v.gapLabels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+    <div style="display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 12px; color: #abb5c5;"><sc-for list="{{v.gapLegend}}" as="l" hint-placeholder-count="5"><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 10px; height: 10px; border-radius: 2px; background: {{l.c}};"></i>{{l.l}}</span></sc-for><span style="display: inline-flex; align-items: center; gap: 6px;"><i style="width: 3px; height: 12px; background: #f0f3f8;"></i>Total gap</span></div>
+    <sc-for list="{{v.missing}}" as="m" hint-placeholder-count="1"><p class="warn"><b>{{m.name}}</b><span>{{m.text}}</span></p></sc-for>
+    <details><summary>Data table — the four factors, selected year</summary><div class="scroll"><table><thead><tr><th scope="col">Economy</th><th scope="col" class="n">GDP per inhabitant, current PPP</th><th scope="col" class="n">Output per hour, current PPP</th><th scope="col" class="n">Hours per worker</th><th scope="col" class="n">Employment rate, 15–64</th><th scope="col" class="n">Working-age share</th></tr></thead><tbody><sc-for list="{{v.table}}" as="r" hint-placeholder-count="4"><tr><th scope="row">{{r.name}}</th><td class="n">{{r.pc}}</td><td class="n">{{r.ph}}</td><td class="n">{{r.h}}</td><td class="n">{{r.er}}</td><td class="n">{{r.wa}}</td></tr></sc-for></tbody></table></div></details>
+  </figure>
+  <p class="warn"><b>Projection</b><span>The working-age share is the UN's: estimates to 2023, medium-variant projections after, drawn dotted over time. It is applied to the OECD population so the four terms still multiply to GDP per inhabitant; the UN publishes no share for the OECD, euro-area or EU aggregates, whose employment is therefore not split.</span></p>
+  <p class="src">Sources: OECD Productivity Database — this is an adaptation of an original work by the OECD (CC BY 4.0); United Nations, Department of Economic and Social Affairs, Population Division, World Population Prospects 2024 (CC BY 3.0 IGO).</p>
+</section>
+
+<!-- 8. Territorial spread -->
+<section class="fig" aria-labelledby="h-map">
+  <h2 id="h-map">GDP across the departements</h2>
+  <p class="lede">GDP per inhabitant relative to France as a whole in the same year. GDP is counted where people work and population where they live, so commuter hubs sit far above their neighbours.</p>
+  <p class="cap">{{m.caption}}</p>
+  <div class="values"><span class="yr">{{m.stripYear}}</span><sc-for list="{{m.strip}}" as="s" hint-placeholder-count="4"><span class="v">{{s.l}}<b>{{s.v}}</b></span></sc-for></div>
+  <sc-if value="{{m.beyond}}" hint-placeholder-val="{{false}}">
+    <div style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-radius: 8px; background: #161a23; box-shadow: inset 0 0 0 1px #5a4a2e;">
+      <span class="tag">Nearest published year</span><span style="font-size: 13px;">{{m.beyondText}}</span>
+      <button class="b" type="button" onClick="{{m.goLatest}}">{{m.goLatestLabel}}</button>
+    </div>
+  </sc-if>
+  <div style="display: grid; grid-template-columns: 580px minmax(0, 1fr); gap: 24px; align-items: start;">
+    <div class="plot" style="width: 580px; height: 710px;"><svg viewBox="0 0 580 710" width="580" height="710" role="img" aria-label="{{m.aria}}" style="display: block;">
+      <sc-for list="{{m.shapes}}" as="s" hint-placeholder-count="20"><path d="{{s.d}}" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="{{s.sw}}" onClick="{{s.pick}}" style="cursor: pointer;"></path></sc-for>
+      <g transform="translate(464,592)">
+        <rect x="-4" y="-4" width="112" height="98" fill="#161a23" stroke="#3a4152" rx="6"></rect>
+        <g transform="translate(2,4) scale(0.68)"><sc-for list="{{m.idf}}" as="s" hint-placeholder-count="4"><path d="{{s.d}}" fill="{{s.fill}}" stroke="{{s.stroke}}" stroke-width="{{s.sw}}" onClick="{{s.pick}}" style="cursor: pointer;"></path></sc-for></g>
+        <text x="52" y="89" fill="#abb5c5" font-size="10" text-anchor="middle">Paris and inner ring</text>
+      </g>
+      <sc-for list="{{m.overseas}}" as="o" hint-placeholder-count="5"><g transform="{{o.t}}"><rect x="-4" y="-4" width="84" height="98" fill="#161a23" stroke="#3a4152" rx="6"></rect><path d="{{o.d}}" fill="{{o.fill}}" stroke="{{o.stroke}}" stroke-width="{{o.sw}}" onClick="{{o.pick}}" style="cursor: pointer;"></path></g></sc-for>
+    </svg><div class="ov" aria-hidden="true"><sc-for list="{{m.mapLabels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div>
+        <p class="cap" style="margin-bottom: 8px;">Index, France = 100</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 4px 0;"><sc-for list="{{m.legend}}" as="l" hint-placeholder-count="8"><span style="display: inline-flex; flex-direction: column; gap: 3px; width: 64px; font-size: 11px; color: #abb5c5;"><i style="height: 12px; background: {{l.c}};"></i>{{l.t}}</span></sc-for><span style="display: inline-flex; flex-direction: column; gap: 3px; width: 88px; font-size: 11px; color: #abb5c5;"><i style="height: 12px; background-color: #2a2f3b; background-image: repeating-linear-gradient(45deg, #2a2f3b 0 3px, #4b5263 3px 5px);"></i>not published</span></div>
+      </div>
+      <figure style="display: flex; flex-direction: column; gap: 8px;">
+        <p class="cap">{{m.lineCaption}}</p>
+        <div class="plot" style="width: 560px; height: 190px;"><svg viewBox="0 0 560 190" width="560" height="190" role="img" aria-label="{{m.lineAria}}" style="display: block;">
+          <sc-for list="{{m.ax.y}}" as="g" hint-placeholder-count="4"><line x1="{{m.ax.x0}}" x2="{{m.ax.x1}}" y1="{{g.y}}" y2="{{g.y}}" stroke="{{g.stroke}}"></line><line x1="{{g.tx}}" x2="{{m.ax.x0}}" y1="{{g.y}}" y2="{{g.y}}" stroke="#7a8397"></line></sc-for>
+          <line x1="{{m.ax.x0}}" x2="{{m.ax.x0}}" y1="{{m.ax.top}}" y2="{{m.ax.bottom}}" stroke="#7a8397"></line>
+          <line x1="{{m.ax.x0}}" x2="{{m.ax.x1}}" y1="{{m.ax.bottom}}" y2="{{m.ax.bottom}}" stroke="#7a8397"></line>
+          <sc-for list="{{m.ax.x}}" as="t" hint-placeholder-count="5"><line x1="{{t.x}}" x2="{{t.x}}" y1="{{m.ax.bottom}}" y2="{{t.ty}}" stroke="#7a8397"></line></sc-for>
+          
+          <polyline points="{{m.line}}" fill="none" stroke="#f2b872" stroke-width="2.2"></polyline>
+          <line x1="{{m.lineSelX}}" x2="{{m.lineSelX}}" y1="{{m.ax.top}}" y2="{{m.ax.bottom}}" stroke="#f0f3f8" stroke-dasharray="3 3" opacity="{{m.lineSelOp}}"></line>
+        </svg><div class="ov" aria-hidden="true"><sc-for list="{{m.ax.labels}}" as="l" hint-placeholder-count="4"><span style="left: {{l.x}}px; top: {{l.y}}px; width: {{l.w}}px; text-align: {{l.a}}; color: {{l.c}}; font-size: {{l.fs}}px; font-weight: {{l.fw}};">{{l.t}}</span></sc-for></div></div>
+      </figure>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+        <div><p class="cap" style="margin-bottom: 6px;">Highest</p><sc-for list="{{m.top}}" as="r" hint-placeholder-count="5"><button type="button" class="row" style="grid-template-columns: minmax(0, 1fr) 48px;" onClick="{{r.pick}}"><span>{{r.name}} <span class="muted">{{r.code}}</span></span><span style="text-align: right; font-variant-numeric: tabular-nums;">{{r.v}}</span></button></sc-for></div>
+        <div><p class="cap" style="margin-bottom: 6px;">Lowest</p><sc-for list="{{m.bottom}}" as="r" hint-placeholder-count="5"><button type="button" class="row" style="grid-template-columns: minmax(0, 1fr) 48px;" onClick="{{r.pick}}"><span>{{r.name}} <span class="muted">{{r.code}}</span></span><span style="text-align: right; font-variant-numeric: tabular-nums;">{{r.v}}</span></button></sc-for></div>
+      </div>
+    </div>
+  </div>
+  <p class="src">Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp), recent years provisional; boundaries © IGN. Outlines simplified for this review prototype.</p>
+  <details><summary>Data table — all departements, selected year, sortable in production</summary><div class="scroll"><table><thead><tr><th scope="col">Departement</th><th scope="col" class="n">€ per inhabitant</th><th scope="col" class="n">PPS per inhabitant</th><th scope="col" class="n">France = 100</th></tr></thead><tbody><sc-for list="{{m.table}}" as="r" hint-placeholder-count="5"><tr><th scope="row">{{r.name}} ({{r.code}})</th><td class="n">{{r.eur}}</td><td class="n">{{r.pps}}</td><td class="n">{{r.idx}}</td></tr></sc-for></tbody></table></div></details>
+</section>
+
+<footer style="display: flex; justify-content: space-between; gap: 20px; padding-top: 14px; border-top: 1px solid #2c3140; font-size: 12px; color: #abb5c5;">
+  <span>Figures render from the published datasets; no value on this page is written into its text.</span>
+  <span>Review prototype — representative runtime only.</span>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":8150}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    var D = window.__pulseGdp;
+    var last = D ? D.annual[D.annual.length - 1].y : 2025;
+    this.state = { preset: "all", from: 1949, to: D ? D.quarterly[D.quarterly.length - 1].y : 2026, year: last,
+      hmode: "total", hscale: "linear", path: [], chosen: ["DEU", "GBR", "USA"], showOecd: true, dept: "75" };
+  }
+
+  // ---------- formatting: amounts with the currency after the number ----------
+  // Thousands grouped with a narrow no-break space, decimals with a point.
+  f(v, dp) { if (v === null || v === undefined || !isFinite(v)) return "—"; return Number(v).toLocaleString("en-GB", { minimumFractionDigits: dp || 0, maximumFractionDigits: dp || 0 }).replace(/,/g, " "); }
+  s(v, dp, suf) { if (v === null || v === undefined || !isFinite(v)) return "—"; var n = Number(v); var t = Math.abs(n).toFixed(dp === undefined ? 1 : dp); return (n > 0 && Number(t) !== 0 ? "+" : n < 0 && Number(t) !== 0 ? "−" : "") + t + (suf || ""); }
+  eur(v, dp) { return v === null || v === undefined ? "—" : this.f(v, dp) + " €"; }
+  bnEur(mn) { return mn === null || mn === undefined ? "—" : this.f(mn / 1000, 0) + " bn €"; }
+  bnUsd(mn) { return mn === null || mn === undefined ? "—" : this.f(mn / 1000, 0) + " bn $"; }
+  kUsd(v) { return v === null || v === undefined ? "—" : this.f(v / 1000, 1) + " k$"; }
+
+  // ---------- scales and axes ----------
+  nice(lo, hi, zero) {
+    if (!isFinite(lo) || !isFinite(hi)) { lo = 0; hi = 1; }
+    if (zero) { lo = Math.min(0, lo); hi = Math.max(0, hi); }
+    if (lo === hi) { lo -= 1; hi += 1; }
+    var raw = (hi - lo) / 4, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+    var step = [1, 2, 2.5, 5, 10].map(function (x) { return x * mag; }).find(function (x) { return x >= raw; }) || 10 * mag;
+    return { lo: Math.floor(lo / step) * step, hi: Math.ceil(hi / step) * step, step: step };
+  }
+  xAxis(from, to, x0, x1) { var span = to - from + 1; return { x: function (t) { return x0 + ((t - from) / span) * (x1 - x0); }, step: (x1 - x0) / span }; }
+  yearTicks(from, to, xs, maxTicks) {
+    var span = to - from + 1, gaps = [1, 2, 5, 10, 20, 25], gap = gaps.find(function (g) { return span / g <= (maxTicks || 14); }) || 25, out = [];
+    for (var y = Math.ceil(from / gap) * gap; y <= to; y += gap) out.push({ x: xs.x(y + 0.5), t: String(y) });
+    return out;
+  }
+  // An overlay label at (x, y) in the plot's own pixels, anchored start, middle or end.
+  lab(x, y, t, anchor, o) {
+    o = o || {};
+    var fs = o.fs || 11, w = o.w || (anchor === "middle" ? 120 : 220);
+    var left = anchor === "end" ? x - w : anchor === "middle" ? x - w / 2 : x;
+    var top = o.v === "top" ? y : y - fs * 0.55;
+    return { x: Math.round(left * 10) / 10, y: Math.round(top * 10) / 10, w: w, a: anchor === "end" ? "right" : anchor === "middle" ? "center" : "left", t: t, c: o.c || "#c9d0db", fs: fs, fw: o.fw || 400 };
+  }
+  // One axis frame: y ticks with labels, x ticks with labels, the unit title.
+  frame(o) {
+    var yl = o.yTicks.map(function (t) { return { y: t.y, ty: t.y + 4, tx: o.x0 - 5, lx: o.x0 - 9, t: t.t, stroke: t.zero ? "rgba(240,243,248,.45)" : "rgba(240,243,248,.07)" }; });
+    var xl = o.xTicks.map(function (t) { return { x: t.x, t: t.t, ty: o.bottom + 5, ly: o.bottom + 18 }; });
+    var self = this, fs = o.fs || 11, labels = [];
+    yl.forEach(function (t) { if (t.t !== "") labels.push(self.lab(t.lx, t.y, t.t, "end", { fs: fs })); });
+    xl.forEach(function (t) { labels.push(self.lab(t.x, o.bottom + 8, t.t, "middle", { v: "top", fs: fs })); });
+    if (o.unit) labels.push(self.lab(o.x0, 3, o.unit, "start", { v: "top", c: "#abb5c5", fs: fs }));
+    return { x0: o.x0, x1: o.x1, top: o.top, bottom: o.bottom, h: o.bottom - o.top, y: yl, x: xl, unit: o.unit || "", labels: labels };
+  }
+  linTicks(dom, y, labeller) {
+    var out = [];
+    for (var v = dom.lo; v <= dom.hi + dom.step / 2; v += dom.step) { var vv = Math.round(v / dom.step) * dom.step; out.push({ y: y(vv), t: labeller(vv), zero: Math.abs(vv) < 1e-9 }); }
+    return out;
+  }
+  hits(from, to, xs, pick) {
+    var out = [];
+    for (var y = from; y <= to; y++) { (function (yy) { out.push({ x: xs.x(yy), w: Math.max(1, xs.step), pick: function () { pick(yy); } }); })(y); }
+    return out;
+  }
+  pickYear(y) { this.setState({ year: y }); }
+  win(first, last) { return { from: Math.max(this.state.from, first), to: Math.min(this.state.to, last) }; }
+
+  // ---------- 1. headline ----------
+  headline(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var annual = D.annual, Q = D.quarterly, lq = Q[Q.length - 1], seamYear = lq.y - 7;
+    var capita = st.hmode === "capita", from = st.from, to = st.to;
+    var X0 = 64, X1 = 1176, top = 24, bottom = 240;
+    var xs = this.xAxis(from, to, X0, X1);
+    var pts = [], vals = [];
+    annual.forEach(function (r) { if (r.y < from || r.y > to) return; if (!capita && r.y >= seamYear) return; var v = capita ? r.pcVol : r.gdpVol / 1000; pts.push([r.y + 0.5, v]); vals.push(v); });
+    var qpts = [];
+    if (!capita) Q.forEach(function (r) { if (r.y >= Math.max(seamYear, from) && r.y <= to) { var v = r.vol / 1000; qpts.push([r.y + (r.q - 0.5) / 4, v]); vals.push(v); } });
+    var logScale = st.hscale === "log", vmin = Math.min.apply(null, vals), vmax = Math.max.apply(null, vals), ly, yT;
+    if (logScale) {
+      var lo = vmin / 1.08, hi = vmax * 1.05, base = capita ? 1000 : 100;
+      // Over a wide range, start the axis on the doubling tick below the data.
+      if (hi / lo >= 4) lo = base * Math.pow(2, Math.floor(Math.log(vmin / base) / Math.LN2));
+      ly = function (v) { return top + (bottom - top) - (Math.log(v) - Math.log(lo)) / (Math.log(hi) - Math.log(lo)) * (bottom - top); };
+      var ticks = [];
+      if (hi / lo >= 4) {
+        // Doubling ticks: equal ratios, so equal spacing on a log axis.
+        for (var k = -4; k < 12; k++) { var tv = base * Math.pow(2, k); if (tv >= lo && tv <= hi) ticks.push(tv); }
+      } else {
+        // A narrow range: round steps, which a log axis spaces almost evenly.
+        var raw = (hi - lo) / 5, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+        var step = [1, 2, 2.5, 5, 10].map(function (x) { return x * mag; }).find(function (x) { return x >= raw; });
+        for (var tv2 = Math.ceil(lo / step) * step; tv2 <= hi + 1e-9; tv2 += step) ticks.push(tv2);
+      }
+      yT = ticks.map(function (v) { return { y: ly(v), t: self.f(v, 0) }; });
+    } else {
+      var ld = this.nice(Math.max(0, vmin - (vmax - vmin) * 0.1), vmax * 1.02, false);
+      ly = function (v) { return top + (bottom - top) - (v - ld.lo) / (ld.hi - ld.lo) * (bottom - top); };
+      yT = this.linTicks(ld, ly, function (v) { return self.f(v, 0); });
+    }
+    var sp = function (list) { return list.map(function (p) { return xs.x(p[0]).toFixed(1) + "," + ly(p[1]).toFixed(1); }).join(" "); };
+    var inTail = !capita && seamYear <= to, seamX = xs.x(Math.max(seamYear, from));
+    var sel = st.year, selRow = annual.find(function (r) { return r.y === sel; }), selQ = Q.filter(function (r) { return r.y === sel; });
+    var selY = capita ? (selRow ? ly(selRow.pcVol) : -99) : (sel >= seamYear && selQ.length ? ly(selQ[selQ.length - 1].vol / 1000) : selRow ? ly(selRow.gdpVol / 1000) : -99);
+    // growth panel
+    var gtop = 24, gbot = 160, gvals = [0], bars = [];
+    var prevPc = function (y) { var p = annual.find(function (r) { return r.y === y - 1; }); return p ? p.pcVol : null; };
+    annual.forEach(function (r) { if (r.y >= from && r.y <= to && r.g !== null && (capita || r.y < seamYear)) gvals.push(capita && prevPc(r.y) ? 100 * (r.pcVol / prevPc(r.y) - 1) : r.g); });
+    if (!capita) Q.forEach(function (r) { if (r.y >= Math.max(seamYear, from) && r.y <= to && r.yoy !== null) gvals.push(r.yoy); });
+    var gd = this.nice(Math.min.apply(null, gvals), Math.max.apply(null, gvals), true);
+    var gy = function (v) { return gtop + (gbot - gtop) - (v - gd.lo) / (gd.hi - gd.lo) * (gbot - gtop); };
+    annual.forEach(function (r) {
+      if (r.y < from || r.y > to || r.g === null) return;
+      if (!capita && r.y >= seamYear) return;
+      var g = capita ? (prevPc(r.y) ? 100 * (r.pcVol / prevPc(r.y) - 1) : null) : r.g;
+      if (g === null) return;
+      bars.push({ x: xs.x(r.y) + xs.step * 0.15, w: Math.max(1, xs.step * 0.7), y: Math.min(gy(0), gy(g)), h: Math.max(0.6, Math.abs(gy(g) - gy(0))), fill: r.y === sel ? "#f0f3f8" : g < 0 ? "#e59a7a" : "#73d6c2" });
+    });
+    if (!capita) Q.forEach(function (r) {
+      if (r.y < Math.max(seamYear, from) || r.y > to || r.yoy === null) return;
+      bars.push({ x: xs.x(r.y + (r.q - 1) / 4) + xs.step * 0.03, w: Math.max(1, xs.step / 4 * 0.8), y: Math.min(gy(0), gy(r.yoy)), h: Math.max(0.6, Math.abs(gy(r.yoy) - gy(0))), fill: r.y === sel ? "#f0f3f8" : r.yoy < 0 ? "#c98a70" : "#5fb3a3" });
+    });
+    // tiles follow the selected year
+    var lastA = annual[annual.length - 1], lastQ = selQ.length ? selQ[selQ.length - 1] : null;
+    var noAnnual = "annual accounts end in " + lastA.y;
+    var tiles = [
+      { k: "GDP at constant 2020 prices", v: selRow ? this.bnEur(selRow.gdpVol) : "—", per: selRow ? sel + ", chained volume" : noAnnual },
+      { k: "Real GDP growth", v: selRow && selRow.g !== null ? this.s(selRow.g, 1, " %") : "—", per: selRow ? (selRow.g === null ? "first year of the series" : sel + " on " + (sel - 1)) : noAnnual },
+      { k: "GDP per inhabitant at constant 2020 prices", v: selRow ? this.eur(selRow.pcVol, 0) : "—", per: selRow ? sel + ", chained volume" : noAnnual },
+      { k: "Last quarter of the year, on the previous quarter", v: lastQ && lastQ.qoq !== null ? this.s(lastQ.qoq, 1, " %") : "—", per: lastQ ? lastQ.p : "no quarter published for " + sel },
+      { k: "Last quarter of the year, on a year earlier", v: lastQ && lastQ.yoy !== null ? this.s(lastQ.yoy, 1, " %") : "—", per: lastQ ? lastQ.p : "no quarter published for " + sel }
+    ];
+    var strip = [];
+    if (capita) {
+      strip.push({ c: "#73d6c2", l: "GDP per inhabitant, constant 2020 prices", v: selRow ? this.eur(selRow.pcVol, 0) : "not published" });
+    } else {
+      strip.push({ c: "#73d6c2", l: "GDP at constant 2020 prices", v: selRow ? this.bnEur(selRow.gdpVol) : "annual accounts end in " + lastA.y });
+      strip.push({ c: "#73d6c2", l: "Real GDP growth", v: selRow ? this.s(selRow.g, 1, " %") : "—" });
+      if (sel >= seamYear && selQ.length) strip.push({ c: "#5fb3a3", l: "Quarters on a year earlier", v: selQ.map(function (r) { return "Q" + r.q + " " + self.s(r.yoy, 1, " %"); }).join("  ·  ") });
+    }
+    var table = [];
+    annual.forEach(function (r) { if (r.y >= from && r.y <= to) table.push({ p: String(r.y), v: self.f(r.gdpVol / 1000, 0), g: self.s(r.g, 1, " %"), q: "" }); });
+    if (!capita) Q.forEach(function (r) { if (r.y >= Math.max(seamYear, from) && r.y <= to) table.push({ p: r.p, v: self.f(r.vol / 1000, 0), g: self.s(r.yoy, 1, " % y/y"), q: self.s(r.qoq, 1, " %") }); });
+    var xt = this.yearTicks(from, to, xs);
+    var hax = this.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: yT, xTicks: xt, unit: (capita ? "€ per inhabitant, constant 2020 prices (chained)" : "bn €, constant 2020 prices (chained)") + (logScale ? ", log scale" : "") });
+    if (inTail) hax.labels.push(this.lab(seamX - 8, bottom - 20, "Quarters from here: annualised, working-day adjusted →", "end", { v: "top", c: "#9fd9cc", w: 360 }));
+    return {
+      scales: [["linear", "Linear scale"], ["log", "Log scale"]].map(function (m) { var on = (st.hscale || "linear") === m[0]; return { label: m[1], on: on, cls: on ? "seg on" : "seg", pick: function () { self.setState({ hscale: m[0] }); } }; }),
+      modes: [["total", "Total"], ["capita", "Per inhabitant"]].map(function (m) { return { label: m[1], on: st.hmode === m[0], cls: st.hmode === m[0] ? "seg on" : "seg", pick: function () { self.setState({ hmode: m[0] }); } }; }),
+      tiles: tiles,
+      levelCaption: capita ? "GDP per inhabitant at constant 2020 prices — annual only" : "GDP at constant 2020 prices — annual, then annualised quarters",
+      growthCaption: capita ? "Real growth of GDP per inhabitant" : "Real GDP growth — annual, then each quarter on the same quarter a year earlier",
+      stripYear: String(sel), strip: strip,
+      ax: hax,
+      gax: this.frame({ x0: X0, x1: X1, top: gtop, bottom: gbot, yTicks: this.linTicks(gd, gy, function (v) { return self.s(v, 0, ""); }), xTicks: xt, unit: "%" }),
+      seam: { x: inTail ? seamX : X1, w: inTail ? X1 - seamX : 0, op: inTail ? 1 : 0, tx: seamX + 6, ty: top + 14, label: "Quarters · annualised · working-day adjusted" },
+      annualPts: sp(pts), quarterPts: sp(qpts),
+      sel: { x: xs.x(sel + 0.5), y: selY, op: selY > 0 ? 1 : 0 },
+      hits: this.hits(from, to, xs, pick), gHits: this.hits(from, to, xs, pick), bars: bars,
+      aria: "Real GDP from " + from + " to " + to + ", log scale; selected year " + sel, gAria: "Real GDP growth from " + from + " to " + to,
+      table: table
+    };
+  }
+
+  // ---------- 2. demand ----------
+  demand(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var w = this.win(1950, D.annual[D.annual.length - 1].y), X0 = 64, X1 = 1176, top = 24, bottom = 288;
+    var xs = this.xAxis(w.from, w.to, X0, X1);
+    var keys = [["cHh", "Households' consumption", "#8fb0d1"], ["cGov", "Government consumption", "#b5abfc"], ["cInv", "Fixed investment", "#d09a6a"], ["cStock", "Inventories", "#8c93a8"], ["cTrade", "Net trade", "#9dc0ae"]];
+    var rows = D.annual.filter(function (r) { return r.y >= w.from && r.y <= w.to && r.g !== null; });
+    var lo = 0, hi = 0;
+    rows.forEach(function (r) { var p = 0, n = 0; keys.forEach(function (k) { var v = r[k[0]]; if (v > 0) p += v; else n += v; }); hi = Math.max(hi, p, r.g); lo = Math.min(lo, n, r.g); });
+    var dom = this.nice(lo, hi, true), y = function (v) { return top + (bottom - top) - (v - dom.lo) / (dom.hi - dom.lo) * (bottom - top); };
+    var rects = [], dots = [];
+    rows.forEach(function (r) {
+      var p = 0, n = 0, x = xs.x(r.y) + xs.step * 0.14, bw = Math.max(1, xs.step * 0.72);
+      keys.forEach(function (k) { var v = r[k[0]]; if (!v) return; var a = v > 0 ? p : n, b = a + v; if (v > 0) p = b; else n = b; rects.push({ x: x, w: bw, y: Math.min(y(a), y(b)), h: Math.max(0.5, Math.abs(y(b) - y(a))), fill: k[2] }); });
+      dots.push({ x: x + bw / 2, y: y(r.g), r: r.y === st.year ? 5 : Math.min(4, Math.max(2.4, xs.step * 0.3)) });
+    });
+    var sel = D.annual.find(function (r) { return r.y === st.year; });
+    return {
+      stripYear: String(st.year),
+      strip: sel && sel.g !== null ? keys.map(function (k) { return { c: k[2], l: k[1], v: self.s(sel[k[0]], 2, " pt") }; }).concat([{ c: "#f0f3f8", l: "Real GDP growth", v: self.s(sel.g, 2, " %") }]) : [{ c: "#abb5c5", l: "No contributions published for this year", v: "" }],
+      ax: this.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: this.linTicks(dom, y, function (v) { return self.s(v, 0, ""); }), xTicks: this.yearTicks(w.from, w.to, xs), unit: "percentage points of GDP growth" }),
+      rects: rects, dots: dots, selX: xs.x(st.year + 0.5), hits: this.hits(w.from, w.to, xs, pick),
+      legend: keys.map(function (k) { return { c: k[2], l: k[1] }; }),
+      table: rows.slice().reverse().map(function (r) { return { y: r.y, c: keys.map(function (k) { return self.s(r[k[0]], 2); }), g: self.s(r.g, 2) }; }),
+      aria: "Contributions to GDP growth, " + w.from + " to " + w.to
+    };
+  }
+
+  // ---------- 3. branches, small multiples ----------
+  branches(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var byKey = {}; D.branches.forEach(function (b) { byKey[b.k] = b; });
+    var parentKey = st.path.length ? st.path[st.path.length - 1] : null;
+    var level = !parentKey ? "A10" : byKey[parentKey].level === "A10" ? "A38" : "A88";
+    var kids = D.branches.filter(function (b) { return b.level === level && (parentKey ? b.parent === parentKey : true); });
+    var first = Math.max.apply(null, kids.map(function (k) { return k.first; }));
+    var last = Math.min.apply(null, kids.map(function (k) { return k.first + k.share.length - 1; }));
+    var w = this.win(first, last), X0 = 44, X1 = 258, top = 8, bottom = 96;
+    var xs = this.xAxis(w.from, w.to, X0, X1);
+    var get = function (b, y) { var i = y - b.first; return i >= 0 && i < b.share.length ? b.share[i] : null; };
+    var beyond = st.year > last || st.year < first;
+    var countKids = function (b) { var nk = b.level === "A10" ? "A38" : "A88"; return D.branches.filter(function (c) { return c.level === nk && c.parent === b.k; }).length; };
+    // A fixed alphabetical order, so panels never move when the year changes.
+    var panels = kids.slice().sort(function (a, b) { return a.label.localeCompare(b.label, "en"); }).map(function (k) {
+      var vals = []; for (var y = w.from; y <= w.to; y++) { var v = get(k, y); if (v !== null) vals.push(v); }
+      var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = Math.max((hi - lo) * 0.12, 0.05);
+      var dom = self.nice(Math.max(0, lo - pad), hi + pad, false);
+      var yv = function (v) { return top + (bottom - top) - (v - dom.lo) / (dom.hi - dom.lo) * (bottom - top); };
+      var dp = dom.step < 0.1 ? 2 : dom.step < 1 ? 1 : 0;
+      var ticks = self.linTicks(dom, yv, function (v) { return self.f(v, dp); });
+      var pts = []; for (var y2 = w.from; y2 <= w.to; y2++) { var v2 = get(k, y2); if (v2 !== null) pts.push(xs.x(y2 + 0.5).toFixed(1) + "," + yv(v2).toFixed(1)); }
+      var sh = get(k, st.year), sh0 = get(k, w.from), n = level === "A88" ? 0 : countKids(k);
+      var nextLevel = level === "A10" ? "A38" : "A88";
+      return {
+        label: k.label, code: k.code, share: sh === null ? (beyond ? "not in " + st.year : "—") : self.f(sh, 2) + " %",
+        changeLabel: "change since " + w.from, change: sh === null || sh0 === null ? "—" : self.s(sh - sh0, 2, " pt"),
+        ax: self.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: ticks, xTicks: [{ x: xs.x(w.from + 0.5), t: String(w.from) }, { x: xs.x(w.to + 0.5), t: String(w.to) }], fs: 10 }),
+        line: pts.join(" "), dash: k.res ? "4 3" : "",
+        selX: xs.x(Math.min(Math.max(st.year, w.from), w.to) + 0.5), selY: sh === null ? -99 : yv(sh), selOp: beyond ? 0 : 1,
+        hits: self.hits(w.from, w.to, xs, pick), derived: k.res,
+        drill: n > 1, openText: "Open its " + n + " " + nextLevel + " sub-branches ›", openLabel: "Open " + k.label + " into its " + n + " sub-branches",
+        open: function () { self.setState({ path: st.path.concat([k.k]) }); },
+        aria: k.label + ", share of total value added " + w.from + " to " + w.to
+      };
+    });
+    var crumbs = [{ label: "All branches", key: null }].concat(st.path.map(function (p) { return { label: byKey[p].label.length > 38 ? byKey[p].label.slice(0, 36) + "…" : byKey[p].label, key: p }; }));
+    crumbs = crumbs.map(function (c, i) { var cur = i === crumbs.length - 1; return { label: c.label, cls: cur ? "crumb cur" : "crumb", current: cur ? "page" : "false", sep: cur ? "" : "›", go: function () { if (!cur) self.setState({ path: st.path.slice(0, i) }); } }; });
+    var parentShare = parentKey ? get(byKey[parentKey], st.year) : 100;
+    return {
+      crumbs: crumbs, levelNote: level + " — " + kids.length + " branches, " + first + "–" + last,
+      spanChanged: level === "A88", spanNote: "Industry detail starts in " + first + " and ends in " + last + ", a year before the broader levels.",
+      stripYear: String(st.year), stripLabel: parentKey ? byKey[parentKey].label : "All branches", stripValue: parentShare === null ? "—" : self.f(parentShare, 1) + " % of value added",
+      stripMissing: beyond, stripMissingText: "this level is published " + first + "–" + last,
+      panels: panels, hasResidual: kids.some(function (k) { return k.res; })
+    };
+  }
+
+  // ---------- 4. income, small multiples ----------
+  income(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var w = this.win(1949, D.annual[D.annual.length - 1].y), X0 = 48, X1 = 552, top = 20, bottom = 150;
+    var xs = this.xAxis(w.from, w.to, X0, X1);
+    var rows = D.annual.filter(function (r) { return r.y >= w.from && r.y <= w.to; });
+    var layers = [["lab", "Labour income, adjusted", "#73d6c2"], ["cap", "Capital income, adjusted", "#d09a6a"], ["tProd", "Net taxes on production", "#8c93a8"], ["tProducts", "Net taxes on products", "#9aa6c0"]];
+    var sel = D.annual.find(function (r) { return r.y === st.year; });
+    var xt = this.yearTicks(w.from, w.to, xs, 8);
+    var panels = layers.map(function (L, li) {
+      var share = function (r) { return 100 * r[L[0]] / r.gdpCur; };
+      var vals = rows.map(share); if (li === 0) vals = vals.concat(rows.map(function (r) { return r.unadj; }));
+      var dom = self.nice(Math.min.apply(null, vals) - 0.5, Math.max.apply(null, vals) + 0.5, false);
+      var yv = function (v) { return top + (bottom - top) - (v - dom.lo) / (dom.hi - dom.lo) * (bottom - top); };
+      return {
+        label: L[1], c: L[2], value: sel ? self.f(share(sel), 1) + " %" : "—",
+        ax: self.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: self.linTicks(dom, yv, function (v) { return self.f(v, dom.step < 1 ? 1 : 0); }), xTicks: xt, unit: "% of GDP", fs: 10.5 }),
+        line: rows.map(function (r) { return xs.x(r.y + 0.5).toFixed(1) + "," + yv(share(r)).toFixed(1); }).join(" "),
+        second: li === 0 ? rows.map(function (r) { return xs.x(r.y + 0.5).toFixed(1) + "," + yv(r.unadj).toFixed(1); }).join(" ") : "",
+        hasSecond: li === 0,
+        selX: xs.x(Math.min(Math.max(st.year, w.from), w.to) + 0.5), selY: sel ? yv(share(sel)) : -99, selOp: sel ? 1 : 0,
+        hits: self.hits(w.from, w.to, xs, pick), aria: L[1] + " as a share of GDP, " + w.from + " to " + w.to
+      };
+    });
+    return {
+      stripYear: String(st.year),
+      strip: sel ? layers.map(function (L) { return { c: L[2], l: L[1], v: self.f(100 * sel[L[0]] / sel.gdpCur, 1) + " %" }; }).concat([{ c: "#f0f3f8", l: "Compensation of employees alone", v: self.f(sel.unadj, 1) + " %" }]) : [{ c: "#abb5c5", l: "No annual accounts for this year", v: "" }],
+      panels: panels
+    };
+  }
+
+  // ---------- 5. dollars ----------
+  dollar(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var R = D.dollar, w = this.win(R[0].y, R[R.length - 1].y), X0 = 64, X1 = 1176;
+    var xs = this.xAxis(w.from, w.to, X0, X1), xt = this.yearTicks(w.from, w.to, xs);
+    var rows = R.filter(function (r) { return r.y >= w.from && r.y <= w.to; });
+    var ld = this.nice(0, Math.max.apply(null, rows.map(function (r) { return r.usd / 1000; })), true);
+    var ly = function (v) { return 24 + 166 - (v - ld.lo) / (ld.hi - ld.lo) * 166; };
+    var terms = [["real", "Real growth", "#73d6c2"], ["defl", "Deflator change", "#d09a6a"], ["xr", "Euro against the dollar", "#b5abfc"]];
+    var lo = 0, hi = 0;
+    rows.forEach(function (r) { if (r.d === null) return; var p = 0, n = 0; terms.forEach(function (t) { if (r[t[0]] > 0) p += r[t[0]]; else n += r[t[0]]; }); hi = Math.max(hi, p); lo = Math.min(lo, n); });
+    var dd = this.nice(lo, hi, true), dy = function (v) { return 24 + 226 - (v - dd.lo) / (dd.hi - dd.lo) * 226; };
+    var rects = [], ticks = [];
+    rows.forEach(function (r) {
+      if (r.d === null) return;
+      var p = 0, n = 0, x = xs.x(r.y) + xs.step * 0.14, bw = Math.max(1, xs.step * 0.72);
+      terms.forEach(function (t) { var v = r[t[0]]; if (!v) return; var a = v > 0 ? p : n, b = a + v; if (v > 0) p = b; else n = b; rects.push({ x: x, w: bw, y: Math.min(dy(a), dy(b)), h: Math.max(0.5, Math.abs(dy(b) - dy(a))), fill: t[2] }); });
+      ticks.push({ x: x - 1, w: bw + 2, y: dy(r.d) - 1.25 });
+    });
+    var sel = R.find(function (r) { return r.y === st.year; });
+    return {
+      stripYear: String(st.year),
+      strip: sel ? [{ c: "#f0f3f8", l: "Dollar GDP", v: self.bnUsd(sel.usd) }, { c: "#b5abfc", l: "Euros per dollar", v: self.f(sel.fx, 3) }, { c: "#f0f3f8", l: "Change", v: self.s(sel.pct, 1, " %") }] : [{ c: "#abb5c5", l: "Not published for this year", v: "" }],
+      dstrip: sel && sel.d !== null ? [{ c: "#f0f3f8", l: "Dollar GDP", v: self.s(sel.d, 1, " lp") }].concat(terms.map(function (t) { return { c: t[2], l: t[1], v: self.s(sel[t[0]], 1, " lp") }; })) : [{ c: "#abb5c5", l: "No change for this year", v: "" }],
+      ax: this.frame({ x0: X0, x1: X1, top: 24, bottom: 190, yTicks: this.linTicks(ld, ly, function (v) { return self.f(v, 0); }), xTicks: xt, unit: "bn $, current" }),
+      dax: this.frame({ x0: X0, x1: X1, top: 24, bottom: 250, yTicks: this.linTicks(dd, dy, function (v) { return self.s(v, 0, ""); }), xTicks: xt, unit: "log points (+10 ≈ +10.5 %)" }),
+      line: rows.map(function (r) { return xs.x(r.y + 0.5).toFixed(1) + "," + ly(r.usd / 1000).toFixed(1); }).join(" "),
+      rects: rects, ticks: ticks, legend: terms.map(function (t) { return { c: t[2], l: t[1] }; }),
+      selX: xs.x(st.year + 0.5), hits: this.hits(w.from, w.to, xs, pick), dhits: this.hits(w.from, w.to, xs, pick),
+      aria: "French GDP in current US dollars, " + w.from + " to " + w.to, dAria: "Change in dollar GDP decomposed into real growth, deflator and exchange rate"
+    };
+  }
+
+  // ---------- OECD helpers ----------
+  area(D, code) { return D.oecd.find(function (a) { return a.code === code; }); }
+  col(D, name) { return D.oecdColumns.indexOf(name); }
+  val(D, a, y, name) { var r = a && a.rows[y]; return r ? r[this.col(D, name)] : null; }
+  colors() { return ["#b5abfc", "#f2b872", "#8fb0d1", "#e39bb5", "#9dc0ae", "#d6c77a", "#c9a3e0", "#e6a57a"]; }
+  series(D) {
+    var st = this.state, pal = this.colors(), self = this;
+    var list = [{ code: "FRA", c: "#73d6c2", w: 2.8, dash: "" }];
+    st.chosen.forEach(function (c, i) { list.push({ code: c, c: pal[i % pal.length], w: 1.8, dash: "" }); });
+    if (st.showOecd) list.push({ code: "OECD", c: "#abb5c5", w: 1.6, dash: "5 4" });
+    return list.map(function (s) { var a = self.area(D, s.code); s.a = a; s.name = a ? (a.code === "OECD" ? "OECD total" : a.name) : s.code; return s; });
+  }
+
+  // ---------- 6. international ----------
+  international(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var S = this.series(D), y = st.year;
+    var countries = S.filter(function (s) { return s.code !== "OECD"; });
+    var levels = countries.map(function (s) { return { s: s, v: self.val(D, s.a, y, "pcCur") }; });
+    var oecd = S.find(function (s) { return s.code === "OECD"; }), ov = oecd ? this.val(D, oecd.a, y, "pcCur") : null;
+    var maxv = Math.max.apply(null, levels.map(function (l) { return l.v || 0; }).concat([ov || 0, 1000]));
+    var bd = this.nice(0, maxv / 1000, true), bx = function (v) { return 130 + (v / 1000) / bd.hi * 230; };
+    var shown = levels.filter(function (l) { return l.v !== null; }).sort(function (a, b) { return b.v - a.v; });
+    var bars = shown.map(function (l, i) { return { name: l.s.name, v: self.kUsd(l.v), y: 8 + i * 28, ty: 21 + i * 28, w: Math.max(1, bx(l.v) - 130), vx: bx(l.v) + 6, fill: l.s.c, stroke: "none", dash: "", textColor: l.s.code === "FRA" ? "#73d6c2" : "#f0f3f8" }; });
+    if (ov !== null) { var i2 = bars.length; bars.push({ name: "OECD total", v: self.kUsd(ov), y: 14 + i2 * 28, ty: 27 + i2 * 28, w: bx(ov) - 130, vx: bx(ov) + 6, fill: "transparent", stroke: "#abb5c5", dash: "4 3", textColor: "#abb5c5" }); }
+    var barBottom = 16 + bars.length * 28 + (ov !== null ? 6 : 0);
+    var barTicks = []; for (var t = 0; t <= bd.hi + 1e-9; t += bd.step) barTicks.push({ x: 130 + t / bd.hi * 230, t: self.f(t, 0) });
+    var barLabels = [];
+    bars.forEach(function (b) { barLabels.push(self.lab(124, b.y + 9, b.name, "end", { c: b.textColor, fs: 12 })); barLabels.push(self.lab(b.vx, b.y + 9, b.v, "start", { c: "#f0f3f8", fs: 11.5 })); });
+    barTicks.forEach(function (t) { barLabels.push(self.lab(t.x, barBottom + 8, t.t, "middle", { v: "top", fs: 10.5 })); });
+    barLabels.push(self.lab(410, barBottom + 26, "k$ per inhabitant, current PPP", "end", { v: "top", c: "#abb5c5", fs: 10.5 }));
+    var missing = levels.filter(function (l) { return l.v === null; }).map(function (l) {
+      var yrs = Object.keys(l.s.a ? l.s.a.rows : {}).filter(function (k) { return self.val(D, l.s.a, Number(k), "pcCur") !== null; }).map(Number);
+      return { name: l.s.name, text: yrs.length ? "published " + Math.min.apply(null, yrs) + "–" + Math.max.apply(null, yrs) + "; nothing for " + y + "." : "not published." };
+    });
+    var w = this.win(1970, 2025), X0 = 52, X1 = 700;
+    var xs = this.xAxis(w.from, w.to, X0, X1);
+    var all = [];
+    S.forEach(function (s) { for (var yy = w.from; yy <= w.to; yy++) { var v = self.val(D, s.a, yy, "pcConst"); if (v !== null) all.push(v / 1000); } });
+    var dom = this.nice(Math.min.apply(null, all.concat([1e9])) * 0.95, Math.max.apply(null, all.concat([0])), false);
+    var ly = function (v) { return 24 + 216 - (v - dom.lo) / (dom.hi - dom.lo) * 216; };
+    var lines = [], ends = [];
+    S.forEach(function (s) {
+      var pts = [], lastP = null;
+      for (var yy = w.from; yy <= w.to; yy++) { var v = self.val(D, s.a, yy, "pcConst"); if (v !== null) { lastP = [xs.x(yy + 0.5), ly(v / 1000)]; pts.push(lastP[0].toFixed(1) + "," + lastP[1].toFixed(1)); } }
+      lines.push({ points: pts.join(" "), c: s.c, w: s.w, dash: s.dash });
+      if (lastP) ends.push({ x: lastP[0] + 5, y: lastP[1] + 4, c: s.c, t: s.code === "OECD" ? "OECD" : s.code });
+    });
+    var gw = this.win(1971, 2025), gx = this.xAxis(gw.from, gw.to, 64, 1176), gv = [0];
+    S.forEach(function (s) { for (var yy = gw.from; yy <= gw.to; yy++) { var v = self.val(D, s.a, yy, "growth"); if (v !== null) gv.push(v); } });
+    var gd = this.nice(Math.max(-12, Math.min.apply(null, gv)), Math.min(14, Math.max.apply(null, gv)), true), gy = function (v) { return 24 + 186 - (Math.max(gd.lo, Math.min(gd.hi, v)) - gd.lo) / (gd.hi - gd.lo) * 186; };
+    var gLines = S.map(function (s) { var pts = []; for (var yy = gw.from; yy <= gw.to; yy++) { var v = self.val(D, s.a, yy, "growth"); if (v !== null) pts.push(gx.x(yy + 0.5).toFixed(1) + "," + gy(v).toFixed(1)); } return { points: pts.join(" "), c: s.c, w: s.w, dash: s.dash }; });
+    var fr = this.val(D, this.area(D, "FRA"), y, "pcCur");
+    return {
+      barCaption: "GDP per inhabitant in " + y + ", current PPP", stripYear: String(y), frLevel: fr === null ? "not published" : self.kUsd(fr),
+      bars: bars, barTicks: barTicks, barLabels: barLabels, barBottom: barBottom, barTickEnd: barBottom + 5, barLabelY: barBottom + 18, barUnitY: barBottom + 34, barH: barBottom + 40,
+      missing: missing, barAria: "GDP per inhabitant at current PPP in " + y + " for France and the selected economies",
+      lineStrip: S.map(function (s) { var v = self.val(D, s.a, y, "pcConst"); return { c: s.c, l: s.name, v: self.kUsd(v) }; }),
+      ax: (function () {
+        var a = self.frame({ x0: X0, x1: X1, top: 24, bottom: 240, yTicks: self.linTicks(dom, ly, function (v) { return self.f(v, 0); }), xTicks: self.yearTicks(w.from, w.to, xs, 9), unit: "k$ per inhabitant, constant 2020 PPP" });
+        var placed = ends.map(function (e) { return { e: e, y: e.y - 4 }; }).sort(function (p, q) { return p.y - q.y; });
+        for (var k = 1; k < placed.length; k++) placed[k].y = Math.max(placed[k].y, placed[k - 1].y + 13);
+        placed.forEach(function (p) { a.labels.push(self.lab(p.e.x, p.y, p.e.t, "start", { c: p.e.c })); });
+        return a;
+      })(),
+      lines: lines, ends: ends,
+      selX: xs.x(Math.min(Math.max(y, w.from), w.to) + 0.5), hits: this.hits(w.from, w.to, xs, pick),
+      growthStrip: S.map(function (s) { var v = self.val(D, s.a, y, "growth"); return { c: s.c, l: s.name, v: v === null ? "—" : self.s(v, 1, " %") }; }),
+      gax: this.frame({ x0: 64, x1: 1176, top: 24, bottom: 210, yTicks: this.linTicks(gd, gy, function (v) { return self.s(v, 0, ""); }), xTicks: this.yearTicks(gw.from, gw.to, gx), unit: "% (clipped at the axis limits)" }),
+      gLines: gLines, gSelX: gx.x(Math.min(Math.max(y, gw.from), gw.to) + 0.5), gHits: this.hits(gw.from, gw.to, gx, pick),
+      lineAria: "GDP per inhabitant at constant 2020 PPP over time", gAria: "Annual real GDP growth for France and the selected economies"
+    };
+  }
+
+  // ---------- 7. drivers ----------
+  drivers(D) {
+    var self = this, st = this.state, pick = function (y) { self.pickYear(y); };
+    var ci = function (n) { return self.col(D, n); };
+    var fra = this.area(D, "FRA"), w = this.win(1970, 2025), X0 = 64, X1 = 1176, top = 24, bottom = 270;
+    var xs = this.xAxis(w.from, w.to, X0, X1);
+    var base = w.from, b = fra.rows[base];
+    var terms = [
+      ["Output per hour", "#73d6c2", function (r) { return r[ci("phConst")]; }, function (r) { return r[ci("phCur")]; }],
+      ["Hours per worker", "#f2b872", function (r) { return r[ci("hpw")]; }, function (r) { return r[ci("hpw")]; }],
+      ["Employment rate, 15–64", "#8fb0d1", function (r) { return r[ci("epc")] / r[ci("waShare")]; }, function (r) { return r[ci("waShare")] ? r[ci("epc")] / r[ci("waShare")] : null; }],
+      ["Working-age share", "#b5abfc", function (r) { return r[ci("waShare")]; }, function (r) { return r[ci("waShare")]; }]
+    ];
+    var vals = [0], lines = [];
+    var ser = terms.map(function (t) { var pts = []; for (var y = w.from; y <= w.to; y++) { var r = fra.rows[y]; if (r && b) { var v = 100 * Math.log(t[2](r) / t[2](b)); pts.push([y, v, r[ci("waProjected")] === 1]); vals.push(v); } } return pts; });
+    var tot = []; for (var y2 = w.from; y2 <= w.to; y2++) { var r2 = fra.rows[y2]; if (r2 && b) { var v2 = 100 * Math.log(r2[ci("pcConst")] / b[ci("pcConst")]); tot.push([y2, v2, r2[ci("waProjected")] === 1]); vals.push(v2); } }
+    var dom = this.nice(Math.min.apply(null, vals), Math.max.apply(null, vals), true), yv = function (v) { return top + (bottom - top) - (v - dom.lo) / (dom.hi - dom.lo) * (bottom - top); };
+    var toPts = function (list, proj) { return list.filter(function (p, i) { return proj ? p[2] || (list[i + 1] && list[i + 1][2]) : !p[2]; }).map(function (p) { return xs.x(p[0] + 0.5).toFixed(1) + "," + yv(p[1]).toFixed(1); }).join(" "); };
+    ser.forEach(function (s, i) { lines.push({ points: toPts(s, false), c: terms[i][1], w: 2, dash: "" }); lines.push({ points: toPts(s, true), c: terms[i][1], w: 2, dash: "2 3" }); });
+    lines.push({ points: toPts(tot, false), c: "#f0f3f8", w: 2.6, dash: "" });
+    lines.push({ points: toPts(tot, true), c: "#f0f3f8", w: 2.6, dash: "2 3" });
+    var y = st.year, sr = fra.rows[y];
+    var strip = sr && b ? [{ c: "#f0f3f8", l: "GDP per inhabitant", v: this.s(100 * Math.log(sr[ci("pcConst")] / b[ci("pcConst")]), 1, " lp") }].concat(terms.map(function (t) { return { c: t[1], l: t[0], v: self.s(100 * Math.log(t[2](sr) / t[2](b)), 1, " lp") }; })) : [{ c: "#abb5c5", l: "Not published for this year", v: "" }];
+    // Gap to France in the selected year, split into the four factors.
+    var S = this.series(D).filter(function (s) { return s.code !== "FRA"; }), fr = fra.rows[y];
+    var gapRowsData = [], missing = [], table = [];
+    var addTable = function (name, r) {
+      if (!r) { table.push({ name: name, pc: "—", ph: "—", h: "—", er: "—", wa: "—" }); return; }
+      table.push({ name: name, pc: self.kUsd(r[ci("pcCur")]), ph: r[ci("phCur")] === null ? "—" : self.f(r[ci("phCur")], 1) + " $", h: r[ci("hpw")] === null ? "—" : self.f(r[ci("hpw")], 0),
+        er: r[ci("waShare")] && r[ci("epc")] !== null ? self.f(100 * r[ci("epc")] / r[ci("waShare")], 1) + " %" : "—", wa: r[ci("waShare")] ? self.f(100 * r[ci("waShare")], 1) + " %" : "—" });
+    };
+    addTable("France", fr);
+    S.forEach(function (s) {
+      var r = s.a && s.a.rows[y]; addTable(s.name, r);
+      if (!r || !fr || r[ci("pcCur")] === null) { missing.push({ name: s.name, text: "no GDP per inhabitant for " + y + "." }); return; }
+      if (r[ci("labourOk")] !== 1) { missing.push({ name: s.name, text: "published hours fail the plausibility screen; the gap is not split." }); return; }
+      var parts = [];
+      var total = 100 * Math.log(r[ci("pcCur")] / fr[ci("pcCur")]);
+      parts.push([terms[0], 100 * Math.log(r[ci("phCur")] / fr[ci("phCur")])]);
+      parts.push([terms[1], 100 * Math.log(r[ci("hpw")] / fr[ci("hpw")])]);
+      if (r[ci("waShare")]) {
+        parts.push([terms[2], 100 * Math.log((r[ci("epc")] / r[ci("waShare")]) / (fr[ci("epc")] / fr[ci("waShare")]))]);
+        parts.push([terms[3], 100 * Math.log(r[ci("waShare")] / fr[ci("waShare")])]);
+      } else {
+        parts.push([["Employment per inhabitant (not split)", "#6c7a93"], 100 * Math.log(r[ci("epc")] / fr[ci("epc")])]);
+      }
+      gapRowsData.push({ s: s, total: total, parts: parts });
+    });
+    var ext = 10; gapRowsData.forEach(function (g) { var p = 0, n = 0; g.parts.forEach(function (q) { if (q[1] > 0) p += q[1]; else n += q[1]; }); ext = Math.max(ext, p, -n, Math.abs(g.total)); });
+    var gd = this.nice(-ext, ext, true), gx = function (v) { return 200 + (v - gd.lo) / (gd.hi - gd.lo) * 970; };
+    var gapRects = [], gapTicks = [], gapRows = [];
+    gapRowsData.forEach(function (g, i) {
+      var yy = 30 + i * 46, p = 0, n = 0;
+      gapRows.push({ name: g.s.name, c: g.s.c, ty: yy + 14, ny: yy + 30, total: "gap " + self.s(g.total, 1, " lp") });
+      g.parts.forEach(function (q) { var v = q[1], a = v > 0 ? p : n, bb = a + v; if (v > 0) p = bb; else n = bb; gapRects.push({ x: Math.min(gx(a), gx(bb)), w: Math.max(0.5, Math.abs(gx(bb) - gx(a))), y: yy, fill: q[0][1], title: g.s.name + " — " + q[0][0] + ": " + self.s(v, 1, " log points") }); });
+      gapTicks.push({ x: gx(g.total) - 1.5, y: yy - 4 });
+    });
+    var gapBottom = 30 + Math.max(1, gapRowsData.length) * 46;
+    var gapAxis = []; for (var t = gd.lo; t <= gd.hi + 1e-9; t += gd.step) { var tt = Math.round(t / gd.step) * gd.step; gapAxis.push({ x: gx(tt), t: self.s(tt, 0, ""), stroke: Math.abs(tt) < 1e-9 ? "rgba(115,214,194,.7)" : "rgba(240,243,248,.07)" }); }
+    var gapLabels = [];
+    gapRows.forEach(function (r) { gapLabels.push(self.lab(190, r.ty - 4, r.name, "end", { c: r.c, fs: 12.5 })); gapLabels.push(self.lab(190, r.ny - 3, r.total, "end", { c: "#abb5c5", fs: 10.5 })); });
+    gapAxis.forEach(function (t) { gapLabels.push(self.lab(t.x, gapBottom + 8, t.t, "middle", { v: "top" })); });
+    return {
+      caption: "France: cumulative change since " + base,
+      stripYear: String(y), strip: strip,
+      ax: this.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: this.linTicks(dom, yv, function (v) { return self.s(v, 0, ""); }), xTicks: this.yearTicks(w.from, w.to, xs), unit: "log points since " + base + " (+10 ≈ +10.5 %)" }),
+      lines: lines, selX: xs.x(Math.min(Math.max(y, w.from), w.to) + 0.5), hits: this.hits(w.from, w.to, xs, pick),
+      legend: [{ c: "#f0f3f8", l: "GDP per inhabitant" }].concat(terms.map(function (t) { return { c: t[1], l: t[0] }; })),
+      gapLegend: terms.map(function (t) { return { c: t[1], l: t[0] }; }).concat([{ c: "#6c7a93", l: "Employment per inhabitant (aggregates, not split)" }]),
+      gapCaption: "Gap to France in GDP per inhabitant, " + y + ", current PPP",
+      gapRows: gapRows, gapLabels: gapLabels, gapRects: gapRects, gapTicks: gapTicks, gapAxis: gapAxis, gapBottom: gapBottom, gapTickEnd: gapBottom + 5, gapLabelY: gapBottom + 18, gapH: gapBottom + 26,
+      missing: missing, table: table,
+      aria: "Cumulative log change in GDP per inhabitant and its four factors for France", gapAria: "Each selected economy's gap to France in GDP per inhabitant, split into four factors"
+    };
+  }
+
+  // ---------- 8. territory ----------
+  territory(D) {
+    var self = this, st = this.state;
+    var deps = D.departements, first = deps[0].first, last = first + deps[0].idx.length - 1;
+    var y = Math.min(Math.max(st.year, first), last), beyond = st.year !== y, i = y - first;
+    var bins = [[0, 60, "#2b5a85"], [60, 70, "#3f77a6"], [70, 80, "#6b9dc4"], [80, 90, "#a7c6de"], [90, 110, "#e6e0d2"], [110, 150, "#ecb67f"], [150, 200, "#d47d3e"], [200, 1e9, "#9c4a1c"]];
+    var colour = function (v) { if (v === null || v === undefined) return null; for (var k = 0; k < bins.length; k++) if (v < bins[k][1]) return bins[k][2]; return bins[bins.length - 1][2]; };
+    var shape = function (d, path) {
+      var v = d.idx[i], sel = d.code === st.dept;
+      return { d: path, fill: colour(v) || "#2f3542", stroke: sel ? "#ffd166" : "#111318", sw: sel ? 2.2 : 0.5, title: d.name + " (" + d.code + "): " + (v === null ? "not published" : self.f(v, 0)), pick: function () { self.setState({ dept: d.code }); } };
+    };
+    var shapes = deps.filter(function (d) { return d.path; }).map(function (d) { return shape(d, d.path); });
+    shapes.sort(function (a, b) { return (a.sw > b.sw) - (b.sw > a.sw); });
+    var byCode = {}; deps.forEach(function (d) { byCode[d.code] = d; });
+    var idf = Object.keys(D.mapInsets.idf).map(function (c) { return shape(byCode[c], D.mapInsets.idf[c]); });
+    var names = { "971": "Guadeloupe", "972": "Martinique", "973": "Guyane", "974": "La Réunion", "976": "Mayotte" };
+    var overseas = ["971", "972", "973", "974", "976"].map(function (c, k) { var s = shape(byCode[c], D.mapInsets.overseas[c]); s.t = "translate(" + (4 + k * 90) + ",592)"; s.name = names[c]; return s; });
+    var mapLabels = overseas.map(function (o, k) { return self.lab(4 + k * 90 + 38, 592 + 84, o.name, "middle", { c: "#abb5c5", fs: 10 }); });
+    var d = byCode[st.dept], di = d ? d.idx[i] : null;
+    var strip = [
+      { l: d.name + " (" + d.code + ")", v: di === null ? "not published" : self.f(di, 0) + " (France = 100)" },
+      { l: "per inhabitant", v: d.eur[i] === null ? "—" : self.eur(d.eur[i], 0) },
+      { l: "PPS per inhabitant", v: d.pps[i] === null ? "—" : self.f(d.pps[i], 0) + " PPS" },
+      { l: "France", v: self.eur(D.france[y], 0) }
+    ];
+    var ranked = deps.filter(function (x) { return x.idx[i] !== null; }).sort(function (a, b) { return b.idx[i] - a.idx[i]; });
+    var row = function (x) { return { name: x.name, code: x.code, v: self.f(x.idx[i], 0), pick: function () { self.setState({ dept: x.code }); } }; };
+    var X0 = 48, X1 = 552, top = 24, bottom = 160, xs = this.xAxis(first, last, X0, X1), vals = d.idx.filter(function (v) { return v !== null; });
+    var dom = this.nice(Math.min.apply(null, vals.concat([100])), Math.max.apply(null, vals.concat([100])), false), yv = function (v) { return top + (bottom - top) - (v - dom.lo) / (dom.hi - dom.lo) * (bottom - top); };
+    var yt = this.linTicks(dom, yv, function (v) { return self.f(v, 0); }).map(function (t) { if (Math.abs(yv(100) - t.y) < 0.5) t.zero = true; return t; });
+    var ax = this.frame({ x0: X0, x1: X1, top: top, bottom: bottom, yTicks: yt, xTicks: this.yearTicks(first, last, xs, 7), unit: "France = 100" });
+    ax.y.push({ y: yv(100), ty: -99, tx: X0, lx: X0, t: "", stroke: "rgba(115,214,194,.6)" });
+    return {
+      caption: "GDP per inhabitant, France = 100 — " + y + (d.prov[i] ? ", provisional" : ""),
+      stripYear: beyond ? y + " · latest published" : String(y), strip: strip, beyond: beyond,
+      beyondText: "Departement figures are published " + first + "–" + last + "; the map shows " + y + ", the nearest published year, not " + st.year + ".", goLatestLabel: "Select " + y + " everywhere", goLatest: function () { self.setState({ year: y }); },
+      shapes: shapes, idf: idf, overseas: overseas, mapLabels: mapLabels,
+      legend: bins.map(function (b) { return { c: b[2], t: b[0] === 0 ? "< 60" : b[1] > 1e8 ? "≥ 200" : b[0] + "–" + b[1] }; }),
+      lineCaption: d.name + " over time",
+      ax: ax, line: d.idx.map(function (v, k) { return v === null ? null : xs.x(first + k + 0.5).toFixed(1) + "," + yv(v).toFixed(1); }).filter(Boolean).join(" "),
+      lineSelX: xs.x(y + 0.5), lineSelOp: 1,
+      top: ranked.slice(0, 5).map(row), bottom: ranked.slice(-5).reverse().map(row),
+      table: ranked.map(function (x) { return { name: x.name, code: x.code, eur: self.eur(x.eur[i], 0), pps: self.f(x.pps[i], 0), idx: self.f(x.idx[i], 1) }; }),
+      aria: "Map of GDP per inhabitant by departement relative to France, " + y, lineAria: d.name + ", GDP per inhabitant relative to France over time"
+    };
+  }
+
+  renderVals() {
+    var D = window.__pulseGdp, self = this, st = this.state;
+    if (!D) return { editions: [], presets: [], h: {}, d: {}, b: {}, inc: {}, usd: {}, i: {}, v: {}, m: {} };
+    var lastQ = D.quarterly[D.quarterly.length - 1].y, years = [];
+    for (var y = 1949; y <= lastQ; y++) years.push(y);
+    var setWindow = function (from, to) { var yr = Math.min(Math.max(st.year, from), to); self.setState({ from: from, to: to, year: yr }); };
+    var presets = [["all", "Since 1949", 1949], ["1970", "Since 1970", 1970], ["25", "25 years", lastQ - 24], ["10", "10 years", lastQ - 9]].map(function (p) {
+      return { label: p[1], on: st.preset === p[0], cls: st.preset === p[0] ? "seg on" : "seg", pick: function () { self.setState({ preset: p[0] }); setWindow(p[2], lastQ); } };
+    });
+    var members = D.oecd.filter(function (a) { return a.kind === "member" && a.code !== "FRA" && st.chosen.indexOf(a.code) < 0; }).sort(function (a, b) { return a.name < b.name ? -1 : 1; });
+    var pal = this.colors();
+    var yearOf = function (e) { return e.slice(0, 4); };
+    var quarterOf = function (e) { return e.slice(0, 4) + "-Q" + Math.ceil(Number(e.slice(5, 7)) / 3); };
+    var ed = function (id, name, fmt) { return { name: name, edge: fmt(D.editions[id].end) }; };
+    return {
+      editions: [
+        ed("french-national-accounts-annual", "INSEE annual accounts", yearOf), ed("french-gdp-quarterly", "INSEE quarterly accounts", quarterOf),
+        ed("french-branch-value-added", "Branch detail", function (e) { return "A10/A38 to " + yearOf(e) + " · A88 a year earlier"; }),
+        ed("french-gdp-dollar-decomposition", "World Bank", yearOf), ed("oecd-productivity-comparison", "OECD productivity", yearOf),
+        ed("world-demography-age-structure", "UN population by age", function () { return "estimates to 2023, projections after"; }), ed("french-departement-gdp", "Eurostat regions", yearOf)
+      ],
+      presets: presets,
+      from: st.from, to: st.to, fromOptions: years.filter(function (y) { return y <= st.to; }), toOptions: years.filter(function (y) { return y >= st.from; }),
+      setFrom: function (e) { self.setState({ preset: "custom" }); setWindow(Number(e.target.value), st.to); },
+      setTo: function (e) { self.setState({ preset: "custom" }); setWindow(st.from, Number(e.target.value)); },
+      year: st.year, yearOptions: years.filter(function (y) { return y >= st.from && y <= st.to; }),
+      setYear: function (e) { self.setState({ year: Number(e.target.value) }); },
+      prevYear: function () { self.setState({ year: Math.max(st.from, st.year - 1) }); },
+      nextYear: function () { self.setState({ year: Math.min(st.to, st.year + 1) }); },
+      chips: st.chosen.map(function (c, i) { var a = self.area(D, c); return { code: c, name: a ? a.name : c, color: pal[i % pal.length], removeLabel: "Remove " + (a ? a.name : c), remove: function () { self.setState({ chosen: st.chosen.filter(function (x) { return x !== c; }) }); } }; }),
+      addable: members.map(function (a) { return { code: a.code, name: a.name }; }),
+      addCountry: function (e) { var v = e.target.value; if (v) self.setState({ chosen: st.chosen.concat([v]) }); },
+      showOecd: st.showOecd, oecdCls: st.showOecd ? "chip ref on" : "chip ref", toggleOecd: function () { self.setState({ showOecd: !st.showOecd }); },
+      h: this.headline(D), d: this.demand(D), b: this.branches(D), inc: this.income(D), usd: this.dollar(D),
+      i: this.international(D), v: this.drivers(D), m: this.territory(D)
+    };
+  }
+}
+</script>
+</body>
+</html>

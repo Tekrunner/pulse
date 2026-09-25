@@ -1,0 +1,308 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-gdp",
+  "capturedFrom": "dist/ served by scripts/serve-site.mjs, Chromium",
+  "views": [
+    {
+      "view": "desktop",
+      "scenario": null,
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-desktop.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [],
+      "qualification": []
+    },
+    {
+      "view": "narrow-smartphone-landscape",
+      "scenario": null,
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "screenshot": "view-narrow-smartphone-landscape.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [],
+      "qualification": []
+    },
+    {
+      "view": "zoom-400",
+      "scenario": null,
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "screenshot": "view-zoom-400.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [],
+      "qualification": []
+    },
+    {
+      "view": "slot-local-failure",
+      "scenario": "slot-query",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-slot-local-failure.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "query-error",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [
+        "The query did not complete. Retry"
+      ],
+      "qualification": []
+    },
+    {
+      "view": "state-suspect",
+      "scenario": "status-suspect",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-suspect.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [],
+      "qualification": [
+        [
+          "branch-share-panels",
+          "SuspectDrawn, but the source failed a plausibility check."
+        ]
+      ]
+    },
+    {
+      "view": "state-stale",
+      "scenario": "status-stale",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-stale.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [],
+      "qualification": [
+        [
+          "dollar-decomposition",
+          "StalePast its expected release: a newer observation was due."
+        ]
+      ]
+    },
+    {
+      "view": "state-render-error",
+      "scenario": "render",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-render-error.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "render-error",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [
+        "This visual could not be rendered. Retry"
+      ],
+      "qualification": []
+    },
+    {
+      "view": "state-schema-error",
+      "scenario": "schema",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-schema-error.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "schema-error",
+        "demand-contribution-bars": "schema-error",
+        "branch-share-panels": "schema-error",
+        "income-share-panels": "schema-error",
+        "dollar-decomposition": "schema-error",
+        "oecd-standing": "schema-error",
+        "per-capita-drivers": "schema-error",
+        "index-choropleth": "schema-error"
+      },
+      "alerts": [
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a period. Retry",
+        "The report data is missing a departement code. Retry"
+      ],
+      "qualification": []
+    },
+    {
+      "view": "state-query-error",
+      "scenario": "query",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-query-error.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "query-error",
+        "demand-contribution-bars": "query-error",
+        "branch-share-panels": "query-error",
+        "income-share-panels": "query-error",
+        "dollar-decomposition": "query-error",
+        "oecd-standing": "query-error",
+        "per-capita-drivers": "query-error",
+        "index-choropleth": "query-error"
+      },
+      "alerts": [
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry",
+        "The report data could not be queried. Retry"
+      ],
+      "qualification": []
+    },
+    {
+      "view": "state-empty",
+      "scenario": "empty",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-empty.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "empty",
+        "demand-contribution-bars": "empty",
+        "branch-share-panels": "empty",
+        "income-share-panels": "empty",
+        "dollar-decomposition": "empty",
+        "oecd-standing": "empty",
+        "per-capita-drivers": "empty",
+        "index-choropleth": "empty"
+      },
+      "alerts": [],
+      "qualification": []
+    },
+    {
+      "view": "state-loading",
+      "scenario": "loading",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-loading.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "loading",
+        "demand-contribution-bars": "loading",
+        "branch-share-panels": "loading",
+        "income-share-panels": "loading",
+        "dollar-decomposition": "loading",
+        "oecd-standing": "loading",
+        "per-capita-drivers": "loading",
+        "index-choropleth": "loading"
+      },
+      "alerts": [],
+      "qualification": []
+    },
+    {
+      "view": "state-shared-engine-failure",
+      "scenario": "startup",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-state-shared-engine-failure.png",
+      "documentHorizontalOverflowPx": 0,
+      "reportState": "engine-error",
+      "figureStates": {},
+      "alerts": [
+        "Browser data access could not start. Retry"
+      ],
+      "qualification": []
+    }
+  ]
+}

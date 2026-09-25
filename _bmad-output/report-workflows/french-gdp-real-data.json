@@ -1,0 +1,2758 @@
+{
+  "generatedFrom": "publish/public/data",
+  "datasets": {
+    "french-national-accounts-annual": {
+      "manifest": {
+        "contentSha256": "5fd5fdc42a4eecdb7c3169d2d76394b8c244ce36c98d30d5558ef64efac84414",
+        "representedPeriod": {
+          "end": "2025-12-31",
+          "start": "1949-01-01"
+        },
+        "logicalTable": "french_national_accounts_annual",
+        "sourceId": "insee-annual-national-accounts",
+        "snapshotId": "acq-03ee4e5844948093e6b4873c129231b9-1cdde6fab2c7",
+        "columnCount": 38
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "gdp_current_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_chained_2020_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_price_index_2020",
+          "type": "DECIMAL(12,3)"
+        },
+        {
+          "name": "gdp_volume_growth_pct",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "gdp_per_capita_current_eur",
+          "type": "DECIMAL(12,0)"
+        },
+        {
+          "name": "gdp_per_capita_chained_2020_eur",
+          "type": "DECIMAL(12,0)"
+        },
+        {
+          "name": "contribution_final_consumption_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_household_consumption_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_npish_consumption_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_government_consumption_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_non_financial_corporations_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_financial_corporations_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_households_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_government_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_gfcf_npish_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_inventories_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_valuables_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_exports_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_imports_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "contribution_net_trade_pt",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "gross_value_added_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "compensation_of_employees_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "wages_and_salaries_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gross_operating_surplus_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gross_mixed_income_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "net_taxes_on_production_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "net_taxes_on_products_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "employment_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "employees_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "non_employees_thousands",
+          "type": "DECIMAL(10,1)"
+        },
+        {
+          "name": "hours_worked_mn",
+          "type": "DECIMAL(12,1)"
+        },
+        {
+          "name": "imputed_non_employee_labour_income_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "adjusted_labour_income_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "adjusted_capital_income_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "adjusted_wage_share_pct",
+          "type": "DECIMAL(8,2)"
+        },
+        {
+          "name": "unadjusted_wage_share_pct",
+          "type": "DECIMAL(8,2)"
+        }
+      ],
+      "latestYears": [
+        {
+          "period": "2025-01-01",
+          "gdp_current_eur_mn": "2991056.0",
+          "gdp_chained_2020_eur_mn": "2646746.0",
+          "gdp_price_index_2020": "113.000",
+          "gdp_volume_growth_pct": "0.805",
+          "gdp_per_capita_current_eur": "43350",
+          "gdp_per_capita_chained_2020_eur": "38360",
+          "contribution_final_consumption_pt": "0.343",
+          "contribution_household_consumption_pt": "0.202",
+          "contribution_npish_consumption_pt": "-0.005",
+          "contribution_government_consumption_pt": "0.146",
+          "contribution_gfcf_pt": "0.107",
+          "contribution_gfcf_non_financial_corporations_pt": "0.054",
+          "contribution_gfcf_financial_corporations_pt": "-0.053",
+          "contribution_gfcf_households_pt": "-0.009",
+          "contribution_gfcf_government_pt": "0.115",
+          "contribution_gfcf_npish_pt": "0.001",
+          "contribution_inventories_pt": "0.528",
+          "contribution_valuables_pt": "-0.002",
+          "contribution_exports_pt": "0.786",
+          "contribution_imports_pt": "-0.958",
+          "contribution_net_trade_pt": "-0.172",
+          "gross_value_added_eur_mn": "2664898.0",
+          "compensation_of_employees_eur_mn": "1536202.0",
+          "wages_and_salaries_eur_mn": "1129309.0",
+          "gross_operating_surplus_eur_mn": "905147.0",
+          "gross_mixed_income_eur_mn": "140944.0",
+          "net_taxes_on_production_eur_mn": "82605.0",
+          "net_taxes_on_products_eur_mn": "326158.0",
+          "employment_thousands": "30638.2",
+          "employees_thousands": "27133.2",
+          "non_employees_thousands": "3505.0",
+          "hours_worked_mn": "45954.9",
+          "imputed_non_employee_labour_income_eur_mn": "198442.8",
+          "adjusted_labour_income_eur_mn": "1734644.8",
+          "adjusted_capital_income_eur_mn": "847648.2",
+          "adjusted_wage_share_pct": "57.99",
+          "unadjusted_wage_share_pct": "51.36"
+        },
+        {
+          "period": "2024-01-01",
+          "gdp_current_eur_mn": "2935236.0",
+          "gdp_chained_2020_eur_mn": "2625622.0",
+          "gdp_price_index_2020": "111.800",
+          "gdp_volume_growth_pct": "1.504",
+          "gdp_per_capita_current_eur": "42678",
+          "gdp_per_capita_chained_2020_eur": "38176",
+          "contribution_final_consumption_pt": "0.808",
+          "contribution_household_consumption_pt": "0.427",
+          "contribution_npish_consumption_pt": "0.029",
+          "contribution_government_consumption_pt": "0.352",
+          "contribution_gfcf_pt": "-0.212",
+          "contribution_gfcf_non_financial_corporations_pt": "-0.015",
+          "contribution_gfcf_financial_corporations_pt": "0.073",
+          "contribution_gfcf_households_pt": "-0.506",
+          "contribution_gfcf_government_pt": "0.225",
+          "contribution_gfcf_npish_pt": "0.010",
+          "contribution_inventories_pt": "-0.389",
+          "contribution_valuables_pt": "0.002",
+          "contribution_exports_pt": "1.087",
+          "contribution_imports_pt": "0.210",
+          "contribution_net_trade_pt": "1.296",
+          "gross_value_added_eur_mn": "2624893.0",
+          "compensation_of_employees_eur_mn": "1505528.0",
+          "wages_and_salaries_eur_mn": "1111650.0",
+          "gross_operating_surplus_eur_mn": "899084.0",
+          "gross_mixed_income_eur_mn": "137522.0",
+          "net_taxes_on_production_eur_mn": "82759.0",
+          "net_taxes_on_products_eur_mn": "310343.0",
+          "employment_thousands": "30591.9",
+          "employees_thousands": "27181.7",
+          "non_employees_thousands": "3410.2",
+          "hours_worked_mn": "46271.4",
+          "imputed_non_employee_labour_income_eur_mn": "188882.7",
+          "adjusted_labour_income_eur_mn": "1694410.7",
+          "adjusted_capital_income_eur_mn": "847723.3",
+          "adjusted_wage_share_pct": "57.73",
+          "unadjusted_wage_share_pct": "51.29"
+        },
+        {
+          "period": "2023-01-01",
+          "gdp_current_eur_mn": "2833826.0",
+          "gdp_chained_2020_eur_mn": "2586706.0",
+          "gdp_price_index_2020": "109.600",
+          "gdp_volume_growth_pct": "1.633",
+          "gdp_per_capita_current_eur": "41338",
+          "gdp_per_capita_chained_2020_eur": "37733",
+          "contribution_final_consumption_pt": "0.756",
+          "contribution_household_consumption_pt": "0.402",
+          "contribution_npish_consumption_pt": "0.052",
+          "contribution_government_consumption_pt": "0.302",
+          "contribution_gfcf_pt": "0.302",
+          "contribution_gfcf_non_financial_corporations_pt": "0.552",
+          "contribution_gfcf_financial_corporations_pt": "-0.002",
+          "contribution_gfcf_households_pt": "-0.482",
+          "contribution_gfcf_government_pt": "0.224",
+          "contribution_gfcf_npish_pt": "0.010",
+          "contribution_inventories_pt": "-0.426",
+          "contribution_valuables_pt": "0.006",
+          "contribution_exports_pt": "0.902",
+          "contribution_imports_pt": "0.094",
+          "contribution_net_trade_pt": "0.996",
+          "gross_value_added_eur_mn": "2545652.0",
+          "compensation_of_employees_eur_mn": "1453667.0",
+          "wages_and_salaries_eur_mn": "1078011.0",
+          "gross_operating_surplus_eur_mn": "869150.0",
+          "gross_mixed_income_eur_mn": "136534.0",
+          "net_taxes_on_production_eur_mn": "86301.0",
+          "net_taxes_on_products_eur_mn": "288174.0",
+          "employment_thousands": "30375.5",
+          "employees_thousands": "27054.7",
+          "non_employees_thousands": "3320.8",
+          "hours_worked_mn": "45599.3",
+          "imputed_non_employee_labour_income_eur_mn": "178428.8",
+          "adjusted_labour_income_eur_mn": "1632095.8",
+          "adjusted_capital_income_eur_mn": "827255.2",
+          "adjusted_wage_share_pct": "57.59",
+          "unadjusted_wage_share_pct": "51.30"
+        }
+      ],
+      "earliestYears": [
+        {
+          "period": "1949-01-01",
+          "gdp_current_eur_mn": "13142.0",
+          "gdp_chained_2020_eur_mn": "284739.0",
+          "gdp_price_index_2020": "4.600",
+          "gdp_volume_growth_pct": null,
+          "gdp_per_capita_current_eur": "311",
+          "gdp_per_capita_chained_2020_eur": "6742",
+          "contribution_final_consumption_pt": null,
+          "contribution_household_consumption_pt": null,
+          "contribution_npish_consumption_pt": null,
+          "contribution_government_consumption_pt": null,
+          "contribution_gfcf_pt": null,
+          "contribution_gfcf_non_financial_corporations_pt": null,
+          "contribution_gfcf_financial_corporations_pt": null,
+          "contribution_gfcf_households_pt": null,
+          "contribution_gfcf_government_pt": null,
+          "contribution_gfcf_npish_pt": null,
+          "contribution_inventories_pt": null,
+          "contribution_valuables_pt": null,
+          "contribution_exports_pt": null,
+          "contribution_imports_pt": null,
+          "contribution_net_trade_pt": null,
+          "gross_value_added_eur_mn": "11654.0",
+          "compensation_of_employees_eur_mn": "5827.0",
+          "wages_and_salaries_eur_mn": "4635.0",
+          "gross_operating_surplus_eur_mn": "2238.0",
+          "gross_mixed_income_eur_mn": "3412.0",
+          "net_taxes_on_production_eur_mn": "177.0",
+          "net_taxes_on_products_eur_mn": "1488.0",
+          "employment_thousands": "19438.6",
+          "employees_thousands": "12584.4",
+          "non_employees_thousands": "6854.2",
+          "hours_worked_mn": "44122.2",
+          "imputed_non_employee_labour_income_eur_mn": "3173.7",
+          "adjusted_labour_income_eur_mn": "9000.7",
+          "adjusted_capital_income_eur_mn": "2476.3",
+          "adjusted_wage_share_pct": "68.49",
+          "unadjusted_wage_share_pct": "44.34"
+        },
+        {
+          "period": "1950-01-01",
+          "gdp_current_eur_mn": "15406.0",
+          "gdp_chained_2020_eur_mn": "309143.0",
+          "gdp_price_index_2020": "5.000",
+          "gdp_volume_growth_pct": "8.571",
+          "gdp_per_capita_current_eur": "362",
+          "gdp_per_capita_chained_2020_eur": "7259",
+          "contribution_final_consumption_pt": "5.120",
+          "contribution_household_consumption_pt": "3.965",
+          "contribution_npish_consumption_pt": "0.105",
+          "contribution_government_consumption_pt": "1.050",
+          "contribution_gfcf_pt": "0.887",
+          "contribution_gfcf_non_financial_corporations_pt": "0.342",
+          "contribution_gfcf_financial_corporations_pt": "0.052",
+          "contribution_gfcf_households_pt": "0.299",
+          "contribution_gfcf_government_pt": "0.188",
+          "contribution_gfcf_npish_pt": "0.007",
+          "contribution_inventories_pt": "0.078",
+          "contribution_valuables_pt": "0.006",
+          "contribution_exports_pt": "3.029",
+          "contribution_imports_pt": "-0.549",
+          "contribution_net_trade_pt": "2.479",
+          "gross_value_added_eur_mn": "13592.0",
+          "compensation_of_employees_eur_mn": "6559.0",
+          "wages_and_salaries_eur_mn": "5139.0",
+          "gross_operating_surplus_eur_mn": "2868.0",
+          "gross_mixed_income_eur_mn": "3950.0",
+          "net_taxes_on_production_eur_mn": "215.0",
+          "net_taxes_on_products_eur_mn": "1814.0",
+          "employment_thousands": "19432.2",
+          "employees_thousands": "12704.3",
+          "non_employees_thousands": "6727.9",
+          "hours_worked_mn": "43720.9",
+          "imputed_non_employee_labour_income_eur_mn": "3473.5",
+          "adjusted_labour_income_eur_mn": "10032.5",
+          "adjusted_capital_income_eur_mn": "3344.5",
+          "adjusted_wage_share_pct": "65.12",
+          "unadjusted_wage_share_pct": "42.57"
+        }
+      ],
+      "boundaryCases": {
+        "firstYearHasNoGrowthOrContributions": [
+          {
+            "period": "1949-01-01",
+            "gdp_volume_growth_pct": null,
+            "contribution_final_consumption_pt": null,
+            "contribution_net_trade_pt": null
+          }
+        ],
+        "deepestContractions": [
+          {
+            "period": "2020-01-01",
+            "gdp_volume_growth_pct": "-7.441",
+            "contribution_final_consumption_pt": "-4.497",
+            "contribution_gfcf_pt": "-1.307",
+            "contribution_inventories_pt": "-0.285",
+            "contribution_net_trade_pt": "-1.346"
+          },
+          {
+            "period": "2009-01-01",
+            "gdp_volume_growth_pct": "-2.825",
+            "contribution_final_consumption_pt": "0.785",
+            "contribution_gfcf_pt": "-2.116",
+            "contribution_inventories_pt": "-1.097",
+            "contribution_net_trade_pt": "-0.377"
+          },
+          {
+            "period": "1975-01-01",
+            "gdp_volume_growth_pct": "-0.946",
+            "contribution_final_consumption_pt": "2.128",
+            "contribution_gfcf_pt": "-1.390",
+            "contribution_inventories_pt": "-2.983",
+            "contribution_net_trade_pt": "1.315"
+          },
+          {
+            "period": "1993-01-01",
+            "gdp_volume_growth_pct": "-0.359",
+            "contribution_final_consumption_pt": "1.051",
+            "contribution_gfcf_pt": "-1.246",
+            "contribution_inventories_pt": "-0.959",
+            "contribution_net_trade_pt": "0.793"
+          }
+        ],
+        "fastestGrowth": [
+          {
+            "period": "1950-01-01",
+            "gdp_volume_growth_pct": "8.571"
+          },
+          {
+            "period": "1960-01-01",
+            "gdp_volume_growth_pct": "7.954"
+          },
+          {
+            "period": "1969-01-01",
+            "gdp_volume_growth_pct": "7.094"
+          }
+        ],
+        "largestNegativeContributionOfOneComponent": [
+          {
+            "period": "2000-01-01",
+            "contribution_inventories_pt": "0.447",
+            "contribution_net_trade_pt": "-0.161",
+            "contribution_imports_pt": "-3.608"
+          },
+          {
+            "period": "1976-01-01",
+            "contribution_inventories_pt": "1.764",
+            "contribution_net_trade_pt": "-1.707",
+            "contribution_imports_pt": "-3.373"
+          },
+          {
+            "period": "1975-01-01",
+            "contribution_inventories_pt": "-2.983",
+            "contribution_net_trade_pt": "1.315",
+            "contribution_imports_pt": "1.994"
+          }
+        ],
+        "adjustedWageShareExtremes": [
+          {
+            "period": "2007-01-01",
+            "adjusted_wage_share_pct": "55.08",
+            "unadjusted_wage_share_pct": "50.28"
+          },
+          {
+            "period": "2008-01-01",
+            "adjusted_wage_share_pct": "55.28",
+            "unadjusted_wage_share_pct": "50.45"
+          },
+          {
+            "period": "1949-01-01",
+            "adjusted_wage_share_pct": "68.49",
+            "unadjusted_wage_share_pct": "44.34"
+          },
+          {
+            "period": "1956-01-01",
+            "adjusted_wage_share_pct": "66.76",
+            "unadjusted_wage_share_pct": "46.52"
+          }
+        ],
+        "netTaxesOnProductionSign": [
+          {
+            "minimum": "177.0",
+            "maximum": "86301.0",
+            "negative_years": 0
+          }
+        ],
+        "imputedLabourExceedsMixedIncome": [
+          {
+            "years": 28,
+            "first": 1975,
+            "last": 2025
+          }
+        ],
+        "incomeSplitSelectedYears": [
+          {
+            "period": "1949-01-01",
+            "gdp_current_eur_mn": "13142.0",
+            "adjusted_labour_income_eur_mn": "9000.7",
+            "adjusted_capital_income_eur_mn": "2476.3",
+            "net_taxes_on_production_eur_mn": "177.0",
+            "net_taxes_on_products_eur_mn": "1488.0",
+            "compensation_of_employees_eur_mn": "5827.0",
+            "gross_operating_surplus_eur_mn": "2238.0",
+            "gross_mixed_income_eur_mn": "3412.0"
+          },
+          {
+            "period": "1975-01-01",
+            "gdp_current_eur_mn": "233583.0",
+            "adjusted_labour_income_eur_mn": "153283.3",
+            "adjusted_capital_income_eur_mn": "51697.7",
+            "net_taxes_on_production_eur_mn": "3023.0",
+            "net_taxes_on_products_eur_mn": "25579.0",
+            "compensation_of_employees_eur_mn": "126632.0",
+            "gross_operating_surplus_eur_mn": "52381.0",
+            "gross_mixed_income_eur_mn": "25968.0"
+          },
+          {
+            "period": "2000-01-01",
+            "gdp_current_eur_mn": "1473517.0",
+            "adjusted_labour_income_eur_mn": "821974.0",
+            "adjusted_capital_income_eur_mn": "450532.0",
+            "net_taxes_on_production_eur_mn": "46748.0",
+            "net_taxes_on_products_eur_mn": "154263.0",
+            "compensation_of_employees_eur_mn": "748654.0",
+            "gross_operating_surplus_eur_mn": "425265.0",
+            "gross_mixed_income_eur_mn": "98587.0"
+          },
+          {
+            "period": "2025-01-01",
+            "gdp_current_eur_mn": "2991056.0",
+            "adjusted_labour_income_eur_mn": "1734644.8",
+            "adjusted_capital_income_eur_mn": "847648.2",
+            "net_taxes_on_production_eur_mn": "82605.0",
+            "net_taxes_on_products_eur_mn": "326158.0",
+            "compensation_of_employees_eur_mn": "1536202.0",
+            "gross_operating_surplus_eur_mn": "905147.0",
+            "gross_mixed_income_eur_mn": "140944.0"
+          }
+        ]
+      }
+    },
+    "french-branch-value-added": {
+      "manifest": {
+        "contentSha256": "01a17b8b4d626dae8c04dc0a903d6c28c2e992363c8b282904267752664f20e2",
+        "representedPeriod": {
+          "end": "2025-12-31",
+          "start": "1949-01-01"
+        },
+        "logicalTable": "french_branch_value_added",
+        "sourceId": "insee-annual-national-accounts",
+        "snapshotId": "acq-03ee4e5844948093e6b4873c129231b9-1cdde6fab2c7",
+        "columnCount": 11
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "level",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "branch_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "branch_label",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "parent_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "a10_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "a38_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "is_residual",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "value_added_current_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "value_added_chained_2020_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "share_of_total_value_added_pct",
+          "type": "DECIMAL(8,3)"
+        }
+      ],
+      "levelCoverage": [
+        {
+          "level": "A10",
+          "branches": 10,
+          "first": "1949-01-01",
+          "last": "2025-01-01"
+        },
+        {
+          "level": "A38",
+          "branches": 37,
+          "first": "1959-01-01",
+          "last": "2025-01-01"
+        },
+        {
+          "level": "A88",
+          "branches": 86,
+          "first": "1999-01-01",
+          "last": "2024-01-01"
+        }
+      ],
+      "latestA10": [
+        {
+          "period": "2025-01-01",
+          "branch_code": "OQ",
+          "branch_label": "Public administration, education, health and social work",
+          "value_added_current_eur_mn": "579781.0",
+          "value_added_chained_2020_eur_mn": "521756.0",
+          "share_of_total_value_added_pct": "21.756"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "GI",
+          "branch_label": "Wholesale and retail trade, transport, accommodation and food service activities",
+          "value_added_current_eur_mn": "444601.0",
+          "value_added_chained_2020_eur_mn": "396820.0",
+          "share_of_total_value_added_pct": "16.684"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "MN",
+          "branch_label": "Professional, scientific and technical activities - Administrative and support service activities",
+          "value_added_current_eur_mn": "388119.0",
+          "value_added_chained_2020_eur_mn": "346641.0",
+          "share_of_total_value_added_pct": "14.564"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "LZ",
+          "branch_label": "Real estate",
+          "value_added_current_eur_mn": "376739.0",
+          "value_added_chained_2020_eur_mn": "322328.0",
+          "share_of_total_value_added_pct": "14.137"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "value_added_current_eur_mn": "358528.0",
+          "value_added_chained_2020_eur_mn": "292859.0",
+          "share_of_total_value_added_pct": "13.454"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "FZ",
+          "branch_label": "Construction",
+          "value_added_current_eur_mn": "148501.0",
+          "value_added_chained_2020_eur_mn": "122143.0",
+          "share_of_total_value_added_pct": "5.572"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "JZ",
+          "branch_label": "Information and communication",
+          "value_added_current_eur_mn": "147142.0",
+          "value_added_chained_2020_eur_mn": "150638.0",
+          "share_of_total_value_added_pct": "5.521"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "KZ",
+          "branch_label": "Financial and insurance activities",
+          "value_added_current_eur_mn": "96253.0",
+          "value_added_chained_2020_eur_mn": "88390.0",
+          "share_of_total_value_added_pct": "3.612"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "RU",
+          "branch_label": "Other service activities",
+          "value_added_current_eur_mn": "83917.0",
+          "value_added_chained_2020_eur_mn": "90496.0",
+          "share_of_total_value_added_pct": "3.149"
+        },
+        {
+          "period": "2025-01-01",
+          "branch_code": "AZ",
+          "branch_label": "Agriculture, forestry, and fisheries",
+          "value_added_current_eur_mn": "41319.0",
+          "value_added_chained_2020_eur_mn": "32922.0",
+          "share_of_total_value_added_pct": "1.550"
+        }
+      ],
+      "earliestA10": [
+        {
+          "period": "1949-01-01",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "share_of_total_value_added_pct": "27.982"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "GI",
+          "branch_label": "Wholesale and retail trade, transport, accommodation and food service activities",
+          "share_of_total_value_added_pct": "20.319"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "AZ",
+          "branch_label": "Agriculture, forestry, and fisheries",
+          "share_of_total_value_added_pct": "17.505"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "OQ",
+          "branch_label": "Public administration, education, health and social work",
+          "share_of_total_value_added_pct": "12.768"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "FZ",
+          "branch_label": "Construction",
+          "share_of_total_value_added_pct": "5.569"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "MN",
+          "branch_label": "Professional, scientific and technical activities - Administrative and support service activities",
+          "share_of_total_value_added_pct": "5.329"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "LZ",
+          "branch_label": "Real estate",
+          "share_of_total_value_added_pct": "3.861"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "JZ",
+          "branch_label": "Information and communication",
+          "share_of_total_value_added_pct": "2.506"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "KZ",
+          "branch_label": "Financial and insurance activities",
+          "share_of_total_value_added_pct": "2.102"
+        },
+        {
+          "period": "1949-01-01",
+          "branch_code": "RU",
+          "branch_label": "Other service activities",
+          "share_of_total_value_added_pct": "2.051"
+        }
+      ],
+      "drillExampleIndustry": [
+        {
+          "period": "2025-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "358528.0",
+          "share_of_total_value_added_pct": "13.454"
+        },
+        {
+          "period": "2024-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "366267.0",
+          "share_of_total_value_added_pct": "13.954"
+        },
+        {
+          "period": "2023-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "373348.0",
+          "share_of_total_value_added_pct": "14.666"
+        },
+        {
+          "period": "2022-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "287584.0",
+          "share_of_total_value_added_pct": "12.141"
+        },
+        {
+          "period": "2021-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "277506.0",
+          "share_of_total_value_added_pct": "12.541"
+        },
+        {
+          "period": "2020-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "261238.0",
+          "share_of_total_value_added_pct": "12.703"
+        },
+        {
+          "period": "2019-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "288093.0",
+          "share_of_total_value_added_pct": "13.395"
+        },
+        {
+          "period": "2018-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "277731.0",
+          "share_of_total_value_added_pct": "13.340"
+        },
+        {
+          "period": "2017-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "270904.0",
+          "share_of_total_value_added_pct": "13.347"
+        },
+        {
+          "period": "2016-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "269948.0",
+          "share_of_total_value_added_pct": "13.608"
+        },
+        {
+          "period": "2015-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "271001.0",
+          "share_of_total_value_added_pct": "13.824"
+        },
+        {
+          "period": "2014-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "262884.0",
+          "share_of_total_value_added_pct": "13.679"
+        },
+        {
+          "period": "2013-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "260450.0",
+          "share_of_total_value_added_pct": "13.749"
+        },
+        {
+          "period": "2012-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "255535.0",
+          "share_of_total_value_added_pct": "13.689"
+        },
+        {
+          "period": "2011-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "253149.0",
+          "share_of_total_value_added_pct": "13.715"
+        },
+        {
+          "period": "2010-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "243522.0",
+          "share_of_total_value_added_pct": "13.585"
+        },
+        {
+          "period": "2009-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "240670.0",
+          "share_of_total_value_added_pct": "13.803"
+        },
+        {
+          "period": "2008-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "258568.0",
+          "share_of_total_value_added_pct": "14.466"
+        },
+        {
+          "period": "2007-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "262829.0",
+          "share_of_total_value_added_pct": "15.139"
+        },
+        {
+          "period": "2006-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "257993.0",
+          "share_of_total_value_added_pct": "15.641"
+        },
+        {
+          "period": "2005-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "256195.0",
+          "share_of_total_value_added_pct": "16.218"
+        },
+        {
+          "period": "2004-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "254019.0",
+          "share_of_total_value_added_pct": "16.691"
+        },
+        {
+          "period": "2003-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "249192.0",
+          "share_of_total_value_added_pct": "17.094"
+        },
+        {
+          "period": "2002-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "250956.0",
+          "share_of_total_value_added_pct": "17.704"
+        },
+        {
+          "period": "2001-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "250224.0",
+          "share_of_total_value_added_pct": "18.214"
+        },
+        {
+          "period": "2000-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "248028.0",
+          "share_of_total_value_added_pct": "18.801"
+        },
+        {
+          "period": "1999-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "234624.0",
+          "share_of_total_value_added_pct": "18.861"
+        },
+        {
+          "period": "1998-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "230388.0",
+          "share_of_total_value_added_pct": "19.199"
+        },
+        {
+          "period": "1997-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "220252.0",
+          "share_of_total_value_added_pct": "19.164"
+        },
+        {
+          "period": "1996-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "212372.0",
+          "share_of_total_value_added_pct": "19.125"
+        },
+        {
+          "period": "1995-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "211273.0",
+          "share_of_total_value_added_pct": "19.470"
+        },
+        {
+          "period": "1994-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "201930.0",
+          "share_of_total_value_added_pct": "19.247"
+        },
+        {
+          "period": "1993-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "201089.0",
+          "share_of_total_value_added_pct": "19.677"
+        },
+        {
+          "period": "1992-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "205123.0",
+          "share_of_total_value_added_pct": "20.321"
+        },
+        {
+          "period": "1991-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "201063.0",
+          "share_of_total_value_added_pct": "20.729"
+        },
+        {
+          "period": "1990-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "195095.0",
+          "share_of_total_value_added_pct": "20.890"
+        },
+        {
+          "period": "1989-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "184081.0",
+          "share_of_total_value_added_pct": "20.868"
+        },
+        {
+          "period": "1988-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "173252.0",
+          "share_of_total_value_added_pct": "21.215"
+        },
+        {
+          "period": "1987-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "162052.0",
+          "share_of_total_value_added_pct": "21.438"
+        },
+        {
+          "period": "1986-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "158614.0",
+          "share_of_total_value_added_pct": "22.044"
+        },
+        {
+          "period": "1985-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "151157.0",
+          "share_of_total_value_added_pct": "22.716"
+        },
+        {
+          "period": "1984-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "140554.0",
+          "share_of_total_value_added_pct": "22.590"
+        },
+        {
+          "period": "1983-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "130125.0",
+          "share_of_total_value_added_pct": "22.746"
+        },
+        {
+          "period": "1982-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "116691.0",
+          "share_of_total_value_added_pct": "22.645"
+        },
+        {
+          "period": "1981-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "104565.0",
+          "share_of_total_value_added_pct": "23.239"
+        },
+        {
+          "period": "1980-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "94091.0",
+          "share_of_total_value_added_pct": "23.624"
+        },
+        {
+          "period": "1979-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "83343.0",
+          "share_of_total_value_added_pct": "23.857"
+        },
+        {
+          "period": "1978-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "74068.0",
+          "share_of_total_value_added_pct": "24.087"
+        },
+        {
+          "period": "1977-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "65865.0",
+          "share_of_total_value_added_pct": "24.222"
+        },
+        {
+          "period": "1976-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "58424.0",
+          "share_of_total_value_added_pct": "24.426"
+        },
+        {
+          "period": "1975-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "50750.0",
+          "share_of_total_value_added_pct": "24.399"
+        },
+        {
+          "period": "1974-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "46110.0",
+          "share_of_total_value_added_pct": "25.042"
+        },
+        {
+          "period": "1973-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "39307.0",
+          "share_of_total_value_added_pct": "24.911"
+        },
+        {
+          "period": "1972-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "33677.0",
+          "share_of_total_value_added_pct": "24.654"
+        },
+        {
+          "period": "1971-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "31015.0",
+          "share_of_total_value_added_pct": "25.282"
+        },
+        {
+          "period": "1970-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "27600.0",
+          "share_of_total_value_added_pct": "25.128"
+        },
+        {
+          "period": "1969-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "24550.0",
+          "share_of_total_value_added_pct": "25.208"
+        },
+        {
+          "period": "1968-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "21806.0",
+          "share_of_total_value_added_pct": "25.385"
+        },
+        {
+          "period": "1967-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "20300.0",
+          "share_of_total_value_added_pct": "26.012"
+        },
+        {
+          "period": "1966-01-01",
+          "level": "A10",
+          "branch_code": "BE",
+          "branch_label": "Mining, quarrying and manufacturing",
+          "parent_code": null,
+          "is_residual": false,
+          "value_added_current_eur_mn": "19129.0",
+          "share_of_total_value_added_pct": "26.567"
+        }
+      ],
+      "boundaryCases": {
+        "residualRowsLatestYear": [
+          {
+            "period": "2024-01-01",
+            "branch_code": "05+07",
+            "branch_label": "Mining of coal and lignite; Mining of metal ores",
+            "parent_code": "BZ",
+            "value_added_current_eur_mn": "5.0",
+            "value_added_chained_2020_eur_mn": null,
+            "share_of_total_value_added_pct": "0.000"
+          },
+          {
+            "period": "2024-01-01",
+            "branch_code": "18",
+            "branch_label": "Printing and reproduction of recorded media",
+            "parent_code": "CC",
+            "value_added_current_eur_mn": "3180.0",
+            "value_added_chained_2020_eur_mn": null,
+            "share_of_total_value_added_pct": "0.121"
+          },
+          {
+            "period": "2024-01-01",
+            "branch_code": "24",
+            "branch_label": "Manufacture of basic metals",
+            "parent_code": "CH",
+            "value_added_current_eur_mn": "7048.0",
+            "value_added_chained_2020_eur_mn": null,
+            "share_of_total_value_added_pct": "0.269"
+          },
+          {
+            "period": "2024-01-01",
+            "branch_code": "80",
+            "branch_label": "Security and investigation activities",
+            "parent_code": "NZ",
+            "value_added_current_eur_mn": "8978.0",
+            "value_added_chained_2020_eur_mn": null,
+            "share_of_total_value_added_pct": "0.342"
+          },
+          {
+            "period": "2024-01-01",
+            "branch_code": "98",
+            "branch_label": "Undifferentiated goods- and services-producing activities of private households for own use",
+            "parent_code": "TZ",
+            "value_added_current_eur_mn": "0.0",
+            "value_added_chained_2020_eur_mn": null,
+            "share_of_total_value_added_pct": "0.000"
+          }
+        ],
+        "longestLabelA88": [
+          {
+            "branch_code": "16",
+            "branch_label": "Manufacture of wood and of products of wood and cork, except furniture; manufacture of articles of straw and plaiting materials",
+            "characters": 127
+          },
+          {
+            "branch_code": "59",
+            "branch_label": "Motion picture, video and television programme production, sound recording and music publishing activities",
+            "characters": 106
+          },
+          {
+            "branch_code": "98",
+            "branch_label": "Undifferentiated goods- and services-producing activities of private households for own use",
+            "characters": 91
+          }
+        ],
+        "smallestA38Shares": [
+          {
+            "period": "2025-01-01",
+            "branch_code": "CD",
+            "branch_label": "Manufacture of coke and refined petroleum products",
+            "share_of_total_value_added_pct": "0.064"
+          },
+          {
+            "period": "2025-01-01",
+            "branch_code": "BZ",
+            "branch_label": "Mining and quarrying",
+            "share_of_total_value_added_pct": "0.086"
+          },
+          {
+            "period": "2025-01-01",
+            "branch_code": "TZ",
+            "branch_label": "Activities of households as employers; undifferentiated goods- and services-producing activities of households for own use",
+            "share_of_total_value_added_pct": "0.126"
+          }
+        ],
+        "largestA88ShareChange1999ToLatest": [
+          {
+            "branch_code": "68",
+            "branch_label": "Real estate activities",
+            "share_1999": "11.678",
+            "share_latest": "14.490"
+          },
+          {
+            "branch_code": "46",
+            "branch_label": "Wholesale trade, except of motor vehicles and motorcycles",
+            "share_1999": "4.741",
+            "share_latest": "3.447"
+          },
+          {
+            "branch_code": "70",
+            "branch_label": "Activities of head offices; management consultancy activities",
+            "share_1999": "1.420",
+            "share_latest": "2.555"
+          },
+          {
+            "branch_code": "64",
+            "branch_label": "Financial service activities, except insurance and pension funding",
+            "share_1999": "2.512",
+            "share_latest": "1.454"
+          },
+          {
+            "branch_code": "84",
+            "branch_label": "Public administration and defence; compulsory social security",
+            "share_1999": "8.405",
+            "share_latest": "7.563"
+          }
+        ]
+      }
+    },
+    "french-gdp-quarterly": {
+      "manifest": {
+        "contentSha256": "68c04fd2c5a1f4182741d286411f7a949f29c3d6e4a358df62e71860e2f4f85c",
+        "representedPeriod": {
+          "end": "2026-06-30",
+          "start": "1949-01-01"
+        },
+        "logicalTable": "french_gdp_quarterly",
+        "sourceId": "insee-quarterly-national-accounts",
+        "snapshotId": "acq-c2d44329b2072239853c44709bae69b5-ec4c2f18550d",
+        "columnCount": 7
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "gdp_chained_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_current_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_chained_annualised_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_current_annualised_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_quarterly_growth_pct",
+          "type": "DECIMAL(8,2)"
+        },
+        {
+          "name": "gdp_year_on_year_growth_pct",
+          "type": "DECIMAL(8,2)"
+        }
+      ],
+      "latestQuarters": [
+        {
+          "period": "2026-04-01",
+          "gdp_chained_eur_mn": "664746.0",
+          "gdp_current_eur_mn": "759713.0",
+          "gdp_chained_annualised_eur_mn": "2658984.0",
+          "gdp_current_annualised_eur_mn": "3038852.0",
+          "gdp_quarterly_growth_pct": "0.00",
+          "gdp_year_on_year_growth_pct": "0.54"
+        },
+        {
+          "period": "2026-01-01",
+          "gdp_chained_eur_mn": "664510.0",
+          "gdp_current_eur_mn": "756553.0",
+          "gdp_chained_annualised_eur_mn": "2658040.0",
+          "gdp_current_annualised_eur_mn": "3026212.0",
+          "gdp_quarterly_growth_pct": "-0.20",
+          "gdp_year_on_year_growth_pct": "0.74"
+        },
+        {
+          "period": "2025-10-01",
+          "gdp_chained_eur_mn": "665708.0",
+          "gdp_current_eur_mn": "755703.0",
+          "gdp_chained_annualised_eur_mn": "2662832.0",
+          "gdp_current_annualised_eur_mn": "3022812.0",
+          "gdp_quarterly_growth_pct": "0.30",
+          "gdp_year_on_year_growth_pct": "1.10"
+        },
+        {
+          "period": "2025-07-01",
+          "gdp_chained_eur_mn": "663962.0",
+          "gdp_current_eur_mn": "750640.0",
+          "gdp_chained_annualised_eur_mn": "2655848.0",
+          "gdp_current_annualised_eur_mn": "3002560.0",
+          "gdp_quarterly_growth_pct": "0.40",
+          "gdp_year_on_year_growth_pct": "0.82"
+        },
+        {
+          "period": "2025-04-01",
+          "gdp_chained_eur_mn": "661160.0",
+          "gdp_current_eur_mn": "745275.0",
+          "gdp_chained_annualised_eur_mn": "2644640.0",
+          "gdp_current_annualised_eur_mn": "2981100.0",
+          "gdp_quarterly_growth_pct": "0.20",
+          "gdp_year_on_year_growth_pct": "0.83"
+        },
+        {
+          "period": "2025-01-01",
+          "gdp_chained_eur_mn": "659604.0",
+          "gdp_current_eur_mn": "743571.0",
+          "gdp_chained_annualised_eur_mn": "2638416.0",
+          "gdp_current_annualised_eur_mn": "2974284.0",
+          "gdp_quarterly_growth_pct": "0.20",
+          "gdp_year_on_year_growth_pct": "0.81"
+        }
+      ],
+      "boundaryCases": {
+        "covidQuarters": [
+          {
+            "period": "2019-10-01",
+            "gdp_chained_eur_mn": "625548.0",
+            "gdp_current_eur_mn": "610168.0",
+            "gdp_chained_annualised_eur_mn": "2502192.0",
+            "gdp_current_annualised_eur_mn": "2440672.0",
+            "gdp_quarterly_growth_pct": "-0.50",
+            "gdp_year_on_year_growth_pct": "0.98"
+          },
+          {
+            "period": "2020-01-01",
+            "gdp_chained_eur_mn": "594253.0",
+            "gdp_current_eur_mn": "588126.0",
+            "gdp_chained_annualised_eur_mn": "2377012.0",
+            "gdp_current_annualised_eur_mn": "2352504.0",
+            "gdp_quarterly_growth_pct": "-5.00",
+            "gdp_year_on_year_growth_pct": "-4.97"
+          },
+          {
+            "period": "2020-04-01",
+            "gdp_chained_eur_mn": "521682.0",
+            "gdp_current_eur_mn": "532526.0",
+            "gdp_chained_annualised_eur_mn": "2086728.0",
+            "gdp_current_annualised_eur_mn": "2130104.0",
+            "gdp_quarterly_growth_pct": "-12.20",
+            "gdp_year_on_year_growth_pct": "-16.99"
+          },
+          {
+            "period": "2020-07-01",
+            "gdp_chained_eur_mn": "600690.0",
+            "gdp_current_eur_mn": "595825.0",
+            "gdp_chained_annualised_eur_mn": "2402760.0",
+            "gdp_current_annualised_eur_mn": "2383300.0",
+            "gdp_quarterly_growth_pct": "15.10",
+            "gdp_year_on_year_growth_pct": "-4.46"
+          },
+          {
+            "period": "2020-10-01",
+            "gdp_chained_eur_mn": "600625.0",
+            "gdp_current_eur_mn": "600823.0",
+            "gdp_chained_annualised_eur_mn": "2402500.0",
+            "gdp_current_annualised_eur_mn": "2403292.0",
+            "gdp_quarterly_growth_pct": "0.00",
+            "gdp_year_on_year_growth_pct": "-3.98"
+          },
+          {
+            "period": "2021-01-01",
+            "gdp_chained_eur_mn": "603324.0",
+            "gdp_current_eur_mn": "606682.0",
+            "gdp_chained_annualised_eur_mn": "2413296.0",
+            "gdp_current_annualised_eur_mn": "2426728.0",
+            "gdp_quarterly_growth_pct": "0.40",
+            "gdp_year_on_year_growth_pct": "1.53"
+          },
+          {
+            "period": "2021-04-01",
+            "gdp_chained_eur_mn": "610634.0",
+            "gdp_current_eur_mn": "617792.0",
+            "gdp_chained_annualised_eur_mn": "2442536.0",
+            "gdp_current_annualised_eur_mn": "2471168.0",
+            "gdp_quarterly_growth_pct": "1.20",
+            "gdp_year_on_year_growth_pct": "17.05"
+          }
+        ],
+        "firstQuarterHasNoGrowth": [
+          {
+            "period": "1949-01-01",
+            "gdp_chained_eur_mn": "69933.0",
+            "gdp_current_eur_mn": "3182.0",
+            "gdp_chained_annualised_eur_mn": "279732.0",
+            "gdp_current_annualised_eur_mn": "12728.0",
+            "gdp_quarterly_growth_pct": null,
+            "gdp_year_on_year_growth_pct": null
+          }
+        ]
+      }
+    },
+    "french-gdp-dollar-decomposition": {
+      "manifest": {
+        "contentSha256": "27166c835b5e7cc31d683250e1e996174304ed68765519636db62e9cc1c2aeba",
+        "representedPeriod": {
+          "end": "2025-12-31",
+          "start": "1960-01-01"
+        },
+        "logicalTable": "french_gdp_dollar_decomposition",
+        "sourceId": "world-bank-wdi-gdp",
+        "snapshotId": "acq-8f180d01739d08ec52ec7294b076ec95-f5611fdb8803",
+        "columnCount": 11
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "gdp_current_usd_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_current_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_constant_eur_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_deflator_index",
+          "type": "DECIMAL(12,4)"
+        },
+        {
+          "name": "eur_per_usd",
+          "type": "DECIMAL(12,6)"
+        },
+        {
+          "name": "dollar_gdp_change_pct",
+          "type": "DECIMAL(10,3)"
+        },
+        {
+          "name": "dollar_gdp_change_log_points",
+          "type": "DECIMAL(10,3)"
+        },
+        {
+          "name": "real_growth_log_points",
+          "type": "DECIMAL(10,3)"
+        },
+        {
+          "name": "deflator_change_log_points",
+          "type": "DECIMAL(10,3)"
+        },
+        {
+          "name": "exchange_rate_change_log_points",
+          "type": "DECIMAL(10,3)"
+        }
+      ],
+      "latestYears": [
+        {
+          "period": "2025-01-01",
+          "gdp_current_usd_mn": "3366315.9",
+          "gdp_current_eur_mn": "2979085.1",
+          "gdp_constant_eur_mn": "2634479.7",
+          "gdp_deflator_index": "113.0806",
+          "eur_per_usd": "0.884969",
+          "dollar_gdp_change_pct": "6.514",
+          "dollar_gdp_change_log_points": "6.311",
+          "real_growth_log_points": "0.837",
+          "deflator_change_log_points": "1.169",
+          "exchange_rate_change_log_points": "4.304"
+        },
+        {
+          "period": "2024-01-01",
+          "gdp_current_usd_mn": "3160442.6",
+          "gdp_current_eur_mn": "2919899.9",
+          "gdp_constant_eur_mn": "2612509.8",
+          "gdp_deflator_index": "111.7661",
+          "eur_per_usd": "0.923890",
+          "dollar_gdp_change_pct": "3.409",
+          "dollar_gdp_change_log_points": "3.352",
+          "real_growth_log_points": "1.183",
+          "deflator_change_log_points": "2.066",
+          "exchange_rate_change_log_points": "0.103"
+        },
+        {
+          "period": "2023-01-01",
+          "gdp_current_usd_mn": "3056250.6",
+          "gdp_current_eur_mn": "2826541.5",
+          "gdp_constant_eur_mn": "2581774.6",
+          "gdp_deflator_index": "109.4806",
+          "eur_per_usd": "0.924840",
+          "dollar_gdp_change_pct": "9.355",
+          "dollar_gdp_change_log_points": "8.943",
+          "real_growth_log_points": "1.429",
+          "deflator_change_log_points": "4.870",
+          "exchange_rate_change_log_points": "2.645"
+        }
+      ],
+      "boundaryCases": {
+        "euroChangeover": [
+          {
+            "period": "1998-01-01",
+            "gdp_current_usd_mn": "1496906.4",
+            "gdp_current_eur_mn": "1346317.6",
+            "gdp_constant_eur_mn": "1806761.8",
+            "gdp_deflator_index": "74.5155",
+            "eur_per_usd": "0.899375",
+            "dollar_gdp_change_pct": "3.278",
+            "dollar_gdp_change_log_points": "3.226",
+            "real_growth_log_points": "3.394",
+            "deflator_change_log_points": "0.904",
+            "exchange_rate_change_log_points": "-1.071"
+          },
+          {
+            "period": "1999-01-01",
+            "gdp_current_usd_mn": "1486915.9",
+            "gdp_current_eur_mn": "1395148.0",
+            "gdp_constant_eur_mn": "1868179.2",
+            "gdp_deflator_index": "74.6796",
+            "eur_per_usd": "0.938283",
+            "dollar_gdp_change_pct": "-0.667",
+            "dollar_gdp_change_log_points": "-0.670",
+            "real_growth_log_points": "3.343",
+            "deflator_change_log_points": "0.220",
+            "exchange_rate_change_log_points": "-4.235"
+          },
+          {
+            "period": "2000-01-01",
+            "gdp_current_usd_mn": "1360959.1",
+            "gdp_current_eur_mn": "1473517.3",
+            "gdp_constant_eur_mn": "1945540.5",
+            "gdp_deflator_index": "75.7382",
+            "eur_per_usd": "1.082705",
+            "dollar_gdp_change_pct": "-8.471",
+            "dollar_gdp_change_log_points": "-8.851",
+            "real_growth_log_points": "4.058",
+            "deflator_change_log_points": "1.408",
+            "exchange_rate_change_log_points": "-14.317"
+          }
+        ],
+        "largestExchangeRateSwings": [
+          {
+            "period": "1986-01-01",
+            "dollar_gdp_change_log_points": "33.495",
+            "real_growth_log_points": "2.361",
+            "deflator_change_log_points": "5.107",
+            "exchange_rate_change_log_points": "26.029"
+          },
+          {
+            "period": "1981-01-01",
+            "dollar_gdp_change_log_points": "-13.111",
+            "real_growth_log_points": "1.181",
+            "deflator_change_log_points": "10.868",
+            "exchange_rate_change_log_points": "-25.163"
+          },
+          {
+            "period": "1982-01-01",
+            "dollar_gdp_change_log_points": "-5.228",
+            "real_growth_log_points": "2.413",
+            "deflator_change_log_points": "11.362",
+            "exchange_rate_change_log_points": "-19.005"
+          },
+          {
+            "period": "2015-01-01",
+            "dollar_gdp_change_log_points": "-15.824",
+            "real_growth_log_points": "1.061",
+            "deflator_change_log_points": "1.128",
+            "exchange_rate_change_log_points": "-18.013"
+          }
+        ],
+        "highInflationYears": [
+          {
+            "period": "1975-01-01",
+            "deflator_change_log_points": "12.885"
+          },
+          {
+            "period": "1982-01-01",
+            "deflator_change_log_points": "11.362"
+          },
+          {
+            "period": "1974-01-01",
+            "deflator_change_log_points": "11.018"
+          }
+        ],
+        "firstYearHasNoChange": [
+          {
+            "period": "1960-01-01",
+            "gdp_current_usd_mn": "61959.1",
+            "gdp_current_eur_mn": "46633.5",
+            "gdp_constant_eur_mn": "490671.5",
+            "gdp_deflator_index": "9.5040",
+            "eur_per_usd": "0.752650",
+            "dollar_gdp_change_pct": null,
+            "dollar_gdp_change_log_points": null,
+            "real_growth_log_points": null,
+            "deflator_change_log_points": null,
+            "exchange_rate_change_log_points": null
+          }
+        ]
+      }
+    },
+    "oecd-productivity-comparison": {
+      "manifest": {
+        "contentSha256": "41be82d51da91677b771ff73c221205b2a29e92feffe8514295fa6341a7a5533",
+        "representedPeriod": {
+          "end": "2025-12-31",
+          "start": "1970-01-01"
+        },
+        "logicalTable": "oecd_productivity_comparison",
+        "sourceId": "oecd-productivity-database",
+        "snapshotId": "acq-11ed352dd7adbbf40b7ebef533ad7205-bf766d6d50b7",
+        "columnCount": 17
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "reference_area_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "reference_area_kind",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "gdp_ppp_current_usd_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_ppp_constant_2020_usd_mn",
+          "type": "DECIMAL(18,1)"
+        },
+        {
+          "name": "gdp_volume_growth_pct",
+          "type": "DECIMAL(8,3)"
+        },
+        {
+          "name": "population_thousands",
+          "type": "DECIMAL(14,1)"
+        },
+        {
+          "name": "employment_thousands",
+          "type": "DECIMAL(14,1)"
+        },
+        {
+          "name": "hours_worked_mn",
+          "type": "DECIMAL(14,1)"
+        },
+        {
+          "name": "gdp_per_capita_ppp_current_usd",
+          "type": "DECIMAL(12,1)"
+        },
+        {
+          "name": "gdp_per_capita_ppp_constant_2020_usd",
+          "type": "DECIMAL(12,1)"
+        },
+        {
+          "name": "labour_input_is_plausible",
+          "type": "BOOLEAN"
+        },
+        {
+          "name": "gdp_per_hour_ppp_current_usd",
+          "type": "DECIMAL(12,4)"
+        },
+        {
+          "name": "gdp_per_hour_ppp_constant_2020_usd",
+          "type": "DECIMAL(12,4)"
+        },
+        {
+          "name": "hours_per_worker",
+          "type": "DECIMAL(8,1)"
+        },
+        {
+          "name": "employment_per_capita",
+          "type": "DECIMAL(8,5)"
+        }
+      ],
+      "defaultComparatorsLatest": [
+        {
+          "period": "2025-01-01",
+          "reference_area_code": "DEU",
+          "reference_area_name": "Germany",
+          "reference_area_kind": "member",
+          "gdp_ppp_current_usd_mn": "6295654.7",
+          "gdp_ppp_constant_2020_usd_mn": "5105516.5",
+          "gdp_volume_growth_pct": "0.220",
+          "population_thousands": "83513.0",
+          "employment_thousands": "45878.0",
+          "hours_worked_mn": "61309.1",
+          "gdp_per_capita_ppp_current_usd": "75385.3",
+          "gdp_per_capita_ppp_constant_2020_usd": "61134.4",
+          "labour_input_is_plausible": true,
+          "gdp_per_hour_ppp_current_usd": "102.6871",
+          "gdp_per_hour_ppp_constant_2020_usd": "83.2750",
+          "hours_per_worker": "1336.4",
+          "employment_per_capita": "0.54935"
+        },
+        {
+          "period": "2025-01-01",
+          "reference_area_code": "FRA",
+          "reference_area_name": "France",
+          "reference_area_kind": "member",
+          "gdp_ppp_current_usd_mn": "4414073.6",
+          "gdp_ppp_constant_2020_usd_mn": "3818973.1",
+          "gdp_volume_growth_pct": "0.805",
+          "population_thousands": "68998.0",
+          "employment_thousands": "30638.0",
+          "hours_worked_mn": "45954.9",
+          "gdp_per_capita_ppp_current_usd": "63973.9",
+          "gdp_per_capita_ppp_constant_2020_usd": "55349.0",
+          "labour_input_is_plausible": true,
+          "gdp_per_hour_ppp_current_usd": "96.0523",
+          "gdp_per_hour_ppp_constant_2020_usd": "83.1026",
+          "hours_per_worker": "1499.9",
+          "employment_per_capita": "0.44404"
+        },
+        {
+          "period": "2025-01-01",
+          "reference_area_code": "GBR",
+          "reference_area_name": "United Kingdom",
+          "reference_area_kind": "member",
+          "gdp_ppp_current_usd_mn": "4480458.0",
+          "gdp_ppp_constant_2020_usd_mn": "3809405.1",
+          "gdp_volume_growth_pct": "1.315",
+          "population_thousands": "69502.0",
+          "employment_thousands": "34160.1",
+          "hours_worked_mn": "52364.5",
+          "gdp_per_capita_ppp_current_usd": "64465.2",
+          "gdp_per_capita_ppp_constant_2020_usd": "54810.0",
+          "labour_input_is_plausible": true,
+          "gdp_per_hour_ppp_current_usd": "85.5629",
+          "gdp_per_hour_ppp_constant_2020_usd": "72.7479",
+          "hours_per_worker": "1532.9",
+          "employment_per_capita": "0.49150"
+        },
+        {
+          "period": "2025-01-01",
+          "reference_area_code": "OECD",
+          "reference_area_name": "OECD",
+          "reference_area_kind": "aggregate",
+          "gdp_ppp_current_usd_mn": "90106515.3",
+          "gdp_ppp_constant_2020_usd_mn": "74166078.3",
+          "gdp_volume_growth_pct": null,
+          "population_thousands": "1404194.1",
+          "employment_thousands": "803068.2",
+          "hours_worked_mn": "1268155.4",
+          "gdp_per_capita_ppp_current_usd": "64169.6",
+          "gdp_per_capita_ppp_constant_2020_usd": "52817.5",
+          "labour_input_is_plausible": true,
+          "gdp_per_hour_ppp_current_usd": "71.0532",
+          "gdp_per_hour_ppp_constant_2020_usd": "58.4834",
+          "hours_per_worker": "1579.1",
+          "employment_per_capita": "0.57191"
+        },
+        {
+          "period": "2025-01-01",
+          "reference_area_code": "USA",
+          "reference_area_name": "United States",
+          "reference_area_kind": "member",
+          "gdp_ppp_current_usd_mn": "30769700.0",
+          "gdp_ppp_constant_2020_usd_mn": "25146527.8",
+          "gdp_volume_growth_pct": "2.161",
+          "population_thousands": "341944.5",
+          "employment_thousands": "165681.7",
+          "hours_worked_mn": "293759.7",
+          "gdp_per_capita_ppp_current_usd": "89984.5",
+          "gdp_per_capita_ppp_constant_2020_usd": "73539.8",
+          "labour_input_is_plausible": true,
+          "gdp_per_hour_ppp_current_usd": "104.7444",
+          "gdp_per_hour_ppp_constant_2020_usd": "85.6024",
+          "hours_per_worker": "1773.0",
+          "employment_per_capita": "0.48453"
+        }
+      ],
+      "coverageStartOfDefaultComparators": [
+        {
+          "reference_area_code": "DEU",
+          "per_capita_from": 1970,
+          "hours_from": 1991,
+          "per_capita_to": 2025
+        },
+        {
+          "reference_area_code": "FRA",
+          "per_capita_from": 1970,
+          "hours_from": 1970,
+          "per_capita_to": 2025
+        },
+        {
+          "reference_area_code": "GBR",
+          "per_capita_from": 1970,
+          "hours_from": 1980,
+          "per_capita_to": 2025
+        },
+        {
+          "reference_area_code": "OECD",
+          "per_capita_from": 1970,
+          "hours_from": 1996,
+          "per_capita_to": 2025
+        },
+        {
+          "reference_area_code": "USA",
+          "per_capita_from": 1970,
+          "hours_from": 1987,
+          "per_capita_to": 2025
+        }
+      ],
+      "areaList": [
+        {
+          "reference_area_code": "EA20",
+          "name": "Euro area (20 countries)",
+          "kind": "aggregate"
+        },
+        {
+          "reference_area_code": "EU27_2020",
+          "name": "European Union (27 countries from 01/02/2020)",
+          "kind": "aggregate"
+        },
+        {
+          "reference_area_code": "OECD",
+          "name": "OECD",
+          "kind": "aggregate"
+        },
+        {
+          "reference_area_code": "AUS",
+          "name": "Australia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "AUT",
+          "name": "Austria",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "BEL",
+          "name": "Belgium",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "CAN",
+          "name": "Canada",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "CHL",
+          "name": "Chile",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "COL",
+          "name": "Colombia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "CRI",
+          "name": "Costa Rica",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "CZE",
+          "name": "Czechia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "DNK",
+          "name": "Denmark",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "EST",
+          "name": "Estonia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "FIN",
+          "name": "Finland",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "FRA",
+          "name": "France",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "DEU",
+          "name": "Germany",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "GRC",
+          "name": "Greece",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "HUN",
+          "name": "Hungary",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "ISL",
+          "name": "Iceland",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "IRL",
+          "name": "Ireland",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "ISR",
+          "name": "Israel",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "ITA",
+          "name": "Italy",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "JPN",
+          "name": "Japan",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "KOR",
+          "name": "Korea",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "LVA",
+          "name": "Latvia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "LTU",
+          "name": "Lithuania",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "LUX",
+          "name": "Luxembourg",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "MEX",
+          "name": "Mexico",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "NLD",
+          "name": "Netherlands",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "NZL",
+          "name": "New Zealand",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "NOR",
+          "name": "Norway",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "POL",
+          "name": "Poland",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "PRT",
+          "name": "Portugal",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "SVK",
+          "name": "Slovak Republic",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "SVN",
+          "name": "Slovenia",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "ESP",
+          "name": "Spain",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "SWE",
+          "name": "Sweden",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "CHE",
+          "name": "Switzerland",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "TUR",
+          "name": "Türkiye",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "GBR",
+          "name": "United Kingdom",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "USA",
+          "name": "United States",
+          "kind": "member"
+        },
+        {
+          "reference_area_code": "BRA",
+          "name": "Brazil",
+          "kind": "non-member"
+        },
+        {
+          "reference_area_code": "BGR",
+          "name": "Bulgaria",
+          "kind": "non-member"
+        },
+        {
+          "reference_area_code": "HRV",
+          "name": "Croatia",
+          "kind": "non-member"
+        },
+        {
+          "reference_area_code": "PER",
+          "name": "Peru",
+          "kind": "non-member"
+        },
+        {
+          "reference_area_code": "ROU",
+          "name": "Romania",
+          "kind": "non-member"
+        }
+      ],
+      "boundaryCases": {
+        "labourScreenFailures": [
+          {
+            "reference_area_code": "NZL",
+            "years": 35,
+            "first": 1991,
+            "last": 2025
+          }
+        ],
+        "raggedEdgeLatestYearPerArea": [
+          {
+            "reference_area_code": "BRA",
+            "latest": 2021
+          },
+          {
+            "reference_area_code": "BGR",
+            "latest": 2024
+          },
+          {
+            "reference_area_code": "AUS",
+            "latest": 2024
+          },
+          {
+            "reference_area_code": "CRI",
+            "latest": 2024
+          }
+        ],
+        "perCapitaExtremesLatest": [
+          {
+            "reference_area_code": "LUX",
+            "gdp_per_capita_ppp_current_usd": "156526.6"
+          },
+          {
+            "reference_area_code": "IRL",
+            "gdp_per_capita_ppp_current_usd": "146688.3"
+          },
+          {
+            "reference_area_code": "COL",
+            "gdp_per_capita_ppp_current_usd": "23232.6"
+          },
+          {
+            "reference_area_code": "MEX",
+            "gdp_per_capita_ppp_current_usd": "26117.5"
+          }
+        ],
+        "hoursPerWorkerExtremesLatest": [
+          {
+            "reference_area_code": "DEU",
+            "hours_per_worker": "1336.4"
+          },
+          {
+            "reference_area_code": "DNK",
+            "hours_per_worker": "1360.5"
+          },
+          {
+            "reference_area_code": "MEX",
+            "hours_per_worker": "2063.1"
+          },
+          {
+            "reference_area_code": "HRV",
+            "hours_per_worker": "1945.7"
+          }
+        ],
+        "deepestGrowthYearsFrance": [
+          {
+            "period": "2020-01-01",
+            "gdp_volume_growth_pct": "-7.441"
+          },
+          {
+            "period": "2009-01-01",
+            "gdp_volume_growth_pct": "-2.825"
+          }
+        ]
+      }
+    },
+    "french-departement-gdp": {
+      "manifest": {
+        "contentSha256": "e9f6ecb6d8877325b6d0ac9a6f28bc0df951d73818a8b84392de93e812aee11b",
+        "representedPeriod": {
+          "end": "2024-12-31",
+          "start": "2000-01-01"
+        },
+        "logicalTable": "french_departement_gdp",
+        "sourceId": "eurostat-regional-gdp",
+        "snapshotId": "acq-da5f797d798ca628269261e650b6f9c7-21bea2a92ee3",
+        "columnCount": 10
+      },
+      "schema": [
+        {
+          "name": "period",
+          "type": "DATE"
+        },
+        {
+          "name": "departement_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "nuts3_code",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "departement_name",
+          "type": "VARCHAR"
+        },
+        {
+          "name": "gdp_eur_mn",
+          "type": "DECIMAL(14,1)"
+        },
+        {
+          "name": "gdp_per_inhabitant_eur",
+          "type": "DECIMAL(10,0)"
+        },
+        {
+          "name": "gdp_per_inhabitant_pps",
+          "type": "DECIMAL(10,0)"
+        },
+        {
+          "name": "france_gdp_per_inhabitant_eur",
+          "type": "DECIMAL(10,0)"
+        },
+        {
+          "name": "gdp_per_inhabitant_index_france",
+          "type": "DECIMAL(8,1)"
+        },
+        {
+          "name": "is_provisional",
+          "type": "BOOLEAN"
+        }
+      ],
+      "latestYearExtremes": [
+        {
+          "period": "2024-01-01",
+          "departement_code": "75",
+          "nuts3_code": "FR101",
+          "departement_name": "Paris",
+          "gdp_eur_mn": "279937.5",
+          "gdp_per_inhabitant_eur": "133700",
+          "gdp_per_inhabitant_pps": "123100",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "313.8",
+          "is_provisional": true
+        },
+        {
+          "period": "2024-01-01",
+          "departement_code": "92",
+          "nuts3_code": "FR105",
+          "departement_name": "Hauts-de-Seine",
+          "gdp_eur_mn": "198209.8",
+          "gdp_per_inhabitant_eur": "119700",
+          "gdp_per_inhabitant_pps": "110200",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "281.0",
+          "is_provisional": true
+        },
+        {
+          "period": "2024-01-01",
+          "departement_code": "69",
+          "nuts3_code": "FRK26",
+          "departement_name": "Rhône",
+          "gdp_eur_mn": "111379.3",
+          "gdp_per_inhabitant_eur": "57600",
+          "gdp_per_inhabitant_pps": "53100",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "135.2",
+          "is_provisional": true
+        },
+        {
+          "period": "2024-01-01",
+          "departement_code": "976",
+          "nuts3_code": "FRY50",
+          "departement_name": "Mayotte",
+          "gdp_eur_mn": "3786.0",
+          "gdp_per_inhabitant_eur": "13100",
+          "gdp_per_inhabitant_pps": "12000",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "30.8",
+          "is_provisional": true
+        },
+        {
+          "period": "2024-01-01",
+          "departement_code": "973",
+          "nuts3_code": "FRY30",
+          "departement_name": "Guyane",
+          "gdp_eur_mn": "5243.6",
+          "gdp_per_inhabitant_eur": "17700",
+          "gdp_per_inhabitant_pps": "16300",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "41.5",
+          "is_provisional": true
+        },
+        {
+          "period": "2024-01-01",
+          "departement_code": "23",
+          "nuts3_code": "FRI22",
+          "departement_name": "Creuse",
+          "gdp_eur_mn": "2954.4",
+          "gdp_per_inhabitant_eur": "25900",
+          "gdp_per_inhabitant_pps": "23800",
+          "france_gdp_per_inhabitant_eur": "42600",
+          "gdp_per_inhabitant_index_france": "60.8",
+          "is_provisional": true
+        }
+      ],
+      "latestYearDistribution": [
+        {
+          "index_deciles": [
+            "66.9",
+            "72.5",
+            "78.9",
+            "88.7",
+            "108.5"
+          ],
+          "departements": 101
+        }
+      ],
+      "boundaryCases": {
+        "mayotteWithoutPerInhabitant": [
+          {
+            "period": "2013-01-01",
+            "departement_code": "976",
+            "nuts3_code": "FRY50",
+            "departement_name": "Mayotte",
+            "gdp_eur_mn": "1588.8",
+            "gdp_per_inhabitant_eur": null,
+            "gdp_per_inhabitant_pps": null,
+            "france_gdp_per_inhabitant_eur": "32300",
+            "gdp_per_inhabitant_index_france": null,
+            "is_provisional": false
+          },
+          {
+            "period": "2014-01-01",
+            "departement_code": "976",
+            "nuts3_code": "FRY50",
+            "departement_name": "Mayotte",
+            "gdp_eur_mn": "1731.6",
+            "gdp_per_inhabitant_eur": "7600",
+            "gdp_per_inhabitant_pps": "6800",
+            "france_gdp_per_inhabitant_eur": "32600",
+            "gdp_per_inhabitant_index_france": "23.3",
+            "is_provisional": false
+          }
+        ],
+        "corsica": [
+          {
+            "period": "2024-01-01",
+            "departement_code": "2A",
+            "nuts3_code": "FRM01",
+            "departement_name": "Corse-du-Sud",
+            "gdp_eur_mn": "7029.1",
+            "gdp_per_inhabitant_eur": "41800",
+            "gdp_per_inhabitant_pps": "38500",
+            "france_gdp_per_inhabitant_eur": "42600",
+            "gdp_per_inhabitant_index_france": "98.1",
+            "is_provisional": true
+          },
+          {
+            "period": "2024-01-01",
+            "departement_code": "2B",
+            "nuts3_code": "FRM02",
+            "departement_name": "Haute-Corse",
+            "gdp_eur_mn": "6328.8",
+            "gdp_per_inhabitant_eur": "33600",
+            "gdp_per_inhabitant_pps": "30900",
+            "france_gdp_per_inhabitant_eur": "42600",
+            "gdp_per_inhabitant_index_france": "78.9",
+            "is_provisional": true
+          }
+        ],
+        "provisionalYears": [
+          {
+            "year": 2022,
+            "provisional": 101
+          },
+          {
+            "year": 2023,
+            "provisional": 101
+          },
+          {
+            "year": 2024,
+            "provisional": 101
+          }
+        ]
+      }
+    }
+  },
+  "crossDatasetFacts": {
+    "adjustedQuartersDoNotSumToTheAnnualAccounts": [
+      {
+        "year": 1960,
+        "quarterly_sum_chained": "490625.0",
+        "annual_chained": "490672.0",
+        "gap_pct": -0.01,
+        "gap_current_pct": -0.009
+      },
+      {
+        "year": 1990,
+        "quarterly_sum_chained": "1566987.0",
+        "annual_chained": "1566240.0",
+        "gap_pct": 0.048,
+        "gap_current_pct": 0.051
+      },
+      {
+        "year": 2019,
+        "quarterly_sum_chained": "2508040.0",
+        "annual_chained": "2504637.0",
+        "gap_pct": 0.136,
+        "gap_current_pct": 0.134
+      },
+      {
+        "year": 2023,
+        "quarterly_sum_chained": "2590167.0",
+        "annual_chained": "2586706.0",
+        "gap_pct": 0.134,
+        "gap_current_pct": 0.136
+      },
+      {
+        "year": 2024,
+        "quarterly_sum_chained": "2627065.0",
+        "annual_chained": "2625622.0",
+        "gap_pct": 0.055,
+        "gap_current_pct": 0.054
+      },
+      {
+        "year": 2025,
+        "quarterly_sum_chained": "2650434.0",
+        "annual_chained": "2646746.0",
+        "gap_pct": 0.139,
+        "gap_current_pct": 0.138
+      }
+    ],
+    "latestAnnualYearAndLatestQuarter": [
+      {
+        "latest_annual_year": "2025-01-01",
+        "latest_quarter": "2026-04-01"
+      }
+    ],
+    "worldBankEuroGdpIsNotInseeEuroGdp": [
+      {
+        "year": 1960,
+        "world_bank": "46633.5",
+        "insee": "46634.0",
+        "gap_pct": -0.001
+      },
+      {
+        "year": 1999,
+        "world_bank": "1395148.0",
+        "insee": "1395148.0",
+        "gap_pct": 0.0
+      },
+      {
+        "year": 2019,
+        "world_bank": "2432206.8",
+        "insee": "2432207.0",
+        "gap_pct": -0.0
+      },
+      {
+        "year": 2024,
+        "world_bank": "2919899.9",
+        "insee": "2935236.0",
+        "gap_pct": -0.522
+      },
+      {
+        "year": 2025,
+        "world_bank": "2979085.1",
+        "insee": "2991056.0",
+        "gap_pct": -0.4
+      }
+    ],
+    "oecdFranceIsNotInseeFrance": [
+      {
+        "year": 1971,
+        "oecd_growth": "5.293",
+        "insee_growth": "5.293",
+        "oecd_population": "52425.0",
+        "insee_implied_population": 52417.9
+      },
+      {
+        "year": 2000,
+        "oecd_growth": "4.141",
+        "insee_growth": "4.141",
+        "oecd_population": "60746.0",
+        "insee_implied_population": 60746.1
+      },
+      {
+        "year": 2020,
+        "oecd_growth": "-7.441",
+        "insee_growth": "-7.441",
+        "oecd_population": "67718.0",
+        "insee_implied_population": 67716.5
+      },
+      {
+        "year": 2024,
+        "oecd_growth": "1.504",
+        "insee_growth": "1.504",
+        "oecd_population": "68776.0",
+        "insee_implied_population": 68776.3
+      },
+      {
+        "year": 2025,
+        "oecd_growth": "0.805",
+        "insee_growth": "0.805",
+        "oecd_population": "68998.0",
+        "insee_implied_population": 68997.8
+      }
+    ],
+    "workingAgeShareJoinCoverage": [
+      {
+        "members": 38,
+        "members_with_un_share": 38,
+        "members_without": null
+      }
+    ],
+    "workingAgeShareFranceAndSeriesKind": [
+      {
+        "year": 1970,
+        "share_15_64_pct": "62.3092",
+        "series_kind": "estimate"
+      },
+      {
+        "year": 2000,
+        "share_15_64_pct": "65.0652",
+        "series_kind": "estimate"
+      },
+      {
+        "year": 2023,
+        "share_15_64_pct": "61.4661",
+        "series_kind": "estimate"
+      },
+      {
+        "year": 2024,
+        "share_15_64_pct": "61.3483",
+        "series_kind": "projection"
+      },
+      {
+        "year": 2025,
+        "share_15_64_pct": "61.2332",
+        "series_kind": "projection"
+      }
+    ],
+    "aggregatesHaveNoUnWorkingAgeShare": [
+      {
+        "reference_area_code": "EA20"
+      },
+      {
+        "reference_area_code": "EU27_2020"
+      },
+      {
+        "reference_area_code": "OECD"
+      }
+    ],
+    "departementCodesMatchTheGeometry": [
+      {
+        "gdp_departements": 101,
+        "geometry_departements": 101,
+        "geometry_without_gdp": 0
+      }
+    ]
+  }
+}

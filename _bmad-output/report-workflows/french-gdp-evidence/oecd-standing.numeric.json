@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "oecd-standing",
+  "dataset_revision": "oecd-productivity-comparison@41be82d51da91677b771ff73c221205b2a29e92feffe8514295fa6341a7a5533",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(12,1) $ → DOUBLE → k$ (÷1000) → grouped 1 dp",
+    "DECIMAL(8,3) % → DOUBLE → signed 1 dp"
+  ],
+  "cases": [
+    {
+      "id": "ppp-level-scale",
+      "path": "DECIMAL(12,1) $ → DOUBLE → k$ (÷1000) → grouped 1 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "FRA 2025 gdp_per_capita_ppp_current_usd",
+      "stored": "63973.9",
+      "query": 63973.9,
+      "expected_query": 63973.9,
+      "displayed": "64.0 k$",
+      "expected_display": "64.0 k$"
+    },
+    {
+      "id": "aggregate-null-growth",
+      "path": "DECIMAL(8,3) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "null"
+      ],
+      "observation": "OECD 2025 gdp_volume_growth_pct",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "—",
+      "expected_display": "—"
+    },
+    {
+      "id": "france-negative-growth",
+      "path": "DECIMAL(8,3) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "FRA 2020 gdp_volume_growth_pct",
+      "stored": "-7.441",
+      "query": -7.441,
+      "expected_query": -7.441,
+      "displayed": "−7.4 %",
+      "expected_display": "−7.4 %"
+    }
+  ]
+}

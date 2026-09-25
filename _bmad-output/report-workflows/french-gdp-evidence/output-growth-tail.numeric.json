@@ -1,0 +1,85 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "output-growth-tail",
+  "dataset_revision": "french-national-accounts-annual@5fd5fdc42a4eecdb7c3169d2d76394b8c244ce36c98d30d5558ef64efac84414",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "annual DECIMAL(18,1) mn € → DOUBLE → bn € (÷1000) → grouped 0 dp",
+    "annual DECIMAL(12,0) € → DOUBLE → grouped 0 dp",
+    "quarterly DECIMAL(8,2) % → DOUBLE → signed 1 dp",
+    "annual DECIMAL(8,3) % → DOUBLE → signed 1 dp"
+  ],
+  "cases": [
+    {
+      "id": "annual-volume-decimal-scale",
+      "path": "annual DECIMAL(18,1) mn € → DOUBLE → bn € (÷1000) → grouped 0 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "2025 gdp_chained_2020_eur_mn",
+      "stored": "2646746.0",
+      "query": 2646746,
+      "expected_query": 2646746,
+      "displayed": "2 647 bn €",
+      "expected_display": "2 647 bn €"
+    },
+    {
+      "id": "per-capita-integer",
+      "path": "annual DECIMAL(12,0) € → DOUBLE → grouped 0 dp",
+      "concerns": [
+        "precision"
+      ],
+      "observation": "2025 gdp_per_capita_chained_2020_eur",
+      "stored": "38360",
+      "query": 38360,
+      "expected_query": 38360,
+      "displayed": "38 360 €",
+      "expected_display": "38 360 €"
+    },
+    {
+      "id": "quarter-on-quarter-precision",
+      "path": "quarterly DECIMAL(8,2) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "precision"
+      ],
+      "observation": "2026-04-01 gdp_quarterly_growth_pct",
+      "stored": "0.00",
+      "query": 0,
+      "expected_query": 0,
+      "displayed": "0.0 %",
+      "expected_display": "0.0 %"
+    },
+    {
+      "id": "negative-growth",
+      "path": "annual DECIMAL(8,3) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "2020 gdp_volume_growth_pct (lowest in the series)",
+      "stored": "-7.441",
+      "query": -7.441,
+      "expected_query": -7.441,
+      "displayed": "−7.4 %",
+      "expected_display": "−7.4 %"
+    },
+    {
+      "id": "first-year-null-growth",
+      "path": "annual DECIMAL(8,3) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "null"
+      ],
+      "observation": "1949 gdp_volume_growth_pct",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "—",
+      "expected_display": "—"
+    }
+  ]
+}

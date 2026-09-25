@@ -1,0 +1,48 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_ids": [
+    "output-growth-tail",
+    "demand-contribution-bars",
+    "branch-share-panels",
+    "income-share-panels",
+    "dollar-decomposition",
+    "oecd-standing",
+    "per-capita-drivers",
+    "departement-choropleth"
+  ],
+  "manifest_digest": "62ab7eca86ab6bc5a1a1f67e61fd980a282dc271f038d05e5967da4216940507",
+  "file_digests": {
+    "README.md": "7b10a8e0f130f7bebaa1a4bd50234bb8b38cf5274ba791e4da08da061609ef45",
+    "contracts/branch-share-panels.contract.js": "a865b58c546776b5fc41e2051f7e7603cdbe85a0b05a22c9d58be7ba3f1d8d1a",
+    "contracts/demand-contribution-bars.contract.js": "51fe58bd12586d663b739da112263563e0a9a512d0f66abf8bc6ed93a79a1bf6",
+    "contracts/departement-choropleth.contract.js": "a48b0ee75809b4b3e737f2cd004b92bf153afd2f028b6cca7011dde6e82c408d",
+    "contracts/dollar-decomposition.contract.js": "319862de7f31432e3cbae2ff7d3cc538876238eb80b69dabf610f2fe688706fc",
+    "contracts/income-share-panels.contract.js": "a6c65d0284920e4255aa6ad2456e6590dda99e46c8b9aba73d3506052a45de0c",
+    "contracts/oecd-standing.contract.js": "508758a68d509f3fe763a1bbf56f98419c7f0393a1c553aaab030abb33a8f1ae",
+    "contracts/output-growth-tail.contract.js": "6b1bdfafb187c6d142352f5e604e6e9b120596cefa17f23c62db4767aba7319b",
+    "contracts/per-capita-drivers.contract.js": "b9e4e756f6d9a9b7e5e908bffbb117a5d70c50e96b78498f527ae178fde0bbd7",
+    "design/Decisions.dc.html": "3009ca36c9db6d15c43ffd80259ee7f2d8e3b7631a69a50e001bd9309edcd3ef",
+    "design/Main.dc.html": "6e7eaf413b4b1ebb08e78c11d78f7d4285321116401e6f0b62e0c560f69d682c",
+    "design/Narrow.dc.html": "80fe4bd35a536c174ca664cd199facf85055f318bdb3be21be304645efefe414",
+    "design/States.dc.html": "adbb4502dc26c2651f6784e299a09d76718313376ce395c98224cca6c8555656",
+    "design/Zoom.dc.html": "1811860717632202228740d114601d227b05598ec3eb3b4915d987e4cf5e6310",
+    "design/canvas.json": "56fe1153651ae3dd7b455c4ee50de8dd90434f0380962abd7ff86cf0b1649044",
+    "design/gdp-data.js": "0de7f70e54ba5426c074e55b3990a0574d82b54b0fa0a1aa5ab838354bd91be5",
+    "fixtures/french_branch_value_added.json": "88ecd0eb1ecd581366c44901c33c4c1afc0e27f2b8ec7d902bd656ffd60828d3",
+    "fixtures/french_departement_gdp.json": "bc4a98b2e4a7e8ef8b194af27f3531411ce3379658441ff66d1668d8fe513950",
+    "fixtures/french_gdp_dollar_decomposition.json": "75bd96d12559d84ca3628eef5a18c5c6120cbc49739a6d3b5bc6d652af90e843",
+    "fixtures/french_gdp_quarterly.json": "2c18636f3c5c5bb0d1ea99d56d5098fd5cfa6e853466f69218f5b1193a69308f",
+    "fixtures/french_national_accounts_annual.json": "9d0f8b5dc1e2b84be8e03fa2cca334d6369b9124f4ef4ad84a0c42d9be01dfaf",
+    "fixtures/oecd_productivity_comparison.json": "54bbcb1431eb9d21a35e6131c44dde3bbb696e1b04e2971d70129a10059744e0",
+    "fixtures/world_demography_age_structure_15_64.json": "544d382007d6a3ff762bea83309f368b79a425e47c8ad38c2f31a77a8301f81d"
+  },
+  "status": "approved",
+  "approved_by": "yann.fontana@hardis-group.com",
+  "approved_at": "2026-09-25T08:14:08.695212+00:00",
+  "permitted_changes": [
+    "Replace the handoff fixture rows with verified rows returned by the report's parameter-bound queries.",
+    "Render the published departement geometry with the simplification tolerance recorded in Design decisions, applied in the report's row mapping, in place of the review outlines."
+  ],
+  "approval_digest": "3a57a4b6604601f1f43a2c976a39638d19e61cb12a82b37e5ea1d025ca499091"
+}

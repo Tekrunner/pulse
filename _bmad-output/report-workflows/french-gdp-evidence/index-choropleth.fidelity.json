@@ -1,0 +1,214 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-gdp",
+  "visualId": "index-choropleth",
+  "handoffSection": "design/Main.dc.html — GDP across the departements",
+  "handoffSha256": "658cf8a0a38649ea12b03f5db5b8d97a8db5be21f77a970eaacceecc6af79daa",
+  "renderedViews": [
+    {
+      "view": "desktop",
+      "viewport": {
+        "width": 1280,
+        "height": 900
+      },
+      "screenshot": "view-desktop.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      }
+    },
+    {
+      "view": "narrow-smartphone-landscape",
+      "viewport": {
+        "width": 740,
+        "height": 360
+      },
+      "screenshot": "view-narrow-smartphone-landscape.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      }
+    },
+    {
+      "view": "zoom-400",
+      "viewport": {
+        "width": 320,
+        "height": 512
+      },
+      "screenshot": "view-zoom-400.png",
+      "documentHorizontalOverflowPx": 0,
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "ready",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      }
+    }
+  ],
+  "slotLocalFailure": {
+    "screenshot": "view-slot-local-failure.png",
+    "scenario": "slot-query",
+    "observed": {
+      "reportState": "ready",
+      "figureStates": {
+        "output-growth-tail": "ready",
+        "demand-contribution-bars": "ready",
+        "branch-share-panels": "query-error",
+        "income-share-panels": "ready",
+        "dollar-decomposition": "ready",
+        "oecd-standing": "ready",
+        "per-capita-drivers": "ready",
+        "index-choropleth": "ready"
+      },
+      "alerts": [
+        "The query did not complete. Retry"
+      ]
+    }
+  },
+  "states": [
+    {
+      "view": "state-suspect",
+      "scenario": "status-suspect",
+      "screenshot": "view-state-suspect.png",
+      "reportState": "ready",
+      "qualification": [
+        [
+          "branch-share-panels",
+          "SuspectDrawn, but the source failed a plausibility check."
+        ]
+      ]
+    },
+    {
+      "view": "state-stale",
+      "scenario": "status-stale",
+      "screenshot": "view-state-stale.png",
+      "reportState": "ready",
+      "qualification": [
+        [
+          "dollar-decomposition",
+          "StalePast its expected release: a newer observation was due."
+        ]
+      ]
+    },
+    {
+      "view": "state-render-error",
+      "scenario": "render",
+      "screenshot": "view-state-render-error.png",
+      "reportState": "ready",
+      "qualification": []
+    },
+    {
+      "view": "state-schema-error",
+      "scenario": "schema",
+      "screenshot": "view-state-schema-error.png",
+      "reportState": "ready",
+      "qualification": []
+    },
+    {
+      "view": "state-query-error",
+      "scenario": "query",
+      "screenshot": "view-state-query-error.png",
+      "reportState": "ready",
+      "qualification": []
+    },
+    {
+      "view": "state-empty",
+      "scenario": "empty",
+      "screenshot": "view-state-empty.png",
+      "reportState": "ready",
+      "qualification": []
+    },
+    {
+      "view": "state-loading",
+      "scenario": "loading",
+      "screenshot": "view-state-loading.png",
+      "reportState": "ready",
+      "qualification": []
+    },
+    {
+      "view": "state-shared-engine-failure",
+      "scenario": "startup",
+      "screenshot": "view-state-shared-engine-failure.png",
+      "reportState": "engine-error",
+      "qualification": []
+    }
+  ],
+  "permittedChanges": {
+    "P1": "Replace the handoff fixture rows with verified rows returned by the report's parameter-bound queries.",
+    "P2": "Render the published departement geometry with the simplification tolerance recorded in Design decisions, applied in the report's row mapping, in place of the review outlines.",
+    "R1": "Add a constant-dollar curve to the dollar-GDP chart (approver, 2026-09-25).",
+    "R2": "Drop PPS per inhabitant from the departement section (approver, 2026-09-25).",
+    "A1": "Differences listed to the approver on 2026-09-25 and accepted by them in chat the same day."
+  },
+  "differencesFromHandoff": [
+    {
+      "difference": "Plots are drawn at the width their container measures instead of the artboard's fixed 1188 px; heights, margins and every vertical geometry are the artboard's.",
+      "permitted": "A1",
+      "reason": "Responsive production layout; the artboard fixes one width."
+    },
+    {
+      "difference": "Rows come from the report's parameter-bound queries instead of the canvas data script.",
+      "permitted": "P1",
+      "reason": "Permitted change 1."
+    },
+    {
+      "difference": "A figure whose dataset's pipeline is suspect, stale or failed carries a named cue with a shape above its body, and the header carries the qualification line.",
+      "permitted": "A1",
+      "reason": "The States artboard specifies the cue's wording and shape but not its placement in the ready report; this places it where the artboard's banner sits, above the figure."
+    },
+    {
+      "difference": "PPS per inhabitant is removed from the value strip and the data table.",
+      "permitted": "R2",
+      "reason": "Requested by the approver on 2026-09-25: within France PPS is the euro figure times one constant, so it adds nothing to a comparison between departements."
+    },
+    {
+      "difference": "The visual is registered as index-choropleth instead of the handoff's departement-choropleth, because a different visual with that ID already exists.",
+      "permitted": "A1",
+      "reason": "Registration rejects an ID collision."
+    },
+    {
+      "difference": "Boundaries are the published IGN geometry simplified in the report's row mapping at the recorded tolerance, projected by the visual.",
+      "permitted": "P2",
+      "reason": "Permitted change 2."
+    },
+    {
+      "difference": "The source line reads 'simplified for display' instead of 'simplified for this review prototype'.",
+      "permitted": "P2",
+      "reason": "Follows from permitted change 2."
+    },
+    {
+      "difference": "The data table lists every departement; those with no figure for the shown year follow the ranked ones with '—'. The artboard's summary 'sortable in production' is dropped.",
+      "permitted": "A1",
+      "reason": "The row spine is every boundary; the table is not sortable."
+    },
+    {
+      "difference": "The prototype footer line 'Review prototype — representative runtime only' is removed.",
+      "permitted": "A1",
+      "reason": "It describes the prototype, not the report."
+    },
+    {
+      "difference": "At viewports below about 1335 px the OECD reference chip wraps to a second line of the control row.",
+      "permitted": "A1",
+      "reason": "At 1280 px the artboard's compare field overflowed its own row by about 40 px, which the canvas hid; the page wrapper leaves this report 16 px less."
+    }
+  ],
+  "awaitingApproval": []
+}

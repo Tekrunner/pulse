@@ -1,0 +1,87 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "dollar-decomposition",
+  "dataset_revision": "french-gdp-dollar-decomposition@df24491d8270ce8c3e1aad560e5994c73cfd19bfa1612729218b27197042ad96",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(10,3) lp → DOUBLE → signed 1 dp",
+    "DECIMAL(18,1) mn $ → DOUBLE → bn $ (÷1000) → grouped 0 dp",
+    "DECIMAL(18,1) mn constant $ → DOUBLE → bn $ (÷1000) → grouped 0 dp",
+    "DECIMAL(12,6) €/$ → DOUBLE → grouped 3 dp",
+    "DECIMAL(10,3) % → DOUBLE → signed 1 dp"
+  ],
+  "cases": [
+    {
+      "id": "exchange-rate-negative",
+      "path": "DECIMAL(10,3) lp → DOUBLE → signed 1 dp",
+      "concerns": [
+        "negative",
+        "precision"
+      ],
+      "observation": "1981 exchange_rate_change_log_points (largest fall)",
+      "stored": "-25.163",
+      "query": -25.163,
+      "expected_query": -25.163,
+      "displayed": "−25.2 lp",
+      "expected_display": "−25.2 lp"
+    },
+    {
+      "id": "dollar-level-scale",
+      "path": "DECIMAL(18,1) mn $ → DOUBLE → bn $ (÷1000) → grouped 0 dp",
+      "concerns": [
+        "decimal-scale"
+      ],
+      "observation": "1981 gdp_current_usd_mn",
+      "stored": "609184.8",
+      "query": 609184.8,
+      "expected_query": 609184.8,
+      "displayed": "609 bn $",
+      "expected_display": "609 bn $"
+    },
+    {
+      "id": "constant-dollar-scale",
+      "path": "DECIMAL(18,1) mn constant $ → DOUBLE → bn $ (÷1000) → grouped 0 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "1981 gdp_constant_usd_mn (base year 2015)",
+      "stored": "1289261.7",
+      "query": 1289261.7,
+      "expected_query": 1289261.7,
+      "displayed": "1 289 bn $",
+      "expected_display": "1 289 bn $"
+    },
+    {
+      "id": "exchange-rate-precision",
+      "path": "DECIMAL(12,6) €/$ → DOUBLE → grouped 3 dp",
+      "concerns": [
+        "precision"
+      ],
+      "observation": "1981 eur_per_usd",
+      "stored": "0.828501",
+      "query": 0.828501,
+      "expected_query": 0.828501,
+      "displayed": "0.829",
+      "expected_display": "0.829"
+    },
+    {
+      "id": "first-year-null-change",
+      "path": "DECIMAL(10,3) % → DOUBLE → signed 1 dp",
+      "concerns": [
+        "null"
+      ],
+      "observation": "1960 dollar_gdp_change_pct",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "—",
+      "expected_display": "—"
+    }
+  ]
+}

@@ -1,0 +1,281 @@
+[
+  {
+    "period": "1949-01-01",
+    "gdp_chained_eur_mn": 69933.0,
+    "gdp_current_eur_mn": 3182.0,
+    "gdp_chained_annualised_eur_mn": 279732.0,
+    "gdp_current_annualised_eur_mn": 12728.0,
+    "gdp_quarterly_growth_pct": null,
+    "gdp_year_on_year_growth_pct": null
+  },
+  {
+    "period": "2019-01-01",
+    "gdp_chained_eur_mn": 625339.0,
+    "gdp_current_eur_mn": 604514.0,
+    "gdp_chained_annualised_eur_mn": 2501356.0,
+    "gdp_current_annualised_eur_mn": 2418056.0,
+    "gdp_quarterly_growth_pct": 0.9,
+    "gdp_year_on_year_growth_pct": 2.47
+  },
+  {
+    "period": "2019-04-01",
+    "gdp_chained_eur_mn": 628443.0,
+    "gdp_current_eur_mn": 609212.0,
+    "gdp_chained_annualised_eur_mn": 2513772.0,
+    "gdp_current_annualised_eur_mn": 2436848.0,
+    "gdp_quarterly_growth_pct": 0.5,
+    "gdp_year_on_year_growth_pct": 2.74
+  },
+  {
+    "period": "2019-07-01",
+    "gdp_chained_eur_mn": 628710.0,
+    "gdp_current_eur_mn": 611584.0,
+    "gdp_chained_annualised_eur_mn": 2514840.0,
+    "gdp_current_annualised_eur_mn": 2446336.0,
+    "gdp_quarterly_growth_pct": 0.0,
+    "gdp_year_on_year_growth_pct": 2.22
+  },
+  {
+    "period": "2019-10-01",
+    "gdp_chained_eur_mn": 625548.0,
+    "gdp_current_eur_mn": 610168.0,
+    "gdp_chained_annualised_eur_mn": 2502192.0,
+    "gdp_current_annualised_eur_mn": 2440672.0,
+    "gdp_quarterly_growth_pct": -0.5,
+    "gdp_year_on_year_growth_pct": 0.98
+  },
+  {
+    "period": "2020-01-01",
+    "gdp_chained_eur_mn": 594253.0,
+    "gdp_current_eur_mn": 588126.0,
+    "gdp_chained_annualised_eur_mn": 2377012.0,
+    "gdp_current_annualised_eur_mn": 2352504.0,
+    "gdp_quarterly_growth_pct": -5.0,
+    "gdp_year_on_year_growth_pct": -4.97
+  },
+  {
+    "period": "2020-04-01",
+    "gdp_chained_eur_mn": 521682.0,
+    "gdp_current_eur_mn": 532526.0,
+    "gdp_chained_annualised_eur_mn": 2086728.0,
+    "gdp_current_annualised_eur_mn": 2130104.0,
+    "gdp_quarterly_growth_pct": -12.2,
+    "gdp_year_on_year_growth_pct": -16.99
+  },
+  {
+    "period": "2020-07-01",
+    "gdp_chained_eur_mn": 600690.0,
+    "gdp_current_eur_mn": 595825.0,
+    "gdp_chained_annualised_eur_mn": 2402760.0,
+    "gdp_current_annualised_eur_mn": 2383300.0,
+    "gdp_quarterly_growth_pct": 15.1,
+    "gdp_year_on_year_growth_pct": -4.46
+  },
+  {
+    "period": "2020-10-01",
+    "gdp_chained_eur_mn": 600625.0,
+    "gdp_current_eur_mn": 600823.0,
+    "gdp_chained_annualised_eur_mn": 2402500.0,
+    "gdp_current_annualised_eur_mn": 2403292.0,
+    "gdp_quarterly_growth_pct": 0.0,
+    "gdp_year_on_year_growth_pct": -3.98
+  },
+  {
+    "period": "2021-01-01",
+    "gdp_chained_eur_mn": 603324.0,
+    "gdp_current_eur_mn": 606682.0,
+    "gdp_chained_annualised_eur_mn": 2413296.0,
+    "gdp_current_annualised_eur_mn": 2426728.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 1.53
+  },
+  {
+    "period": "2021-04-01",
+    "gdp_chained_eur_mn": 610634.0,
+    "gdp_current_eur_mn": 617792.0,
+    "gdp_chained_annualised_eur_mn": 2442536.0,
+    "gdp_current_annualised_eur_mn": 2471168.0,
+    "gdp_quarterly_growth_pct": 1.2,
+    "gdp_year_on_year_growth_pct": 17.05
+  },
+  {
+    "period": "2021-07-01",
+    "gdp_chained_eur_mn": 628718.0,
+    "gdp_current_eur_mn": 637344.0,
+    "gdp_chained_annualised_eur_mn": 2514872.0,
+    "gdp_current_annualised_eur_mn": 2549376.0,
+    "gdp_quarterly_growth_pct": 3.0,
+    "gdp_year_on_year_growth_pct": 4.67
+  },
+  {
+    "period": "2021-10-01",
+    "gdp_chained_eur_mn": 631937.0,
+    "gdp_current_eur_mn": 642912.0,
+    "gdp_chained_annualised_eur_mn": 2527748.0,
+    "gdp_current_annualised_eur_mn": 2571648.0,
+    "gdp_quarterly_growth_pct": 0.5,
+    "gdp_year_on_year_growth_pct": 5.21
+  },
+  {
+    "period": "2022-01-01",
+    "gdp_chained_eur_mn": 631848.0,
+    "gdp_current_eur_mn": 649103.0,
+    "gdp_chained_annualised_eur_mn": 2527392.0,
+    "gdp_current_annualised_eur_mn": 2596412.0,
+    "gdp_quarterly_growth_pct": 0.0,
+    "gdp_year_on_year_growth_pct": 4.73
+  },
+  {
+    "period": "2022-04-01",
+    "gdp_chained_eur_mn": 634350.0,
+    "gdp_current_eur_mn": 655824.0,
+    "gdp_chained_annualised_eur_mn": 2537400.0,
+    "gdp_current_annualised_eur_mn": 2623296.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 3.88
+  },
+  {
+    "period": "2022-07-01",
+    "gdp_chained_eur_mn": 637566.0,
+    "gdp_current_eur_mn": 667944.0,
+    "gdp_chained_annualised_eur_mn": 2550264.0,
+    "gdp_current_annualised_eur_mn": 2671776.0,
+    "gdp_quarterly_growth_pct": 0.5,
+    "gdp_year_on_year_growth_pct": 1.41
+  },
+  {
+    "period": "2022-10-01",
+    "gdp_chained_eur_mn": 640140.0,
+    "gdp_current_eur_mn": 679687.0,
+    "gdp_chained_annualised_eur_mn": 2560560.0,
+    "gdp_current_annualised_eur_mn": 2718748.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 1.3
+  },
+  {
+    "period": "2023-01-01",
+    "gdp_chained_eur_mn": 641060.0,
+    "gdp_current_eur_mn": 691510.0,
+    "gdp_chained_annualised_eur_mn": 2564240.0,
+    "gdp_current_annualised_eur_mn": 2766040.0,
+    "gdp_quarterly_growth_pct": 0.1,
+    "gdp_year_on_year_growth_pct": 1.46
+  },
+  {
+    "period": "2023-04-01",
+    "gdp_chained_eur_mn": 647027.0,
+    "gdp_current_eur_mn": 708058.0,
+    "gdp_chained_annualised_eur_mn": 2588108.0,
+    "gdp_current_annualised_eur_mn": 2832232.0,
+    "gdp_quarterly_growth_pct": 0.9,
+    "gdp_year_on_year_growth_pct": 2.0
+  },
+  {
+    "period": "2023-07-01",
+    "gdp_chained_eur_mn": 649403.0,
+    "gdp_current_eur_mn": 714002.0,
+    "gdp_chained_annualised_eur_mn": 2597612.0,
+    "gdp_current_annualised_eur_mn": 2856008.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 1.86
+  },
+  {
+    "period": "2023-10-01",
+    "gdp_chained_eur_mn": 652677.0,
+    "gdp_current_eur_mn": 724101.0,
+    "gdp_chained_annualised_eur_mn": 2610708.0,
+    "gdp_current_annualised_eur_mn": 2896404.0,
+    "gdp_quarterly_growth_pct": 0.5,
+    "gdp_year_on_year_growth_pct": 1.96
+  },
+  {
+    "period": "2024-01-01",
+    "gdp_chained_eur_mn": 654274.0,
+    "gdp_current_eur_mn": 728634.0,
+    "gdp_chained_annualised_eur_mn": 2617096.0,
+    "gdp_current_annualised_eur_mn": 2914536.0,
+    "gdp_quarterly_growth_pct": 0.2,
+    "gdp_year_on_year_growth_pct": 2.06
+  },
+  {
+    "period": "2024-04-01",
+    "gdp_chained_eur_mn": 655722.0,
+    "gdp_current_eur_mn": 729518.0,
+    "gdp_chained_annualised_eur_mn": 2622888.0,
+    "gdp_current_annualised_eur_mn": 2918072.0,
+    "gdp_quarterly_growth_pct": 0.2,
+    "gdp_year_on_year_growth_pct": 1.34
+  },
+  {
+    "period": "2024-07-01",
+    "gdp_chained_eur_mn": 658574.0,
+    "gdp_current_eur_mn": 739287.0,
+    "gdp_chained_annualised_eur_mn": 2634296.0,
+    "gdp_current_annualised_eur_mn": 2957148.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 1.41
+  },
+  {
+    "period": "2024-10-01",
+    "gdp_chained_eur_mn": 658495.0,
+    "gdp_current_eur_mn": 739374.0,
+    "gdp_chained_annualised_eur_mn": 2633980.0,
+    "gdp_current_annualised_eur_mn": 2957496.0,
+    "gdp_quarterly_growth_pct": 0.0,
+    "gdp_year_on_year_growth_pct": 0.89
+  },
+  {
+    "period": "2025-01-01",
+    "gdp_chained_eur_mn": 659604.0,
+    "gdp_current_eur_mn": 743571.0,
+    "gdp_chained_annualised_eur_mn": 2638416.0,
+    "gdp_current_annualised_eur_mn": 2974284.0,
+    "gdp_quarterly_growth_pct": 0.2,
+    "gdp_year_on_year_growth_pct": 0.81
+  },
+  {
+    "period": "2025-04-01",
+    "gdp_chained_eur_mn": 661160.0,
+    "gdp_current_eur_mn": 745275.0,
+    "gdp_chained_annualised_eur_mn": 2644640.0,
+    "gdp_current_annualised_eur_mn": 2981100.0,
+    "gdp_quarterly_growth_pct": 0.2,
+    "gdp_year_on_year_growth_pct": 0.83
+  },
+  {
+    "period": "2025-07-01",
+    "gdp_chained_eur_mn": 663962.0,
+    "gdp_current_eur_mn": 750640.0,
+    "gdp_chained_annualised_eur_mn": 2655848.0,
+    "gdp_current_annualised_eur_mn": 3002560.0,
+    "gdp_quarterly_growth_pct": 0.4,
+    "gdp_year_on_year_growth_pct": 0.82
+  },
+  {
+    "period": "2025-10-01",
+    "gdp_chained_eur_mn": 665708.0,
+    "gdp_current_eur_mn": 755703.0,
+    "gdp_chained_annualised_eur_mn": 2662832.0,
+    "gdp_current_annualised_eur_mn": 3022812.0,
+    "gdp_quarterly_growth_pct": 0.3,
+    "gdp_year_on_year_growth_pct": 1.1
+  },
+  {
+    "period": "2026-01-01",
+    "gdp_chained_eur_mn": 664510.0,
+    "gdp_current_eur_mn": 756553.0,
+    "gdp_chained_annualised_eur_mn": 2658040.0,
+    "gdp_current_annualised_eur_mn": 3026212.0,
+    "gdp_quarterly_growth_pct": -0.2,
+    "gdp_year_on_year_growth_pct": 0.74
+  },
+  {
+    "period": "2026-04-01",
+    "gdp_chained_eur_mn": 664746.0,
+    "gdp_current_eur_mn": 759713.0,
+    "gdp_chained_annualised_eur_mn": 2658984.0,
+    "gdp_current_annualised_eur_mn": 3038852.0,
+    "gdp_quarterly_growth_pct": 0.0,
+    "gdp_year_on_year_growth_pct": 0.54
+  }
+]

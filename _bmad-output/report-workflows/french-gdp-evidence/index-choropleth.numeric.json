@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "report_id": "french-gdp",
+  "visual_id": "index-choropleth",
+  "dataset_revision": "french-departement-gdp@e9f6ecb6d8877325b6d0ac9a6f28bc0df951d73818a8b84392de93e812aee11b",
+  "compared_layers": [
+    "stored Parquet (DECIMAL as text)",
+    "declared query output (report.yml SQL in DuckDB over the served Parquet)",
+    "text displayed by the built page (dist/, Chromium)"
+  ],
+  "conversion_paths": [
+    "DECIMAL(8,1) index → DOUBLE → table grouped 1 dp",
+    "DECIMAL(10,0) € → DOUBLE → grouped 0 dp €"
+  ],
+  "cases": [
+    {
+      "id": "index-precision",
+      "path": "DECIMAL(8,1) index → DOUBLE → table grouped 1 dp",
+      "concerns": [
+        "decimal-scale",
+        "precision"
+      ],
+      "observation": "75 2024 gdp_per_inhabitant_index_france",
+      "stored": "313.8",
+      "query": 313.8,
+      "expected_query": 313.8,
+      "displayed": "313.8",
+      "expected_display": "313.8"
+    },
+    {
+      "id": "euro-integer",
+      "path": "DECIMAL(10,0) € → DOUBLE → grouped 0 dp €",
+      "concerns": [
+        "precision"
+      ],
+      "observation": "75 2024 gdp_per_inhabitant_eur",
+      "stored": "133700",
+      "query": 133700,
+      "expected_query": 133700,
+      "displayed": "133 700 €",
+      "expected_display": "133 700 €"
+    },
+    {
+      "id": "not-published-null",
+      "path": "DECIMAL(8,1) index → DOUBLE → table grouped 1 dp",
+      "concerns": [
+        "null"
+      ],
+      "observation": "976 2013 gdp_per_inhabitant_index_france",
+      "stored": null,
+      "query": null,
+      "expected_query": null,
+      "displayed": "—",
+      "expected_display": "—"
+    },
+    {
+      "id": "lowest-index",
+      "path": "DECIMAL(8,1) index → DOUBLE → table grouped 1 dp",
+      "concerns": [
+        "negative"
+      ],
+      "observation": "976 2024 lowest index (a shortfall below France = 100; no stored value is negative)",
+      "stored": "30.8",
+      "query": 30.8,
+      "expected_query": 30.8,
+      "displayed": "30.8",
+      "expected_display": "30.8"
+    }
+  ]
+}

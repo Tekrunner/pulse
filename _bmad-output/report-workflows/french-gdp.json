@@ -1,0 +1,760 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "french-gdp",
+  "phase": "complete",
+  "discovery": {
+    "standingQuestions": [
+      {
+        "id": "headline-output",
+        "question": "How large is French GDP, in total and per inhabitant, and how fast has it grown in volume each year and over the most recent quarters?"
+      },
+      {
+        "id": "demand-contributions",
+        "question": "Which expenditure components (household consumption, government consumption, investment, net trade, inventories) have carried or held back GDP volume growth in each year?"
+      },
+      {
+        "id": "branch-structure",
+        "question": "How is value added distributed across branches of activity, and how has that distribution shifted, from broad sectors down to individual industries?"
+      },
+      {
+        "id": "income-split",
+        "question": "How is value added shared between labour, capital and net taxes, once the self-employed are credited with a wage?"
+      },
+      {
+        "id": "dollar-output",
+        "question": "How has French GDP measured in US dollars at market exchange rates evolved, and how much of each year's change comes from real growth, domestic price change and the euro-dollar exchange rate?"
+      },
+      {
+        "id": "international-standing",
+        "question": "How do French GDP volume growth and GDP per inhabitant at purchasing power parity compare with those of other OECD economies?"
+      },
+      {
+        "id": "per-capita-drivers",
+        "question": "How much of the level and evolution of GDP per inhabitant, in France and in other OECD economies, comes from productivity per hour worked, hours per worker, the employment rate of the working-age population and the working-age share of the population?"
+      },
+      {
+        "id": "territorial-spread",
+        "question": "How unevenly is GDP per inhabitant spread across the French departements?"
+      }
+    ],
+    "indicators": [
+      "GDP at current prices and in chained 2020 euros, and GDP per inhabitant, annual, France, INSEE annual national accounts base 2020, 1949 onward",
+      "GDP volume growth rate, annual, 1950 onward",
+      "GDP in chained volumes, quarterly, seasonally and working-day adjusted, INSEE quarterly national accounts base 2020, used as an annualised quarterly tail after the annual series",
+      "Contributions of expenditure components to GDP volume growth, annual, 1950 onward, by component and institutional sector",
+      "Gross value added by branch at current prices and in chained volumes, A5/A10/A17/A38/A88 nomenclature levels (A10 from 1949, A38 complete from 1959, A88 complete from 1999)",
+      "Compensation of employees (D1) and gross operating surplus plus mixed income (B2G+B3G), total economy and by branch; net taxes on production and on products derived as national-accounts residuals",
+      "Domestic employment split into employees and non-employees, annual, from INSEE national accounts, for the AMECO-method adjusted wage share",
+      "GDP in current US dollars, GDP in current and constant local currency, GDP deflator and the official local-currency-per-dollar exchange rate, annual, France, World Bank WDI, 1960 onward",
+      "GDP and GDP per inhabitant in current and constant PPP US dollars, GDP volume, population, employment, average hours worked and GDP per hour worked, annual, OECD members, OECD Productivity Database, 1970 onward where published",
+      "Working-age (15-64) share of the population, annual, by country, UN World Population Prospects (existing snapshot)",
+      "GDP per inhabitant in euros and in purchasing power standards by NUTS 3 region (departement), annual, Eurostat regional accounts, 2000 onward",
+      "Departement boundary geometry keyed by INSEE departement code (existing dataset)"
+    ],
+    "context": "A public report on French GDP, scoped with the requester on 2026-09-22. The reader is Yann, an economics PhD: definitions of standard national-accounts concepts need no pedagogy, but data quirks do need stating (chained-volume non-additivity, the shorter A88 time span, mixed income, imputed rents of owner-occupiers inside operating surplus, commuting distortion of departement GDP per inhabitant, UN WPP projection years). Agreed decisions: (1) the headline series is annual from 1949 with a quarterly tail for the most recent years, the seam defined relative to the latest published quarter, quarterly levels annualised and quarterly growth expressed year on year; (2) demand-side decomposition uses INSEE's published contributions, which are additive, never chained component levels; (3) branch drill-down A10 -> A38 -> A88, each level on its own time span, shares shown at current prices; (4) the labour share uses the AMECO adjustment, crediting each non-employee with the average compensation per employee; (5) both GDP in current US dollars at market exchange rates, with a stacked decomposition into real growth, GDP deflator change and exchange-rate change, and GDP per inhabitant at PPP for living-standard comparison; PPP from 1970 via OECD; (6) country selector with France always shown, OECD members selectable, default comparators Germany, United Kingdom and United States; (7) the GDP-per-inhabitant decomposition is shown both for France over time and against the selected comparators; (8) departement GDP per inhabitant as a choropleth on the existing departement geometry. Output gap, household disposable income and revision/vintage analysis were proposed and declined.",
+    "readingBehavior": "Read top to bottom on first visit, then revisited after each INSEE annual accounts release (end of May) and each quarterly GDP release to check the latest observation and the recent quarterly path. Exploratory within sections: drilling from broad branches into A88 industries, changing the represented period, selecting a single year across figures, and adding or removing comparator countries.",
+    "privacyExpectation": "public",
+    "explorationNeeded": true
+  },
+  "sourceDecisions": [
+    {
+      "need": "French annual national accounts: GDP at current prices and in chained volumes, GDP per inhabitant, expenditure contributions to growth, value added and income components by branch at A5 to A88 detail, and domestic employment split into employees and non-employees",
+      "candidates": [
+        {
+          "id": "insee-annual-national-accounts",
+          "authority": "Institut national de la statistique et des etudes economiques (INSEE), producer of the French national accounts",
+          "coverage": "France, 1949 to the latest provisional year (2025 when queried on 2026-09-22). Verified dataflows CNA-2020-PIB (GDP, GDP per inhabitant and contributions to growth, from 1949/1950), CNA-2020-CPEB (1,890 branch series across A5, A10, A17, A38, A88; operations P1, P2, B1G, D1, D11, D12, B2G, B2G+B3G; current prices and chained 2020 euros) and CNA-2020-EMPLOI (683 series; domestic employment by employment type E10/E20/E21/E30, hours worked, from 1949)",
+          "granularity": "Annual national totals; branch detail at five nested nomenclature levels; A88 starts in 1959, 1993 or 1999 depending on the industry; A38 compensation partly from 1978",
+          "stability": "Stable dataflow identifiers and IDBANKs within a base; a new base (2010, 2014, 2020) is published as new dataflows and old bases are kept, so a base change is a detectable new source rather than a silent restatement. About 400 CPEB and 200 EMPLOI series carry LAST_UPDATE 2024-06-21 and end in 2022 or 2023, i.e. have not been extended since the base-2020 launch; an assertion must surface this rather than treat it as current",
+          "accessMethod": "Credential-free HTTPS GET against the INSEE BDM SDMX 2.1 endpoint https://bdm.insee.fr/series/sdmx/data/<dataflow>, the access method already proven by the insee-cpi and insee-labour-market sources",
+          "format": "SDMX-ML 2.1 StructureSpecificData XML",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: INSEE, comptes nationaux annuels, base 2020",
+          "cadence": "Annual. Provider evidence: every current series in CNA-2020-PIB and the maintained CPEB/EMPLOI series carry LAST_UPDATE 2026-05-29 with 2025 as latest year",
+          "publicationSchedule": "Once a year at the end of May, with the provisional year N-1, semi-definitive N-2 and definitive N-3 accounts published together; observed 2026-05-29. INSEE announces the exact date in its release calendar",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution including commercially, conditional only on attributing the producer and the date of the last update; no share-alike obligation"
+        },
+        {
+          "id": "eurostat-national-accounts",
+          "authority": "Eurostat, republishing national accounts transmitted by INSEE under the ESA 2010 transmission programme",
+          "coverage": "France and every EU member; main aggregates from 1975 or 1995 depending on the table; branch detail at NACE A64 from 1995",
+          "granularity": "Annual; branch detail at A10/A21/A64, not INSEE's A38/A88 and not back to 1949",
+          "stability": "Stable dataset codes; figures follow national transmission with a lag",
+          "accessMethod": "Credential-free HTTPS GET against https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/<dataset>",
+          "format": "JSON-stat",
+          "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+          "attribution": "Source: Eurostat",
+          "cadence": "Annual, with quarterly updates of recent years",
+          "publicationSchedule": "After the national release; structurally later than INSEE",
+          "redistributionConstraints": "Reuse and redistribution permitted with acknowledgement of the source; no share-alike obligation"
+        },
+        {
+          "id": "oecd-annual-national-accounts",
+          "authority": "OECD, republishing national accounts transmitted by INSEE",
+          "coverage": "OECD members, mostly from 1970; France expenditure table longer",
+          "granularity": "Annual main aggregates and ISIC broad branches; no A38/A88 industry detail",
+          "stability": "Stable dataflow identifiers (OECD.SDD.NAD DSD_NAMAIN10)",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.oecd.org/public/rest/data/",
+          "format": "SDMX-CSV",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the OECD default licence for its statistical data",
+          "attribution": "Source: OECD",
+          "cadence": "Annual with interim updates",
+          "publicationSchedule": "After national releases",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution and an indication of changes; no share-alike obligation"
+        }
+      ],
+      "selected": "insee-annual-national-accounts",
+      "rationale": "Only INSEE carries the 1949 start, the published additive contributions to growth, the A38/A88 branch detail and the employment split needed for the adjusted wage share, all from one release. Eurostat and OECD republish the same figures later, shorter and coarser. The three dataflows share one release and one provider, so they form one source package.",
+      "defaultProvider": false
+    },
+    {
+      "need": "French quarterly GDP in chained volumes, seasonally and working-day adjusted, for the recent quarterly tail of the headline series",
+      "candidates": [
+        {
+          "id": "insee-quarterly-national-accounts",
+          "authority": "INSEE, producer of the French quarterly national accounts",
+          "coverage": "France, 1949-Q1 to the latest quarter (2026-Q2 when queried on 2026-09-22), dataflow CNT-2020-PIB-EQB-RF (68 series: GDP and the resources-uses balance, values and chained volumes)",
+          "granularity": "Quarterly, CVS-CJO; benchmarked to the annual accounts",
+          "stability": "Stable dataflow and IDBANKs within a base; every release revises recent quarters, which is expected",
+          "accessMethod": "Credential-free HTTPS GET against https://bdm.insee.fr/series/sdmx/data/CNT-2020-PIB-EQB-RF",
+          "format": "SDMX-ML 2.1 StructureSpecificData XML",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020",
+          "cadence": "Quarterly, in two estimates per quarter. Provider evidence: 67 of 68 series carry LAST_UPDATE 2026-08-28 with latest period 2026-Q2",
+          "publicationSchedule": "First estimate about 30 days after the end of the quarter and detailed results about 60 days after, at 07:30 Europe/Paris; observed 2026-08-28 for the 2026-Q2 detailed results. Exact dates in the INSEE release calendar",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution including commercially, conditional only on attributing the producer and the date of the last update; no share-alike obligation"
+        },
+        {
+          "id": "eurostat-quarterly-national-accounts",
+          "authority": "Eurostat, republishing INSEE's quarterly accounts",
+          "coverage": "France and EU members, from 1975 or 1995",
+          "granularity": "Quarterly, seasonally and calendar adjusted",
+          "stability": "Stable dataset codes",
+          "accessMethod": "Credential-free HTTPS GET against the Eurostat dissemination API (namq_10_gdp)",
+          "format": "JSON-stat",
+          "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+          "attribution": "Source: Eurostat",
+          "cadence": "Quarterly",
+          "publicationSchedule": "After the national release",
+          "redistributionConstraints": "Reuse and redistribution permitted with acknowledgement of the source; no share-alike obligation"
+        }
+      ],
+      "selected": "insee-quarterly-national-accounts",
+      "rationale": "The quarterly tail must join the INSEE annual series at a seam, which only holds if both come from the same producer and base. Eurostat republishes the same figures later.",
+      "defaultProvider": false
+    },
+    {
+      "need": "French GDP in current US dollars at market exchange rates, with the components of its annual change: GDP in current and constant local currency, GDP deflator and the local-currency-per-dollar exchange rate",
+      "candidates": [
+        {
+          "id": "world-bank-wdi-gdp",
+          "authority": "World Bank, World Development Indicators",
+          "coverage": "France 1960 to 2025 for NY.GDP.MKTP.CD, NY.GDP.MKTP.CN, NY.GDP.MKTP.KN, NY.GDP.DEFL.ZS and PA.NUS.FCRF, verified 2026-09-22",
+          "granularity": "Annual national totals; pre-1999 francs expressed in euros at the fixed conversion rate",
+          "stability": "Stable indicator codes that have not changed in decades; values are revised at each WDI update",
+          "accessMethod": "Credential-free HTTPS GET against https://api.worldbank.org/v2/country/FRA/indicator/<code>?format=json",
+          "format": "JSON",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the World Bank licence for World Development Indicators",
+          "attribution": "Source: World Bank, World Development Indicators",
+          "cadence": "Several updates a year. Provider evidence: lastupdated 2026-07-13 on all five indicators",
+          "publicationSchedule": "No fixed calendar for individual indicators; WDI is refreshed several times a year, with a major annual update around July",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution; no share-alike obligation"
+        },
+        {
+          "id": "oecd-expenditure-table-usd",
+          "authority": "OECD annual national accounts, Table 1",
+          "coverage": "France with USD at current exchange rates, start year not verified",
+          "granularity": "Annual",
+          "stability": "Stable dataflow identifiers",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.oecd.org/public/rest/data/OECD.SDD.NAD,DSD_NAMAIN10@DF_TABLE1_EXPENDITURE",
+          "format": "SDMX-CSV",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the OECD default licence for its statistical data",
+          "attribution": "Source: OECD",
+          "cadence": "Annual with interim updates",
+          "publicationSchedule": "After national releases",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution and an indication of changes; no share-alike obligation"
+        },
+        {
+          "id": "insee-plus-ecb-exchange-rate",
+          "authority": "INSEE GDP combined with the ECB euro reference rate",
+          "coverage": "Exchange rate only from 1999; pre-1999 would need a third, historical franc-dollar source",
+          "granularity": "Annual averages derived from daily rates",
+          "stability": "Stable, but a three-provider construction",
+          "accessMethod": "Two credential-free APIs",
+          "format": "SDMX",
+          "licence": "INSEE Licence Ouverte 2.0; ECB statistics reusable with attribution",
+          "attribution": "Source: INSEE; ECB",
+          "cadence": "Annual and daily",
+          "publicationSchedule": "Independent calendars",
+          "redistributionConstraints": "Reuse permitted with attribution"
+        }
+      ],
+      "selected": "world-bank-wdi-gdp",
+      "rationale": "The stacked decomposition must close as an identity; taking GDP in dollars, GDP in local currency, the deflator and the exchange rate from one publication guarantees that. WDI covers 1960 onward with no franc-euro break. The combined INSEE+ECB route breaks in 1999; the OECD table was not verified for coverage.",
+      "defaultProvider": false
+    },
+    {
+      "need": "International comparison across OECD members: GDP volume, GDP and GDP per inhabitant at PPP, population, employment and hours worked",
+      "candidates": [
+        {
+          "id": "oecd-productivity-database",
+          "authority": "OECD Productivity Database (OECD.SDD.TPS DSD_PDB@DF_PDB)",
+          "coverage": "OECD members and partners; GDP and GDP per inhabitant at current and constant PPP from 1970 for France, Germany, UK, US and Korea, 1990 for Poland; hours and GDP per hour from 1970 (France), 1980 (UK), 1987 (US), 1991 (Germany), 1995-2011 for later series; verified 2026-09-22",
+          "granularity": "Annual national totals; also measures by activity, not needed here",
+          "stability": "Stable dataflow and dimension identifiers; a single dataflow mixes levels and growth-rate transformations, which the source must preserve as provider rows",
+          "accessMethod": "Credential-free HTTPS GET against https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PDB@DF_PDB,2.0/ , the SDMX endpoint already proven by the oecd-unemployment-rate source",
+          "format": "SDMX-CSV",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the OECD default licence for its statistical data",
+          "attribution": "Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.",
+          "cadence": "Updated a few times a year as national accounts and hours data arrive; latest observed year 2025 on 2026-09-22",
+          "publicationSchedule": "No fixed calendar published for the database; refreshed after national-accounts releases",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution and an indication of changes; no share-alike obligation"
+        },
+        {
+          "id": "world-bank-wdi-ppp",
+          "authority": "World Bank, World Development Indicators",
+          "coverage": "All countries, PPP from 1990 only",
+          "granularity": "Annual; no hours worked",
+          "stability": "Stable indicator codes",
+          "accessMethod": "Credential-free HTTPS GET against the WDI API",
+          "format": "JSON",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the World Bank licence for World Development Indicators",
+          "attribution": "Source: World Bank",
+          "cadence": "Several updates a year",
+          "publicationSchedule": "No fixed calendar",
+          "redistributionConstraints": "CC BY 4.0"
+        },
+        {
+          "id": "penn-world-table",
+          "authority": "Groningen Growth and Development Centre, Penn World Table",
+          "coverage": "183 countries, 1950 onward, hours for a subset",
+          "granularity": "Annual",
+          "stability": "Irregular releases every few years, each a full restatement; lags current data by two or more years",
+          "accessMethod": "Credential-free file download",
+          "format": "Excel/Stata file",
+          "licence": "Creative Commons Attribution 4.0 International",
+          "attribution": "Feenstra, Inklaar and Timmer, Penn World Table",
+          "cadence": "Irregular, several years apart",
+          "publicationSchedule": "None",
+          "redistributionConstraints": "CC BY 4.0"
+        }
+      ],
+      "selected": "oecd-productivity-database",
+      "rationale": "One OECD dataflow carries every term of the per-capita decomposition except the working-age share, on a consistent PPP basis, from 1970 and up to the latest year. WDI starts PPP in 1990 and has no hours; PWT is longer but restated only every few years and lags.",
+      "defaultProvider": false
+    },
+    {
+      "need": "Working-age (15-64) share of the population by country, for the employment-rate and demographic terms of the per-capita decomposition",
+      "candidates": [
+        {
+          "id": "un-wpp-population-by-age",
+          "authority": "United Nations Population Division, World Population Prospects 2024",
+          "coverage": "All countries 1950-2100: estimates to 2023, medium-variant projections thereafter",
+          "granularity": "Annual, five-year age bands; the existing world-demography-age-structure dataset already derives the 15-64 band and its share",
+          "stability": "Existing verified snapshot; WPP revisions are biennial and replace the whole estimate series",
+          "accessMethod": "Existing snapshot in this repository",
+          "format": "Parquet (existing)",
+          "licence": "Creative Commons Attribution 3.0 IGO (CC BY 3.0 IGO)",
+          "attribution": "Source: United Nations, Department of Economic and Social Affairs, Population Division, World Population Prospects 2024",
+          "cadence": "Biennial",
+          "publicationSchedule": "Every two years (2022, 2024, 2026 expected)",
+          "redistributionConstraints": "CC BY 3.0 IGO permits redistribution and adaptation with attribution"
+        },
+        {
+          "id": "oecd-labour-force-population",
+          "authority": "OECD annual labour force statistics",
+          "coverage": "OECD members; working-age population by age, start years vary",
+          "granularity": "Annual",
+          "stability": "Stable dataflow identifiers",
+          "accessMethod": "Credential-free SDMX API",
+          "format": "SDMX-CSV",
+          "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0), the OECD default licence for its statistical data",
+          "attribution": "Source: OECD",
+          "cadence": "Annual",
+          "publicationSchedule": "After national labour-force releases",
+          "redistributionConstraints": "CC BY 4.0 permits redistribution and adaptation with attribution and an indication of changes; no share-alike obligation"
+        }
+      ],
+      "selected": "un-wpp-population-by-age",
+      "rationale": "Reuses a verified snapshot and an existing dataset that already defines working age once. Only the share is used, applied to the OECD population, so the decomposition closes exactly on OECD totals. Known quirk to surface: years after 2023 are WPP projections.",
+      "defaultProvider": false
+    },
+    {
+      "need": "GDP per inhabitant by French departement",
+      "candidates": [
+        {
+          "id": "eurostat-regional-gdp",
+          "authority": "Eurostat regional accounts (nama_10r_3gdp), transmitted by INSEE",
+          "coverage": "NUTS 3 regions, which in France are the departements, 2000 to 2024; verified for FR101 (Paris) and FRE11 (Nord) on 2026-09-22",
+          "granularity": "Annual; euros per inhabitant and PPS (EU27_2020) per inhabitant, among other units",
+          "stability": "Stable dataset code; NUTS revisions every few years can recode regions",
+          "accessMethod": "Credential-free HTTPS GET against https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nama_10r_3gdp",
+          "format": "JSON-stat",
+          "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+          "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp)",
+          "cadence": "Annual. Provider evidence: dataset updated 2026-02-10",
+          "publicationSchedule": "Annual update, observed 2026-02-10; latest year trails the reference year by about 14 months",
+          "redistributionConstraints": "Reuse and redistribution permitted with acknowledgement of the source; no share-alike obligation"
+        },
+        {
+          "id": "insee-regional-accounts",
+          "authority": "INSEE regional accounts",
+          "coverage": "Regions; departement estimates published as downloadable files on an irregular basis (not verified)",
+          "granularity": "Annual",
+          "stability": "File layout not verified",
+          "accessMethod": "File download from insee.fr",
+          "format": "Excel",
+          "licence": "Licence Ouverte / Open Licence 2.0",
+          "attribution": "Source: INSEE",
+          "cadence": "Irregular",
+          "publicationSchedule": "Not verified",
+          "redistributionConstraints": "Licence Ouverte 2.0 permits reuse, adaptation and redistribution including commercially, conditional only on attributing the producer and the date of the last update; no share-alike obligation"
+        }
+      ],
+      "selected": "eurostat-regional-gdp",
+      "rationale": "A stable API with a verified 2000-2024 series in both euros and PPS per inhabitant for every departement; the INSEE departement files are not available through an API and their cadence could not be established.",
+      "defaultProvider": false
+    }
+  ],
+  "dependencies": [
+    {
+      "kind": "source",
+      "id": "insee-annual-national-accounts",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/insee-annual-national-accounts/acq-03ee4e5844948093e6b4873c129231b9-1cdde6fab2c7/snapshot.json",
+        "sha256": "6a8eeaf009fc8649df9cb070f07c8a1a1300a094403e96d8dca16185503e5362"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "insee-quarterly-national-accounts",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/insee-quarterly-national-accounts/acq-c2d44329b2072239853c44709bae69b5-ec4c2f18550d/snapshot.json",
+        "sha256": "6a8f86afd97fd6349338430bcd7d690cc5424074134bff7d117226c09bc3fd1e"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "world-bank-wdi-gdp",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/world-bank-wdi-gdp/acq-b716a30a534efd71bb7d9c8a0ad1f5ad-5052c87e5b9e/snapshot.json",
+        "sha256": "876be4bc32514df7a8bed74d97bbf51d76eac59936863b75c431698d5f9a81ff"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "oecd-productivity-database",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/oecd-productivity-database/acq-11ed352dd7adbbf40b7ebef533ad7205-bf766d6d50b7/snapshot.json",
+        "sha256": "1dde5d465f1179a44341c17e977957676db0c7295e0e1e47d0bd00773b148c18"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "eurostat-regional-gdp",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/eurostat-regional-gdp/acq-da5f797d798ca628269261e650b6f9c7-21bea2a92ee3/snapshot.json",
+        "sha256": "4cea7de587222c752e5f736582f09e2343a52fa8b9cbb5a6fe16f945ad4e788c"
+      },
+      "verified": true
+    },
+    {
+      "kind": "source",
+      "id": "un-wpp-population-by-age",
+      "skill": "pulse-add-source",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "source-output",
+        "path": "snapshots/public/un-wpp-population-by-age/acq-09d3992a60ce4186821d61b0f22e4790-a04d7d1486a5/snapshot.json",
+        "sha256": "910b784e98928c4ddc1178010b82239f7b75a346d563d19009e063bcf84c42ba"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "world-demography-age-structure",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/world-demography-age-structure/dataset.json",
+        "sha256": "bd331a589380da7f056de8cb7a6a7a44794a69efa063aedcf4cc1bfa3e3275cb"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-departement-geometry",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-departement-geometry/dataset.json",
+        "sha256": "99bbb5e9bcbe87c40bf2a59cfff2c34158d3ecab3128e9f01d8be63c8019d6c4"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-national-accounts-annual",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-national-accounts-annual/dataset.json",
+        "sha256": "b13d349d7f5ea9aac8e65ea5d71c6f93fdd0f6e4e73c67bdc39a0f9c3d8e07f6"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-branch-value-added",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-branch-value-added/dataset.json",
+        "sha256": "0e4667b7a0ea8c79998e0a809a0d90720864f74584462da4620274789bc2ce00"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-gdp-quarterly",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-gdp-quarterly/dataset.json",
+        "sha256": "035bd67feb1c8f04999c4a44de5f5b2da089b7b87fdfbacfb56fd8c1dfeeb50a"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-gdp-dollar-decomposition",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-gdp-dollar-decomposition/dataset.json",
+        "sha256": "1ddc704c533ec5d83114ce3436c73e47d8b004ad3779992f7a0c85acef74e111"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "oecd-productivity-comparison",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/oecd-productivity-comparison/dataset.json",
+        "sha256": "d314d192003829e447d648c90033d3c861f3e4da3a326993c15f9700d621223d"
+      },
+      "verified": true
+    },
+    {
+      "kind": "dataset",
+      "id": "french-departement-gdp",
+      "skill": "pulse-add-dataset",
+      "artifact": {
+        "phase": "dependencies",
+        "kind": "dataset-output",
+        "path": "publish/public/data/french-departement-gdp/dataset.json",
+        "sha256": "ed5dad35212232054c496a52b4b0777a249aca77e63805d41a87a5b9fa0b21dd"
+      },
+      "verified": true
+    }
+  ],
+  "artifacts": [
+    {
+      "phase": "real-data",
+      "kind": "representative-rows",
+      "path": "_bmad-output/report-workflows/french-gdp-real-data.json",
+      "sha256": "d9d3461c41c8329e4765f2f4b76c40c8b041530a9961d195b9380e1855f6818a"
+    },
+    {
+      "phase": "design-handoff",
+      "kind": "claude-design-export",
+      "path": "claude-design-output/french-gdp",
+      "sha256": "658cf8a0a38649ea12b03f5db5b8d97a8db5be21f77a970eaacceecc6af79daa"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-declaration",
+      "path": "site/reports/french-gdp/report.yml",
+      "sha256": "d505bd9af06b3b8e4dafb5b3d6cf2190c7b20fef0c43833f555c53bde92f7119"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "route-page",
+      "path": "site/reports/french-gdp.md",
+      "sha256": "61f901ff7724e37a428735f795ba56c40e3a2fae88e03ec3dc309f50fe886956"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "report-module",
+      "path": "site/reports/french-gdp/report.js",
+      "sha256": "d6fc86acaed10ce69c1a5970016ae6e0bccb0ddba09350bd9d8c71b39c706817"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "state-boundary",
+      "path": "site/reports/french-gdp/state.js",
+      "sha256": "abbad31a71f9c9727cc0aabcaa50908041c5228cef989e3382e13588bbbf287a"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "contract-test",
+      "path": "tests/node/french-gdp-contract.test.mjs",
+      "sha256": "e9d2536f051941027c8f0a1e78974507ba5db9f402c4874fa4f394aec5a24121"
+    },
+    {
+      "phase": "infrastructure",
+      "kind": "browser-tests",
+      "path": "tests/browser/french-gdp.spec.js",
+      "sha256": "07faa68fa22bf279d56a29e802a135d2fc0e450ebc3dd5cf9432fa3086fd6720"
+    }
+  ],
+  "approval": {
+    "phase": "design-approval",
+    "kind": "human-approval",
+    "path": "_bmad-output/report-workflows/french-gdp-approval.json",
+    "sha256": "3920cc5815b6202a2c7f2284c5cb82363370ccf82abea1ded0234a7ad156d33e"
+  },
+  "visuals": [
+    {
+      "id": "output-growth-tail",
+      "handoffSection": "design/Main.dc.html \u2014 Output and its growth",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/output-growth-tail.js",
+        "sha256": "521383362ad5348fc236c6cf96728b79bc33a063e7fce7c41ee22125aac592d9"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/output-growth-tail.numeric.json",
+        "sha256": "ad7cfcdaef931c9ac3b712661816f100ed7214d239f43c65cd193347f0b0fcd7"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/output-growth-tail.fidelity.json",
+        "sha256": "2f4b1adc85b069f6d20e21363d2aa9fb50d0427b811a69065482507168e3702c"
+      },
+      "verified": true
+    },
+    {
+      "id": "demand-contribution-bars",
+      "handoffSection": "design/Main.dc.html \u2014 Where growth came from",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/demand-contribution-bars.js",
+        "sha256": "fee2e201fc72596527848f889127e430975992e1311b4ab1f5f84c5ed75576fa"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/demand-contribution-bars.numeric.json",
+        "sha256": "b5c73c7b4eac96c002f9b085c14c58a3957a0ce64b963434bd98e59aff17823d"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/demand-contribution-bars.fidelity.json",
+        "sha256": "85e7ce2e15623c3f356ea17ac683ae76259d7f8adf3c1a74d65080b305422978"
+      },
+      "verified": true
+    },
+    {
+      "id": "branch-share-panels",
+      "handoffSection": "design/Main.dc.html \u2014 What the economy produces",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/branch-share-panels.js",
+        "sha256": "5d2f502ca98e97603968eaed425e8314dba8a310b825559c3a8d74abfd0b2a71"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/branch-share-panels.numeric.json",
+        "sha256": "de560832278d21d97958e6908920b767afd8d92e3dbbd215fbfdfdc2b35e45d2"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/branch-share-panels.fidelity.json",
+        "sha256": "0384689b88d55d56f764df20d0b454397bcab2e3324f50627804d7fef0059da3"
+      },
+      "verified": true
+    },
+    {
+      "id": "income-share-panels",
+      "handoffSection": "design/Main.dc.html \u2014 How income is shared",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/income-share-panels.js",
+        "sha256": "7d790e2634dc7dc19ba15bda640d6de5fdfdd31b1645495435bb3c37227ead3e"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/income-share-panels.numeric.json",
+        "sha256": "655dfb97c469f844dccbc7b42f4501947c0ef77ccd4f1d5de35a017cd14d151b"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/income-share-panels.fidelity.json",
+        "sha256": "900daac34e5397e3338ed6f7044bfd11e6353b2325b108f400753be6be8b9bc4"
+      },
+      "verified": true
+    },
+    {
+      "id": "dollar-decomposition",
+      "handoffSection": "design/Main.dc.html \u2014 What French GDP is worth in dollars",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/dollar-decomposition.js",
+        "sha256": "e51a7b24ea8d00d782c1b1bcbda5c2bfb680487a2e32d761c4aeb7dba12ffdaf"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/dollar-decomposition.numeric.json",
+        "sha256": "8603b087c1a9070deed7ef8d4f4717bebdbde021b2f0426e1124b2869429fa82"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/dollar-decomposition.fidelity.json",
+        "sha256": "56743f4417aef3c79393d7094d1e6bac95891a8edfefbb321c63f6e2ea14dabc"
+      },
+      "verified": true
+    },
+    {
+      "id": "oecd-standing",
+      "handoffSection": "design/Main.dc.html \u2014 France among OECD economies",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/oecd-standing.js",
+        "sha256": "3be6961141e2cc802af9524cef5d5245cde2343bbd54c0f7902f3ba8b158c43f"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/oecd-standing.numeric.json",
+        "sha256": "ca75a0e01990c2d90c623cfaead5d1b3f250492a6e2ef992e3b5ae631b510eb3"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/oecd-standing.fidelity.json",
+        "sha256": "79b39a664c516be3b5ab59ff15f0b94c013634dae665d2bf6c77349081d9308d"
+      },
+      "verified": true
+    },
+    {
+      "id": "per-capita-drivers",
+      "handoffSection": "design/Main.dc.html \u2014 What drives GDP per inhabitant",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/per-capita-drivers.js",
+        "sha256": "ac9923feaf9bf958ba2fdb76fe6054bec0123c3b8a96d42948d6397f3c872c4b"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/per-capita-drivers.numeric.json",
+        "sha256": "b5e776589384ef3906cb3fb0882394672ecf148896d409a8af5f136194eea5fe"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/per-capita-drivers.fidelity.json",
+        "sha256": "bed80b2b9c393b75309589d5be6a39a81e32d2e36322d186d702ce3c11c26c56"
+      },
+      "verified": true
+    },
+    {
+      "id": "index-choropleth",
+      "handoffSection": "design/Main.dc.html \u2014 GDP across the departements",
+      "implementation": {
+        "phase": "visual-implementation",
+        "kind": "implementation",
+        "path": "site/visuals/index-choropleth.js",
+        "sha256": "8c8bb951e686cec48b882ca223fdfc72e9d847423311bd97b4f93814b03b6f1a"
+      },
+      "numericEvidence": {
+        "phase": "visual-implementation",
+        "kind": "numeric-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/index-choropleth.numeric.json",
+        "sha256": "0c9e6f421c3817f7d1dee29af0d43ccc2d6179816851833662acd3b6dfc39302"
+      },
+      "fidelityEvidence": {
+        "phase": "visual-implementation",
+        "kind": "fidelity-evidence",
+        "path": "_bmad-output/report-workflows/french-gdp-evidence/index-choropleth.fidelity.json",
+        "sha256": "6bc07be44f469a7cd743b0d2907753eaabba3ae403a69261632df2b06be28c8c"
+      },
+      "verified": true
+    }
+  ],
+  "verification": {
+    "commands": [
+      {
+        "command": "node tests/node/french-gdp-contract.test.mjs",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/french-gdp-evidence/contract-test.log",
+          "sha256": "2d1ce12ad5ae36ac6ee5706d50e1a2b6c47b7ddb15b5cf116070ce8d5b107932"
+        }
+      },
+      {
+        "command": "uv run --no-sync pulse verify",
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/french-gdp-evidence/pulse-verify.log",
+          "sha256": "99d2885824047a948a4bc222a166bc12b4e2d89eb4d03a058aa4d4def472c3d0"
+        }
+      }
+    ],
+    "complete": true
+  },
+  "resume": {
+    "firstIncomplete": null,
+    "checkedAt": "2026-09-25T13:02:26Z"
+  }
+}

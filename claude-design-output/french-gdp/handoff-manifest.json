@@ -1,0 +1,69 @@
+{
+ "schema_version": "1.0.0",
+ "report_id": "french-gdp",
+ "visual_ids": [
+  "output-growth-tail",
+  "demand-contribution-bars",
+  "branch-share-panels",
+  "income-share-panels",
+  "dollar-decomposition",
+  "oecd-standing",
+  "per-capita-drivers",
+  "departement-choropleth"
+ ],
+ "prototype": [
+  "design/Main.dc.html",
+  "design/States.dc.html",
+  "design/Narrow.dc.html",
+  "design/Zoom.dc.html",
+  "design/canvas.json"
+ ],
+ "decisions": [
+  "design/Decisions.dc.html"
+ ],
+ "contracts": [
+  "contracts/output-growth-tail.contract.js",
+  "contracts/demand-contribution-bars.contract.js",
+  "contracts/branch-share-panels.contract.js",
+  "contracts/income-share-panels.contract.js",
+  "contracts/dollar-decomposition.contract.js",
+  "contracts/oecd-standing.contract.js",
+  "contracts/per-capita-drivers.contract.js",
+  "contracts/departement-choropleth.contract.js"
+ ],
+ "fixtures": [
+  "fixtures/french_national_accounts_annual.json",
+  "fixtures/french_gdp_quarterly.json",
+  "fixtures/french_branch_value_added.json",
+  "fixtures/french_gdp_dollar_decomposition.json",
+  "fixtures/oecd_productivity_comparison.json",
+  "fixtures/world_demography_age_structure_15_64.json",
+  "fixtures/french_departement_gdp.json"
+ ],
+ "rationale": [
+  "README.md"
+ ],
+ "assets": [],
+ "design_only_support": [
+  "design/gdp-data.js"
+ ],
+ "remote_assets": [
+  "https://claude.ai/artifact/LveKNV5Bi5XFPrkG95ZSMa"
+ ],
+ "states": [
+  "ready",
+  "loading",
+  "empty",
+  "suspect",
+  "stale",
+  "query-error",
+  "schema-incompatibility",
+  "render-error",
+  "shared-engine-failure"
+ ],
+ "views": [
+  "desktop",
+  "narrow-smartphone-landscape",
+  "400%-zoom-reflow"
+ ]
+}
