@@ -6,24 +6,28 @@ Resolve the requested questions to existing report-facing dataset IDs. For each 
 
 Record exact paths and SHA-256 digests. Reject identity/path collisions and unsupported Visual Contract majors. Do not inspect an unrelated report to choose its visual vocabulary.
 
-## 2. Claude Design export
+## 2. Design on a canvas
 
-Copy `assets/claude-design-prompt.md` into a work area and replace every `__...__` marker. Attach or make readable the exact story, contracts, Parquet, neutral visual contract, visual language, token sheet, and shared styles named in the prompt. The prompt is producer-shaped: Claude Design receives real constraints and data and returns a complete, reviewable report/visual design rather than advice for a coder.
+Copy `assets/claude-design-prompt.md` into a work area and replace every `__...__` marker, naming the exact story, contracts, Parquet, neutral visual contract, visual language, token sheet, and shared styles. The brief is producer-shaped: it is the request you then design against, yourself, on a Design canvas (Artifact tool, `quickstart` with `intent: "design"`, then the Design type's instructions), producing a complete, reviewable report/visual design rather than advice for a coder. Build the canvas from real rows: generate a data script from the published Parquet, upload it as a canvas asset, and compute figures, strips and tables from it. Use Pulse's tokens and `site/visuals/report-shared.js` vocabulary; an organization-default design system does not apply.
 
 The design must decide standing questions, narrative, indicators, units and precision, periods, at least three purpose-built visuals, fixture schemas and real rows, layout, controls and parameterized query needs, provenance, accessible equivalents, and every normal/degraded/error state. It must use plain DOM/SVG through Visual Contract v1, no chart library, report-owned data/state/routing, and WCAG 2.2 AA.
 
-Stop after export. External Claude Design work is not simulated by the coding agent.
+Do not stop at the brief or ask the human to run an external design tool: the design stage ends when the canvas is published. Composed reports need report-owned state across figures, so the composed report is one interactive artboard; states, narrow landscape, 400% zoom/reflow and decisions are artboards of their own.
 
-## 3. External-output intake
+The canvas runtime renders every `{{hole}}` as an HTML `<span>`, which draws nothing inside SVG. Never put a hole in an SVG `<text>` or `<title>`. Put every label that changes (tick values, units, series names, values) in an absolutely positioned HTML overlay above each plot. Position only the overlay's direct children (`.ov > span`), because the runtime wraps each hole in a span of its own that a descendant selector would also move. Align each label with an explicit box width and `text-align`.
 
-Place the returned handoff in a dedicated directory and complete a copy of `assets/handoff-manifest.json`. Paths are relative to the handoff root and must remain inside it. Run:
+Before publishing, render every artboard locally with the canvas's own runtime. Serve the Design type's `artifact-type/dc-runtime.js` as `support.js` beside the artboards, together with a local copy of the data script, and inspect every section in the browser, including after changing each control. Logic checks and contract checks do not show what the runtime draws.
+
+## 3. Handoff intake
+
+Place the canvas files and the rest of the handoff in a dedicated directory (`claude-design-output/<report-id>/`) and complete a copy of `assets/handoff-manifest.json`. Paths are relative to the handoff root and must remain inside it. Run:
 
 ```bash
 uv run --no-sync python .agents/skills/pulse-add-visual/scripts/handoff_gate.py inspect \
   --root <handoff-directory> --manifest <handoff-manifest.json>
 ```
 
-Intake requires a prototype, design decisions, rationale, at least three visual IDs and contracts, fixture data, all specified states, and desktop/narrow/zoom-reflow designs. It records local assets and separately identifies remote assets so implementation cannot port them accidentally. A complete intake is still unapproved.
+Intake requires a prototype, design decisions, rationale, at least three visual IDs and contracts, fixture data, all specified states, and desktop/narrow/zoom-reflow designs. It records local assets and separately identifies remote assets — the canvas URL among them — so implementation cannot port them accidentally. A complete intake is still unapproved.
 
 ## 4. Human approval
 

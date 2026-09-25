@@ -1,6 +1,6 @@
-# Claude Design production brief: __REPORT_TITLE__
+# Design production brief: __REPORT_TITLE__
 
-This is a design and authoring session against real report-facing data, before production implementation. Produce the complete report surface and its purpose-built visuals for human review. Do not write a coding-agent brief or defer content and visual decisions to implementation.
+This is the request for a design and authoring session on a Design canvas, against real report-facing data, before production implementation. Produce the complete report surface and its purpose-built visuals for human review. Do not write a coding-agent brief or defer content and visual decisions to implementation.
 
 ## Read these inputs in full
 

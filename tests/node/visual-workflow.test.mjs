@@ -35,7 +35,9 @@ const checklist = await read(".agents/skills/pulse-add-visual/assets/fidelity-ch
 
 assert.match(skill, /route that prerequisite to `pulse-add-dataset`/);
 assert.match(skill, /Pause for explicit human approval/);
-assert.match(workflow, /External Claude Design work is not simulated/);
+assert.match(workflow, /the design stage ends when the canvas is published/);
+assert.match(skill, /intent: "design"/);
+assert.match(workflow, /organization-default design system does not apply/);
 for (const required of [
   "__STORY_PATH__", "__DATASET_CONTRACT_PATHS_AND_SHA256__", "__PARQUET_PATHS_AND_SHA256__",
   "docs/visual-contract-v1.md", "site/design/tokens.css", "site/design/visual-language.md",
