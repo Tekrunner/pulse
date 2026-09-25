@@ -1,0 +1,8 @@
+{
+  "code": "upstream_unavailable",
+  "message": "source acquisition failed safely; retry when the upstream service is available",
+  "retryable": true,
+  "schema_id": "pulse.diagnostic",
+  "schema_version": "1.0.0",
+  "stage": "acquire"
+}
