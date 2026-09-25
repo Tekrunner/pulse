@@ -1,0 +1,27 @@
+id: eurostat-regional-gdp
+snapshot_contract: snapshot-contract.yaml
+name: Eurostat GDP at current market prices by NUTS 3 region
+visibility: public
+acquisition:
+  method: Eurostat dissemination SDMX 2.1 REST, SDMX-CSV 1.0 representation
+  url: https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nama_10r_3gdp/A.EUR_HAB+PPS_EU27_2020_HAB+MIO_EUR.?format=SDMX-CSV
+  # SDMX-CSV is already one row per observation, so the archive keeps what the
+  # provider sends rather than flattening JSON-stat.
+  dataflow: ESTAT:NAMA_10R_3GDP(1.0)
+  # The key pins annual frequency and three units: GDP in millions of euros,
+  # euros per inhabitant, and purchasing power standards per inhabitant. The
+  # dimension order is the provider's: freq, unit, geo. The geo position is left
+  # open: every region at every NUTS level that Eurostat publishes is retained,
+  # because which regions exist is a question about the NUTS classification,
+  # answered by whichever package declares it.
+  key:
+    freq: A
+    unit: [EUR_HAB, MIO_EUR, PPS_EU27_2020_HAB]
+fetch_cadence: annual, after the Eurostat regional GDP release in the first half of February
+expected_publication_advance: one reference year per release; NUTS 3 GDP for year N is released in the first half of February of year N+2
+publication_schedule:
+  period: annual
+  expected_within_days: 411
+  grace_days: 14
+licence: "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)"
+attribution: "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp)."

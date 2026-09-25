@@ -1,0 +1,27 @@
+id: oecd-productivity-database
+snapshot_contract: snapshot-contract.yaml
+name: OECD Productivity Database, total economy
+visibility: public
+acquisition:
+  method: OECD SDMX-CSV 2.0 with combined code and label values
+  url: https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PDB@DF_PDB,2.0/.A.GDP+GDPPOP+GDPHRS+GDPEMP+POP+EMP+HRSAV+HRSTO._T.....
+  media_type: application/vnd.sdmx.data+csv;version=2.0.0;labels=both
+  dataflow: OECD.SDD.TPS:DSD_PDB@DF_PDB(2.0)
+  # The key pins annual frequency, the total economy and eight measures. Units,
+  # price bases and transformations are left open: the provider publishes each
+  # measure in several, and every one is retained.
+  key:
+    "FREQ: Frequency of observation": A
+    "ACTIVITY: Economic activity": _T
+    "MEASURE: Measure": [EMP, GDP, GDPEMP, GDPHRS, GDPPOP, HRSAV, HRSTO, POP]
+  # Every reference area the provider sends is retained as observed. Which
+  # areas must exist is a question about the OECD's own membership, answered by
+  # the dataset package that declares it.
+fetch_cadence: quarterly, on a schedule chosen by the requester because the provider updates on a rolling basis
+expected_publication_advance: annual; each variable is updated as its underlying national-accounts and hours data arrive, so the publication edge advances once a year and areas reach it at different times
+publication_schedule:
+  period: annual
+  expected_within_days: 273
+  grace_days: 30
+licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+attribution: "Source: OECD Productivity Database. This is an adaptation of an original work by the OECD."

@@ -1,0 +1,49 @@
+name: Refresh INSEE annual national accounts
+
+on:
+  workflow_dispatch:
+  schedule:
+    # INSEE released the annual accounts on 31 May 2024, 28 May 2025 and
+    # 29 May 2026. 06:00 UTC on 2 June runs two to five days after every
+    # observed release; 12 June retries inside the grace window, before the
+    # declared deadline (30 May) plus 14 days of grace expires.
+    - cron: "0 6 2,12 6 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/insee-annual-national-accounts/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh insee-annual-national-accounts --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication insee-annual-national-accounts
+          if ! git diff --cached --quiet; then
+            git commit -m "data(insee-annual-national-accounts): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

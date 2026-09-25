@@ -1,0 +1,29 @@
+id: world-bank-wdi-gdp
+snapshot_contract: snapshot-contract.yaml
+name: World Bank World Development Indicators, GDP in dollars and local currency, France
+visibility: public
+acquisition:
+  method: World Bank Indicators API v2, JSON, one request for all declared indicators
+  url: https://api.worldbank.org/v2/country/FRA/indicator/NY.GDP.MKTP.CD;NY.GDP.MKTP.KD;NY.GDP.MKTP.CN;NY.GDP.MKTP.KN;NY.GDP.DEFL.ZS;PA.NUS.FCRF?format=json&per_page=1000&source=2
+  country: FRA
+  indicators:
+    - id: NY.GDP.MKTP.CD
+      name: GDP (current US$)
+    - id: NY.GDP.MKTP.KD
+      name: GDP (constant 2015 US$)
+    - id: NY.GDP.MKTP.CN
+      name: GDP (current LCU)
+    - id: NY.GDP.MKTP.KN
+      name: GDP (constant LCU)
+    - id: NY.GDP.DEFL.ZS
+      name: GDP deflator (base year varies by country)
+    - id: PA.NUS.FCRF
+      name: Official exchange rate (LCU per US$, period average)
+fetch_cadence: quarterly, after each WDI quarterly update
+expected_publication_advance: annual; the previous year's national accounts arrive at the July WDI update, and the other quarterly updates can revise them
+publication_schedule:
+  period: annual
+  expected_within_days: 182
+  grace_days: 21
+licence: Creative Commons Attribution 4.0 International (CC BY 4.0)
+attribution: "Source: World Bank, World Development Indicators."

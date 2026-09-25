@@ -1,0 +1,49 @@
+name: Refresh World Bank WDI GDP indicators
+
+on:
+  workflow_dispatch:
+  schedule:
+    # WDI adds the previous year's national accounts in its 1 July update and
+    # revises them at the other quarterly updates. The 15th of Jan, Apr, Jul
+    # and Oct follows each update; the July run lands inside the 182 + 21 day
+    # window that expires on 22 July.
+    - cron: "0 6 15 1,4,7,10 *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pulse-repository-writer
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          lfs: false
+      - run: git lfs pull --include="snapshots/public/world-bank-wdi-gdp/**" --exclude=""
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.12.1"
+          python-version: "3.13"
+      - run: uv sync --frozen
+      - id: refresh
+        continue-on-error: true
+        run: uv run --no-sync pulse source refresh world-bank-wdi-gdp --live --logical-run-key "${{ github.run_id }}"
+      - run: uv run --no-sync pulse status
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          uv run --no-sync pulse source stage-publication world-bank-wdi-gdp
+          if ! git diff --cached --quiet; then
+            git commit -m "data(world-bank-wdi-gdp): refresh public pipeline"
+            git push origin HEAD:main
+          fi
+      - if: always()
+        env:
+          REFRESH_OUTCOME: ${{ steps.refresh.outcome }}
+        run: test "$REFRESH_OUTCOME" = success

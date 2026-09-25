@@ -1,0 +1,22 @@
+id: insee-annual-national-accounts
+snapshot_contract: snapshot-contract.yaml
+name: INSEE annual national accounts, base 2020, France
+visibility: public
+acquisition:
+  method: INSEE BDM StructureSpecific SDMX-ML 2.1, one request per dataflow
+  url: https://bdm.insee.fr/series/sdmx/data/
+  dataflows:
+    - id: CNA-2020-PIB
+      name: "Comptes nationaux annuels base 2020 - Produit intérieur brut"
+    - id: CNA-2020-CPEB
+      name: "Comptes nationaux annuels base 2020 - Comptes de production et d'exploitation par branche"
+    - id: CNA-2020-EMPLOI
+      name: "Comptes nationaux annuels base 2020 - Emploi et durée du travail"
+fetch_cadence: annual, after the INSEE annual national accounts release at the end of May
+expected_publication_advance: annual; every maintained series advances by one year at the single end-of-May release, which also revises the two preceding years
+publication_schedule:
+  period: annual
+  expected_within_days: 150
+  grace_days: 14
+licence: Licence Ouverte / Open Licence 2.0
+attribution: "Source: INSEE, comptes nationaux annuels, base 2020."

@@ -1,0 +1,41 @@
+{
+  "acquired_at": "2026-09-23T07:38:11Z",
+  "acquisition_id": "acq-11ed352dd7adbbf40b7ebef533ad7205",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "bf766d6d50b741234bda80025b0d8a4cf9cd0454b3c9acc736a3f702c5f278a2"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_reference_area_carries_both_a_code_and_a_label",
+      "passed": true
+    },
+    {
+      "check": "most_reference_areas_publish_gdp_for_the_publication_edge",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: OECD Productivity Database. This is an adaptation of an original work by the OECD.",
+  "decoder_version": "oecd-sdmx-csv2-annual-v1",
+  "format": "parquet",
+  "licence": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+  "observed_schema_sha256": "313cc1ee086d7edcce1ef913d5e8e1b551595a92221d554220aa82c6916f4fed",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-11ed352dd7adbbf40b7ebef533ad7205-bf766d6d50b7",
+  "source_data_date": "2025-12-31",
+  "source_id": "oecd-productivity-database",
+  "source_urls": [
+    "https://sdmx.oecd.org/public/rest/data/OECD.SDD.TPS,DSD_PDB@DF_PDB,2.0/.A.GDP+GDPPOP+GDPHRS+GDPEMP+POP+EMP+HRSAV+HRSTO._T....."
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

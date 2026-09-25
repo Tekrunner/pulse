@@ -1,0 +1,47 @@
+{
+  "acquired_at": "2026-09-22T22:06:25Z",
+  "acquisition_id": "acq-03ee4e5844948093e6b4873c129231b9",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "1cdde6fab2c794a9d34af6f424e531d7a99aebe8e000127f8e29e8f453a7db59"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_is_annual",
+      "passed": true
+    },
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_series_has_a_distinct_dimension_key_within_its_dataflow",
+      "passed": true
+    },
+    {
+      "check": "every_total_economy_series_reaches_the_latest_year",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: INSEE, comptes nationaux annuels, base 2020.",
+  "decoder_version": "insee-bdm-sdmx-annual-dataflows-v1",
+  "format": "parquet",
+  "licence": "Licence Ouverte / Open Licence 2.0",
+  "observed_schema_sha256": "46e9f9f7759a713399ae5b9c2bb22d21366183761fd8fdd294d7a80fb0385b8c",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-03ee4e5844948093e6b4873c129231b9-1cdde6fab2c7",
+  "source_data_date": "2025-12-31",
+  "source_id": "insee-annual-national-accounts",
+  "source_urls": [
+    "https://bdm.insee.fr/series/sdmx/data/CNA-2020-PIB",
+    "https://bdm.insee.fr/series/sdmx/data/CNA-2020-CPEB",
+    "https://bdm.insee.fr/series/sdmx/data/CNA-2020-EMPLOI"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

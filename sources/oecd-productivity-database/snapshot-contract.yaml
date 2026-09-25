@@ -1,0 +1,18 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+required_fields:
+  STRUCTURE: string
+  STRUCTURE_ID: string
+  "REF_AREA: Reference area": string
+  "FREQ: Frequency of observation": string
+  "MEASURE: Measure": string
+  "ACTIVITY: Economic activity": string
+  "UNIT_MEASURE: Unit of measure": string
+  "PRICE_BASE: Price base": string
+  "TRANSFORMATION: Transformation": string
+  "CONVERSION_TYPE: Conversion type": string
+  "TIME_PERIOD: Time period": string
+  "OBS_VALUE: Observation value": string
+  "OBS_STATUS: Observation status": string
+  "UNIT_MULT: Unit multiplier": string

@@ -1,0 +1,22 @@
+id: insee-quarterly-national-accounts
+snapshot_contract: snapshot-contract.yaml
+name: INSEE quarterly national accounts, base 2020, GDP, France
+visibility: public
+acquisition:
+  method: INSEE BDM StructureSpecific SDMX-ML 2.1
+  url: https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011794860+011794859+011794844
+  series:
+    - id: '011794860'
+      name: "Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO"
+    - id: '011794859'
+      name: "Produit intérieur brut total - Valeur aux prix courants - Série CVS-CJO"
+    - id: '011794844'
+      name: "Comptes trimestriels (base 2020) - Évolution du Produit intérieur brut total - Volume aux prix de l'année précédente chaînés - Série CVS-CJO"
+fetch_cadence: monthly check, capturing both the first estimate and the detailed results of each quarter
+expected_publication_advance: quarterly; the first estimate adds the new quarter about 30 days after it ends, and the detailed results about 60 days after revise it
+publication_schedule:
+  period: quarterly
+  expected_within_days: 31
+  grace_days: 7
+licence: Licence Ouverte / Open Licence 2.0
+attribution: "Source: INSEE, comptes nationaux trimestriels, base 2020."

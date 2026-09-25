@@ -1,0 +1,16 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+# Nested provider objects are flattened with their own key names joined by a
+# dot. `value` is absent from the requirements because the provider publishes a
+# null for a year it has no figure for, and a required field may not be null.
+required_fields:
+  indicator.id: string
+  indicator.value: string
+  country.id: string
+  country.value: string
+  countryiso3code: string
+  date: string
+  unit: string
+  obs_status: string
+  decimal: integer

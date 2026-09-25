@@ -1,0 +1,13 @@
+contract_version: 1.0.0
+format: parquet
+compatible_additions: true
+required_fields:
+  DATAFLOW: string
+  "LAST UPDATE": string
+  freq: string
+  unit: string
+  geo: string
+  TIME_PERIOD: string
+  OBS_VALUE: string
+  OBS_FLAG: string
+  CONF_STATUS: string

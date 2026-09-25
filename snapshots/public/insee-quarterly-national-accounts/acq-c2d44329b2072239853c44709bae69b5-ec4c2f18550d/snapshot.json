@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-22T22:12:47Z",
+  "acquisition_id": "acq-c2d44329b2072239853c44709bae69b5",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "ec4c2f18550d0668fe3931e46dd08aafcb8e031be5d695210e22676f9e3fc75e"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_observation_is_quarterly",
+      "passed": true
+    },
+    {
+      "check": "every_observation_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_gdp_level_is_positive",
+      "passed": true
+    },
+    {
+      "check": "every_declared_series_reaches_the_same_latest_quarter",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: INSEE, comptes nationaux trimestriels, base 2020.",
+  "decoder_version": "insee-bdm-sdmx-quarterly-accounts-v1",
+  "format": "parquet",
+  "licence": "Licence Ouverte / Open Licence 2.0",
+  "observed_schema_sha256": "3d99464d6185b864502580e37e49f7f0ea3b214569e5dfd9beb56cd59e436cb1",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-c2d44329b2072239853c44709bae69b5-ec4c2f18550d",
+  "source_data_date": "2026-06-30",
+  "source_id": "insee-quarterly-national-accounts",
+  "source_urls": [
+    "https://bdm.insee.fr/series/sdmx/data/SERIES_BDM/011794860+011794859+011794844"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}

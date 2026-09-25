@@ -1,0 +1,45 @@
+{
+  "acquired_at": "2026-09-23T07:42:39Z",
+  "acquisition_id": "acq-da5f797d798ca628269261e650b6f9c7",
+  "artifacts": [
+    {
+      "path": "raw.parquet",
+      "sha256": "21bea2a92ee35f995a3bccba515d33edc5dd9d7e201c0b1726bc9455e1515dcc"
+    }
+  ],
+  "assertions": [
+    {
+      "check": "every_published_value_is_numeric",
+      "passed": true
+    },
+    {
+      "check": "every_published_value_is_non_negative",
+      "passed": true
+    },
+    {
+      "check": "every_empty_value_carries_a_status_or_flag",
+      "passed": true
+    },
+    {
+      "check": "most_countries_publish_the_latest_year",
+      "passed": true
+    }
+  ],
+  "attribution": "Source: Eurostat, gross domestic product at current market prices by NUTS 3 region (nama_10r_3gdp).",
+  "decoder_version": "eurostat-regional-gdp-sdmx-csv-v1",
+  "format": "parquet",
+  "licence": "Eurostat reuse policy: reuse is authorised for commercial and non-commercial purposes provided the source is acknowledged (Commission Decision 2011/833/EU)",
+  "observed_schema_sha256": "132a0a1ff688f46f008dcab3606d6255bbc858272697d528018e5eba4eee7aff",
+  "schema_id": "pulse.snapshot",
+  "schema_version": "1.1.0",
+  "snapshot_id": "acq-da5f797d798ca628269261e650b6f9c7-21bea2a92ee3",
+  "source_data_date": "2024-12-31",
+  "source_id": "eurostat-regional-gdp",
+  "source_urls": [
+    "https://ec.europa.eu/eurostat/api/dissemination/sdmx/2.1/data/nama_10r_3gdp/A.EUR_HAB+PPS_EU27_2020_HAB+MIO_EUR.?format=SDMX-CSV"
+  ],
+  "tool_versions": {
+    "dlt": "1.30.0",
+    "duckdb": "1.5.5"
+  }
+}
