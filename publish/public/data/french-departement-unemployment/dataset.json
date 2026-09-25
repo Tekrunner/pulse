@@ -32,7 +32,7 @@
       "type": "DECIMAL(10,1)"
     }
   ],
-  "content_sha256": "4c4ce328448ad9d8e22ceceea4ac1788c26b88f0e0517f8f2753fcbab3802799",
+  "content_sha256": "55a4946541d077189ddb7ec19999dc45c5f42ae888056db274177d17fe1413ce",
   "dataset_id": "french-departement-unemployment",
   "indicators": [
     {
@@ -46,9 +46,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "snapshot_id": "acq-f7cc804479e4468aa432a9d8e3a3cce3-9a49f4653c1b",
-    "snapshot_sha256": "9a49f4653c1b0665dc6f3fe2b0fe66e1e6b5459fcbfd635c11ee1fb916c72299",
-    "territory_quarters": 19715
+    "snapshot_id": "acq-89a0da277cc7057f561fb4346f9c5b52-750558b3e2a8",
+    "snapshot_sha256": "750558b3e2a8b25ade8c1f5fc39cb815fc9b9136fef5ac0af9e51b0aafb3384b",
+    "territory_quarters": 19830
   },
   "logical_table": "french_departement_unemployment",
   "model": {
@@ -93,7 +93,7 @@
     }
   ],
   "represented_period": {
-    "end": "2026-03-31",
+    "end": "2026-06-30",
     "start": "1982-01-01"
   },
   "schema_id": "pulse.dataset",
