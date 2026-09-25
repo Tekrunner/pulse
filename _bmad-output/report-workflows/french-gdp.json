@@ -545,12 +545,12 @@
   "visuals": [
     {
       "id": "output-growth-tail",
-      "handoffSection": "design/Main.dc.html \u2014 Output and its growth",
+      "handoffSection": "design/Main.dc.html — Output and its growth",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/output-growth-tail.js",
-        "sha256": "521383362ad5348fc236c6cf96728b79bc33a063e7fce7c41ee22125aac592d9"
+        "sha256": "0feedd44e674a62a64210602d652d2af835b0817ae3a2479853f2f3cf5da00e7"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -568,7 +568,7 @@
     },
     {
       "id": "demand-contribution-bars",
-      "handoffSection": "design/Main.dc.html \u2014 Where growth came from",
+      "handoffSection": "design/Main.dc.html — Where growth came from",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -591,7 +591,7 @@
     },
     {
       "id": "branch-share-panels",
-      "handoffSection": "design/Main.dc.html \u2014 What the economy produces",
+      "handoffSection": "design/Main.dc.html — What the economy produces",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -614,7 +614,7 @@
     },
     {
       "id": "income-share-panels",
-      "handoffSection": "design/Main.dc.html \u2014 How income is shared",
+      "handoffSection": "design/Main.dc.html — How income is shared",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -637,7 +637,7 @@
     },
     {
       "id": "dollar-decomposition",
-      "handoffSection": "design/Main.dc.html \u2014 What French GDP is worth in dollars",
+      "handoffSection": "design/Main.dc.html — What French GDP is worth in dollars",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -660,7 +660,7 @@
     },
     {
       "id": "oecd-standing",
-      "handoffSection": "design/Main.dc.html \u2014 France among OECD economies",
+      "handoffSection": "design/Main.dc.html — France among OECD economies",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -683,7 +683,7 @@
     },
     {
       "id": "per-capita-drivers",
-      "handoffSection": "design/Main.dc.html \u2014 What drives GDP per inhabitant",
+      "handoffSection": "design/Main.dc.html — What drives GDP per inhabitant",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
@@ -706,7 +706,7 @@
     },
     {
       "id": "index-choropleth",
-      "handoffSection": "design/Main.dc.html \u2014 GDP across the departements",
+      "handoffSection": "design/Main.dc.html — GDP across the departements",
       "implementation": {
         "phase": "visual-implementation",
         "kind": "implementation",
