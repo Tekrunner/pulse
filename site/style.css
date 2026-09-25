@@ -614,6 +614,9 @@ li[data-state="not-run"] .pipeline-state { color: var(--color-muted); }
   .gdp-report .tiles { grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
   .gdp-report .tile { padding:10px 12px; }
   .gdp-report .tile .val { font-size:22px; }
+  /* A strip entry may wrap between its parts on a phone, never inside one:
+     the values keep their no-break spaces. */
+  .gdp-report .values .v { white-space:normal; flex-wrap:wrap; min-width:0; }
   .gdp-report .controls-toggle { display:flex; align-items:center; width:100%; min-height:44px; padding:0; border:0; background:transparent; color:var(--gdp-accent); font-size:13px; text-align:left; cursor:pointer; }
   .gdp-report .exploration { flex-direction:column; align-items:stretch; gap:10px; padding:0 12px; background:var(--gdp-well); }
   .gdp-report .exploration.collapsed > fieldset { display:none; }

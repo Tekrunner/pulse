@@ -114,7 +114,8 @@ export function renderOutputGrowthTail(rows, display = {}, provenance = "") {
     strip.push({ color: ACCENT, label: "Real GDP growth", value: selected ? signedGrouped(selected.growth_pct, 1, " %") : "—" });
     if (year >= seamYear && selectedQuarters.length) {
       strip.push({ color: QUARTER, label: "Quarters on a year earlier",
-        value: selectedQuarters.map((row) => `Q${quarterOf(row.period)} ${signedGrouped(row.growth_pct, 1, " %")}`).join("  ·  ") });
+        // Each quarter stays on one line; a narrow strip breaks between them.
+        value: selectedQuarters.map((row) => `Q${quarterOf(row.period)} ${signedGrouped(row.growth_pct, 1, " %")}`).join("  ·  ") });
     }
   }
   figure.append(valueStrip(String(year), strip));
