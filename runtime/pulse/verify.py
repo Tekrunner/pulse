@@ -294,6 +294,30 @@ def _workflow_smoke() -> None:
         raise VerificationError(
             "stage 'workflow contract' requires build and verification before the exact Pages handoff"
         )
+    # A refresh pushes with GITHUB_TOKEN, which triggers no push workflow, so
+    # Pages must name every refresh workflow or its commits never deploy.
+    try:
+        import yaml
+
+        refresh_names = {
+            yaml.safe_load(workflow.read_text(encoding="utf-8"))["name"] for workflow in workflows
+        }
+        triggers = yaml.safe_load(pages)
+        triggers = triggers.get("on", triggers.get(True))
+        deployed_after = set(triggers["workflow_run"]["workflows"])
+        completed = triggers["workflow_run"]["types"] == ["completed"]
+    except (KeyError, TypeError, yaml.YAMLError) as error:
+        raise VerificationError(
+            "stage 'workflow contract' requires the Pages workflow to run after each source refresh"
+        ) from error
+    if refresh_names != deployed_after or not completed:
+        raise VerificationError(
+            "stage 'workflow contract' requires the Pages workflow_run list to name exactly the "
+            "source workflows: missing "
+            + (", ".join(sorted(refresh_names - deployed_after)) or "none")
+            + "; unknown "
+            + (", ".join(sorted(deployed_after - refresh_names)) or "none")
+        )
     pages_push = "git" + " push"
     if pages_push in pages or "contents: write" in pages:
         raise VerificationError("stage 'workflow contract' forbids repository writes during Pages deployment")

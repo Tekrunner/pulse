@@ -62,9 +62,34 @@ attribution: Example
     another = insee.replace("INSEE CPI", "another source").replace("insee-cpi", "another-source")
     another = another.replace('cron: "17 6 23 * *"', 'cron: "31 7 24 * *"')
     (tmp_path / ".github/workflows/another-source.yml").write_text(another, encoding="utf-8")
+    pages = tmp_path / ".github/workflows/pages.yml"
+    pages.write_text(
+        pages.read_text(encoding="utf-8").replace(
+            '      - "Refresh INSEE CPI"\n',
+            '      - "Refresh INSEE CPI"\n      - "Refresh another source"\n',
+        ),
+        encoding="utf-8",
+    )
     monkeypatch.setattr(verify, "ROOT", tmp_path)
 
     verify._workflow_smoke()
+
+
+def test_a_source_workflow_the_pages_workflow_does_not_follow_is_rejected(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    shutil.copytree(ROOT / ".github/workflows", tmp_path / ".github/workflows")
+    shutil.copytree(ROOT / "sources", tmp_path / "sources")
+    shutil.copytree(ROOT / "datasets", tmp_path / "datasets")
+    pages = tmp_path / ".github/workflows/pages.yml"
+    pages.write_text(
+        pages.read_text(encoding="utf-8").replace('      - "Refresh INSEE CPI"\n', ""),
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(verify, "ROOT", tmp_path)
+
+    with pytest.raises(verify.VerificationError, match="missing Refresh INSEE CPI"):
+        verify._workflow_smoke()
 
 
 def test_a_source_named_after_its_indicator_is_not_dataset_knowledge() -> None:
