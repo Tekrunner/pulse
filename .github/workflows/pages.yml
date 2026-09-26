@@ -3,6 +3,30 @@ name: Publish verified public site
 on:
   push:
     branches: [main]
+  # A refresh pushes with GITHUB_TOKEN, which never triggers push workflows,
+  # so each source workflow is listed here instead. Any conclusion deploys:
+  # a failed refresh still commits the status the homepage reports.
+  workflow_run:
+    workflows:
+      - "Refresh Eurostat emigration"
+      - "Refresh Eurostat immigration"
+      - "Refresh Eurostat regional GDP"
+      - "Refresh IGN departement boundaries"
+      - "Refresh INSEE CPI"
+      - "Refresh INSEE annual national accounts"
+      - "Refresh INSEE localised unemployment rates"
+      - "Refresh INSEE quarterly ILO labour-market indicators"
+      - "Refresh INSEE quarterly national accounts GDP"
+      - "Refresh OECD Productivity Database"
+      - "Refresh OECD monthly unemployment rates"
+      - "Refresh OECD quarterly labour force participation rates"
+      - "Refresh UN WPP demographic indicators"
+      - "Refresh UN WPP population by age"
+      - "Refresh UN WPP projection scenarios"
+      - "Refresh WHO healthy life expectancy"
+      - "Refresh World Bank WDI GDP indicators"
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
 
 permissions:

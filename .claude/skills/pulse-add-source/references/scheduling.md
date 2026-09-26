@@ -10,6 +10,8 @@ Each committed source workflow must be thin and independent: scheduled plus on-d
 
 Let refresh continue long enough to record safe status. Then run `pulse status`, call `pulse source stage-publication <source-id>`, commit only when the scoped index differs, and push without force. Propagate refresh failure after safe state is staged. Do not name datasets, dataset columns, transformations, or dataset publication paths in the workflow.
 
+Add the workflow's `name:` to the `workflow_run.workflows` list in `.github/workflows/pages.yml`. A push made with `GITHUB_TOKEN` triggers no other workflow, so without that entry the refresh commits but the site never redeploys; the workflow contract rejects the omission.
+
 Ordinary CI stays offline. A provider live test must be marked `live`, guarded by a source-specific opt-in environment variable, and run only when explicitly requested.
 
 Before committing, search the new source package and workflow for `__[A-Z0-9_]+__`. Any match means configuration is incomplete and validation must fail.
