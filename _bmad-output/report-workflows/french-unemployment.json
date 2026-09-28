@@ -375,7 +375,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/french-departement-unemployment/dataset.json",
-        "sha256": "d3a7a9a05f0293f5b02c3ccd8d0bf3397cddbe711bcb4c0706f2e75af697413d"
+        "sha256": "6698060652d31dff5540fb7837817e841cf96e6adbdaeb3e8912720c0e686c68"
       },
       "verified": true
     },
@@ -399,7 +399,7 @@
         "phase": "dependencies",
         "kind": "dataset-output",
         "path": "publish/public/data/oecd-unemployment-comparison/dataset.json",
-        "sha256": "a1d026cd168091fa92c72bdb5b9939bff67371bfc9662d587b5028e299b6da04"
+        "sha256": "dea4e2edca6cf87b39a836702a32613a1fedd93129286e9c49d5996f40c1fdbe"
       },
       "verified": true
     },
@@ -433,13 +433,13 @@
       "phase": "infrastructure",
       "kind": "report-declaration",
       "path": "site/reports/french-unemployment/report.yml",
-      "sha256": "3c151bc4e337affd681ae92b446636a2d17986678c74c2d5d5cea09cb692c561"
+      "sha256": "f56f702b1257c8a4737fa739061a396f33900f0e8ca00c30d4df5b851f05fab6"
     },
     {
       "phase": "infrastructure",
       "kind": "route-page",
       "path": "site/reports/french-unemployment.md",
-      "sha256": "a986178a50e8cd479f153ef2345dd43b45fb26d797e2b459bfb4a535f914cbbe"
+      "sha256": "ea777590c5c5ff11e2010f4e993ccc9a964c70c9fc5503fae18cc0f9208745aa"
     },
     {
       "phase": "infrastructure",
@@ -451,13 +451,13 @@
       "phase": "infrastructure",
       "kind": "state-boundary",
       "path": "site/reports/french-unemployment/state.js",
-      "sha256": "17f9a408c54468e461adc5b212b9c13a234cc9a3b74c4a6aae5d39116254677c"
+      "sha256": "b901928a68628317d2f32bcaf6aa12bbcdab70c89de6c35fd288a1b8b8b8bd45"
     },
     {
       "phase": "infrastructure",
       "kind": "synthetic-tests",
       "path": "site/reports/french-unemployment/test.js",
-      "sha256": "dc4f325d56d83b3690db9f47407db6a31c7c0f690c21c8d195c8d4eca4b14b53"
+      "sha256": "5f116df3e0c10fe47de7abb1cb9c986130e8411f284ee65f91e4b7b6d811699e"
     },
     {
       "phase": "infrastructure",
@@ -469,7 +469,7 @@
       "phase": "infrastructure",
       "kind": "browser-tests",
       "path": "tests/browser/unemployment.spec.js",
-      "sha256": "ac9471b4b4bf6f722e993cfbe145bf9d2633195be2ddd50aeb1c470118701bce"
+      "sha256": "834d7ac5ba1628ceaf88204efd4ee52251ae5f8d5c3a1c9954937640c4836f5d"
     }
   ],
   "approval": {
@@ -486,7 +486,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/headline-trend-pair.js",
-        "sha256": "ec2eefa68cb44e2d5ce8928cabdd46c3a3a6011136c1d6cda54a17d5a9048e5f"
+        "sha256": "7c43144ebf0760f9d341f420d1806acd849e06f0be4d32e36dae1a1c117f5745"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -509,7 +509,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/slack-multiples.js",
-        "sha256": "ab03cf8381a504b530cab9757131fa57a298d0323bf20541d49142d2133d397f"
+        "sha256": "963a84b75457fd56783e6b35150beb6801a8b59a32ca736529f92f27b1fa35be"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -532,7 +532,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/age-band-lines.js",
-        "sha256": "1799736024be1c67a1fbe31b09ee6e7fe62de6545c7e8a339d0962bce0c4a95d"
+        "sha256": "285b1499baa9699a36b47b6a5dc2d4f926554786b11e84f3705511a5b879c72e"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -555,7 +555,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/participation-gap-band.js",
-        "sha256": "21c5bc19d3875ec739dcd828523baebe45ac6193679fc8722c723c1498afddd8"
+        "sha256": "547a5a8cb8872e2e4f5bd25fb83375950b4eec80c041df18067e1aea80fb5e0a"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -601,7 +601,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/international-lines.js",
-        "sha256": "0dfa633403f53b89f129418ff12b9dc7e592476b625b386f208cb17b6985d39d"
+        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -624,7 +624,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/international-lines.js",
-        "sha256": "0dfa633403f53b89f129418ff12b9dc7e592476b625b386f208cb17b6985d39d"
+        "sha256": "a9bd67079afb6e5c46849a9d917618e682b505a99a5b8846dfec1bcc5df285f7"
       },
       "numericEvidence": {
         "phase": "visual-implementation",

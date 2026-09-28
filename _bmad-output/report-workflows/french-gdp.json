@@ -515,7 +515,7 @@
       "phase": "infrastructure",
       "kind": "report-module",
       "path": "site/reports/french-gdp/report.js",
-      "sha256": "d6fc86acaed10ce69c1a5970016ae6e0bccb0ddba09350bd9d8c71b39c706817"
+      "sha256": "f3de8ea5143e6516162a3803b436394bd08b0904c63fadc016f1a70c57414f67"
     },
     {
       "phase": "infrastructure",
@@ -533,7 +533,7 @@
       "phase": "infrastructure",
       "kind": "browser-tests",
       "path": "tests/browser/french-gdp.spec.js",
-      "sha256": "07faa68fa22bf279d56a29e802a135d2fc0e450ebc3dd5cf9432fa3086fd6720"
+      "sha256": "1bf1058c080e839d1d23aaf785c5af25e76c07ffe936c743b06a751521dd0177"
     }
   ],
   "approval": {
@@ -711,7 +711,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/index-choropleth.js",
-        "sha256": "8c8bb951e686cec48b882ca223fdfc72e9d847423311bd97b4f93814b03b6f1a"
+        "sha256": "2d6164602a6e82025d68b6c51484818ab95cb0f1b016c4ee4bf2874b0a80f55a"
       },
       "numericEvidence": {
         "phase": "visual-implementation",

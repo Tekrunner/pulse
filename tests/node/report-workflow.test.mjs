@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, readdir, readFile, rm, writeFile } from "node:fs/promises";
 import { spawnSync } from "node:child_process";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
@@ -213,6 +213,13 @@ try {
   assert.equal(result.status, 0, result.stderr);
   assert.equal(result.stdout.trim(), "complete");
 
+  const settled = JSON.stringify({ ...record, phase: "complete", resume: { firstIncomplete: null, checkedAt: "2026-09-13T12:00:00Z" } });
+  await writeFile(recordPath, settled);
+  result = runStatus();
+  assert.equal(result.status, 0, result.stderr);
+  assert.equal(result.stdout.trim(), "complete");
+  assert.equal(await readFile(recordPath, "utf8"), settled, "a status that changes nothing must leave the record untouched");
+
   record = await completeRecord({ unverifiedDependency: true });
   await writeFile(recordPath, JSON.stringify(record));
   result = runStatus();
@@ -335,6 +342,36 @@ try {
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
+
+// Status hashes the bytes git checks out, so a pinned file must check out as
+// committed whatever core.autocrlf says: never converted, or converted to LF.
+const workflows = resolve(root, "_bmad-output/report-workflows");
+const pinned = new Set();
+for (const name of (await readdir(workflows)).filter((item) => item.endsWith(".json"))) {
+  const value = JSON.parse(await readFile(join(workflows, name), "utf8"));
+  if (!Array.isArray(value.artifacts) || !value.resume) continue;
+  const artifacts = [
+    ...value.artifacts,
+    ...value.dependencies.map((item) => item.artifact),
+    value.approval,
+    ...value.visuals.flatMap((item) => [item.implementation, item.numericEvidence, item.fidelityEvidence]),
+    ...value.verification.commands.map((item) => item.evidence),
+  ];
+  for (const artifact of artifacts) if (artifact) pinned.add(artifact.path);
+}
+const git = (...args) => {
+  const run = spawnSync("git", args, { cwd: root, encoding: "utf8" });
+  assert.equal(run.status, 0, run.stderr);
+  return run.stdout.split(" ").filter(Boolean);
+};
+const pinnedFiles = git("ls-files", "-z", "--", ...pinned);
+assert.ok(pinnedFiles.length >= pinned.size, "committed work records must pin tracked files");
+const attributes = git("check-attr", "-z", "text", "eol", "--", ...pinnedFiles);
+const conversion = new Map();
+for (let index = 0; index < attributes.length; index += 3)
+  conversion.set(attributes[index], { ...conversion.get(attributes[index]), [attributes[index + 1]]: attributes[index + 2] });
+for (const [path, { text, eol }] of conversion)
+  assert.ok(text === "unset" || eol === "lf", `${path} is pinned by a work record but may check out with CRLF; give it eol=lf or -text in .gitattributes`);
 
 const skill = await read(".agents/skills/pulse-add-report/SKILL.md");
 for (const linkedFile of ["references/workflow.md", "assets/report-workflow.json", "scripts/workflow.py"])

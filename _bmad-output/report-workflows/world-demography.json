@@ -1,7 +1,7 @@
 {
   "schemaVersion": "1.0.0",
   "reportId": "world-demography",
-  "phase": "verification",
+  "phase": "complete",
   "discovery": {
     "standingQuestions": [
       {
@@ -438,7 +438,7 @@
       "phase": "infrastructure",
       "kind": "report-module",
       "path": "site/reports/world-demography/report.js",
-      "sha256": "0bd0d22c844fab98cdec87c8f164caf6d2f28c0f82b76708717d8602150a094d"
+      "sha256": "cf0bdd8492579ad285fbd218c4565b0ae0925fe6c8751eac067c617cf1f38789"
     },
     {
       "phase": "infrastructure",
@@ -461,7 +461,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/world-population-path.js",
-        "sha256": "800a28c0d023d07cf54c15eacf898efcdf0eba0961864a4db917a2ee88f826b9"
+        "sha256": "0c16a2564eb8b2e42bf5e92d0f2f9df86703a9aeecd7cdc24eeff7002642712e"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -484,7 +484,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/country-population-paths.js",
-        "sha256": "292a89a3bdbf0194c56cda65a5a0221b6c8d9a08e1429990e7e48e9aa29997e3"
+        "sha256": "71ba2b99d7dbc8a4d3fb48c97ab340fe42491e184273e71d1b7c5c5959ba42ae"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -507,7 +507,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/change-composition.js",
-        "sha256": "0735611921d170860eaba673d93cad70ecabbec888998b2e944ac53b2a22e7d9"
+        "sha256": "1aa8def5acb027e448d2245aa7356149252ebbc6b5996080cf1cc1083e3e91c6"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -530,7 +530,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/migration-flows.js",
-        "sha256": "95efb5e2be56cb798d37bb7af461e690ef7163fad4d0095ef1eb0573b24be56f"
+        "sha256": "b6e677ad7f97a0440b191c73bd3e1d5450a469e01a53e1fd2f89dbb7821a11b5"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -553,7 +553,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/fertility-longevity.js",
-        "sha256": "92788dedac3a2b31c8d2b34c96f5e8fa6dcf5f9d1267318ac50281251325d7ae"
+        "sha256": "0de1a1f3e00a5bf91ec9591e5a12e544f5ba2e44c95584696093c2c50a97c242"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -576,7 +576,7 @@
         "phase": "visual-implementation",
         "kind": "implementation",
         "path": "site/visuals/age-structure.js",
-        "sha256": "21b9badce895832cdee43bd706c91765369d524f5da679418fbe83de045d8da1"
+        "sha256": "8391650e81ae05136a4ab01b6d8ddf9f61e56d31c89bcfb6af9905741f9168b7"
       },
       "numericEvidence": {
         "phase": "visual-implementation",
@@ -607,19 +607,29 @@
       },
       {
         "command": "npx playwright test --config tests/browser/playwright.config.js demography.spec.js",
-        "status": "pending",
-        "evidence": null
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/world-demography-evidence/browser-spec.log",
+          "sha256": "17839c9bfa25687ebb0bb743a33e2c80d4202c30694f9816aec8915ba8e2d49b"
+        }
       },
       {
         "command": "uv run --no-sync pulse verify",
-        "status": "pending",
-        "evidence": null
+        "status": "passed",
+        "evidence": {
+          "phase": "verification",
+          "kind": "test-evidence",
+          "path": "_bmad-output/report-workflows/world-demography-evidence/pulse-verify.log",
+          "sha256": "790dac07e49bbf8fd26880e44c2b319b5ca49afb496e8bfcbd621dba4bbad11f"
+        }
       }
     ],
-    "complete": false
+    "complete": true
   },
   "resume": {
-    "firstIncomplete": "verification",
-    "checkedAt": "2026-09-21T21:26:40Z"
+    "firstIncomplete": null,
+    "checkedAt": "2026-09-28T20:19:19Z"
   }
 }

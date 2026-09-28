@@ -325,9 +325,12 @@ def main() -> int:
         record = load(args.record)
         root = args.root.resolve()
         phase = first_incomplete(record, root)
-        record["resume"] = {"firstIncomplete": phase, "checkedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")}
-        record["phase"] = phase or "complete"
-        args.record.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+        # A status that changes nothing leaves the record untouched, so resuming
+        # a finished report does not dirty the tree with a new timestamp.
+        if (record["resume"]["firstIncomplete"], record["phase"]) != (phase, phase or "complete"):
+            record["resume"] = {"firstIncomplete": phase, "checkedAt": datetime.now(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")}
+            record["phase"] = phase or "complete"
+            args.record.write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
         print(phase or "complete")
         return 0
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as error:
