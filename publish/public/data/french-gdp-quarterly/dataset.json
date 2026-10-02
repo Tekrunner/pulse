@@ -92,7 +92,7 @@
   "lineage": {
     "input_format": "parquet",
     "quarters": 310,
-    "snapshot_id": "acq-c2d44329b2072239853c44709bae69b5-ec4c2f18550d",
+    "snapshot_id": "acq-e6077c89cdb7ac0d91331d6380480810-ec4c2f18550d",
     "snapshot_sha256": "ec4c2f18550d0668fe3931e46dd08aafcb8e031be5d695210e22676f9e3fc75e"
   },
   "logical_table": "french_gdp_quarterly",
