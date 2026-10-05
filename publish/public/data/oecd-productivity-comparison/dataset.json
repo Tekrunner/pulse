@@ -87,7 +87,7 @@
       "type": "DECIMAL(8,5)"
     }
   ],
-  "content_sha256": "41be82d51da91677b771ff73c221205b2a29e92feffe8514295fa6341a7a5533",
+  "content_sha256": "da378cb46c3fc7585ec3665697421e5b09b9592ad84c04c61038e9e07c54eeff",
   "dataset_id": "oecd-productivity-comparison",
   "indicators": [
     {
@@ -190,8 +190,8 @@
   "lineage": {
     "input_format": "parquet",
     "rows": 2251,
-    "snapshot_id": "acq-11ed352dd7adbbf40b7ebef533ad7205-bf766d6d50b7",
-    "snapshot_sha256": "bf766d6d50b741234bda80025b0d8a4cf9cd0454b3c9acc736a3f702c5f278a2"
+    "snapshot_id": "acq-083c9b4b701c2306328cdd5335da3eb9-e571e73ee596",
+    "snapshot_sha256": "e571e73ee596c251b55c11bb4657ee7c41f55fe623f5dd87c2b0c9ab07ae43a2"
   },
   "logical_table": "oecd_productivity_comparison",
   "model": {
