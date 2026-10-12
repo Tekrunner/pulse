@@ -42,7 +42,7 @@
       "type": "DECIMAL(9,5)"
     }
   ],
-  "content_sha256": "251c3fe5cbd6ee2a7c91dee70e56e61a7b174024735763e5da161886b4f6cfa8",
+  "content_sha256": "9ff4eccf11e9529ecc4c68e54bd512941ba01a94117c8b421d35bfce066e0076",
   "dataset_id": "healthy-life-expectancy",
   "indicators": [
     {
@@ -74,9 +74,9 @@
     "countries": 185,
     "input_format": "parquet",
     "locations": 196,
-    "observations_with_an_uncertainty_interval": 12916,
-    "snapshot_id": "acq-b00f124297374e78aed996151ef53029-2420a5ca6a92",
-    "snapshot_sha256": "2420a5ca6a92593e4e391b5f00dc7e2062b040dc8a74041045600c80f0e7110d"
+    "observations_with_an_uncertainty_interval": 14112,
+    "snapshot_id": "acq-ae8ae4877a3442d1b1fc2b224d3c4ac6-abb9fef7c331",
+    "snapshot_sha256": "abb9fef7c331d69175b15eb88f0fa9a2dc3ca8338fd5464927bc4f172e5238b3"
   },
   "logical_table": "healthy_life_expectancy",
   "model": {
@@ -124,7 +124,7 @@
     }
   ],
   "represented_period": {
-    "end": "2021-12-31",
+    "end": "2023-12-31",
     "start": "2000-01-01"
   },
   "schema_id": "pulse.dataset",
