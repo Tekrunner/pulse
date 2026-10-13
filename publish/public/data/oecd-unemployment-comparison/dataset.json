@@ -27,7 +27,7 @@
       "type": "DECIMAL(10,1)"
     }
   ],
-  "content_sha256": "0414196d17d88754080937db81326ba906815810ace78b6c65a3cb99efd80d57",
+  "content_sha256": "612810551916258fe7aba5c512aaca4a756be593898313d9f019165bd403cfd3",
   "dataset_id": "oecd-unemployment-comparison",
   "indicators": [
     {
@@ -41,9 +41,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "observations": 13250,
-    "snapshot_id": "acq-0576788bca92df67e68e4de029f119ca-387358a09530",
-    "snapshot_sha256": "387358a095305273366ee93a70fc3b7e266147ced852a86ee5abbe53345a6cf4"
+    "observations": 13291,
+    "snapshot_id": "acq-5a09b82dc2e2f3fad02fd929cf7f3651-e02170afd139",
+    "snapshot_sha256": "e02170afd139a23bbdd454b9dca8caff742d30f8911ba21673bf183b6e3dddda"
   },
   "logical_table": "oecd_unemployment_comparison",
   "model": {
@@ -88,7 +88,7 @@
     }
   ],
   "represented_period": {
-    "end": "2026-08-31",
+    "end": "2026-09-30",
     "start": "2000-01-01"
   },
   "schema_id": "pulse.dataset",
