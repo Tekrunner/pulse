@@ -161,7 +161,7 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "snapshot_id": "acq-b716a30a534efd71bb7d9c8a0ad1f5ad-5052c87e5b9e",
+    "snapshot_id": "acq-be57300f5c0bb093d77a7464d669ae46-5052c87e5b9e",
     "snapshot_sha256": "5052c87e5b9e59a503324efb275fcde80b7ceedfee27e47c08ea8d2611191509",
     "years": 66
   },
