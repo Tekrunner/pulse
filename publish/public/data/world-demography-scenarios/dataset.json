@@ -143,7 +143,7 @@
     "locations": 238,
     "projection_horizon_year": 2100,
     "scenarios": 18,
-    "snapshot_id": "acq-92a062cf48794ae18b3b4b929fe947c9-a860504df548",
+    "snapshot_id": "acq-7fe7bf6a52630ff54954d32cc7301ad3-a860504df548",
     "snapshot_sha256": "a860504df54877e4c19788bf6e16920d6017d021b4c149eaf8b5662674180a54"
   },
   "logical_table": "world_demography_scenarios",
