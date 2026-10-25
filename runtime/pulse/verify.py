@@ -274,10 +274,10 @@ def _workflow_smoke() -> None:
         "npm run verify:contracts",
         "pulse public build --output dist",
         "npm run public:verify",
-        "actions/upload-pages-artifact@v3",
+        "actions/upload-pages-artifact@v5",
         "path: dist",
         "needs: [repository, artifact]",
-        "actions/deploy-pages@v4",
+        "actions/deploy-pages@v5",
     )
     missing_pages = [token for token in required_pages if token not in pages]
     if missing_pages:
@@ -288,8 +288,8 @@ def _workflow_smoke() -> None:
     if not (
         pages.index("pulse public build --output dist")
         < pages.index("npm run public:verify")
-        < pages.index("actions/upload-pages-artifact@v3")
-        < pages.index("actions/deploy-pages@v4")
+        < pages.index("actions/upload-pages-artifact@v5")
+        < pages.index("actions/deploy-pages@v5")
     ):
         raise VerificationError(
             "stage 'workflow contract' requires build and verification before the exact Pages handoff"
