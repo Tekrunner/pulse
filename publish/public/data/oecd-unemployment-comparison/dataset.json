@@ -27,7 +27,7 @@
       "type": "DECIMAL(10,1)"
     }
   ],
-  "content_sha256": "612810551916258fe7aba5c512aaca4a756be593898313d9f019165bd403cfd3",
+  "content_sha256": "71487011fb6897eb985f6772aaa9bcaf71e684b9ba3a87d9e172a6838efb8230",
   "dataset_id": "oecd-unemployment-comparison",
   "indicators": [
     {
@@ -41,9 +41,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "observations": 13291,
-    "snapshot_id": "acq-5a09b82dc2e2f3fad02fd929cf7f3651-e02170afd139",
-    "snapshot_sha256": "e02170afd139a23bbdd454b9dca8caff742d30f8911ba21673bf183b6e3dddda"
+    "observations": 13295,
+    "snapshot_id": "acq-955416389c188021216c1e55df1d06fa-9f8227c48804",
+    "snapshot_sha256": "9f8227c48804c7304cd1a781362c8a8ba1a9c4d13930c0fce9f889f883ebe991"
   },
   "logical_table": "oecd_unemployment_comparison",
   "model": {
