@@ -116,11 +116,15 @@ def test_represented_period_ends_on_the_last_day_of_its_latest_year(dataset_id: 
 
 @pytest.mark.parametrize("dataset_id", ALL)
 def test_lineage_names_the_snapshot_it_was_built_from(dataset_id: str) -> None:
+    """A refresh archives a new snapshot beside the old ones, so the build must
+    have read the latest, not whichever the filesystem happens to list first."""
     manifest = _manifest(dataset_id)
-    snapshot = json.loads(
-        next(
-            (ROOT / "snapshots/public" / manifest["source_id"]).glob("*/snapshot.json")
-        ).read_text(encoding="utf-8")
+    snapshot = max(
+        (
+            json.loads(path.read_text(encoding="utf-8"))
+            for path in (ROOT / "snapshots/public" / manifest["source_id"]).glob("*/snapshot.json")
+        ),
+        key=lambda item: (item["source_data_date"] or "", item["acquired_at"], item["snapshot_id"]),
     )
 
     assert manifest["lineage"]["snapshot_id"] == snapshot["snapshot_id"]
