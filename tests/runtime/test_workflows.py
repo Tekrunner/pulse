@@ -14,7 +14,7 @@ ROOT = Path(__file__).parents[2]
 def test_main_workflow_materializes_lfs_for_both_parallel_gates() -> None:
     workflow = (ROOT / ".github/workflows/pages.yml").read_text(encoding="utf-8")
 
-    assert workflow.count("uses: actions/checkout@v4\n        with:\n          lfs: true") == 2
+    assert workflow.count("uses: actions/checkout@v7\n        with:\n          lfs: true") == 2
 
 
 def test_insee_workflow_satisfies_the_offline_writer_contract() -> None:
@@ -138,9 +138,9 @@ def test_pages_workflow_uploads_only_the_verified_latest_wins_artifact() -> None
     assert "pulse public build --output dist" in workflow
     assert "pulse verify --repository-only" in workflow
     assert "npm run verify:contracts" in workflow
-    assert workflow.index("pulse public build --output dist") < workflow.index("actions/upload-pages-artifact@v3")
-    assert workflow.index("npm run public:verify") < workflow.index("actions/upload-pages-artifact@v3")
-    assert workflow.index("actions/upload-pages-artifact@v3") < workflow.index("actions/deploy-pages@v4")
+    assert workflow.index("pulse public build --output dist") < workflow.index("actions/upload-pages-artifact@v5")
+    assert workflow.index("npm run public:verify") < workflow.index("actions/upload-pages-artifact@v5")
+    assert workflow.index("actions/upload-pages-artifact@v5") < workflow.index("actions/deploy-pages@v5")
     assert "needs: [repository, artifact]" in workflow
     assert "group: pulse-pages" in workflow
     assert "cancel-in-progress: true" in workflow
