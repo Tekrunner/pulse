@@ -32,7 +32,7 @@
       "type": "DECIMAL(10,1)"
     }
   ],
-  "content_sha256": "e65bee2ba5c955a41f6a842f24a9956d186b9e73333b56926289f54119c0c870",
+  "content_sha256": "2e7ce5ca3358c71c55c965d6ce4bdfe92027ef51585f49fb6481e0ec5ee8c922",
   "dataset_id": "oecd-participation-comparison",
   "indicators": [
     {
@@ -46,9 +46,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "observations": 12969,
-    "snapshot_id": "acq-10ee060056a6434baf14d5e2adf69d49-9e2f0ad6e3c2",
-    "snapshot_sha256": "9e2f0ad6e3c2b397e18b3842e3463db2d5584727b4f848bbc9f1aa318fa02574"
+    "observations": 13038,
+    "snapshot_id": "acq-30e6e5a0ce7e299436a655d092a3af0a-37bf7e8e7451",
+    "snapshot_sha256": "37bf7e8e7451d4c8cbd8d06103f3df0a3d9c42fe723eb380e9d9b14d6a930ce5"
   },
   "logical_table": "oecd_participation_comparison",
   "model": {
@@ -95,7 +95,7 @@
     }
   ],
   "represented_period": {
-    "end": "2026-06-30",
+    "end": "2026-09-30",
     "start": "2000-01-01"
   },
   "schema_id": "pulse.dataset",
