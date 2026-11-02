@@ -37,7 +37,7 @@
       "type": "DECIMAL(8,2)"
     }
   ],
-  "content_sha256": "68c04fd2c5a1f4182741d286411f7a949f29c3d6e4a358df62e71860e2f4f85c",
+  "content_sha256": "55aed1dd4512131f5329440e6fb285db106dde78a69bde69c8119ab73b906fae",
   "dataset_id": "french-gdp-quarterly",
   "indicators": [
     {
@@ -91,9 +91,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "quarters": 310,
-    "snapshot_id": "acq-e6077c89cdb7ac0d91331d6380480810-ec4c2f18550d",
-    "snapshot_sha256": "ec4c2f18550d0668fe3931e46dd08aafcb8e031be5d695210e22676f9e3fc75e"
+    "quarters": 311,
+    "snapshot_id": "acq-3390f0d7c674e1a0723f48d38c1698d5-a84872fa7c3c",
+    "snapshot_sha256": "a84872fa7c3c12a02b560715c5c6794f529378e3f8f90a4b3233b231cfafebc2"
   },
   "logical_table": "french_gdp_quarterly",
   "model": {
@@ -118,7 +118,7 @@
     }
   ],
   "represented_period": {
-    "end": "2026-06-30",
+    "end": "2026-09-30",
     "start": "1949-01-01"
   },
   "schema_id": "pulse.dataset",
