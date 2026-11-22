@@ -132,7 +132,7 @@
       "type": "DECIMAL(10,1)"
     }
   ],
-  "content_sha256": "8d984b3ecae6373d58c9f9f2ce361a2b31cbb8869bcd564eeabc0c1837cbb883",
+  "content_sha256": "44e778618bce04d47aa575a6b2bf18bf0592b17c1b9584aea566b29609991de8",
   "dataset_id": "french-labour-market-quarterly",
   "indicators": [
     {
@@ -338,9 +338,9 @@
   ],
   "lineage": {
     "input_format": "parquet",
-    "quarters": 94,
-    "snapshot_id": "acq-503c705e4723434aa14bd04919ddb0d6-002b492c29a1",
-    "snapshot_sha256": "002b492c29a1d4319241087f726cab914a20a5bc33563e8598b5c1e09574a09c"
+    "quarters": 95,
+    "snapshot_id": "acq-d2c05d2d03e23aad1f85b01e42fb5558-7079dd7aa354",
+    "snapshot_sha256": "7079dd7aa3540b97326f676cce75be70b73f33e4148799839f41386631466430"
   },
   "logical_table": "french_labour_market_quarterly",
   "model": {
@@ -417,7 +417,7 @@
     }
   ],
   "represented_period": {
-    "end": "2026-06-30",
+    "end": "2026-09-30",
     "start": "2003-01-01"
   },
   "schema_id": "pulse.dataset",
