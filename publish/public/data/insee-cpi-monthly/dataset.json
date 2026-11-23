@@ -25,7 +25,7 @@
       "type": "DECIMAL(8,1)"
     }
   ],
-  "content_sha256": "f029b4e105afdf757a08e44791fe63e71c01983767b1b55b2115fbe48012feab",
+  "content_sha256": "115429bfb70356e4114b1720444c826d6bd02a8de56d002c5bfbbe340cf6fd2a",
   "dataset_id": "insee-cpi-monthly",
   "indicators": [
     {
@@ -72,8 +72,8 @@
       "DATE_JO",
       "LAST_UPDATE"
     ],
-    "snapshot_id": "acq-48f5c4db9ef6c6acb4d44d768c26f62e-e12bed626ad7",
-    "snapshot_sha256": "e12bed626ad7974b76838d512fec5396ab31c28dd64082e5414ec04c8d7dec65"
+    "snapshot_id": "acq-7feefe4af400ff797d050b65cd449385-e1f79d8f449a",
+    "snapshot_sha256": "e1f79d8f449aac2bdf8bccd7594c209b2d4dc744e27351dbe838f74ce816f73e"
   },
   "logical_table": "insee_cpi_monthly",
   "model": {
@@ -83,7 +83,7 @@
   "parquet_path": "dataset.parquet",
   "questions": [],
   "represented_period": {
-    "end": "2026-09-01",
+    "end": "2026-10-01",
     "start": "1996-01-01"
   },
   "schema_id": "pulse.dataset",

@@ -132,7 +132,7 @@
       "type": "DECIMAL(8,3)"
     }
   ],
-  "content_sha256": "079d7a5b7ac23996284e7f56aafef1b3aa758c51a2442e847b7b6aca19ebc387",
+  "content_sha256": "e92fc1f3c70d0ac1e1d2f8c2c352002c5ed081d4162cf5252d790390d25ca888",
   "dataset_id": "insee-cpi-category-analysis",
   "indicators": [
     {
@@ -443,8 +443,8 @@
       "DATE_JO",
       "LAST_UPDATE"
     ],
-    "snapshot_id": "acq-48f5c4db9ef6c6acb4d44d768c26f62e-e12bed626ad7",
-    "snapshot_sha256": "e12bed626ad7974b76838d512fec5396ab31c28dd64082e5414ec04c8d7dec65"
+    "snapshot_id": "acq-7feefe4af400ff797d050b65cd449385-e1f79d8f449a",
+    "snapshot_sha256": "e1f79d8f449aac2bdf8bccd7594c209b2d4dc744e27351dbe838f74ce816f73e"
   },
   "logical_table": "insee_cpi_category_analysis",
   "model": {
@@ -454,7 +454,7 @@
   "parquet_path": "dataset.parquet",
   "questions": [],
   "represented_period": {
-    "end": "2026-09-01",
+    "end": "2026-10-01",
     "start": "1998-01-01"
   },
   "schema_id": "pulse.dataset",
